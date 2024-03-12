@@ -1,0 +1,1 @@
+negative_hand-neg, worst quality, low quality, nsfw, lamp, bad_pictures, bad-artist-anime, verybadimagenegative_v1.3, ng_deepnegative_v1_75t, bad_anatomy, text, title, logo, signature,

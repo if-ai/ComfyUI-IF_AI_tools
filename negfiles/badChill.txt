@@ -1,0 +1,1 @@
+ng_deepnegative_v1_75t, bad-picture-chill-75v, bad_prompt, bad anatomy
