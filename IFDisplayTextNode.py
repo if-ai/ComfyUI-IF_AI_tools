@@ -1,3 +1,4 @@
+#Forked from AlekPet/ComfyUI_Custom_Nodes_AlekPet 
 class IFDisplayTextNode:
     def __init__(self):
         pass
