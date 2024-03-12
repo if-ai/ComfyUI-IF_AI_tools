@@ -1,7 +1,7 @@
 from .IFPromptMkrNode import IFPromptMkrNode
 from .IFImagePromptNode import IFImagePromptNode
 from .IFSaveTextNode import IFSaveTextNode
-from .IFDisplayTextNode import IFSaveTextNode
+from .IFDisplayTextNode import IFDisplayTextNode
 
 
 NODE_CLASS_MAPPINGS = {
