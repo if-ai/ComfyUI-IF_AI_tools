@@ -4,7 +4,7 @@ import json
 import folder_paths
 import uuid
 
-class IFSaveTextNode:
+class IFSaveText:
     def __init__(self):
         pass
 
@@ -78,5 +78,5 @@ class IFSaveTextNode:
         turn = f"ID: {turn_id}\nQuestion: {question_input}\nResponse: {response_input}\nNegative: {negative_input}"
         return {"ui": {"string": [turn]}, "result": (turn,)}"""
 
-NODE_CLASS_MAPPINGS = {"IFSaveTextNode": IFSaveTextNode}
-NODE_DISPLAY_NAME_MAPPINGS = {"IFSaveTextNode": "IF Save Text📝"}
+NODE_CLASS_MAPPINGS = {"IF_saveText": IFSaveText}
+NODE_DISPLAY_NAME_MAPPINGS = {"IF_saveText": "IF Save Text📝"}
