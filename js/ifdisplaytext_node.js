@@ -2,10 +2,10 @@ import { app } from "/scripts/app.js";
 import { ComfyWidgets } from "/scripts/widgets.js";
 
 app.registerExtension({
-  name: "Comfy.IFDisplayTextNode",
+  name: "Comfy.IFSaveText",
   async beforeRegisterNodeDef(nodeType, nodeData, app) {
     // --- IF Display Text Node
-    if (nodeData.name === "IFDisplayTextNode") {
+    if (nodeData.name === "IF_saveText") {
       // Node Created
       const onNodeCreated = nodeType.prototype.onNodeCreated;
       nodeType.prototype.onNodeCreated = function () {
