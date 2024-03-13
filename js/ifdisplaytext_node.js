@@ -13,10 +13,10 @@ app.registerExtension({
           ? onNodeCreated.apply(this, arguments)
           : undefined;
 
-        let IFDisplayTextNodes = app.graph._nodes.filter(
+        let IF_saveText = app.graph._nodes.filter(
             (wi) => wi.type == nodeData.name
           ),
-          nodeName = `${nodeData.name}_${IFDisplayTextNodes.length}`;
+          nodeName = `${nodeData.name}_${IF_saveText.length}`;
 
         console.log(`Create ${nodeData.name}: ${nodeName}`);
 
