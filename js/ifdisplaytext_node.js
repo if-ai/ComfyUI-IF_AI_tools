@@ -2,7 +2,7 @@ import { app } from "/scripts/app.js";
 import { ComfyWidgets } from "/scripts/widgets.js";
 
 app.registerExtension({
-  name: "Comfy.ComfyUI-IF_AI_tools",
+  name: "Comfy.IFDisplayTextNode",
   async beforeRegisterNodeDef(nodeType, nodeData, app) {
     // --- IF Display Text Node
     if (nodeData.name === "IFDisplayTextNode") {
