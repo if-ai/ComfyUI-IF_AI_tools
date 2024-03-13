@@ -11,7 +11,7 @@ import uuid
 from torchvision.transforms.functional import to_pil_image
 import folder_paths  
 
-class IFImagePromptNode:
+class IFImagePrompt:
     base_ip = "127.0.0.1"
     ollama_port = "11434"
 
@@ -165,5 +165,5 @@ class IFImagePromptNode:
 
 
 
-NODE_CLASS_MAPPINGS = {"IFImagePromptNode": IFImagePromptNode}
-NODE_DISPLAY_NAME_MAPPINGS = {"IFImagePromptNode": "IF Image to Prompt🖼️"}
+NODE_CLASS_MAPPINGS = {"IF_ImagePrompt": IFImagePrompt}
+NODE_DISPLAY_NAME_MAPPINGS = {"IF_ImagePrompt": "IF Image to Prompt🖼️"}
