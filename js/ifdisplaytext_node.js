@@ -2,10 +2,10 @@ import { app } from "/scripts/app.js";
 import { ComfyWidgets } from "/scripts/widgets.js";
 
 app.registerExtension({
-  name: "Comfy.IFSaveText",
+  name: "Comfy.IFDisplayText",
   async beforeRegisterNodeDef(nodeType, nodeData, app) {
     // --- IF Display Text Node
-    if (nodeData.name == "IF_saveText") {
+    if (nodeData.name == "IF_DisplayText") {
       // Node Created
       const onNodeCreated = nodeType.prototype.onNodeCreated;
       nodeType.prototype.onNodeCreated = function () {
@@ -13,10 +13,10 @@ app.registerExtension({
           ? onNodeCreated.apply(this, arguments)
           : undefined;
 
-        let IF_saveText = app.graph._nodes.filter(
+        let IF_DisplayText = app.graph._nodes.filter(
             (wi) => wi.type == nodeData.name
           ),
-          nodeName = `${nodeData.name}_${IF_saveText.length}`;
+          nodeName = `${nodeData.name}_${IF_DisplayText.length}`;
 
         console.log(`Create ${nodeData.name}: ${nodeName}`);
 
