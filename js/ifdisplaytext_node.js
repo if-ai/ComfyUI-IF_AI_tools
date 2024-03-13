@@ -5,7 +5,7 @@ app.registerExtension({
   name: "Comfy.IFSaveText",
   async beforeRegisterNodeDef(nodeType, nodeData, app) {
     // --- IF Display Text Node
-    if (nodeData.name === "IF_saveText") {
+    if (nodeData.name == "IF_saveText") {
       // Node Created
       const onNodeCreated = nodeType.prototype.onNodeCreated;
       nodeType.prototype.onNodeCreated = function () {
