@@ -4,7 +4,7 @@ import os
 import textwrap
 
 
-class IFPromptMkrNode:
+class IFPrompt2Prompt:
     base_ip = "127.0.0.1"
     ollama_port = "11434"
 
@@ -110,5 +110,5 @@ class IFPromptMkrNode:
     CATEGORY = "ImpactFrames💥🎞️"
 
 
-NODE_CLASS_MAPPINGS = {"IFPromptMkrNode": IFPromptMkrNode}
-NODE_DISPLAY_NAME_MAPPINGS = {"IFPromptMkrNode": "IF Prompt to Prompt💬"}
+NODE_CLASS_MAPPINGS = {"IF_PromptMkr": IFPrompt2Prompt}
+NODE_DISPLAY_NAME_MAPPINGS = {"IF_PromptMkr": "IF Prompt to Prompt💬"}
