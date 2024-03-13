@@ -1,21 +1,21 @@
 import os
-from .IFPromptMkrNode import IFPromptMkrNode
-from .IFImagePromptNode import IFImagePromptNode
-from .IFSaveTextNode import IFSaveTextNode
-from .IFDisplayTextNode import IFDisplayTextNode
+from .IFPromptMkrNode import IFPrompt2Prompt
+from .IFImagePromptNode import IFImagePrompt
+from .IFSaveTextNode import IFSaveText
+from .IFDisplayTextNode import IFDisplayText
 
 NODE_CLASS_MAPPINGS = {
-    "IFPromptMkrNode": IFPromptMkrNode,
-    "IFImagePromptNode": IFImagePromptNode,
-    "IFSaveTextNode": IFSaveTextNode,
-    "IFDisplayTextNode": IFDisplayTextNode
+    "IF_PromptMkr": IFPrompt2Prompt,
+    "IF_ImagePrompt": IFImagePrompt,
+    "IF_SaveText": IFSaveText,
+    "IF_DisplayText": IFDisplayText
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "IFPromptMkrNode": "IF Prompt to Prompt💬",
-    "IFImagePromptNode": "IF Image to Prompt🖼️",
-    "IFSaveTextNode": "IF Save Text📝",
-    "IFDisplayTextNode": "IF Display Text📟"
+    "IF_PromptMkr": "IF Prompt to Prompt💬",
+    "IF_ImagePrompt": "IF Image to Prompt🖼️",
+    "IF_SaveText": "IF Save Text📝",
+    "IF_DisplayText": "IF Display Text📟"
 }
 
 EXTENSION_WEB_DIRS = {
