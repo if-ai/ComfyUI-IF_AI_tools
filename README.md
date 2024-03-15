@@ -1,11 +1,6 @@
 # ComfyUI-IF_AI_tools
 Various AI tools to use in Comfy UI. Starting with VL and prompt making tools using Ollma as backend will evolve as I find time. 
-
- _ _____ _____ _    _           _     
-| |   __|  _  | |  | |_ ___ ___| |___ 
-| |   __|     | |  |  _| . | . | |_ -|
-|_|__|  |__|__|_|  | | |___|___|_|___|
-                   |__|               
+            
 
 You need ollama for this to work
 https://github.com/ollama/ollama/releases
