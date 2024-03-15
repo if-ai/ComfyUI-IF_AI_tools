@@ -38,5 +38,8 @@ ancient Megastructure, small lone figure
 'A small lone figure positioned in the foreground, observing a towering ancient megastructure, gargantuan crystalline formations, shimmering golden hues, interconnected structures spiraling, looming shadows. As time stands still, the figure prepares to decipher the enigmatic patterns forbidden for eons. ethereal-fantasy-concept-art, magical-ambiance, magnificent, celestial, ethereal-lighting, painterly, epic, majestic, dreamy-atmosphere, otherworldly, mystic-elements, surreal, immersive-detail'
 ![_IF_prompt_Mkr__00014_](https://github.com/if-ai/ComfyUI-IF_AI_tools/assets/21185218/1252af4d-8ac9-45e4-ae27-7d076b56090e)
 
+<img src="https://count.getloli.com/get/@IFAItools_comfy?theme=rule34" alt=":IFAItools_comfy" />
+
+
 
 
