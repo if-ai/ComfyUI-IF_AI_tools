@@ -24,7 +24,7 @@ ComfyUI-IF_AI_tools is a set of custom nodes for ComfyUI that allows you to gene
       git clone https://github.com/if-ai/ComfyUI-IF_AI_tools.git
       ```
    
-5. In ComfyUI protable version type `CMD` on the address bar on the newly created `custom_nodes\ComfyUI-IF_AI_tools` folder type 
+5. In ComfyUI protable version just dounle click `embedded_install.bat` or  type `CMD` on the address bar on the newly created `custom_nodes\ComfyUI-IF_AI_tools` folder type 
    ```bash
       H:\ComfyUI_windows_portable\python_embeded\python.exe -m pip install -r requirements.txt
       ```
