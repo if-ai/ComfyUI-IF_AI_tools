@@ -95,7 +95,7 @@ class IFPrompt2Prompt:
         node = cls()  # Create an instance of the class
         return {
             "required": {
-                "input_prompt": ("STRING", {"multiline": True, "default": "lone figure, ancient Megastructure"}),
+                "input_prompt": ("STRING", {"multiline": True, "default": "Ancient mega-structure, samll lone figure in the foreground"}),
                 "select_text_model": (cls.get_text_models(), {}),
                 "embellish_prompt": ([name for name, _ in node.embellish_prompts], {}),
                 "style_prompt": ([name for name, _ in node.style_prompts], {}),
