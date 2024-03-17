@@ -32,9 +32,9 @@ ComfyUI-IF_AI_tools is a set of custom nodes for ComfyUI that allows you to gene
 
    On custom environment activate the environment and move to the newly created ComfyUI-IF_AI_tools
    ```bash
-       cd ComfyUI-IF_AI_tools
-       python -m pip install -r requirements.txt
-       ```
+      cd ComfyUI-IF_AI_tools
+      python -m pip install -r requirements.txt
+      ```
    
 ## Usage
 1. Start ComfyUI.
