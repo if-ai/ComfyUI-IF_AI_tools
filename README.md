@@ -44,16 +44,14 @@ Your support helps me bring updates and improvements faster!
 ## Related Tools
 - [IF_prompt_MKR](https://github.com/if-ai/IF_prompt_MKR) - A similar tool available for Stable Diffusion WebUI
 
-![Impact Frames YouTube Channel](https://img.shields.io/youtube/channel/subscribers/UC-pFpHvQGoJ8k31qf_c3Owg?style=social)
-
-
 ## Example using normal Model
 ancient Megastructure, small lone figure 
 'A dwarfed figure standing atop an ancient megastructure, worn stone towering overhead. Underneath the dim moonlight, intricate engravings adorn the crumbling walls. Overwhelmed by the sheer size and age of the structure, the small figure appears lost amidst the weathered stone behemoth. The background reveals a dark landscape, dotted with faint twinkles from other ancient structures, scattered across the horizon. The silent air is only filled with the soft echoes of distant whispers, carrying secrets of times long past. ethereal-fantasy-concept-art, magical-ambiance, magnificent, celestial, ethereal-lighting, painterly, epic, majestic, dreamy-atmosphere, otherworldly, mystic-elements, surreal, immersive-detail'
 ![_IF_prompt_Mkr__00011_](https://github.com/if-ai/ComfyUI-IF_AI_tools/assets/21185218/08dde522-f541-49f4-aa6b-e0653f13aa52)
 ancient Megastructure, small lone figure 
 'A small lone figure positioned in the foreground, observing a towering ancient megastructure, gargantuan crystalline formations, shimmering golden hues, interconnected structures spiraling, looming shadows. As time stands still, the figure prepares to decipher the enigmatic patterns forbidden for eons. ethereal-fantasy-concept-art, magical-ambiance, magnificent, celestial, ethereal-lighting, painterly, epic, majestic, dreamy-atmosphere, otherworldly, mystic-elements, surreal, immersive-detail'
-![Impact Frames YouTube Channel](https://img.shields.io/youtube/channel/subscribers/@impactframes?style=social)
+![_IF_prompt_Mkr__00014_](https://github.com/if-ai/ComfyUI-IF_AI_tools/assets/21185218/d0b436cd-c4a8-41a2-83ad-34d8c50bb39b)
+
 
 <img src="https://count.getloli.com/get/@IFAItools_comfy?theme=moebooru" alt=":IFAItools_comfy" />
 
