@@ -6,8 +6,9 @@ ComfyUI-IF_AI_tools is a set of custom nodes for ComfyUI that allows you to gene
 
 ## Features
 - Generate prompts using a local LLM via Ollama
+- generate SD prompts or ask questions about an image with Image to prompt node
+- Save generated text
 - Integrate with ComfyUI for a seamless workflow
-- Upcoming features: chat and various other tools
 
 ## Prerequisites
 - [Ollama](https://github.com/ollama/ollama/releases) - You need to install Ollama for this tool to work. Visit [ollama.com](https://ollama.com) for more information.
@@ -17,8 +18,23 @@ ComfyUI-IF_AI_tools is a set of custom nodes for ComfyUI that allows you to gene
 
 2. Open a terminal and type following command to install the model: ollama run adrienbrault/nous-hermes2pro:Q5_K_S
 
-3. Navigate to your ComfyUI `custom_nodes` folder, open a command prompt, and run the following command to clone the repository:
-   git clone https://github.com/if-ai/ComfyUI-IF_AI_tools.git
+3. Navigate to your ComfyUI `custom_nodes` folder, type `CMD` on the address bar to open a command prompt,
+   and run the following command to clone the repository:
+   ```bash
+      git clone https://github.com/if-ai/ComfyUI-IF_AI_tools.git
+      ```
+   
+5. In ComfyUI protable version type `CMD` on the address bar on the newly created `custom_nodes\ComfyUI-IF_AI_tools` folder type 
+   ```bash
+      H:\ComfyUI_windows_portable\python_embeded\python.exe -m pip install -r requirements.txt
+      ```
+   replace `C:\` for your Drive letter where you have the ComfyUI_windows_portable directory
+
+   On custom environment activate the environment and move to the newly created ComfyUI-IF_AI_tools
+   ```bash
+       cd ComfyUI-IF_AI_tools
+       python -m pip install -r requirements.txt
+       ```
    
 ## Usage
 1. Start ComfyUI.
