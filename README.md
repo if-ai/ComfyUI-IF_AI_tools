@@ -13,9 +13,9 @@ ComfyUI-IF_AI_tools is a set of custom nodes for ComfyUI that allows you to gene
 - [Ollama](https://github.com/ollama/ollama/releases) - You need to install Ollama for this tool to work. Visit [ollama.com](https://ollama.com) for more information.
 
 ## Installation
-1. Install Ollama by following the instructions on their GitHub page.
+1. Install Ollama by following the instructions on their GitHub page on windows 
 
-2. Open a terminal and run the following command to install the model:
+2. Open a terminal and type following command to install the model: ollama run adrienbrault/nous-hermes2pro:Q5_K_S
 
 3. Navigate to your ComfyUI `custom_nodes` folder, open a command prompt, and run the following command to clone the repository:
    git clone https://github.com/if-ai/ComfyUI-IF_AI_tools.git
