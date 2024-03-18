@@ -18,7 +18,7 @@ ComfyUI-IF_AI_tools is a set of custom nodes for ComfyUI that allows you to gene
 
 2. Open a terminal and type following command to install the model:
    ```bash
-      ollama run adrienbrault/nous-hermes2pro:Q5_K_S
+      ollama run brxce/stable-diffusion-prompt-generator
       ```
    
 4. Navigate to your ComfyUI `custom_nodes` folder, type `CMD` on the address bar to open a command prompt,
