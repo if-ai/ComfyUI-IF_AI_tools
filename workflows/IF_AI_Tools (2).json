@@ -1,0 +1,1593 @@
+{
+  "last_node_id": 119,
+  "last_link_id": 183,
+  "nodes": [
+    {
+      "id": 14,
+      "type": "Note",
+      "pos": [
+        790,
+        125.21542519622804
+      ],
+      "size": {
+        "0": 230,
+        "1": 60
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Save the interaction and it will appear in your output folder\n"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 68,
+      "type": "Reroute",
+      "pos": [
+        1076,
+        290.42277993255624
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 80
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false,
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 54,
+      "type": "ShowText|pysssss",
+      "pos": [
+        1510,
+        -84.78457480377197
+      ],
+      "size": {
+        "0": 330,
+        "1": 310
+      },
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 60,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "ID: 3e3f65f9-1329-4ccc-8e3e-81cf25ca3c31\nQuestion: Cusco planes, a llama\nResponse: Award winning, masterpiece, High detail,  a Llamas, midshot, intricate, detailed, trending pixar style, artstation by Greg Rutkowski, realistic, hyper-focused, beautiful, concept art, cinematic lighting, 8k resolution. A beautiful and cinematic octane render, landscape, 4K by Greg Rutkowski pixar style,intricate,highly detailed,sharp focus,cinematic look,hyperdetailed,4k textures,hdr,looking up at the camera,rainbow,3d style,C4D,blender,kawaii,bifrost,\nNegative: negative_hand-neg, worst quality, low quality, nsfw, lamp, bad_pictures, bad-artist-anime, verybadimagenegative_v1.3, ng_deepnegative_v1_75t, bad_anatomy, text, title, logo, signature,"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 24,
+      "type": "KSampler",
+      "pos": [
+        1160,
+        675.2154251962279
+      ],
+      "size": {
+        "0": 315,
+        "1": 262
+      },
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 93
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 18
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 19
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 20
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            21
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        208842393386687,
+        "randomize",
+        40,
+        7.49,
+        "dpmpp_2m_sde",
+        "karras",
+        1
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 25,
+      "type": "EmptyLatentImage",
+      "pos": [
+        970,
+        855.2154251962279
+      ],
+      "size": {
+        "0": 315,
+        "1": 106
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 1,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            20
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        920,
+        1280,
+        1
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 29,
+      "type": "SaveImage",
+      "pos": [
+        1530,
+        315.21542519622807
+      ],
+      "size": {
+        "0": 550,
+        "1": 740
+      },
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 22
+        }
+      ],
+      "properties": {},
+      "widgets_values": [
+        "_IF_prompt_Mkr_"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 55,
+      "type": "ShowText|pysssss",
+      "pos": [
+        1090,
+        105.21542519622803
+      ],
+      "size": {
+        "0": 320,
+        "1": 80
+      },
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 61,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "Cusco planes, a llama"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 56,
+      "type": "ShowText|pysssss",
+      "pos": [
+        1090,
+        235.21542519622807
+      ],
+      "size": {
+        "0": 320,
+        "1": 250
+      },
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 62,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "Award winning, masterpiece, High detail,  a Llamas, midshot, intricate, detailed, trending pixar style, artstation by Greg Rutkowski, realistic, hyper-focused, beautiful, concept art, cinematic lighting, 8k resolution. A beautiful and cinematic octane render, landscape, 4K by Greg Rutkowski pixar style,intricate,highly detailed,sharp focus,cinematic look,hyperdetailed,4k textures,hdr,looking up at the camera,rainbow,3d style,C4D,blender,kawaii,bifrost,"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 57,
+      "type": "ShowText|pysssss",
+      "pos": [
+        1090,
+        535.2154251962279
+      ],
+      "size": {
+        "0": 320,
+        "1": 110
+      },
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 63,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "negative_hand-neg, worst quality, low quality, nsfw, lamp, bad_pictures, bad-artist-anime, verybadimagenegative_v1.3, ng_deepnegative_v1_75t, bad_anatomy, text, title, logo, signature,"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 27,
+      "type": "CLIPTextEncode",
+      "pos": [
+        1070,
+        755.2154251962279
+      ],
+      "size": {
+        "0": 430,
+        "1": 180
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 79
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 98,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            19
+          ],
+          "slot_index": 0
+        }
+      ],
+      "title": "C-",
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "text, watermark"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 26,
+      "type": "CLIPTextEncode",
+      "pos": [
+        1060,
+        715.2154251962279
+      ],
+      "size": {
+        "0": 420,
+        "1": 160
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 78
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 99,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            18
+          ],
+          "slot_index": 0
+        }
+      ],
+      "title": "C+ ",
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "beautiful scenery nature glass bottle landscape, , purple galaxy bottle,"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 73,
+      "type": "Note",
+      "pos": [
+        -420,
+        290
+      ],
+      "size": {
+        "0": 520,
+        "1": 660
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 2,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "\n                                ▄                                               \n                             ▌  █  █                                            \n                            █▀ █▀ ▄▀                                            \n                           ╘▌  █  █     ,▄▄▄                                    \n                                       █▀▒▒▒█ ,▄▓▓▄                             \n                      ╓▄▀▀▀\"   ▀▀▀██&▄▄█▄▄▄█▌▄▀▄▀▒▒▌                            \n                    ,▄█▀▀▀█▄       █▌▒▒▒▒▒▒▒▒▒▒▀▒▄█                             \n                   ▄█▒╢╢╢╢╢▒▀▀▀▀▀▀▀▒▒▒▄▄▄▄▒▒▒▒▒▒▒▀▄                             \n                  ▐█╫█▓╢╣▓█▒╢╢╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒▒█                            \n                  █▒╢╢╢█▌╢╢╢╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╣▒▒▒▒█                           \n                  █╣╢╢╢█▌╢╢╢╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌                          \n                  █▒╢╢╢▓▌╢╢╢╢╢╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█                          \n                  ╘█╢╢╢▓█▒▒╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌                         \n                   ▀█▒▀▒▒▒▀▒╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒▒▒▒█                         \n                   ,,▀██▄▄▄▄▄▄▄▄▄▄▄█▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█║║║╖╖╖╖╓,                \n            ,╓╗║╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒╢║╗╖          \n         ╓╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▌▒▒╫▒╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒╙▒▒▒▒▒▒▒▒▄▒▒▒▒║╖       \n       ╖▒▒▒▒▒▒▒█▀█▀▀█▄▒▒▒▒▒▒▒▒║╙▒█▄▄▒▒▒▒▒▒▒▒▒▒▒▒▒▄▄▄▄█▀░╢`║▒▒▒▒▄█▀▀▀█▒▒▒▒▒╖     \n      ║▒▒▒▒▒▒▒█▒▒▒▒▒╣█▌▒▒▒▒▒▒▒╢╖╣╙╜╜▒▒▒▒▀▀▀▀▒▒▒▒▒▒▒╜╜╙`║▒╢▒▒▒▒▐▌▒▒▒▒▒█▌▒▒▒▒╖    \n     ║▒▒▒▒▒▒╜╙▀▀█▓███▀▒▒▒▒▒▄▄▄▄▄▒▒▒║║║║▒▒▒▒▒╖╥╗╗@║║║▒▒▒▒▒▒▒▒▒╝▒▀█▓███▀▒╜ ▒▒▒    \n     ]▒▒▒▒▒▒▒║╗╖╓▒▒╖╓╓╖▒▒▄█▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒║╖╖▒▒▒▒▒╖╗║▒▒▒▒    \n      ║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╜▒▀█████▀▒ ║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢     \n       ╙║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢╗╖╖▒▒▒▒▒║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╜`      \n          ╙╜╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╣╜╜\"          \n                `╙╙╙╜╝╝╝╜╜╝╝╝╝╜╨╜╜╜╜╜╜╝╝╜╨╨╜╝║║║║║║╝╨╨╝╝╝╜╙╙\"`                 \n _ _____ _____ _    _           _     \n| |   __|  _  | |  | |_ ___ ___| |___ \n| |   __|     | |  |  _| . | . | |_ -|\n|_|__|  |__|__|_|  | | |___|___|_|___|\n                   |__|               \n\nYou need ollama for this to work\nhttps://github.com/ollama/ollama/releases\nollama.com\n\nPlease star the repo and support my work links bellow to make updates updates come quicker \nhttps://github.com/if-ai/ComfyUI-IF_AI_tools\n\nto watch tutorials\n\nJoin the Impact Frames fam!  Subscribe now: https://youtube.com/@impactframes?si=DrBu3tOAC2-YbEvc\n\n\nhttps://ko-fi.com/impactframes\n\npatreon.com/ImpactFrames \n\nhttps://www.youtube.com/@impactframes\n\nthis tool is also available for SD webui https://github.com/if-ai/IF_prompt_MKR\n\n"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 116,
+      "type": "Batch Load Images",
+      "pos": [
+        1247.5648568825434,
+        1813.6870817609101
+      ],
+      "size": {
+        "0": 315,
+        "1": 82
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [],
+          "shape": 6,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Batch Load Images",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "C:\\Users\\SoyYo\\OneDrive\\Pictures\\tets",
+        "false"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 40,
+      "type": "LoraLoader",
+      "pos": [
+        870,
+        815.2154251962279
+      ],
+      "size": {
+        "0": 315,
+        "1": 126
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 12,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 41
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 74
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraLoader"
+      },
+      "widgets_values": [
+        "LCM_loRa_SDXL.safetensors",
+        1,
+        1
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 52,
+      "type": "IF_SaveText",
+      "pos": [
+        720,
+        275.21542519622807
+      ],
+      "size": {
+        "0": 315,
+        "1": 238
+      },
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "question_input",
+          "type": "STRING",
+          "link": 180,
+          "widget": {
+            "name": "question_input"
+          }
+        },
+        {
+          "name": "response_input",
+          "type": "STRING",
+          "link": 177,
+          "widget": {
+            "name": "response_input"
+          }
+        },
+        {
+          "name": "negative_input",
+          "type": "STRING",
+          "link": 179,
+          "widget": {
+            "name": "negative_input"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Question",
+          "type": "STRING",
+          "links": [
+            61
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "Response",
+          "type": "STRING",
+          "links": [
+            62,
+            99
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "Negative",
+          "type": "STRING",
+          "links": [
+            63,
+            80,
+            98
+          ],
+          "shape": 3,
+          "slot_index": 2
+        },
+        {
+          "name": "Turn",
+          "type": "STRING",
+          "links": [
+            60
+          ],
+          "shape": 3,
+          "slot_index": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_SaveText"
+      },
+      "widgets_values": [
+        "",
+        "",
+        "",
+        true,
+        "txt",
+        "append"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 15,
+      "type": "Note",
+      "pos": [
+        1697.5648568825434,
+        1803.6870817609101
+      ],
+      "size": {
+        "0": 240,
+        "1": 140
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Ollama has a bug on the latest version this was tested on 0.1.25 and it works. please wait for them to fix the issue\n\nLeave blank for an stable diffusion style response or write to enquire about the image\n\nchoose a VL model\n\nchoose settings or select None \nyou can also make your own text files with presets \n"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 74,
+      "type": "Note",
+      "pos": [
+        710,
+        565.2154251962279
+      ],
+      "size": {
+        "0": 280,
+        "1": 120
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "recommended models https://huggingface.co/dataautogpt3/Proteus-RunDiffusion\n\nhttps://ollama.com/adrienbrault/nous-hermes2pro\n\nhttps://ollama.com/library/llava:7b-v1.6-mistral-q5_K_M"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 13,
+      "type": "Note",
+      "pos": [
+        290,
+        105.21542519622803
+      ],
+      "size": {
+        "0": 230,
+        "1": 120
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "write a small prompt to enhance\n\nchoose model\n\nchoose settings or select None \nyou can also make your own text files with presets \n"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 16,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        350,
+        695.2154251962279
+      ],
+      "size": {
+        "0": 330,
+        "1": 100
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 7,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            41,
+            93
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            74,
+            78,
+            79
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": null,
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "SDXL\\ProteusV0.4.safetensors"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 17,
+      "type": "VAELoader",
+      "pos": [
+        860,
+        985.2154251962279
+      ],
+      "size": {
+        "0": 360,
+        "1": 60
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 8,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            28
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "bail_sdxl_vae.safetensors"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 117,
+      "type": "VHS_LoadImages",
+      "pos": [
+        997.5648568825434,
+        1283.6870817609101
+      ],
+      "size": [
+        240,
+        510
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            169
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_LoadImages",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": {
+        "directory": "2024-01-27",
+        "image_load_cap": 5,
+        "skip_first_images": 0,
+        "select_every_nth": 1,
+        "choose folder to upload": "image",
+        "videopreview": {
+          "hidden": false,
+          "paused": false,
+          "params": {
+            "frame_load_cap": 5,
+            "skip_first_images": 0,
+            "filename": "2024-01-27",
+            "type": "input",
+            "format": "folder",
+            "select_every_nth": 1
+          }
+        }
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 112,
+      "type": "ImpactImageBatchToImageList",
+      "pos": [
+        1287.5648568825434,
+        1323.6870817609101
+      ],
+      "size": {
+        "0": 210,
+        "1": 26
+      },
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 169
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [],
+          "shape": 6,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImpactImageBatchToImageList",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 119,
+      "type": "Reroute",
+      "pos": [
+        1520,
+        1145.215425196228
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 182
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "IMAGE",
+          "links": [
+            183
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 118,
+      "type": "IF_PromptMkr",
+      "pos": [
+        290,
+        275.21542519622807
+      ],
+      "size": {
+        "0": 400,
+        "1": 260
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "Question",
+          "type": "STRING",
+          "links": [
+            180
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "Response",
+          "type": "STRING",
+          "links": [
+            177
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "Negative",
+          "type": "STRING",
+          "links": [
+            179
+          ],
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_PromptMkr",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "Cusco planes, a llama",
+        "brxce/stable-diffusion-prompt-generator:latest",
+        "Award",
+        "3DcartoonStyle",
+        "AnimeTI",
+        "127.0.0.1",
+        "11434"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 28,
+      "type": "VAEDecode",
+      "pos": [
+        1300,
+        985.2154251962279
+      ],
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 21
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 28
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            22,
+            182
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 85,
+      "type": "LoadImage",
+      "pos": [
+        1247.5648568825434,
+        1423.6870817609101
+      ],
+      "size": {
+        "0": 320,
+        "1": 310
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "asuka (3).png",
+        "image"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 110,
+      "type": "IF_ImagePrompt",
+      "pos": [
+        1607.5648568825434,
+        1283.6870817609101
+      ],
+      "size": {
+        "0": 380,
+        "1": 470
+      },
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 183
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Question",
+          "type": "STRING",
+          "links": [
+            159
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "Response",
+          "type": "STRING",
+          "links": [
+            160
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "Negative",
+          "type": "STRING",
+          "links": [
+            161
+          ],
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_ImagePrompt",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "",
+        "llava:13b-v1.6-vicuna-q2_K",
+        "Epic",
+        "CInematic",
+        "neutral",
+        0.7,
+        481831322,
+        "randomize",
+        40,
+        1.1,
+        2048,
+        "127.0.0.1",
+        "11434"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 70,
+      "type": "ShowText|pysssss",
+      "pos": [
+        2027.5648568825427,
+        1283.6870817609101
+      ],
+      "size": {
+        "0": 380,
+        "1": 280
+      },
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 159,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 71,
+      "type": "ShowText|pysssss",
+      "pos": [
+        2017.5648568825427,
+        1623.6870817609101
+      ],
+      "size": [
+        460,
+        150
+      ],
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 160,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "Best quality, masterpiece, Epic, cover-art,  Vibrant, Cartoon, Lively, Adventurous, Colorful, South American, Andes, Incan, Festive. Cinematic still, shallow depth of field, vignette, dramatic-lighting, highly detailed, bokeh, cinemascope, moody, epic, gorgeous, film grain, grainy,  rich-colors,"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 72,
+      "type": "ShowText|pysssss",
+      "pos": [
+        1997.564856882543,
+        1833.6870817609101
+      ],
+      "size": {
+        "0": 380,
+        "1": 280
+      },
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 161,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "(worst quality:2),(low quality:2),(normal quality:2),lowres,watermark,"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    }
+  ],
+  "links": [
+    [
+      18,
+      26,
+      0,
+      24,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      19,
+      27,
+      0,
+      24,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      20,
+      25,
+      0,
+      24,
+      3,
+      "LATENT"
+    ],
+    [
+      21,
+      24,
+      0,
+      28,
+      0,
+      "LATENT"
+    ],
+    [
+      22,
+      28,
+      0,
+      29,
+      0,
+      "IMAGE"
+    ],
+    [
+      28,
+      17,
+      0,
+      28,
+      1,
+      "VAE"
+    ],
+    [
+      41,
+      16,
+      0,
+      40,
+      0,
+      "MODEL"
+    ],
+    [
+      60,
+      52,
+      3,
+      54,
+      0,
+      "STRING"
+    ],
+    [
+      61,
+      52,
+      0,
+      55,
+      0,
+      "STRING"
+    ],
+    [
+      62,
+      52,
+      1,
+      56,
+      0,
+      "STRING"
+    ],
+    [
+      63,
+      52,
+      2,
+      57,
+      0,
+      "STRING"
+    ],
+    [
+      74,
+      16,
+      1,
+      40,
+      1,
+      "CLIP"
+    ],
+    [
+      78,
+      16,
+      1,
+      26,
+      0,
+      "CLIP"
+    ],
+    [
+      79,
+      16,
+      1,
+      27,
+      0,
+      "CLIP"
+    ],
+    [
+      80,
+      52,
+      2,
+      68,
+      0,
+      "*"
+    ],
+    [
+      93,
+      16,
+      0,
+      24,
+      0,
+      "MODEL"
+    ],
+    [
+      98,
+      52,
+      2,
+      27,
+      1,
+      "STRING"
+    ],
+    [
+      99,
+      52,
+      1,
+      26,
+      1,
+      "STRING"
+    ],
+    [
+      159,
+      110,
+      0,
+      70,
+      0,
+      "STRING"
+    ],
+    [
+      160,
+      110,
+      1,
+      71,
+      0,
+      "STRING"
+    ],
+    [
+      161,
+      110,
+      2,
+      72,
+      0,
+      "STRING"
+    ],
+    [
+      169,
+      117,
+      0,
+      112,
+      0,
+      "IMAGE"
+    ],
+    [
+      177,
+      118,
+      1,
+      52,
+      1,
+      "STRING"
+    ],
+    [
+      179,
+      118,
+      2,
+      52,
+      2,
+      "STRING"
+    ],
+    [
+      180,
+      118,
+      0,
+      52,
+      0,
+      "STRING"
+    ],
+    [
+      182,
+      28,
+      0,
+      119,
+      0,
+      "*"
+    ],
+    [
+      183,
+      119,
+      0,
+      110,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [
+    {
+      "title": "Prompt2Prompt",
+      "bounding": [
+        280,
+        -159,
+        1810,
+        1340
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "locked": false
+    },
+    {
+      "title": "Image2Prompt",
+      "bounding": [
+        988,
+        1210,
+        1500,
+        914
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "locked": false
+    }
+  ],
+  "config": {},
+  "extra": {
+    "info": {
+      "name": "IF_AI_Tools",
+      "author": "",
+      "description": "",
+      "version": "1",
+      "created": "2024-03-12T11:34:02.047Z",
+      "modified": "2024-03-22T15:19:04.094Z",
+      "software": "ComfyUI"
+    }
+  },
+  "version": 0.4
+}
