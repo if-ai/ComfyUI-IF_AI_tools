@@ -5,14 +5,14 @@ import textwrap
 
 
 class IFPrompt2Prompt:
-    base_ip = "127.0.0.1"
-    ollama_port = "11434"
 
     def __init__(self):
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
         self.neg_prompts = self.load_presets(os.path.join(self.script_dir, "negfiles"))
         self.embellish_prompts = self.load_presets(os.path.join(self.script_dir, "embellishfiles"))
         self.style_prompts = self.load_presets(os.path.join(self.script_dir, "stylefiles"))
+        self.base_ip = "127.0.0.1"
+        self.ollama_port = "11434"
 
         self.prime_directive = textwrap.dedent("""\
             Act as a prompt maker with the following guidelines:
@@ -45,10 +45,9 @@ class IFPrompt2Prompt:
                     content = file.read().strip()
                     presets.append((os.path.splitext(filename)[0], content))
         return presets
-    
-    @classmethod
-    def get_text_models(cls):
-        api_url = f'http://{cls.base_ip}:{cls.ollama_port}/api/tags'
+
+    def get_text_models(self, base_ip, ollama_port):
+        api_url = f'http://{base_ip}:{ollama_port}/api/tags'
         try:
             response = requests.get(api_url)
             response.raise_for_status()
@@ -58,8 +57,8 @@ class IFPrompt2Prompt:
             text_models = []
         return text_models
 
-    def send_request(self, data, headers):
-        base_url = f'http://{self.base_ip}:{self.ollama_port}/v1/chat/completions'
+    def send_request(self, data, headers, base_ip, ollama_port):
+        base_url = f'http://{base_ip}:{ollama_port}/v1/chat/completions'
         response = requests.post(base_url, headers=headers, json=data)
         if response.status_code == 200:
             return response.json().get('choices', [{}])[0].get('message', {}).get('content', '')
@@ -67,7 +66,7 @@ class IFPrompt2Prompt:
             print(f"Error: Request failed with status code {response.status_code}")
             return None
 
-    def sample(self, input_prompt, select_text_model, embellish_prompt, style_prompt, neg_prompt):
+    def sample(self, input_prompt, select_text_model, embellish_prompt, style_prompt, neg_prompt, base_ip, ollama_port):
         # Look up the content by name
         embellish_content = next((content for name, content in self.embellish_prompts if name == embellish_prompt), "")
         style_content = next((content for name, content in self.style_prompts if name == style_prompt), "")
@@ -81,7 +80,7 @@ class IFPrompt2Prompt:
             ],
         }
         
-        generated_text = self.send_request(data, headers={"Content-Type": "application/json"})
+        generated_text = self.send_request(data, headers={"Content-Type": "application/json"}, base_ip=base_ip, ollama_port=ollama_port)
         
         if generated_text:
             # Combine using the content, not the name
@@ -96,10 +95,12 @@ class IFPrompt2Prompt:
         return {
             "required": {
                 "input_prompt": ("STRING", {"multiline": True, "default": "Ancient mega-structure, samll lone figure in the foreground"}),
-                "select_text_model": (cls.get_text_models(), {}),
+                "select_text_model": (node.get_text_models(node.base_ip, node.ollama_port), {}),
                 "embellish_prompt": ([name for name, _ in node.embellish_prompts], {}),
                 "style_prompt": ([name for name, _ in node.style_prompts], {}),
                 "neg_prompt": ([name for name, _ in node.neg_prompts], {}),
+                "base_ip": ("STRING", {"default": node.base_ip}),
+                "ollama_port": ("STRING", {"default": node.ollama_port}),
             },
         }
 
