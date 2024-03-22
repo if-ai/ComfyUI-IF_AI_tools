@@ -7,19 +7,17 @@ from io import BytesIO
 from PIL import Image
 import torch
 import tempfile
-import uuid
 from torchvision.transforms.functional import to_pil_image
-import folder_paths  
+import folder_paths
 
 class IFImagePrompt:
-    base_ip = "127.0.0.1"
-    ollama_port = "11434"
-
     def __init__(self):
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
         self.neg_prompts = self.load_presets(os.path.join(self.script_dir, "negfiles"))
         self.embellish_prompts = self.load_presets(os.path.join(self.script_dir, "embellishfiles"))
         self.style_prompts = self.load_presets(os.path.join(self.script_dir, "stylefiles"))
+        self.base_ip = "127.0.0.1"
+        self.ollama_port = "11434"
 
     def load_presets(self, dir_path):
         presets = []
@@ -31,9 +29,8 @@ class IFImagePrompt:
                     presets.append((os.path.splitext(filename)[0], content))
         return presets
 
-    @classmethod
-    def get_vision_models(cls):
-        api_url = f'http://{cls.base_ip}:{cls.ollama_port}/api/tags'
+    def get_vision_models(self, base_ip, ollama_port):
+        api_url = f'http://{base_ip}:{ollama_port}/api/tags'
         try:
             response = requests.get(api_url)
             response.raise_for_status()
@@ -42,62 +39,15 @@ class IFImagePrompt:
             print(f"Failed to fetch models from Ollama: {e}")
             vision_model = []
         return vision_model
-
-    def describe_picture(self, image, select_vision_model, image_prompt=None, embellish_prompt=None, style_prompt=None, neg_prompt=None,
-                        temperature=0.7, seed=0, top_k=40, repeat_penalty=1.1, num_ctx=2048):
-        embellish_content = next((content for name, content in self.embellish_prompts if name == embellish_prompt), "")
-        style_content = next((content for name, content in self.style_prompts if name == style_prompt), "")
-        neg_content = next((content for name, content in self.neg_prompts if name == neg_prompt), "")
-
-        temperature = temperature or 0.7
-        seed = seed or 0
-        top_k = top_k or 40
-        repeat_penalty = repeat_penalty or 1.1
-        num_ctx = num_ctx or 2048
-
-        image_path = folder_paths.get_annotated_filepath(image)
-        with open(image_path, "rb") as image_file:
-            base64_image = base64.b64encode(image_file.read()).decode('utf-8')
-
-        system_message, user_message = self._prepare_messages(image_prompt)
-
-        api_url = f'http://{self.base_ip}:{self.ollama_port}/api/generate'
-        data = {
-            "model": select_vision_model,
-            "system": system_message,
-            "prompt": user_message,
-            "stream": False,
-            "images": [base64_image],
-            "options": {
-                "temperature": temperature,
-                "seed": seed,
-                "top_k": top_k,
-                "repeat_penalty": repeat_penalty,
-                "num_ctx": num_ctx,
-            },
-        }
-        headers = {"Content-Type": "application/json"}
-
-        try:
-            response = requests.post(api_url, headers=headers, json=data)
-            if response.status_code == 200:
-                response_data = response.json()
-                prompt_response = response_data.get('response', 'No response text found')
-                print(f"Caption for image {os.path.basename(image_path)}: {prompt_response}")
-                
-                # Ensure there is a response to construct the full description
-                if prompt_response != 'No response text found':
-                    description = f"{embellish_content} {prompt_response} {style_content}".strip()
-                    return image_prompt, description, neg_content
-                else:
-                    return "No valid response generated for the image.", neg_content
-            else:
-                print(f"Failed to fetch response, status code: {response.status_code}")
-                return image_prompt, "Failed to fetch response from Ollama.", neg_content
-        except Exception as e:
-            print(f"Exception occurred: {e}")
-            return image_prompt, "Exception occurred while processing image.", neg_content
-
+    
+    def tensor_to_image(self, tensor):
+        #ensure tensor is on CPU
+        tensor = tensor.cpu()
+        #normalize tensor 0-255 and convert to byte
+        image_np = tensor.squeeze().mul(255).clamp(0, 255).byte().numpy()
+        #create PIL image
+        image = Image.fromarray(image_np, mode='RGB')
+        return image
 
     def _prepare_messages(self, image_prompt=None):
         system_message = textwrap.dedent("""\
@@ -133,28 +83,95 @@ class IFImagePrompt:
                     Make a visual prompt for the following Image:
                     """)
         return system_message, user_message
-        
 
+    def describe_picture(self, image, select_vision_model, base_ip, ollama_port, image_prompt=None, embellish_prompt=None, style_prompt=None, neg_prompt=None,
+                            seed=0, temperature=0.7, top_k=40, repeat_penalty=1.1, num_ctx=2048):
+        embellish_content = next((content for name, content in self.embellish_prompts if name == embellish_prompt), "")
+        style_content = next((content for name, content in self.style_prompts if name == style_prompt), "")
+        neg_content = next((content for name, content in self.neg_prompts if name == neg_prompt), "")
+
+        temperature = temperature or 0.7
+        seed = seed or 0
+        top_k = top_k or 40
+        repeat_penalty = repeat_penalty or 1.1
+        num_ctx = num_ctx or 2048
+
+        # Check the type of the 'image' object
+        if isinstance(image, torch.Tensor):
+            
+            # Convert the tensor to a PIL image
+            pil_image = self.tensor_to_image(image)
+        elif isinstance(image, Image.Image):
+            pil_image = image
+        elif isinstance(image, str) and os.path.isfile(image):
+            pil_image = Image.open(image)
+        else:
+            print(f"Invalid image type: {type(image)}. Expected torch.Tensor, PIL.Image, or file path.")
+            return "Invalid image type", "Invalid image type", "No neg content"
+
+        # Convert the PIL image to base64
+        buffered = BytesIO()
+        pil_image.save(buffered, format="PNG")
+        base64_image = base64.b64encode(buffered.getvalue()).decode('utf-8')
+
+        system_message, user_message = self._prepare_messages(image_prompt)
+
+        api_url = f'http://{base_ip}:{ollama_port}/api/generate'
+        data = {
+            "model": select_vision_model,
+            "system": system_message,
+            "prompt": user_message,
+            "stream": False,
+            "images": [base64_image],
+            "options": {
+                "seed": seed,
+                "temperature": temperature,
+                "top_k": top_k,
+                "repeat_penalty": repeat_penalty,
+                "num_ctx": num_ctx,
+            },
+        }
+        headers = {"Content-Type": "application/json"}
+
+        try:
+            response = requests.post(api_url, headers=headers, json=data)
+            if response.status_code == 200:
+                response_data = response.json()
+                prompt_response = response_data.get('response', 'No response text found')
+                
+                # Ensure there is a response to construct the full description
+                if prompt_response != 'No response text found':
+                    description = f"{embellish_content} {prompt_response} {style_content}".strip()
+                    return image_prompt, description, neg_content
+                else:
+                    return image_prompt, "No valid response generated for the image.", neg_content
+            else:
+                print(f"Failed to fetch response, status code: {response.status_code}")
+                return image_prompt, "Failed to fetch response from Ollama.", neg_content
+        except Exception as e:
+            print(f"Exception occurred: {e}")
+            return image, "Exception occurred while processing image.", "No neg content"
+        
 
     @classmethod
     def INPUT_TYPES(cls):
         node = cls()
-        input_dir = folder_paths.get_input_directory()
-        files = [f for f in os.listdir(input_dir) if os.path.isfile(os.path.join(input_dir, f))]
         return {
             "required": {
+                "image": ("IMAGE", ),
                 "image_prompt": ("STRING", {"multiline": True, "default": ""}),
-                "image": (sorted(files), {"image_upload": True}),
-                "select_vision_model": (cls.get_vision_models(), {}),
+                "select_vision_model": (node.get_vision_models(node.base_ip, node.ollama_port), {}),
                 "embellish_prompt": ([name for name, _ in node.embellish_prompts], {}),
                 "style_prompt": ([name for name, _ in node.style_prompts], {}),
                 "neg_prompt": ([name for name, _ in node.neg_prompts], {}),
-                "temperature": ("FLOAT", {"default": 0.7, "min": 0.0, "max": 1.0, "step": 0.1}),
                 "seed": ("INT", {"default": 0, "min": 0, "max": 4294967295}),
+                "temperature": ("FLOAT", {"default": 0.7, "min": 0.0, "max": 1.0, "step": 0.1}),
                 "top_k": ("INT", {"default": 40, "min": 0, "max": 100}),
                 "repeat_penalty": ("FLOAT", {"default": 1.1, "min": 0.0, "max": 2.0, "step": 0.1}),
                 "num_ctx": ("INT", {"default": 2048, "min": 64, "max": 8192}),
-            },
+                "base_ip": ("STRING", {"default": node.base_ip}),
+                "ollama_port": ("STRING", {"default": node.ollama_port}),
+            }
         }
 
     RETURN_TYPES = ("STRING", "STRING", "STRING",)
@@ -163,7 +180,6 @@ class IFImagePrompt:
     OUTPUT_NODE = True
     CATEGORY = "ImpactFrames💥🎞️"
 
-
-
+    
 NODE_CLASS_MAPPINGS = {"IF_ImagePrompt": IFImagePrompt}
 NODE_DISPLAY_NAME_MAPPINGS = {"IF_ImagePrompt": "IF Image to Prompt🖼️"}
