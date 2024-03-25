@@ -1,3 +1,10 @@
 openai
+anthropic
+mistralai
+poetry
 Pillow
 requests
+cryptography
+pypdf2
+IPython
+
