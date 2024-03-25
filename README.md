@@ -13,8 +13,13 @@ ComfyUI-IF_AI_tools is a set of custom nodes for ComfyUI that allows you to gene
 ## Prerequisites
 - [Ollama](https://github.com/ollama/ollama/releases) - You need to install Ollama for this tool to work. Visit [ollama.com](https://ollama.com) for more information.
 
+Optionally Set enviromnet variables for "ANTHROPIC_API_KEY" & "OPENAI_API_KEY" with those names or otherwise it won't pick it up and the respective API keys 
+
+
 ## Installation
 1. Install Ollama by following the instructions on their GitHub page on windows 
+
+You can also install the Node from the ComfyUI manager 
 
 2. Open a terminal and type following command to install the model:
    ```bash
