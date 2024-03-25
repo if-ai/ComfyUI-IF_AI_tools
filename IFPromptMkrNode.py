@@ -76,7 +76,7 @@ class IFPrompt2Prompt:
             print(f"Unsupported engine - {engine}")
             return []
 
-    def sample(self, input_prompt, engine, selected_model, embellish_prompt, style_prompt, neg_prompt, base_ip, ollama_port, max_tokens):
+    def sample(self, input_prompt, engine, selected_model, embellish_prompt, style_prompt, neg_prompt, base_ip, ollama_port, temperature, max_tokens):
         embellish_content = next((content for name, content in self.embellish_prompts if name == embellish_prompt), "")
         style_content = next((content for name, content in self.style_prompts if name == style_prompt), "")
         neg_content = next((content for name, content in self.neg_prompts if name == neg_prompt), "")
@@ -94,6 +94,7 @@ class IFPrompt2Prompt:
                 'messages': [
                     {"role": "user", "content": input_prompt}  
                 ],
+                'temperature': temperature,
                 'max_tokens': max_tokens      
             }
         elif engine == "openai":
@@ -103,6 +104,7 @@ class IFPrompt2Prompt:
                     {"role": "system", "content": self.prime_directive},
                     {"role": "user", "content": input_prompt}
                 ],
+                'temperature': temperature,
                 'max_tokens': max_tokens  
             }
         else:
@@ -112,6 +114,7 @@ class IFPrompt2Prompt:
                     {"role": "system", "content": self.prime_directive},
                     {"role": "user", "content": input_prompt}
                 ],
+                'temperature': temperature,
                 'max_tokens': max_tokens
             }
 
@@ -137,7 +140,7 @@ class IFPrompt2Prompt:
                 base_url = 'https://api.anthropic.com/v1/messages'
                 anthropic_headers = {
                     "x-api-key": self.anthropic_api_key,
-                    "anthropic-version": "2023-06-01",  # Use the latest version available
+                    "anthropic-version": "2023-06-01",  
                     "Content-Type": "application/json"
                 }
                 response = requests.post(base_url, headers=anthropic_headers, json=data)
@@ -161,15 +164,12 @@ class IFPrompt2Prompt:
                 response = requests.post(base_url, headers=openai_headers, json=data)
                 if response.status_code == 200:
                     response_data = response.json()
-                    print("Debug Response:", response_data)  # Debug print to understand the response structure
-                    
-                    # Parse the response correctly based on the actual structure
+                    print("Debug Response:", response_data)  
                     choices = response_data.get('choices', [])
                     if choices:
-                        # Assuming the first choice contains the desired response
                         choice = choices[0]
-                        messages = choice.get('message', {'content': ''})  # Expecting 'message' to be a dict with 'content'
-                        generated_text = messages.get('content', '')  # Directly access 'content' of the message
+                        messages = choice.get('message', {'content': ''})  
+                        generated_text = messages.get('content', '') 
                         return generated_text
                     else:
                         print("No choices found in response")
@@ -193,11 +193,12 @@ class IFPrompt2Prompt:
                 "embellish_prompt": ([name for name, _ in node.embellish_prompts], {}),
                 "style_prompt": ([name for name, _ in node.style_prompts], {}),
                 "neg_prompt": ([name for name, _ in node.neg_prompts], {}),
-                "base_ip": ("STRING", {"default": node.base_ip}),
-                "ollama_port": ("STRING", {"default": node.ollama_port}),
+                "temperature": ("FLOAT", {"default": 0.7, "min": 0.0, "max": 1.0, "step": 0.1}),
             },
             "optional": {
-                "max_tokens": ("INT", {"default": 160, "min": 1, "max": 1024}),
+                "max_tokens": ("INT", {"default": 160, "min": 1, "max": 2048}),
+                "base_ip": ("STRING", {"default": node.base_ip}),
+                "ollama_port": ("STRING", {"default": node.ollama_port}),
             }
         }
 
@@ -208,7 +209,7 @@ class IFPrompt2Prompt:
     CATEGORY = "ImpactFrames💥🎞️"
 
 
-    @PromptServer.instance.routes.post("/promptMkrNode/get_models")
+    @PromptServer.instance.routes.post("/IF_PromptMkr/get_models")
     async def get_models_endpoint(request):
         data = await request.json()
         engine = data.get("engine")
