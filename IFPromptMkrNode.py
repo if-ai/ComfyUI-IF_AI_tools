@@ -1,8 +1,10 @@
-# You need to install ollama and have it running on your machine for this to work properly.
 import requests
 import os
 import textwrap
-
+import anthropic
+import openai
+from server import PromptServer
+from aiohttp import web
 
 class IFPrompt2Prompt:
 
@@ -13,6 +15,8 @@ class IFPrompt2Prompt:
         self.style_prompts = self.load_presets(os.path.join(self.script_dir, "stylefiles"))
         self.base_ip = "127.0.0.1"
         self.ollama_port = "11434"
+        self.anthropic_api_key = self.get_api_key("ANTHROPIC_API_KEY")
+        self.openai_api_key = self.get_api_key("OPENAI_API_KEY")
 
         self.prime_directive = textwrap.dedent("""\
             Act as a prompt maker with the following guidelines:
@@ -29,13 +33,13 @@ class IFPrompt2Prompt:
             - Always reply on the same line and no more than 100 words long. 
             - Do not enumerate or enunciate components.
             - Do not include any additional information in the response.                                                       
-            The followin is an illustartive example for you to see how to construct a prompt your prompts should follow this format but always coherent to the subject worldbuilding or setting and cosider the elemnts relationship.
+            The following is an illustrative example for you to see how to construct a prompt your prompts should follow this format but always coherent to the subject worldbuilding or setting and consider the elements relationship.
             Example:
             Subject: Demon Hunter, Cyber City.
             prompt: A Demon Hunter, standing, lone figure, glow eyes, deep purple light, cybernetic exoskeleton, sleek, metallic, glowing blue accents, energy weapons. Fighting Demon, grotesque creature, twisted metal, glowing red eyes, sharp claws, Cyber City, towering structures, shrouded haze, shimmering energy.                             
             Make a prompt for the following Subject:
             """)
-        
+
     def load_presets(self, dir_path):
         presets = []
         for filename in os.listdir(dir_path):
@@ -46,62 +50,155 @@ class IFPrompt2Prompt:
                     presets.append((os.path.splitext(filename)[0], content))
         return presets
 
-    def get_text_models(self, base_ip, ollama_port):
-        api_url = f'http://{base_ip}:{ollama_port}/api/tags'
-        try:
-            response = requests.get(api_url)
-            response.raise_for_status()
-            text_models = [model['name'] for model in response.json()['models']]
-        except Exception as e:
-            print(f"Failed to fetch models from Ollama: {e}")
-            text_models = []
-        return text_models
+    def get_api_key(self, api_key_name):
+        api_key = os.getenv(api_key_name)
+        if api_key:
+            print(f"API key found for {api_key_name}")
+            return api_key
+        print(f"Error: {api_key_name} is required")
+        return ""
 
-    def send_request(self, data, headers, base_ip, ollama_port):
-        base_url = f'http://{base_ip}:{ollama_port}/v1/chat/completions'
-        response = requests.post(base_url, headers=headers, json=data)
-        if response.status_code == 200:
-            return response.json().get('choices', [{}])[0].get('message', {}).get('content', '')
+    def get_models(self, engine, base_ip, ollama_port):
+        if engine == "ollama":
+            api_url = f'http://{base_ip}:{ollama_port}/api/tags'
+            try:
+                response = requests.get(api_url)
+                response.raise_for_status()
+                return [model['name'] for model in response.json().get('models', [])]
+            except Exception as e:
+                print(f"Failed to fetch models from Ollama: {e}")
+                return []
+        elif engine == "anthropic":
+            return ["claude-3-opus-20240229", "claude-3-sonnet-20240229", "claude-3-haiku-20240307"]
+        elif engine == "openai":
+            return ["gpt-4-0125-preview", "gpt-4-1106-preview", "gpt-4-vision-preview", "gpt-4-1106-vision-preview", "gpt-3.5-turbo-0125", "gpt-3.5-turbo-1106"]
         else:
-            print(f"Error: Request failed with status code {response.status_code}")
-            return None
+            print(f"Unsupported engine - {engine}")
+            return []
 
-    def sample(self, input_prompt, select_text_model, embellish_prompt, style_prompt, neg_prompt, base_ip, ollama_port):
-        # Look up the content by name
+    def sample(self, input_prompt, engine, selected_model, embellish_prompt, style_prompt, neg_prompt, base_ip, ollama_port, max_tokens):
         embellish_content = next((content for name, content in self.embellish_prompts if name == embellish_prompt), "")
         style_content = next((content for name, content in self.style_prompts if name == style_prompt), "")
         neg_content = next((content for name, content in self.neg_prompts if name == neg_prompt), "")
-        
-        data = {
-            'model': select_text_model, 
-            'messages': [
-                {"role": "system", "content": self.prime_directive},
-                {"role": "user", "content": input_prompt}
-            ],
-        }
-        
-        generated_text = self.send_request(data, headers={"Content-Type": "application/json"}, base_ip=base_ip, ollama_port=ollama_port)
-        
+
+        available_models = self.get_models(engine, base_ip, ollama_port)
+        if available_models is None or selected_model not in available_models:
+            error_message = f"Invalid model selected: {selected_model} for engine {engine}. Available models: {available_models}"
+            print(error_message)
+            raise ValueError(error_message)
+            
+        if engine == "anthropic":
+            data = {
+                'model': selected_model,
+                'system': self.prime_directive, 
+                'messages': [
+                    {"role": "user", "content": input_prompt}  
+                ],
+                'max_tokens': max_tokens      
+            }
+        elif engine == "openai":
+            data = {
+                'model': selected_model, 
+                'messages': [
+                    {"role": "system", "content": self.prime_directive},
+                    {"role": "user", "content": input_prompt}
+                ],
+                'max_tokens': max_tokens  
+            }
+        else:
+            data = {
+                'model': selected_model, 
+                'messages': [
+                    {"role": "system", "content": self.prime_directive},
+                    {"role": "user", "content": input_prompt}
+                ],
+                'max_tokens': max_tokens
+            }
+
+        generated_text = self.send_request(data, headers={"Content-Type": "application/json"}, engine=engine)
+ 
         if generated_text:
-            # Combine using the content, not the name
             combined_prompt = f"{embellish_content} {generated_text} {style_content}"
             return input_prompt, combined_prompt, neg_content
         else:
             return None, None, None
 
+    def send_request(self, data, headers, engine):
+        if engine == "ollama":
+            base_url = f'http://{self.base_ip}:{self.ollama_port}/v1/chat/completions'
+            response = requests.post(base_url, headers=headers, json=data)
+            if response.status_code == 200:
+                return response.json().get('choices', [{}])[0].get('message', {}).get('content', '')
+            else:
+                print(f"Error: Request failed with status code {response.status_code}")
+                return None
+        elif engine == "anthropic":
+            try:
+                base_url = 'https://api.anthropic.com/v1/messages'
+                anthropic_headers = {
+                    "x-api-key": self.anthropic_api_key,
+                    "anthropic-version": "2023-06-01",  # Use the latest version available
+                    "Content-Type": "application/json"
+                }
+                response = requests.post(base_url, headers=anthropic_headers, json=data)
+                if response.status_code == 200:
+                    messages = response.json().get('content', [])
+                    generated_text = ''.join([msg.get('text', '') for msg in messages if msg.get('type') == 'text'])
+                    return generated_text
+                else:
+                    print(f"Error: Request failed with status code {response.status_code}, Response: {response.text}")
+                    return None
+            except Exception as e:
+                print(f"Error: Anthropic request failed - {e}")
+                return None
+        elif engine == "openai":
+            try:
+                base_url = 'https://api.openai.com/v1/chat/completions'
+                openai_headers = {
+                    "Authorization": f"Bearer {self.openai_api_key}",
+                    "Content-Type": "application/json"
+                }
+                response = requests.post(base_url, headers=openai_headers, json=data)
+                if response.status_code == 200:
+                    response_data = response.json()
+                    print("Debug Response:", response_data)  # Debug print to understand the response structure
+                    
+                    # Parse the response correctly based on the actual structure
+                    choices = response_data.get('choices', [])
+                    if choices:
+                        # Assuming the first choice contains the desired response
+                        choice = choices[0]
+                        messages = choice.get('message', {'content': ''})  # Expecting 'message' to be a dict with 'content'
+                        generated_text = messages.get('content', '')  # Directly access 'content' of the message
+                        return generated_text
+                    else:
+                        print("No choices found in response")
+                        return None
+                else:
+                    print(f"Error: Request failed with status code {response.status_code}, Response: {response.text}")
+                    return None
+            except Exception as e:
+                print(f"Error: OpenAI request failed - {e}")
+                return None, None, None
+
     @classmethod
     def INPUT_TYPES(cls):
-        node = cls()  # Create an instance of the class
+        node = cls()
+        default_engine = "ollama"
         return {
             "required": {
-                "input_prompt": ("STRING", {"multiline": True, "default": "Ancient mega-structure, samll lone figure in the foreground"}),
-                "select_text_model": (node.get_text_models(node.base_ip, node.ollama_port), {}),
+                "input_prompt": ("STRING", {"multiline": True, "default": "Ancient mega-structure, small lone figure in the foreground"}),
+                "engine": (["ollama", "openai", "anthropic"], {"default": default_engine}),
+                "selected_model": (node.get_models(default_engine, node.base_ip, node.ollama_port) + node.get_models("anthropic", node.base_ip, node.ollama_port) + node.get_models("openai", node.base_ip, node.ollama_port), {}),
                 "embellish_prompt": ([name for name, _ in node.embellish_prompts], {}),
                 "style_prompt": ([name for name, _ in node.style_prompts], {}),
                 "neg_prompt": ([name for name, _ in node.neg_prompts], {}),
                 "base_ip": ("STRING", {"default": node.base_ip}),
                 "ollama_port": ("STRING", {"default": node.ollama_port}),
             },
+            "optional": {
+                "max_tokens": ("INT", {"default": 160, "min": 1, "max": 1024}),
+            }
         }
 
     RETURN_TYPES = ("STRING", "STRING", "STRING",)
@@ -110,6 +207,18 @@ class IFPrompt2Prompt:
     OUTPUT_NODE = False
     CATEGORY = "ImpactFrames💥🎞️"
 
+
+    @PromptServer.instance.routes.post("/promptMkrNode/get_models")
+    async def get_models_endpoint(request):
+        data = await request.json()
+        engine = data.get("engine")
+        base_ip = data.get("base_ip")
+        ollama_port = data.get("ollama_port")
+        
+        node = IFPrompt2Prompt()
+        models = node.get_models(engine, base_ip, ollama_port)
+        
+        return web.json_response(models)
 
 NODE_CLASS_MAPPINGS = {"IF_PromptMkr": IFPrompt2Prompt}
 NODE_DISPLAY_NAME_MAPPINGS = {"IF_PromptMkr": "IF Prompt to Prompt💬"}
