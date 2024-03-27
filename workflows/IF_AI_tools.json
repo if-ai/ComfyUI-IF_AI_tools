@@ -1,6 +1,6 @@
 {
-  "last_node_id": 148,
-  "last_link_id": 241,
+  "last_node_id": 154,
+  "last_link_id": 265,
   "nodes": [
     {
       "id": 24,
@@ -52,7 +52,7 @@
         "Node name for S&R": "KSampler"
       },
       "widgets_values": [
-        706885800777919,
+        622537422175384,
         "randomize",
         40,
         7.49,
@@ -142,7 +142,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 23,
+      "order": 20,
       "mode": 0,
       "inputs": [
         {
@@ -193,7 +193,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 21,
+      "order": 18,
       "mode": 0,
       "inputs": [
         {
@@ -311,29 +311,6 @@
       "bgcolor": "#363636"
     },
     {
-      "id": 74,
-      "type": "Note",
-      "pos": [
-        710,
-        565.2154251962279
-      ],
-      "size": {
-        "0": 280,
-        "1": 120
-      },
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "recommended models https://huggingface.co/dataautogpt3/Proteus-RunDiffusion\n\nhttps://ollama.com/adrienbrault/nous-hermes2pro\n\nhttps://ollama.com/library/llava:7b-v1.6-mistral-q5_K_M"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
       "id": 17,
       "type": "VAELoader",
       "pos": [
@@ -347,7 +324,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 3,
+      "order": 2,
       "mode": 0,
       "outputs": [
         {
@@ -366,47 +343,6 @@
       "widgets_values": [
         "bail_sdxl_vae.safetensors"
       ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 119,
-      "type": "Reroute",
-      "pos": [
-        1520,
-        1145.215425196228
-      ],
-      "size": [
-        75,
-        26
-      ],
-      "flags": {},
-      "order": 29,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "",
-          "type": "*",
-          "link": 182
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "IMAGE",
-          "links": [],
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "showOutputText": false,
-        "horizontal": false,
-        "ttNbgOverride": {
-          "color": "#222",
-          "bgcolor": "#000",
-          "groupcolor": "#444"
-        }
-      },
       "color": "#4a4a4a",
       "bgcolor": "#363636"
     },
@@ -467,7 +403,7 @@
         "1": 238
       },
       "flags": {},
-      "order": 16,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
@@ -561,7 +497,7 @@
         "1": 76
       },
       "flags": {},
-      "order": 25,
+      "order": 22,
       "mode": 0,
       "inputs": [
         {
@@ -586,7 +522,7 @@
       },
       "widgets_values": [
         "",
-        "ID: bc0c8ec4-b9ab-48bb-bed1-3aea0290736f\nQuestion: Ancient mega-structure, small lone figure in the foreground\nResponse: Award winning, masterpiece, High detail, Subject: Ancient mega-structure, small lone figure in the foreground.\nprompt: A colossal, ancient megastructure looming over a distant alien world, its towering spires vanishing into the hazy cosmos. In the foreground, a solitary figure crouches, focused on an intricate device held in their hands. As they activate the tool, a burst of vibrant azure light erupts from its center, illuminating the surrounding darkness and revealing glittering dust particles drifting languidly through the air. pixar style,intricate,highly detailed,sharp focus,cinematic look,hyperdetailed,4k textures,hdr,looking up at the camera,rainbow,3d style,C4D,blender,kawaii,bifrost,\nNegative: negative_hand-neg, worst quality, low quality, nsfw, lamp, bad_pictures, bad-artist-anime, verybadimagenegative_v1.3, ng_deepnegative_v1_75t, bad_anatomy, text, title, logo, signature,"
+        "ID: a6174ee9-ba06-435a-892f-9797602a45e8\nQuestion: Ancient mega-structure, small lone figure in the foreground\nResponse: Award winning, masterpiece, High detail, Subject: Ancient mega-structure, small lone figure in the foreground\n\nPrompt: An explorer, tiny silhouette, solitary hero, worn cloak flapping, determined gaze, weathered goggles, towering ancient ruin, alien architecture, colossal supports, moss-covered stone, cavernous entrance, dim light. The small lone figure in the foreground, ready to delve deep into the mysterious mega-structure's heart. pixar style,intricate,highly detailed,sharp focus,cinematic look,hyperdetailed,4k textures,hdr,looking up at the camera,rainbow,3d style,C4D,blender,kawaii,bifrost,\nNegative: negative_hand-neg, worst quality, low quality, nsfw, lamp, bad_pictures, bad-artist-anime, verybadimagenegative_v1.3, ng_deepnegative_v1_75t, bad_anatomy, text, title, logo, signature,"
       ],
       "color": "#4a4a4a",
       "bgcolor": "#363636"
@@ -603,7 +539,7 @@
         "1": 76
       },
       "flags": {},
-      "order": 20,
+      "order": 17,
       "mode": 0,
       "inputs": [
         {
@@ -645,7 +581,7 @@
         "1": 60
       },
       "flags": {},
-      "order": 4,
+      "order": 3,
       "mode": 0,
       "properties": {
         "text": ""
@@ -668,55 +604,13 @@
         "1": 130
       },
       "flags": {},
-      "order": 5,
+      "order": 4,
       "mode": 0,
       "properties": {
         "text": ""
       },
       "widgets_values": [
         "write a small prompt to enhance\n\nchoose model\n\nchoose settings or select None \nyou can also make your own text files with presets  \n\nset the environment variables for \"ANTHROPIC_API_KEY\"\n\"OPENAI_API_KEY\" with those names so the node can pick them up \n"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 137,
-      "type": "IF_DisplayText",
-      "pos": [
-        2080,
-        1320
-      ],
-      "size": {
-        "0": 315,
-        "1": 76
-      },
-      "flags": {},
-      "order": 17,
-      "mode": 2,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 239,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 6
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        ""
       ],
       "color": "#4a4a4a",
       "bgcolor": "#363636"
@@ -735,7 +629,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 6,
+      "order": 5,
       "mode": 0,
       "outputs": [
         {
@@ -777,48 +671,6 @@
       "bgcolor": "#363636"
     },
     {
-      "id": 139,
-      "type": "IF_DisplayText",
-      "pos": [
-        2070,
-        1870
-      ],
-      "size": {
-        "0": 315,
-        "1": 76
-      },
-      "flags": {},
-      "order": 19,
-      "mode": 2,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 241,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 6
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        "negative_hand-neg, worst quality, low quality, nsfw, lamp, bad_pictures, bad-artist-anime, verybadimagenegative_v1.3, ng_deepnegative_v1_75t, bad_anatomy, text, title, logo, signature,"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
       "id": 15,
       "type": "Note",
       "pos": [
@@ -830,8 +682,8 @@
         "1": 310
       },
       "flags": {},
-      "order": 7,
-      "mode": 2,
+      "order": 6,
+      "mode": 0,
       "properties": {
         "text": ""
       },
@@ -853,8 +705,8 @@
         "1": 26
       },
       "flags": {},
-      "order": 8,
-      "mode": 2,
+      "order": 7,
+      "mode": 0,
       "inputs": [
         {
           "name": "image",
@@ -894,8 +746,8 @@
         510
       ],
       "flags": {},
-      "order": 9,
-      "mode": 2,
+      "order": 8,
+      "mode": 0,
       "outputs": [
         {
           "name": "IMAGE",
@@ -959,8 +811,8 @@
         "1": 100
       },
       "flags": {},
-      "order": 10,
-      "mode": 2,
+      "order": 9,
+      "mode": 0,
       "outputs": [
         {
           "name": "image",
@@ -986,221 +838,18 @@
       "bgcolor": "#363636"
     },
     {
-      "id": 145,
-      "type": "IF_DisplayText",
-      "pos": [
-        2090,
-        1480
-      ],
-      "size": {
-        "0": 310,
-        "1": 280
-      },
-      "flags": {},
-      "order": 18,
-      "mode": 2,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 240,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 6
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        "Award winning, masterpiece, High detail, Failed to fetch response from OpenAI. pixar style,intricate,highly detailed,sharp focus,cinematic look,hyperdetailed,4k textures,hdr,looking up at the camera,rainbow,3d style,C4D,blender,kawaii,bifrost,"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 85,
-      "type": "LoadImage",
-      "pos": [
-        1260,
-        1370
-      ],
-      "size": {
-        "0": 320,
-        "1": 310
-      },
-      "flags": {},
-      "order": 11,
-      "mode": 2,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            238
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadImage",
-        "ttNbgOverride": {
-          "color": "#222",
-          "bgcolor": "#000",
-          "groupcolor": "#444"
-        }
-      },
-      "widgets_values": [
-        "_IF_prompt_Mkr__00007_.png",
-        "image"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 148,
-      "type": "IF_ImagePrompt",
-      "pos": [
-        1640,
-        1330
-      ],
-      "size": {
-        "0": 400,
-        "1": 332.00006103515625
-      },
-      "flags": {},
-      "order": 15,
-      "mode": 2,
-      "inputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 238
-        }
-      ],
-      "outputs": [
-        {
-          "name": "Question",
-          "type": "STRING",
-          "links": [
-            239
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "Response",
-          "type": "STRING",
-          "links": [
-            240
-          ],
-          "shape": 3,
-          "slot_index": 1
-        },
-        {
-          "name": "Negative",
-          "type": "STRING",
-          "links": [
-            241
-          ],
-          "shape": 3,
-          "slot_index": 2
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_ImagePrompt"
-      },
-      "widgets_values": [
-        "",
-        "openai",
-        "gpt-4-1106-vision-preview",
-        "Award",
-        "3DcartoonStyle",
-        "AnimeTI",
-        0.7,
-        160,
-        "127.0.0.1",
-        "11434"
-      ],
-      "color": "#595959",
-      "bgcolor": "#454545"
-    },
-    {
-      "id": 124,
-      "type": "Fast Groups Muter (rgthree)",
-      "pos": {
-        "0": -70,
-        "1": 1010,
-        "2": 0,
-        "3": 0,
-        "4": 0,
-        "5": 0,
-        "6": 0,
-        "7": 0,
-        "8": 0,
-        "9": 0
-      },
-      "size": {
-        "0": 230,
-        "1": 80
-      },
-      "flags": {},
-      "order": 12,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "OPT_CONNECTION",
-          "type": "*",
-          "links": null
-        }
-      ],
-      "properties": {
-        "matchColors": "",
-        "matchTitle": "",
-        "showNav": true,
-        "sort": "position",
-        "customSortAlphabet": "",
-        "toggleRestriction": "default",
-        "ttNbgOverride": {
-          "color": "#222",
-          "bgcolor": "#000",
-          "groupcolor": "#444"
-        }
-      },
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
       "id": 132,
       "type": "IF_DisplayText",
       "pos": [
         1080,
         430
       ],
-      "size": [
-        320,
-        180
-      ],
+      "size": {
+        "0": 320,
+        "1": 180
+      },
       "flags": {},
-      "order": 24,
+      "order": 21,
       "mode": 0,
       "inputs": [
         {
@@ -1237,12 +886,12 @@
         1080,
         240
       ],
-      "size": [
-        360,
-        220
-      ],
+      "size": {
+        "0": 360,
+        "1": 220
+      },
       "flags": {},
-      "order": 22,
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
@@ -1267,7 +916,7 @@
       },
       "widgets_values": [
         "",
-        "Award winning, masterpiece, High detail, Subject: Ancient mega-structure, small lone figure in the foreground.\nprompt: A colossal, ancient megastructure looming over a distant alien world, its towering spires vanishing into the hazy cosmos. In the foreground, a solitary figure crouches, focused on an intricate device held in their hands. As they activate the tool, a burst of vibrant azure light erupts from its center, illuminating the surrounding darkness and revealing glittering dust particles drifting languidly through the air. pixar style,intricate,highly detailed,sharp focus,cinematic look,hyperdetailed,4k textures,hdr,looking up at the camera,rainbow,3d style,C4D,blender,kawaii,bifrost,"
+        "Award winning, masterpiece, High detail, Subject: Ancient mega-structure, small lone figure in the foreground\n\nPrompt: An explorer, tiny silhouette, solitary hero, worn cloak flapping, determined gaze, weathered goggles, towering ancient ruin, alien architecture, colossal supports, moss-covered stone, cavernous entrance, dim light. The small lone figure in the foreground, ready to delve deep into the mysterious mega-structure's heart. pixar style,intricate,highly detailed,sharp focus,cinematic look,hyperdetailed,4k textures,hdr,looking up at the camera,rainbow,3d style,C4D,blender,kawaii,bifrost,"
       ],
       "color": "#4a4a4a",
       "bgcolor": "#363636"
@@ -1284,7 +933,7 @@
         "1": 332
       },
       "flags": {},
-      "order": 13,
+      "order": 10,
       "mode": 0,
       "outputs": [
         {
@@ -1329,6 +978,357 @@
         160,
         "127.0.0.1",
         "11434"
+      ],
+      "color": "#4a4a4a",
+      "bgcolor": "#363636"
+    },
+    {
+      "id": 139,
+      "type": "IF_DisplayText",
+      "pos": [
+        2090,
+        1780
+      ],
+      "size": {
+        "0": 320,
+        "1": 120
+      },
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 265,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "negative_hand-neg, worst quality, low quality, nsfw, lamp, bad_pictures, bad-artist-anime, verybadimagenegative_v1.3, ng_deepnegative_v1_75t, bad_anatomy, text, title, logo, signature,"
+      ],
+      "color": "#4a4a4a",
+      "bgcolor": "#363636"
+    },
+    {
+      "id": 74,
+      "type": "Note",
+      "pos": [
+        710,
+        565.2154251962279
+      ],
+      "size": {
+        "0": 280,
+        "1": 120
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "recommended models https://huggingface.co/dataautogpt3/Proteus-RunDiffusion\n\nhttps://ollama.com/adrienbrault/nous-hermes2pro\n\nhttps://ollama.com/library/llava:7b-v1.6-mistral-q5_K_M"
+      ],
+      "color": "#4a4a4a",
+      "bgcolor": "#363636"
+    },
+    {
+      "id": 119,
+      "type": "Reroute",
+      "pos": [
+        1520,
+        1140
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 182
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false,
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "color": "#4a4a4a",
+      "bgcolor": "#363636"
+    },
+    {
+      "id": 124,
+      "type": "Fast Groups Muter (rgthree)",
+      "pos": {
+        "0": 720,
+        "1": 1250,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": {
+        "0": 230,
+        "1": 80
+      },
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "links": null
+        }
+      ],
+      "properties": {
+        "matchColors": "",
+        "matchTitle": "",
+        "showNav": true,
+        "sort": "position",
+        "customSortAlphabet": "",
+        "toggleRestriction": "default",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "color": "#4a4a4a",
+      "bgcolor": "#363636"
+    },
+    {
+      "id": 154,
+      "type": "IF_ImagePrompt",
+      "pos": [
+        1640,
+        1320
+      ],
+      "size": {
+        "0": 330,
+        "1": 332
+      },
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 262
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Question",
+          "type": "STRING",
+          "links": [
+            263
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "Response",
+          "type": "STRING",
+          "links": [
+            264
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "Negative",
+          "type": "STRING",
+          "links": [
+            265
+          ],
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_ImagePrompt"
+      },
+      "widgets_values": [
+        "",
+        "anthropic",
+        "adrienbrault/nous-hermes2pro:Q3_K_M",
+        "Award",
+        "3DcartoonStyle",
+        "AnimeTI",
+        0.7,
+        160,
+        "127.0.0.1",
+        "11434"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 145,
+      "type": "IF_DisplayText",
+      "pos": [
+        1990,
+        1380
+      ],
+      "size": {
+        "0": 310,
+        "1": 280
+      },
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 264,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "Award winning, masterpiece, High detail, Fantastical Warrior, close-up portrait, striking pose, detailed armor, vibrant iridescent plating, intricate golden accents, holographic wings, piercing gaze, windswept hair, futuristic cityscape, neon-lit environment, towering skyscrapers, shimmering energy, dramatic lighting, cinematic atmosphere, hyper-realistic rendering. pixar style,intricate,highly detailed,sharp focus,cinematic look,hyperdetailed,4k textures,hdr,looking up at the camera,rainbow,3d style,C4D,blender,kawaii,bifrost,"
+      ],
+      "color": "#4a4a4a",
+      "bgcolor": "#363636"
+    },
+    {
+      "id": 137,
+      "type": "IF_DisplayText",
+      "pos": [
+        1990,
+        1260
+      ],
+      "size": {
+        "0": 315,
+        "1": 76
+      },
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 263,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        ""
+      ],
+      "color": "#4a4a4a",
+      "bgcolor": "#363636"
+    },
+    {
+      "id": 85,
+      "type": "LoadImage",
+      "pos": [
+        1410,
+        1360
+      ],
+      "size": {
+        "0": 210,
+        "1": 290
+      },
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            262
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "_IF_prompt_Mkr__00023_.png",
+        "image"
       ],
       "color": "#4a4a4a",
       "bgcolor": "#363636"
@@ -1504,32 +1504,32 @@
       "STRING"
     ],
     [
-      238,
+      262,
       85,
       0,
-      148,
+      154,
       0,
       "IMAGE"
     ],
     [
-      239,
-      148,
+      263,
+      154,
       0,
       137,
       0,
       "STRING"
     ],
     [
-      240,
-      148,
+      264,
+      154,
       1,
       145,
       0,
       "STRING"
     ],
     [
-      241,
-      148,
+      265,
+      154,
       2,
       139,
       0,
@@ -1570,7 +1570,7 @@
       "description": "",
       "version": "1",
       "created": "2024-03-12T11:34:02.047Z",
-      "modified": "2024-03-25T14:20:33.442Z",
+      "modified": "2024-03-27T14:42:16.535Z",
       "software": "ComfyUI"
     }
   },
