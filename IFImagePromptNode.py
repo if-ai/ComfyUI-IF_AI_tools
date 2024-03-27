@@ -25,6 +25,7 @@ class IFImagePrompt:
         self.anthropic_api_key = self.get_api_key("ANTHROPIC_API_KEY")
         self.openai_api_key = self.get_api_key("OPENAI_API_KEY")
 
+
     def load_presets(self, dir_path):
         presets = []
         for filename in os.listdir(dir_path):
@@ -34,7 +35,8 @@ class IFImagePrompt:
                     content = file.read().strip()
                     presets.append((os.path.splitext(filename)[0], content))
         return presets
-    
+
+
     def get_api_key(self, api_key_name):
         api_key = os.getenv(api_key_name)
         if api_key:
@@ -42,6 +44,7 @@ class IFImagePrompt:
             return api_key
         print(f"Error: {api_key_name} is required")
         return ""
+
 
     def get_models(self, engine, base_ip, ollama_port):
         if engine == "ollama":
@@ -60,7 +63,8 @@ class IFImagePrompt:
         else:
             print(f"Unsupported engine - {engine}")
             return []
-    
+
+
     def tensor_to_image(self, tensor):
         # Ensure tensor is on CPU
         tensor = tensor.cpu()
@@ -69,6 +73,7 @@ class IFImagePrompt:
         # Create PIL image
         image = Image.fromarray(image_np, mode='RGB')
         return image
+
 
     def _prepare_messages(self, image_prompt=None):
         system_message = textwrap.dedent("""\
@@ -104,6 +109,7 @@ class IFImagePrompt:
                     Make a visual prompt for the following Image:
                     """)
         return system_message, user_message
+
 
     def describe_picture(self, image, engine, selected_model, base_ip, ollama_port, image_prompt=None, embellish_prompt=None, style_prompt=None, neg_prompt=None, temperature=0.7, max_tokens=160):
         embellish_content = next((content for name, content in self.embellish_prompts if name == embellish_prompt), "")
@@ -142,7 +148,8 @@ class IFImagePrompt:
         except Exception as e:
             print(f"Exception occurred: {e}")
             return "Exception occurred while processing image."
-        
+
+
     def send_request(self, engine, selected_model, base_ip, ollama_port, base64_image, system_message, user_message, temperature, max_tokens):
         if engine == "anthropic":
             anthropic_headers = {
@@ -195,14 +202,27 @@ class IFImagePrompt:
                 "model": selected_model,
                 "messages": [
                     {
+                        "role": "system",
+                        "content": system_message
+                    },
+                    {
                         "role": "user",
                         "content": [
-                            {"type": "text", "text": user_message},
-                            {"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": base64_image}}
+                            {
+                                "type": "text",
+                                "text": user_message
+                            },
+                            {
+                                "type": "image_url",
+                                "image_url": f"data:image/png;base64,{base64_image}"
+                            }
                         ]
                     }
                 ],
+                "temperature": temperature,
+                "max_tokens": max_tokens
             }
+
             api_url = 'https://api.openai.com/v1/chat/completions'
             response = requests.post(api_url, headers=openai_headers, json=data)
             if response.status_code == 200:
@@ -211,8 +231,8 @@ class IFImagePrompt:
                 choices = response_data.get('choices', [])
                 if choices:
                     choice = choices[0]
-                    messages = choice.get('message', {'content': ''})
-                    generated_text = messages.get('content', '')  
+                    message = choice.get('message', {})
+                    generated_text = message.get('content', '')
                     return generated_text
                 else:
                     print("No valid choices in the response.")
@@ -222,6 +242,8 @@ class IFImagePrompt:
                 print(f"Failed to fetch response, status code: {response.status_code}")
                 print("Full response:", response.text)
                 return "Failed to fetch response from OpenAI."
+
+
         else:
             api_url = f'http://{base_ip}:{ollama_port}/api/generate'
             data = {
@@ -248,6 +270,7 @@ class IFImagePrompt:
             else:
                 print(f"Failed to fetch response, status code: {response.status_code}")
                 return "Failed to fetch response from Ollama."
+
 
     @classmethod
     def INPUT_TYPES(cls):
