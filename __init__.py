@@ -6,19 +6,22 @@ from .IFPromptMkrNode import IFPrompt2Prompt
 from .IFImagePromptNode import IFImagePrompt
 from .IFSaveTextNode import IFSaveText
 from .IFDisplayTextNode import IFDisplayText
+from .IFHFDownloadNode import IFHFDownload
 
 NODE_CLASS_MAPPINGS = {
     "IF_PromptMkr": IFPrompt2Prompt,
     "IF_ImagePrompt": IFImagePrompt,
     "IF_SaveText": IFSaveText,
-    "IF_DisplayText": IFDisplayText
+    "IF_DisplayText": IFDisplayText,
+    "IF_HFDownloadNode": IFHFDownload
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     "IF_PromptMkr": "IF Prompt to Prompt💬",
     "IF_ImagePrompt": "IF Image to Prompt🖼️",
     "IF_SaveText": "IF Save Text📝",
-    "IF_DisplayText": "IF Display Text📟"
+    "IF_DisplayText": "IF Display Text📟",
+    "IF_HFDownloadNode": "Hugging Face Download🤗"
 }
 
 WEB_DIRECTORY = "./web"
