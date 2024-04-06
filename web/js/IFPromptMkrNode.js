@@ -71,21 +71,6 @@ app.registerExtension({
         };
 
         // Use defineProperty to trigger updates when base_ip or port change
-        Object.defineProperty(baseIpWidget, "value", {
-          set: (value) => {
-            baseIpWidget._value = value;
-            updateModels();
-          },
-          get: () => baseIpWidget._value,
-        });
-
-        Object.defineProperty(portWidget, "value", {
-          set: (value) => {
-            portWidget._value = value;
-            updateModels();
-          },
-          get: () => portWidget._value,
-        });
 
         engineWidget.callback = updateModels;
 
