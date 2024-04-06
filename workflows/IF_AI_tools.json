@@ -1,68 +1,7 @@
 {
-  "last_node_id": 154,
-  "last_link_id": 265,
+  "last_node_id": 174,
+  "last_link_id": 304,
   "nodes": [
-    {
-      "id": 24,
-      "type": "KSampler",
-      "pos": [
-        1160,
-        675.2154251962279
-      ],
-      "size": {
-        "0": 315,
-        "1": 262
-      },
-      "flags": {},
-      "order": 26,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 93
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 18
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 19
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 20
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "links": [
-            21
-          ],
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "KSampler"
-      },
-      "widgets_values": [
-        622537422175384,
-        "randomize",
-        40,
-        7.49,
-        "dpmpp_2m_sde",
-        "karras",
-        1
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
     {
       "id": 25,
       "type": "EmptyLatentImage",
@@ -97,36 +36,8 @@
         1280,
         1
       ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 29,
-      "type": "SaveImage",
-      "pos": [
-        1530,
-        315.21542519622807
-      ],
-      "size": {
-        "0": 550,
-        "1": 740
-      },
-      "flags": {},
-      "order": 28,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 22
-        }
-      ],
-      "properties": {},
-      "widgets_values": [
-        "_IF_prompt_Mkr_"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
+      "color": "#595959",
+      "bgcolor": "#454545"
     },
     {
       "id": 27,
@@ -142,7 +53,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 20,
+      "order": 24,
       "mode": 0,
       "inputs": [
         {
@@ -176,8 +87,8 @@
       "widgets_values": [
         "text, watermark"
       ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
+      "color": "#595959",
+      "bgcolor": "#454545"
     },
     {
       "id": 26,
@@ -193,7 +104,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 18,
+      "order": 22,
       "mode": 0,
       "inputs": [
         {
@@ -227,33 +138,8 @@
       "widgets_values": [
         "beautiful scenery nature glass bottle landscape, , purple galaxy bottle,"
       ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 73,
-      "type": "Note",
-      "pos": [
-        -420,
-        290
-      ],
-      "size": {
-        "0": 520,
-        "1": 660
-      },
-      "flags": {
-        "pinned": true
-      },
-      "order": 1,
-      "mode": 0,
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "\n                                ▄                                               \n                             ▌  █  █                                            \n                            █▀ █▀ ▄▀                                            \n                           ╘▌  █  █     ,▄▄▄                                    \n                                       █▀▒▒▒█ ,▄▓▓▄                             \n                      ╓▄▀▀▀\"   ▀▀▀██&▄▄█▄▄▄█▌▄▀▄▀▒▒▌                            \n                    ,▄█▀▀▀█▄       █▌▒▒▒▒▒▒▒▒▒▒▀▒▄█                             \n                   ▄█▒╢╢╢╢╢▒▀▀▀▀▀▀▀▒▒▒▄▄▄▄▒▒▒▒▒▒▒▀▄                             \n                  ▐█╫█▓╢╣▓█▒╢╢╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒▒█                            \n                  █▒╢╢╢█▌╢╢╢╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╣▒▒▒▒█                           \n                  █╣╢╢╢█▌╢╢╢╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌                          \n                  █▒╢╢╢▓▌╢╢╢╢╢╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█                          \n                  ╘█╢╢╢▓█▒▒╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌                         \n                   ▀█▒▀▒▒▒▀▒╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒▒▒▒█                         \n                   ,,▀██▄▄▄▄▄▄▄▄▄▄▄█▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█║║║╖╖╖╖╓,                \n            ,╓╗║╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒╢║╗╖          \n         ╓╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▌▒▒╫▒╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒╙▒▒▒▒▒▒▒▒▄▒▒▒▒║╖       \n       ╖▒▒▒▒▒▒▒█▀█▀▀█▄▒▒▒▒▒▒▒▒║╙▒█▄▄▒▒▒▒▒▒▒▒▒▒▒▒▒▄▄▄▄█▀░╢`║▒▒▒▒▄█▀▀▀█▒▒▒▒▒╖     \n      ║▒▒▒▒▒▒▒█▒▒▒▒▒╣█▌▒▒▒▒▒▒▒╢╖╣╙╜╜▒▒▒▒▀▀▀▀▒▒▒▒▒▒▒╜╜╙`║▒╢▒▒▒▒▐▌▒▒▒▒▒█▌▒▒▒▒╖    \n     ║▒▒▒▒▒▒╜╙▀▀█▓███▀▒▒▒▒▒▄▄▄▄▄▒▒▒║║║║▒▒▒▒▒╖╥╗╗@║║║▒▒▒▒▒▒▒▒▒╝▒▀█▓███▀▒╜ ▒▒▒    \n     ]▒▒▒▒▒▒▒║╗╖╓▒▒╖╓╓╖▒▒▄█▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒║╖╖▒▒▒▒▒╖╗║▒▒▒▒    \n      ║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╜▒▀█████▀▒ ║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢     \n       ╙║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢╗╖╖▒▒▒▒▒║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╜`      \n          ╙╜╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╣╜╜\"          \n                `╙╙╙╜╝╝╝╜╜╝╝╝╝╜╨╜╜╜╜╜╜╝╝╜╨╨╜╝║║║║║║╝╨╨╝╝╝╜╙╙\"`                 \n _ _____ _____ _    _           _     \n| |   __|  _  | |  | |_ ___ ___| |___ \n| |   __|     | |  |  _| . | . | |_ -|\n|_|__|  |__|__|_|  | | |___|___|_|___|\n                   |__|               \n\nYou need ollama for this to work\nhttps://github.com/ollama/ollama/releases\nollama.com\n\nPlease star the repo and support my work links bellow to make updates updates come quicker \nhttps://github.com/if-ai/ComfyUI-IF_AI_tools\n\nto watch tutorials\n\nJoin the Impact Frames fam!  Subscribe now: https://youtube.com/@impactframes?si=DrBu3tOAC2-YbEvc\n\n\nhttps://ko-fi.com/impactframes\n\npatreon.com/ImpactFrames \n\nhttps://www.youtube.com/@impactframes\n\nthis tool is also available for SD webui https://github.com/if-ai/IF_prompt_MKR\n\n"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
+      "color": "#595959",
+      "bgcolor": "#454545"
     },
     {
       "id": 40,
@@ -269,7 +155,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 14,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
@@ -307,15 +193,622 @@
         1,
         1
       ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 14,
+      "type": "Note",
+      "pos": [
+        780,
+        130
+      ],
+      "size": {
+        "0": 230,
+        "1": 60
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Save the interaction and it will appear in your output folder\n"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 13,
+      "type": "Note",
+      "pos": [
+        340,
+        70
+      ],
+      "size": {
+        "0": 300,
+        "1": 130
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "write a small prompt to enhance\n\nchoose model\n\nchoose settings or select None \nyou can also make your own text files with presets  \n\nset the environment variables for \"ANTHROPIC_API_KEY\"\n\"OPENAI_API_KEY\" with those names so the node can pick them up \n"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 158,
+      "type": "IF_DisplayText",
+      "pos": [
+        1530,
+        -80
+      ],
+      "size": {
+        "0": 350,
+        "1": 350
+      },
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 266,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "ID: f8c37e59-9314-4b1d-90bb-37fc33b39f51\nQuestion: Ancient mega-structure, small lone figure in the foreground\nResponse: Best quality, professional, Product photo, macro-shot, high-resolution, studio-lighting  Subject: Ancient Mega-Structure, Small Lone Figure in the Foreground.\nprompt: Ancient ruins, intricate architectural design, abandoned cityscape, small human figure standing alone in the foreground. Shadows cast on the ground from the figure's silhouette. Overgrown vegetation, broken columns, crumbling walls, weathered textures. Empty streets with no signs of life. The sun is setting and the sky transitions into a deep, dark blue hue. A sense of solitude, isolation, and the passage of time. The structure's grandeur despite its state of disrepair.  Minimalist style, Simple, modern-aesthetic, clean, clear-visual, modern, elegant,  functional-beauty,\nNegative: lowres,  text,  error,  cropped,  worst quality,  low quality,  jpeg artifacts,  ugly,  duplicate,  morbid,  mutilated,  out of frame,  mutation,  deformed,  blurry,  dehydrated,  bad anatomy,  bad proportions,  disfigured, username,  watermark,  signature, backgound out of focus, black and white,  monochrome"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 156,
+      "type": "IF_DisplayText",
+      "pos": [
+        1100,
+        210
+      ],
+      "size": {
+        "0": 340,
+        "1": 190
+      },
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 268,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "Best quality, professional, Product photo, macro-shot, high-resolution, studio-lighting  Subject: Ancient Mega-Structure, Small Lone Figure in the Foreground.\nprompt: Ancient ruins, intricate architectural design, abandoned cityscape, small human figure standing alone in the foreground. Shadows cast on the ground from the figure's silhouette. Overgrown vegetation, broken columns, crumbling walls, weathered textures. Empty streets with no signs of life. The sun is setting and the sky transitions into a deep, dark blue hue. A sense of solitude, isolation, and the passage of time. The structure's grandeur despite its state of disrepair.  Minimalist style, Simple, modern-aesthetic, clean, clear-visual, modern, elegant,  functional-beauty,"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 155,
+      "type": "IF_DisplayText",
+      "pos": [
+        1100,
+        50
+      ],
+      "size": {
+        "0": 340,
+        "1": 110
+      },
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 269,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "Ancient mega-structure, small lone figure in the foreground"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 157,
+      "type": "IF_DisplayText",
+      "pos": [
+        1110,
+        450
+      ],
+      "size": {
+        "0": 330,
+        "1": 160
+      },
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 267,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "lowres,  text,  error,  cropped,  worst quality,  low quality,  jpeg artifacts,  ugly,  duplicate,  morbid,  mutilated,  out of frame,  mutation,  deformed,  blurry,  dehydrated,  bad anatomy,  bad proportions,  disfigured, username,  watermark,  signature, backgound out of focus, black and white,  monochrome"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 52,
+      "type": "IF_SaveText",
+      "pos": [
+        720,
+        240
+      ],
+      "size": {
+        "0": 315,
+        "1": 238
+      },
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "question_input",
+          "type": "STRING",
+          "link": 292,
+          "widget": {
+            "name": "question_input"
+          }
+        },
+        {
+          "name": "response_input",
+          "type": "STRING",
+          "link": 293,
+          "widget": {
+            "name": "response_input"
+          }
+        },
+        {
+          "name": "negative_input",
+          "type": "STRING",
+          "link": 294,
+          "widget": {
+            "name": "negative_input"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Question",
+          "type": "STRING",
+          "links": [
+            269
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "Response",
+          "type": "STRING",
+          "links": [
+            99,
+            268
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "Negative",
+          "type": "STRING",
+          "links": [
+            98,
+            267
+          ],
+          "shape": 3,
+          "slot_index": 2
+        },
+        {
+          "name": "Turn",
+          "type": "STRING",
+          "links": [
+            266
+          ],
+          "shape": 3,
+          "slot_index": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_SaveText"
+      },
+      "widgets_values": [
+        "",
+        "",
+        "",
+        true,
+        "txt",
+        "create"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 74,
+      "type": "Note",
+      "pos": [
+        730,
+        530
+      ],
+      "size": {
+        "0": 280,
+        "1": 120
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "recommended models https://huggingface.co/dataautogpt3/Proteus-RunDiffusion\n\nhttps://ollama.com/adrienbrault/nous-hermes2pro\n\nhttps://ollama.com/library/llava:7b-v1.6-mistral-q5_K_M"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 15,
+      "type": "Note",
+      "pos": [
+        1650,
+        1770
+      ],
+      "size": {
+        "0": 290,
+        "1": 310
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Ollama has a bug on the latest version this was tested on 0.1.25 and it works. please wait for them to fix the issue\n\nLeave blank for an stable diffusion style response or write to enquire about the image\n\nchoose a VL model\n\nchoose settings or select None \nyou can also make your own text files with presets \n\ntemperature\nnumber\nAmount of randomness injected into the response.\n\nDefaults to 1.0. Ranges from 0.0 to 1.0. Use temperature closer to 0.0 for analytical / multiple choice, and closer to 1.0 for creative and generative tasks.\n\nNote that even with temperature of 0.0, the results will not be fully deterministic."
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 163,
+      "type": "IF_DisplayText",
+      "pos": [
+        2060,
+        1470
+      ],
+      "size": {
+        "0": 340,
+        "1": 190
+      },
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 301,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "Best quality, professional, Product photo, macro-shot, high-resolution, studio-lighting  This is a fashion-forward model standing against a plain backdrop. She is wearing a black bikini with high cut legs, showcasing her toned physique. The attire has a sleek, modern design with clean lines and minimalist fabrication, suggesting a contemporary style. Her pose is straight and confident, with her hands placed together in front of her, which adds to the overall elegance of the presentation. Minimalist style, Simple, modern-aesthetic, clean, clear-visual, modern, elegant,  functional-beauty,"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 164,
+      "type": "IF_DisplayText",
+      "pos": [
+        2060,
+        1710
+      ],
+      "size": {
+        "0": 340,
+        "1": 150
+      },
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 302,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "lowres,  text,  error,  cropped,  worst quality,  low quality,  jpeg artifacts,  ugly,  duplicate,  morbid,  mutilated,  out of frame,  mutation,  deformed,  blurry,  dehydrated,  bad anatomy,  bad proportions,  disfigured, username,  watermark,  signature, backgound out of focus, black and white,  monochrome"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 160,
+      "type": "Note",
+      "pos": [
+        1020,
+        1900
+      ],
+      "size": {
+        "0": 210,
+        "1": 210
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "If you don't have this batch image loaders nodes you can download them from the manager\n\nyou don't need all of them but I like options\n\nhttps://github.com/Kosinkadink/ComfyUI-VideoHelperSuite\n\nhttps://github.com/ltdrdata/ComfyUI-Impact-Pack\n\nhttps://github.com/bash-j/mikey_nodes"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 116,
+      "type": "Batch Load Images",
+      "pos": [
+        1250,
+        1910
+      ],
+      "size": {
+        "0": 350,
+        "1": 100
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [],
+          "shape": 6,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Batch Load Images",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "C:\\Users\\SoyYo\\OneDrive\\Pictures\\tets",
+        "false"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 112,
+      "type": "ImpactImageBatchToImageList",
+      "pos": [
+        1330,
+        1740
+      ],
+      "size": {
+        "0": 210,
+        "1": 26
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [],
+          "shape": 6,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImpactImageBatchToImageList",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 73,
+      "type": "Note",
+      "pos": [
+        430,
+        1400
+      ],
+      "size": {
+        "0": 520,
+        "1": 660
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 8,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "\n                                ▄                                               \n                             ▌  █  █                                            \n                            █▀ █▀ ▄▀                                            \n                           ╘▌  █  █     ,▄▄▄                                    \n                                       █▀▒▒▒█ ,▄▓▓▄                             \n                      ╓▄▀▀▀\"   ▀▀▀██&▄▄█▄▄▄█▌▄▀▄▀▒▒▌                            \n                    ,▄█▀▀▀█▄       █▌▒▒▒▒▒▒▒▒▒▒▀▒▄█                             \n                   ▄█▒╢╢╢╢╢▒▀▀▀▀▀▀▀▒▒▒▄▄▄▄▒▒▒▒▒▒▒▀▄                             \n                  ▐█╫█▓╢╣▓█▒╢╢╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒▒█                            \n                  █▒╢╢╢█▌╢╢╢╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╣▒▒▒▒█                           \n                  █╣╢╢╢█▌╢╢╢╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌                          \n                  █▒╢╢╢▓▌╢╢╢╢╢╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█                          \n                  ╘█╢╢╢▓█▒▒╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌                         \n                   ▀█▒▀▒▒▒▀▒╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒▒▒▒█                         \n                   ,,▀██▄▄▄▄▄▄▄▄▄▄▄█▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█║║║╖╖╖╖╓,                \n            ,╓╗║╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒╢║╗╖          \n         ╓╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▌▒▒╫▒╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒╙▒▒▒▒▒▒▒▒▄▒▒▒▒║╖       \n       ╖▒▒▒▒▒▒▒█▀█▀▀█▄▒▒▒▒▒▒▒▒║╙▒█▄▄▒▒▒▒▒▒▒▒▒▒▒▒▒▄▄▄▄█▀░╢`║▒▒▒▒▄█▀▀▀█▒▒▒▒▒╖     \n      ║▒▒▒▒▒▒▒█▒▒▒▒▒╣█▌▒▒▒▒▒▒▒╢╖╣╙╜╜▒▒▒▒▀▀▀▀▒▒▒▒▒▒▒╜╜╙`║▒╢▒▒▒▒▐▌▒▒▒▒▒█▌▒▒▒▒╖    \n     ║▒▒▒▒▒▒╜╙▀▀█▓███▀▒▒▒▒▒▄▄▄▄▄▒▒▒║║║║▒▒▒▒▒╖╥╗╗@║║║▒▒▒▒▒▒▒▒▒╝▒▀█▓███▀▒╜ ▒▒▒    \n     ]▒▒▒▒▒▒▒║╗╖╓▒▒╖╓╓╖▒▒▄█▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒║╖╖▒▒▒▒▒╖╗║▒▒▒▒    \n      ║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╜▒▀█████▀▒ ║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢     \n       ╙║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢╗╖╖▒▒▒▒▒║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╜`      \n          ╙╜╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╣╜╜\"          \n                `╙╙╙╜╝╝╝╜╜╝╝╝╝╜╨╜╜╜╜╜╜╝╝╜╨╨╜╝║║║║║║╝╨╨╝╝╝╜╙╙\"`                 \n _ _____ _____ _    _           _     \n| |   __|  _  | |  | |_ ___ ___| |___ \n| |   __|     | |  |  _| . | . | |_ -|\n|_|__|  |__|__|_|  | | |___|___|_|___|\n                   |__|               \n\nYou need ollama for this to work\nhttps://github.com/ollama/ollama/releases\nollama.com\n\nPlease star the repo and support my work links bellow to make updates updates come quicker \nhttps://github.com/if-ai/ComfyUI-IF_AI_tools\n\nto watch tutorials\n\nJoin the Impact Frames fam!  Subscribe now: https://youtube.com/@impactframes?si=DrBu3tOAC2-YbEvc\n\n\nhttps://ko-fi.com/impactframes\n\npatreon.com/ImpactFrames \n\nhttps://www.youtube.com/@impactframes\n\nthis tool is also available for SD webui https://github.com/if-ai/IF_prompt_MKR\n\n"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 162,
+      "type": "IF_DisplayText",
+      "pos": [
+        2060,
+        1290
+      ],
+      "size": {
+        "0": 340,
+        "1": 110
+      },
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 300,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        ""
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
     },
     {
       "id": 17,
       "type": "VAELoader",
       "pos": [
-        860,
-        985.2154251962279
+        380,
+        1010
       ],
       "size": {
         "0": 360,
@@ -324,7 +817,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 2,
+      "order": 9,
       "mode": 0,
       "outputs": [
         {
@@ -343,284 +836,15 @@
       "widgets_values": [
         "bail_sdxl_vae.safetensors"
       ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 28,
-      "type": "VAEDecode",
-      "pos": [
-        1300,
-        985.2154251962279
-      ],
-      "size": {
-        "0": 210,
-        "1": 46
-      },
-      "flags": {
-        "collapsed": false
-      },
-      "order": 27,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 21
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 28
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            22,
-            182
-          ],
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEDecode"
-      },
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 52,
-      "type": "IF_SaveText",
-      "pos": [
-        720,
-        275.21542519622807
-      ],
-      "size": {
-        "0": 315,
-        "1": 238
-      },
-      "flags": {},
-      "order": 15,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "question_input",
-          "type": "STRING",
-          "link": 216,
-          "widget": {
-            "name": "question_input"
-          }
-        },
-        {
-          "name": "response_input",
-          "type": "STRING",
-          "link": 217,
-          "widget": {
-            "name": "response_input"
-          }
-        },
-        {
-          "name": "negative_input",
-          "type": "STRING",
-          "link": 218,
-          "widget": {
-            "name": "negative_input"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "Question",
-          "type": "STRING",
-          "links": [
-            194
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "Response",
-          "type": "STRING",
-          "links": [
-            99,
-            195
-          ],
-          "shape": 3,
-          "slot_index": 1
-        },
-        {
-          "name": "Negative",
-          "type": "STRING",
-          "links": [
-            98,
-            196
-          ],
-          "shape": 3,
-          "slot_index": 2
-        },
-        {
-          "name": "Turn",
-          "type": "STRING",
-          "links": [
-            197
-          ],
-          "shape": 3,
-          "slot_index": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_SaveText"
-      },
-      "widgets_values": [
-        "",
-        "",
-        "",
-        true,
-        "txt",
-        "append"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 133,
-      "type": "IF_DisplayText",
-      "pos": [
-        1500,
-        0
-      ],
-      "size": {
-        "0": 315,
-        "1": 76
-      },
-      "flags": {},
-      "order": 22,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 197,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 6
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        "ID: a6174ee9-ba06-435a-892f-9797602a45e8\nQuestion: Ancient mega-structure, small lone figure in the foreground\nResponse: Award winning, masterpiece, High detail, Subject: Ancient mega-structure, small lone figure in the foreground\n\nPrompt: An explorer, tiny silhouette, solitary hero, worn cloak flapping, determined gaze, weathered goggles, towering ancient ruin, alien architecture, colossal supports, moss-covered stone, cavernous entrance, dim light. The small lone figure in the foreground, ready to delve deep into the mysterious mega-structure's heart. pixar style,intricate,highly detailed,sharp focus,cinematic look,hyperdetailed,4k textures,hdr,looking up at the camera,rainbow,3d style,C4D,blender,kawaii,bifrost,\nNegative: negative_hand-neg, worst quality, low quality, nsfw, lamp, bad_pictures, bad-artist-anime, verybadimagenegative_v1.3, ng_deepnegative_v1_75t, bad_anatomy, text, title, logo, signature,"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 130,
-      "type": "IF_DisplayText",
-      "pos": [
-        1080,
-        110
-      ],
-      "size": {
-        "0": 315,
-        "1": 76
-      },
-      "flags": {},
-      "order": 17,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 194,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 6
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        "Ancient mega-structure, small lone figure in the foreground"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 14,
-      "type": "Note",
-      "pos": [
-        780,
-        130
-      ],
-      "size": {
-        "0": 230,
-        "1": 60
-      },
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "Save the interaction and it will appear in your output folder\n"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 13,
-      "type": "Note",
-      "pos": [
-        340,
-        70
-      ],
-      "size": {
-        "0": 300,
-        "1": 130
-      },
-      "flags": {},
-      "order": 4,
-      "mode": 0,
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "write a small prompt to enhance\n\nchoose model\n\nchoose settings or select None \nyou can also make your own text files with presets  \n\nset the environment variables for \"ANTHROPIC_API_KEY\"\n\"OPENAI_API_KEY\" with those names so the node can pick them up \n"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
+      "color": "#595959",
+      "bgcolor": "#454545"
     },
     {
       "id": 16,
       "type": "CheckpointLoaderSimple",
       "pos": [
-        370,
-        680
+        360,
+        700
       ],
       "size": {
         "0": 330,
@@ -629,7 +853,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 5,
+      "order": 10,
       "mode": 0,
       "outputs": [
         {
@@ -665,94 +889,207 @@
         "Node name for S&R": "CheckpointLoaderSimple"
       },
       "widgets_values": [
-        "SDXL\\ProteusV0.4.safetensors"
+        "SDXL/ProteusV0.4.safetensors"
       ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
+      "color": "#595959",
+      "bgcolor": "#454545"
     },
     {
-      "id": 15,
-      "type": "Note",
-      "pos": [
-        1700,
-        1740
-      ],
-      "size": {
-        "0": 290,
-        "1": 310
-      },
-      "flags": {},
-      "order": 6,
-      "mode": 0,
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "Ollama has a bug on the latest version this was tested on 0.1.25 and it works. please wait for them to fix the issue\n\nLeave blank for an stable diffusion style response or write to enquire about the image\n\nchoose a VL model\n\nchoose settings or select None \nyou can also make your own text files with presets \n\ntemperature\nnumber\nAmount of randomness injected into the response.\n\nDefaults to 1.0. Ranges from 0.0 to 1.0. Use temperature closer to 0.0 for analytical / multiple choice, and closer to 1.0 for creative and generative tasks.\n\nNote that even with temperature of 0.0, the results will not be fully deterministic."
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 112,
-      "type": "ImpactImageBatchToImageList",
+      "id": 28,
+      "type": "VAEDecode",
       "pos": [
         1290,
-        1290
+        990
       ],
       "size": {
         "0": 210,
-        "1": 26
+        "1": 46
       },
-      "flags": {},
-      "order": 7,
+      "flags": {
+        "collapsed": false
+      },
+      "order": 28,
       "mode": 0,
       "inputs": [
         {
-          "name": "image",
-          "type": "IMAGE",
-          "link": null
+          "name": "samples",
+          "type": "LATENT",
+          "link": 21
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 28
         }
       ],
       "outputs": [
         {
           "name": "IMAGE",
           "type": "IMAGE",
-          "links": [],
-          "shape": 6,
+          "links": [
+            22,
+            304
+          ],
           "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "ImpactImageBatchToImageList",
+        "Node name for S&R": "VAEDecode"
+      },
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 24,
+      "type": "KSampler",
+      "pos": [
+        1160,
+        700
+      ],
+      "size": {
+        "0": 315,
+        "1": 262
+      },
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 93
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 18
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 19
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 20
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            21
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        927224807374498,
+        "randomize",
+        40,
+        7.49,
+        "dpmpp_2m_sde",
+        "karras",
+        1
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 29,
+      "type": "SaveImage",
+      "pos": [
+        1520,
+        310
+      ],
+      "size": {
+        "0": 550,
+        "1": 740
+      },
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 22
+        }
+      ],
+      "properties": {},
+      "widgets_values": [
+        "_IF_prompt_Mkr_"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 119,
+      "type": "Reroute",
+      "pos": [
+        1520,
+        1140
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 304
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false,
         "ttNbgOverride": {
           "color": "#222",
           "bgcolor": "#000",
           "groupcolor": "#444"
         }
       },
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
+      "color": "#595959",
+      "bgcolor": "#454545"
     },
     {
       "id": 117,
       "type": "VHS_LoadImages",
       "pos": [
-        997.5648568825434,
-        1283.6870817609101
+        1010,
+        1290
       ],
       "size": [
         240,
-        510
+        540
       ],
       "flags": {},
-      "order": 8,
+      "order": 11,
       "mode": 0,
       "outputs": [
         {
           "name": "IMAGE",
           "type": "IMAGE",
-          "links": [],
+          "links": [
+            299
+          ],
           "shape": 3,
           "slot_index": 0
         },
@@ -778,8 +1115,8 @@
         }
       },
       "widgets_values": {
-        "directory": "2024-01-27",
-        "image_load_cap": 5,
+        "directory": "tets",
+        "image_load_cap": 1,
         "skip_first_images": 0,
         "select_every_nth": 1,
         "choose folder to upload": "image",
@@ -787,306 +1124,62 @@
           "hidden": false,
           "paused": false,
           "params": {
-            "frame_load_cap": 5,
+            "frame_load_cap": 1,
             "skip_first_images": 0,
-            "filename": "2024-01-27",
+            "filename": "tets",
             "type": "input",
             "format": "folder",
             "select_every_nth": 1
           }
         }
       },
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
+      "color": "#595959",
+      "bgcolor": "#454545"
     },
     {
-      "id": 116,
-      "type": "Batch Load Images",
+      "id": 85,
+      "type": "LoadImage",
       "pos": [
-        1247.5648568825434,
-        1813.6870817609101
-      ],
-      "size": {
-        "0": 350,
-        "1": 100
-      },
-      "flags": {},
-      "order": 9,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "links": [],
-          "shape": 6,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Batch Load Images",
-        "ttNbgOverride": {
-          "color": "#222",
-          "bgcolor": "#000",
-          "groupcolor": "#444"
-        }
-      },
-      "widgets_values": [
-        "C:\\Users\\SoyYo\\OneDrive\\Pictures\\tets",
-        "false"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 132,
-      "type": "IF_DisplayText",
-      "pos": [
-        1080,
-        430
-      ],
-      "size": {
-        "0": 320,
-        "1": 180
-      },
-      "flags": {},
-      "order": 21,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 196,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 6
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        "negative_hand-neg, worst quality, low quality, nsfw, lamp, bad_pictures, bad-artist-anime, verybadimagenegative_v1.3, ng_deepnegative_v1_75t, bad_anatomy, text, title, logo, signature,"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 131,
-      "type": "IF_DisplayText",
-      "pos": [
-        1080,
-        240
-      ],
-      "size": {
-        "0": 360,
-        "1": 220
-      },
-      "flags": {},
-      "order": 19,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 195,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 6
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        "Award winning, masterpiece, High detail, Subject: Ancient mega-structure, small lone figure in the foreground\n\nPrompt: An explorer, tiny silhouette, solitary hero, worn cloak flapping, determined gaze, weathered goggles, towering ancient ruin, alien architecture, colossal supports, moss-covered stone, cavernous entrance, dim light. The small lone figure in the foreground, ready to delve deep into the mysterious mega-structure's heart. pixar style,intricate,highly detailed,sharp focus,cinematic look,hyperdetailed,4k textures,hdr,looking up at the camera,rainbow,3d style,C4D,blender,kawaii,bifrost,"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 143,
-      "type": "IF_PromptMkr",
-      "pos": [
-        300,
-        270
-      ],
-      "size": {
-        "0": 400,
-        "1": 332
-      },
-      "flags": {},
-      "order": 10,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "Question",
-          "type": "STRING",
-          "links": [
-            216
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "Response",
-          "type": "STRING",
-          "links": [
-            217
-          ],
-          "shape": 3,
-          "slot_index": 1
-        },
-        {
-          "name": "Negative",
-          "type": "STRING",
-          "links": [
-            218
-          ],
-          "shape": 3,
-          "slot_index": 2
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_PromptMkr"
-      },
-      "widgets_values": [
-        "Ancient mega-structure, small lone figure in the foreground",
-        "ollama",
-        "adrienbrault/nous-hermes2pro:Q3_K_M",
-        "Award",
-        "3DcartoonStyle",
-        "AnimeTI",
-        0.7,
-        160,
-        "127.0.0.1",
-        "11434"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 139,
-      "type": "IF_DisplayText",
-      "pos": [
-        2090,
-        1780
-      ],
-      "size": {
-        "0": 320,
-        "1": 120
-      },
-      "flags": {},
-      "order": 25,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 265,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 6
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        "negative_hand-neg, worst quality, low quality, nsfw, lamp, bad_pictures, bad-artist-anime, verybadimagenegative_v1.3, ng_deepnegative_v1_75t, bad_anatomy, text, title, logo, signature,"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 74,
-      "type": "Note",
-      "pos": [
-        710,
-        565.2154251962279
-      ],
-      "size": {
-        "0": 280,
-        "1": 120
-      },
-      "flags": {},
-      "order": 11,
-      "mode": 0,
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "recommended models https://huggingface.co/dataautogpt3/Proteus-RunDiffusion\n\nhttps://ollama.com/adrienbrault/nous-hermes2pro\n\nhttps://ollama.com/library/llava:7b-v1.6-mistral-q5_K_M"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 119,
-      "type": "Reroute",
-      "pos": [
-        1520,
-        1140
+        1290,
+        1360
       ],
       "size": [
-        75,
-        26
+        270,
+        310
       ],
       "flags": {},
-      "order": 29,
+      "order": 12,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "",
-          "type": "*",
-          "link": 182
-        }
-      ],
+      "inputs": [],
       "outputs": [
         {
-          "name": "",
+          "name": "IMAGE",
           "type": "IMAGE",
           "links": [],
+          "shape": 3,
           "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
         }
       ],
       "properties": {
-        "showOutputText": false,
-        "horizontal": false,
+        "Node name for S&R": "LoadImage",
         "ttNbgOverride": {
           "color": "#222",
           "bgcolor": "#000",
           "groupcolor": "#444"
         }
       },
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
+      "widgets_values": [
+        "43d03f71228f5e7dc7dfb823115055fb (4).jpg",
+        "image"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
     },
     {
       "id": 124,
@@ -1105,10 +1198,10 @@
       },
       "size": {
         "0": 230,
-        "1": 80
+        "1": 90
       },
       "flags": {},
-      "order": 12,
+      "order": 13,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -1131,19 +1224,19 @@
           "groupcolor": "#444"
         }
       },
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
+      "color": "#595959",
+      "bgcolor": "#454545"
     },
     {
-      "id": 154,
+      "id": 174,
       "type": "IF_ImagePrompt",
       "pos": [
-        1640,
-        1320
+        1610,
+        1290
       ],
       "size": {
-        "0": 330,
-        "1": 332
+        "0": 400,
+        "1": 403.9999694824219
       },
       "flags": {},
       "order": 16,
@@ -1152,7 +1245,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 262
+          "link": 299
         }
       ],
       "outputs": [
@@ -1160,7 +1253,7 @@
           "name": "Question",
           "type": "STRING",
           "links": [
-            263
+            300
           ],
           "shape": 3,
           "slot_index": 0
@@ -1169,7 +1262,7 @@
           "name": "Response",
           "type": "STRING",
           "links": [
-            264
+            301
           ],
           "shape": 3,
           "slot_index": 1
@@ -1178,7 +1271,7 @@
           "name": "Negative",
           "type": "STRING",
           "links": [
-            265
+            302
           ],
           "shape": 3,
           "slot_index": 2
@@ -1189,149 +1282,85 @@
       },
       "widgets_values": [
         "",
-        "anthropic",
-        "adrienbrault/nous-hermes2pro:Q3_K_M",
-        "Award",
-        "3DcartoonStyle",
-        "AnimeTI",
+        "localhost",
+        "11434",
+        "ollama",
+        "llava:13b-v1.6-vicuna-q2_K",
+        "ProductMacro",
+        "Minimalist",
+        "standard",
         0.7,
         160,
-        "127.0.0.1",
-        "11434"
+        88555704170793,
+        "randomize",
+        false
       ],
       "color": "#595959",
       "bgcolor": "#454545"
     },
     {
-      "id": 145,
-      "type": "IF_DisplayText",
+      "id": 172,
+      "type": "IF_PromptMkr",
       "pos": [
-        1990,
-        1380
+        290,
+        250
       ],
       "size": {
-        "0": 310,
-        "1": 280
+        "0": 400,
+        "1": 404
       },
       "flags": {},
-      "order": 24,
+      "order": 14,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 264,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
       "outputs": [
         {
-          "name": "STRING",
+          "name": "Question",
           "type": "STRING",
-          "links": null,
-          "shape": 6
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        "Award winning, masterpiece, High detail, Fantastical Warrior, close-up portrait, striking pose, detailed armor, vibrant iridescent plating, intricate golden accents, holographic wings, piercing gaze, windswept hair, futuristic cityscape, neon-lit environment, towering skyscrapers, shimmering energy, dramatic lighting, cinematic atmosphere, hyper-realistic rendering. pixar style,intricate,highly detailed,sharp focus,cinematic look,hyperdetailed,4k textures,hdr,looking up at the camera,rainbow,3d style,C4D,blender,kawaii,bifrost,"
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 137,
-      "type": "IF_DisplayText",
-      "pos": [
-        1990,
-        1260
-      ],
-      "size": {
-        "0": 315,
-        "1": 76
-      },
-      "flags": {},
-      "order": 23,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 263,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 6
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        ""
-      ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
-    },
-    {
-      "id": 85,
-      "type": "LoadImage",
-      "pos": [
-        1410,
-        1360
-      ],
-      "size": {
-        "0": 210,
-        "1": 290
-      },
-      "flags": {},
-      "order": 13,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
           "links": [
-            262
+            292
           ],
           "shape": 3,
           "slot_index": 0
         },
         {
-          "name": "MASK",
-          "type": "MASK",
-          "links": null,
-          "shape": 3
+          "name": "Response",
+          "type": "STRING",
+          "links": [
+            293
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "Negative",
+          "type": "STRING",
+          "links": [
+            294
+          ],
+          "shape": 3,
+          "slot_index": 2
         }
       ],
       "properties": {
-        "Node name for S&R": "LoadImage",
-        "ttNbgOverride": {
-          "color": "#222",
-          "bgcolor": "#000",
-          "groupcolor": "#444"
-        }
+        "Node name for S&R": "IF_PromptMkr"
       },
       "widgets_values": [
-        "_IF_prompt_Mkr__00023_.png",
-        "image"
+        "Ancient mega-structure, small lone figure in the foreground",
+        "debian",
+        "11434",
+        "ollama",
+        "adrienbrault/nous-hermes2pro:Q3_K_M",
+        "ProductMacro",
+        "Minimalist",
+        "standard",
+        0.7,
+        160,
+        772786167175630,
+        "randomize",
+        true
       ],
-      "color": "#4a4a4a",
-      "bgcolor": "#363636"
+      "color": "#595959",
+      "bgcolor": "#454545"
     }
   ],
   "links": [
@@ -1440,100 +1469,100 @@
       "STRING"
     ],
     [
-      182,
+      266,
+      52,
+      3,
+      158,
+      0,
+      "STRING"
+    ],
+    [
+      267,
+      52,
+      2,
+      157,
+      0,
+      "STRING"
+    ],
+    [
+      268,
+      52,
+      1,
+      156,
+      0,
+      "STRING"
+    ],
+    [
+      269,
+      52,
+      0,
+      155,
+      0,
+      "STRING"
+    ],
+    [
+      292,
+      172,
+      0,
+      52,
+      0,
+      "STRING"
+    ],
+    [
+      293,
+      172,
+      1,
+      52,
+      1,
+      "STRING"
+    ],
+    [
+      294,
+      172,
+      2,
+      52,
+      2,
+      "STRING"
+    ],
+    [
+      299,
+      117,
+      0,
+      174,
+      0,
+      "IMAGE"
+    ],
+    [
+      300,
+      174,
+      0,
+      162,
+      0,
+      "STRING"
+    ],
+    [
+      301,
+      174,
+      1,
+      163,
+      0,
+      "STRING"
+    ],
+    [
+      302,
+      174,
+      2,
+      164,
+      0,
+      "STRING"
+    ],
+    [
+      304,
       28,
       0,
       119,
       0,
       "*"
-    ],
-    [
-      194,
-      52,
-      0,
-      130,
-      0,
-      "STRING"
-    ],
-    [
-      195,
-      52,
-      1,
-      131,
-      0,
-      "STRING"
-    ],
-    [
-      196,
-      52,
-      2,
-      132,
-      0,
-      "STRING"
-    ],
-    [
-      197,
-      52,
-      3,
-      133,
-      0,
-      "STRING"
-    ],
-    [
-      216,
-      143,
-      0,
-      52,
-      0,
-      "STRING"
-    ],
-    [
-      217,
-      143,
-      1,
-      52,
-      1,
-      "STRING"
-    ],
-    [
-      218,
-      143,
-      2,
-      52,
-      2,
-      "STRING"
-    ],
-    [
-      262,
-      85,
-      0,
-      154,
-      0,
-      "IMAGE"
-    ],
-    [
-      263,
-      154,
-      0,
-      137,
-      0,
-      "STRING"
-    ],
-    [
-      264,
-      154,
-      1,
-      145,
-      0,
-      "STRING"
-    ],
-    [
-      265,
-      154,
-      2,
-      139,
-      0,
-      "STRING"
     ]
   ],
   "groups": [
@@ -1552,10 +1581,10 @@
     {
       "title": "Image2Prompt",
       "bounding": [
-        988,
-        1210,
-        1500,
-        914
+        1000,
+        1216,
+        1410,
+        904
       ],
       "color": "#444",
       "font_size": 24,
@@ -1570,7 +1599,7 @@
       "description": "",
       "version": "1",
       "created": "2024-03-12T11:34:02.047Z",
-      "modified": "2024-03-27T14:42:16.535Z",
+      "modified": "2024-04-06T18:45:00.097Z",
       "software": "ComfyUI"
     }
   },
