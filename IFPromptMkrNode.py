@@ -101,7 +101,6 @@ class IFPrompt2Prompt:
                 response = requests.get(api_url)
                 response.raise_for_status()
                 models = [model['name'] for model in response.json().get('models', [])]
-                print(f"this are the models {models} from {base_ip}")
                 return models
             except Exception as e:
                 print(f"Failed to fetch models from Ollama: {e}")
@@ -146,7 +145,7 @@ class IFPrompt2Prompt:
                         {"role": "user", "content": input_prompt}  
                     ],
                     'temperature': temperature,
-                    'random': random,
+                    'seed': seed,
                     'max_tokens': max_tokens      
                 }
             else:
