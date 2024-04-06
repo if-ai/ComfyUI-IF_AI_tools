@@ -9,63 +9,85 @@ app.registerExtension({
         if (originalNodeCreated) {
           originalNodeCreated.apply(this, arguments);
         }
-    
+
         const engineWidget = this.widgets.find((w) => w.name === "engine");
-        const modelWidget = this.widgets.find((w) => w.name === "selected_model"); 
+        const modelWidget = this.widgets.find((w) => w.name === "selected_model");
         const baseIpWidget = this.widgets.find((w) => w.name === "base_ip");
-        const ollamaPortWidget = this.widgets.find((w) => w.name === "ollama_port");
-    
+        const portWidget = this.widgets.find((w) => w.name === "port");
+
+        const fetchModels = async (engine, baseIp, port) => {
+          try {
+            const response = await fetch("/IF_PromptMkr/get_models", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                engine: engine,
+                base_ip: baseIp,
+                port: port,
+              }),
+            });
+
+            if (response.ok) {
+              const models = await response.json();
+              console.log("Fetched models:", models);
+              return models;
+            } else {
+              console.error(`Failed to fetch models: ${response.status}`);
+              return [];
+            }
+          } catch (error) {
+            console.error(`Error fetching models for engine ${engine}:`, error);
+            return [];
+          }
+        };
+
         const updateModels = async () => {
           const engine = engineWidget.value;
           const baseIp = baseIpWidget.value;
-          const ollamaPort = ollamaPortWidget.value;
-        
+          const port = portWidget.value;
+
           console.log(`Selected engine: ${engine}`);
           console.log(`Base IP: ${baseIp}`);
-          console.log(`Ollama Port: ${ollamaPort}`);
-        
-          try {
-            let models = [];
-        
-            if (engine === "ollama") {
-              const response = await fetch(`http://${baseIp}:${ollamaPort}/api/tags`);
-              console.log(`Ollama response status: ${response.status}`);
-              if (response.ok) {
-                const data = await response.json();
-                console.log("Ollama response data:", data);
-                models = data.models.map((model) => model.name);
-              } else {
-                console.error(`Failed to fetch models from Ollama: ${response.status}`);
-              }
-            } else if (engine === "anthropic") {
-              models = ["claude-3-opus-20240229", "claude-3-sonnet-20240229", "claude-3-haiku-20240307"];
-            } else if (engine === "openai") {
-              models = ["gpt-4-0125-preview", "gpt-4-1106-preview", "gpt-4-vision-preview", "gpt-4-1106-vision-preview", "gpt-3.5-turbo-0125", "gpt-3.5-turbo-1106"];
-            } 
+          console.log(`Port: ${port}`);
 
-            console.log("Fetched models:", models);
-            modelWidget.options.values = models;
-            console.log("Updated modelWidget.options.values:", modelWidget.options.values);
-            
-            // Update the selected_model value based on the available models
-            if (models.includes(modelWidget.value)) {
-              modelWidget.value = modelWidget.value;
-            } else {
-              modelWidget.value = models[0] || "";
-            }
+          const models = await fetchModels(engine, baseIp, port);
 
-            this.triggerSlot(0);
+          // Update modelWidget options and value
+          modelWidget.options.values = models;
+          console.log("Updated modelWidget.options.values:", modelWidget.options.values);
 
-          } catch (error) {
-            console.error(`Error fetching models for engine ${engine}:`, error);
-            modelWidget.options.values = [];
+          if (models.includes(modelWidget.value)) {
+            modelWidget.value = modelWidget.value;
+          } else if (models.length > 0) {
+            modelWidget.value = models[0];
+          } else {
             modelWidget.value = "";
           }
+          console.log("Updated modelWidget.value:", modelWidget.value);
+
+          this.triggerSlot(0);
         };
-    
+
+        // Use defineProperty to trigger updates when base_ip or port change
+        Object.defineProperty(baseIpWidget, "value", {
+          set: (value) => {
+            baseIpWidget._value = value;
+            updateModels();
+          },
+          get: () => baseIpWidget._value,
+        });
+
+        Object.defineProperty(portWidget, "value", {
+          set: (value) => {
+            portWidget._value = value;
+            updateModels();
+          },
+          get: () => portWidget._value,
+        });
+
         engineWidget.callback = updateModels;
-        baseIpWidget.callback = updateModels;
-        ollamaPortWidget.callback = updateModels;
 
         // Initial update
         await updateModels();
