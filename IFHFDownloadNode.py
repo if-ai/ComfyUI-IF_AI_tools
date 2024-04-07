@@ -24,13 +24,13 @@ class IFHFDownload:
         return {
             "required": {
                 "repo_id": ("STRING", {"multiline": True}),
-                "file_paths": ("STRING", {"multiline": True, "default": "comma-separated list of files in the repo"}),
-                "folder_path": ("STRING", {"multiline": True, "default": "folder in your computer, rename the folder afterwards"}),
-                "exclude_files": ("STRING", {"multiline": True, "default": "comma-separated list of files to exclude (only for repo download)"}),
+                "folder_path": ("STRING", {"multiline": True, "default": "folder in your computer to save the files"}),
                 "hf_token": ("STRING", {"multiline": True, "default": "your Hugging Face token"}),
             },
             "optional": {
                 "mode": ("BOOLEAN", {"default": False, "label_on": "All Repo", "label_off": "Individual Files"}),
+                "file_paths": ("STRING", {"multiline": True, "default": ""}),
+                "exclude_files": ("STRING", {"multiline": True, "default": ""}),
             },
             "widgets": {
                 "download": ("BUTTON", {"text": "Download"}),
@@ -44,28 +44,27 @@ class IFHFDownload:
     def download_hf(self, mode, repo_id, file_paths, folder_path, exclude_files, hf_token):
         exclude_list = [f.strip() for f in exclude_files.split(",") if f.strip()]
 
-        # Create the "rename_me" folder in the specified folder_path
-        rename_me_folder = os.path.join(folder_path, "rename_me")
-        os.makedirs(rename_me_folder, exist_ok=True)
-
         if mode:
             # Download the entire repository
-            snapshot_download(repo_id=repo_id, local_dir=rename_me_folder, repo_type="model", revision="main", token=hf_token)
-            for root, dirs, files in os.walk(rename_me_folder):
+            snapshot_path = snapshot_download(repo_id=repo_id, local_dir=folder_path, repo_type="model", revision="main", token=hf_token)
+            for root, dirs, files in os.walk(snapshot_path):
                 for file in files:
-                    file_path = os.path.relpath(os.path.join(root, file), rename_me_folder)
+                    file_path = os.path.relpath(os.path.join(root, file), snapshot_path)
                     if file_path in exclude_list:
                         os.remove(os.path.join(root, file))
-            self.output = f"Downloaded repo: {repo_id} to {rename_me_folder}"
+            self.output = f"Downloaded repo: {repo_id} to {os.path.normpath(snapshot_path)}"
         else:
             # Download individual files
             downloaded_files = []
             for file_path in file_paths.split(","):
                 file_path = file_path.strip()
                 if file_path:
-                    filename = hf_hub_download(repo_id=repo_id, filename=file_path, cache_dir=rename_me_folder, token=hf_token)
-                    downloaded_files.append(file_path)
-            self.output = f"Downloaded files: {', '.join(downloaded_files)} from {repo_id} to {rename_me_folder}"
+                    filename = hf_hub_download(repo_id=repo_id, filename=file_path, local_dir=folder_path, token=hf_token)
+                    downloaded_files.append(os.path.normpath(filename))
+            if downloaded_files:
+                self.output = f"Downloaded files: {', '.join(downloaded_files)} from {repo_id} to {os.path.normpath(folder_path)}"
+            else:
+                self.output = "No files were specified for download."
 
         return (self.output,)
 
