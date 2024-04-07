@@ -68,6 +68,14 @@ Your support helps me bring updates and improvements faster!
 ## Related Tools
 - [IF_prompt_MKR](https://github.com/if-ai/IF_prompt_MKR) - A similar tool available for Stable Diffusion WebUI
 
+##
+AIFuzz made a great video usining ollama and IF_AI tools 
+[![AIFuzz](https://img.youtube.com/vi/nZx5g3TGsNc/0.jpg)](https://youtu.be/nZx5g3TGsNc?si=DFIqFuPoyKY1qJ2n)
+
+Also Future thinker @ Benji Thankyou both for putting out this awesome videos
+[![Future Thinker @Benji](https://img.youtube.com/vi/EQZWyn9eCFE/0.jpg)](https://youtu.be/EQZWyn9eCFE?si=jgC28GL7bwFWj_sK)
+
+
 ## Example using normal Model
 ancient Megastructure, small lone figure 
 'A dwarfed figure standing atop an ancient megastructure, worn stone towering overhead. Underneath the dim moonlight, intricate engravings adorn the crumbling walls. Overwhelmed by the sheer size and age of the structure, the small figure appears lost amidst the weathered stone behemoth. The background reveals a dark landscape, dotted with faint twinkles from other ancient structures, scattered across the horizon. The silent air is only filled with the soft echoes of distant whispers, carrying secrets of times long past. ethereal-fantasy-concept-art, magical-ambiance, magnificent, celestial, ethereal-lighting, painterly, epic, majestic, dreamy-atmosphere, otherworldly, mystic-elements, surreal, immersive-detail'
