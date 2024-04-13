@@ -209,8 +209,9 @@ class IFImagePrompt:
 
     def send_request(self, engine, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random):
         if engine == "anthropic":
+            anthropic_api_key = self.get_api_key("ANTHROPIC_API_KEY", engine)
             anthropic_headers = {
-                "x-api-key": self.anthropic_api_key,
+                "x-api-key": anthropic_api_key,
                 "anthropic-version": "2023-06-01",  
                 "Content-Type": "application/json"
             }
@@ -275,8 +276,9 @@ class IFImagePrompt:
                 return "Failed to fetch response from Anthropic."
                 
         elif engine == "openai":
+            openai_api_key = self.get_api_key("OPENAI_API_KEY", engine)
             openai_headers = {
-                "Authorization": f"Bearer {self.openai_api_key}",
+                "Authorization": f"Bearer {openai_api_key}",
                 "Content-Type": "application/json"
             }
             if random == True:
