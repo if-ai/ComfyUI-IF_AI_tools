@@ -2,13 +2,30 @@
 
 # ComfyUI-IF_AI_tools
 
-ComfyUI-IF_AI_tools is a set of custom nodes for ComfyUI that allows you to generate prompts using a local Large Language Model (LLM) via Ollama. This tool enables you to enhance your image generation workflow by leveraging the power of language models.
+ComfyUI-IF_AI_tools is a set of custom nodes for ComfyUI that allows you to generate prompts using a local Large Language Model (LLM) via Ollama. 
+This tool enables you to enhance your image generation workflow by leveraging the power of language models.
 
 ## Features
+- [NEW] WhisperSpeech integration generate long form audio from Text while trining the voice on the fly from a 10min audio file
+- [NEW] Bark TTS generate speech from text right in ComfyUI (Sorry Not working yet)
+- [NEW] DreamTalk generate talking avatars right inside ComfyUI
+- [NEW] Json Presets (got rid of Tetx Files)
+- Use OpenAI and Claude 3 you can analize images whit the Haiku vision model
 - Generate prompts using a local LLM via Ollama
 - generate SD prompts or ask questions about an image with Image to prompt node
 - Save generated text
 - Integrate with ComfyUI for a seamless workflow
+
+  Donwload the Dreamtalk models to your ComfyUI models folder should look like this /ComfyUI/models/dreamtalk/checkpoints/
+  make sure it point to the correct location in your harddrive
+     ```bash
+        wget https://huggingface.co/camenduru/dreamtalk/resolve/main/damo/dreamtalk/checkpoints/denoising_network.pth -O /mnt/h/ComfyUI/models/dreamtalk/checkpoints/denoising_network.pth
+        wget https://huggingface.co/camenduru/dreamtalk/resolve/main/damo/dreamtalk/checkpoints/renderer.pt -O /mnt/h/ComfyUI/models/dreamtalk/checkpoints/renderer.pt
+        ```
+ComfyUI Integrations:
+Deramtalk https://github.com/ali-vilab/dreamtalk
+WhisperSpeech https://github.com/collabora/WhisperSpeech
+Bark https://github.com/suno-ai/bark
 
 ## Prerequisites
 - [Ollama](https://github.com/ollama/ollama/releases) - You need to install Ollama for this tool to work. Visit [ollama.com](https://ollama.com) for more information.
