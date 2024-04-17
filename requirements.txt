@@ -1,3 +1,4 @@
+accelerate
 torchaudio
 dlib
 poetry
@@ -24,3 +25,4 @@ av
 nltk
 WhisperSpeech
 librosa
+
