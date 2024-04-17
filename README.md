@@ -25,7 +25,8 @@ This tool enables you to enhance your image generation workflow by leveraging th
   ![SystemPropertiesAdvanced_bpfdyGq1u6](https://github.com/if-ai/ComfyUI-IF_AI_tools/assets/21185218/a3b311c7-f266-42f2-aeaf-30990a26eb2c)
 
   for Linux
-   ```bash
+  
+       ```
       sudo apt update
       sudo apt install ffmpeg
       open -e ~/.bash_profile
@@ -34,6 +35,7 @@ This tool enables you to enhance your image generation workflow by leveraging th
 
   Donwload the Dreamtalk models to your ComfyUI models folder should look like this /ComfyUI/models/dreamtalk/checkpoints/
   make sure it point to the correct location in your harddrive
+   
      ```bash
         wget https://huggingface.co/camenduru/dreamtalk/resolve/main/damo/dreamtalk/checkpoints/denoising_network.pth -O /mnt/h/ComfyUI/models/dreamtalk/checkpoints/denoising_network.pth
         wget https://huggingface.co/camenduru/dreamtalk/resolve/main/damo/dreamtalk/checkpoints/renderer.pt -O /mnt/h/ComfyUI/models/dreamtalk/checkpoints/renderer.pt
