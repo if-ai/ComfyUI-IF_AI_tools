@@ -81,8 +81,6 @@ class IFChatPrompt:
         self.profiles_file = os.path.join(self.presets_dir, "profiles.json")
         self.profiles = self.load_presets(self.profiles_file)
 
-
-
     def load_presets(self, file_path):
         with open(file_path, 'r') as f:
             presets = json.load(f)

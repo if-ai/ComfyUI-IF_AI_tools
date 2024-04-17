@@ -89,6 +89,22 @@ class IFDreamTalk:
     CATEGORY = "ImpactFrames💥🎞️"
     OUTPUT_NODE = True
 
+    def convert_to_16k(self, audio_input, output_name, tmp_dir):
+        # Get the sample rate of the audio input
+        command = f"ffprobe -v error -show_entries stream=sample_rate -of default=noprint_wrappers=1:nokey=1 {audio_input}"
+        sample_rate = subprocess.check_output(command.split()).decode().strip()
+
+        if sample_rate == "16000":
+            # Audio input already has a sample rate of 16kHz
+            wav_16k_path = audio_input
+        else:
+            # Convert the audio to 16kHz
+            wav_16k_path = os.path.join(tmp_dir, f"{output_name}_16K.wav")
+            command = f"ffmpeg -y -i {audio_input} -async 1 -ac 1 -vn -acodec pcm_s16le -ar 16000 {wav_16k_path}"
+            subprocess.run(command.split())
+
+        return wav_16k_path
+    
     def run(self, image_path, crop, cfg_scale, name, audio_input, emotional_style):
         max_gen_len = 1000
         comfy_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -111,19 +127,13 @@ class IFDreamTalk:
             dreamtalk_dir, "data", "pose", "RichardShelby_front_neutral_level1_001.mat"
         )
         
-
         # Integrate inference logic
         cfg = get_cfg_defaults()
         cfg.CF_GUIDANCE.SCALE = cfg_scale
         cfg.freeze()
 
-        tmp_dir = f"tmp/{output_name}"
-        os.makedirs(tmp_dir, exist_ok=True)
-
         # get audio in 16000Hz
-        wav_16k_path = os.path.join(tmp_dir, f"{output_name}_16K.wav")
-        command = f"ffmpeg -y -i {audio_input} -async 1 -ac 1 -vn -acodec pcm_s16le -ar 16000 {wav_16k_path}"
-        subprocess.run(command.split())
+        wav_16k_path = self.convert_to_16k(audio_input, output_name, tmp_dir)
 
         # get wav2vec feat from audio
         wav2vec_processor = Wav2Vec2Processor.from_pretrained(
