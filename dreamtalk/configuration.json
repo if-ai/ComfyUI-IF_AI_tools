@@ -1,0 +1,11 @@
+{
+    "framework": "pytorch",
+    "task": "text-to-video-synthesis",
+    "model": {
+        "type": "Dreamtalk-Generation"
+    },
+    "pipeline": {
+        "type": "Dreamtalk-generation-pipe"
+    },
+    "allow_remote": true
+}
