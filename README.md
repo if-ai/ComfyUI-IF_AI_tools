@@ -21,7 +21,9 @@ This tool enables you to enhance your image generation workflow by leveraging th
    https://github.com/BtbN/FFmpeg-Builds/releases
   unziped on `C:\` or `C:\Program Files`
   Create a System environment PATH with pointing to the bin folder
+  
   ![SystemPropertiesAdvanced_bpfdyGq1u6](https://github.com/if-ai/ComfyUI-IF_AI_tools/assets/21185218/a3b311c7-f266-42f2-aeaf-30990a26eb2c)
+
   for Linux
    ```bash
       sudo apt update
