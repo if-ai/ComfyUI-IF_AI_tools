@@ -37,9 +37,9 @@ class IFPrompt2Prompt:
                 "engine": (["ollama", "openai", "anthropic"], {"default": node.engine}),
                 #"selected_model": (node.get_models("node.engine", node.base_ip, node.port), {}), 
                 "selected_model": ((), {}),
-                "embellish_prompt": ([name for name, _ in node.embellish_prompts], {}),
-                "style_prompt": ([name for name, _ in node.style_prompts], {}),
-                "neg_prompt": ([name for name, _ in node.neg_prompts], {}),
+                "embellish_prompt": ([name for name in node.embellish_prompts.keys()], {}),
+                "style_prompt": ([name for name in node.style_prompts.keys()], {}),
+                "neg_prompt": ([name for name in node.neg_prompts.keys()], {}),
                 "temperature": ("FLOAT", {"default": 0.7, "min": 0.0, "max": 1.0, "step": 0.1}),
             },
             "optional": {
@@ -67,10 +67,14 @@ class IFPrompt2Prompt:
         self.port = "11434"     
         self.engine = "ollama" 
         self.selected_model = ""
-        self.script_dir = os.path.dirname(os.path.abspath(__file__))
-        self.neg_prompts = self.load_presets(os.path.join(self.script_dir, "negfiles"))
-        self.embellish_prompts = self.load_presets(os.path.join(self.script_dir, "embellishfiles"))
-        self.style_prompts = self.load_presets(os.path.join(self.script_dir, "stylefiles")) 
+        self.comfy_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        self.presets_dir = os.path.join(os.path.dirname(__file__), "presets")
+        self.neg_prompts_file = os.path.join(self.presets_dir, "neg_prompts.json")
+        self.embellish_prompts_file = os.path.join(self.presets_dir, "embellishments.json")
+        self.style_prompts_file = os.path.join(self.presets_dir, "style_prompts.json")
+        self.neg_prompts = self.load_presets(self.neg_prompts_file)
+        self.embellish_prompts = self.load_presets(self.embellish_prompts_file)
+        self.style_prompts = self.load_presets(self.style_prompts_file)
         self.prime_directive = textwrap.dedent("""\
             Act as a prompt maker with the following guidelines:
             - Break keywords by commas.
@@ -113,14 +117,9 @@ class IFPrompt2Prompt:
             print(f"Unsupported engine - {engine}")
             return []
 
-    def load_presets(self, dir_path):
-        presets = []
-        for filename in os.listdir(dir_path):
-            if filename.endswith(".txt"):
-                file_path = os.path.join(dir_path, filename)
-                with open(file_path, 'r') as file:
-                    content = file.read().strip()
-                    presets.append((os.path.splitext(filename)[0], content))
+    def load_presets(self, file_path):
+        with open(file_path, 'r') as f:
+            presets = json.load(f)
         return presets
    
     def get_api_key(self, api_key_name, engine):
@@ -132,9 +131,9 @@ class IFPrompt2Prompt:
             print(f'you are using ollama as the engine, no api key is required')
               
     def sample(self, input_prompt, engine, base_ip, port, selected_model, embellish_prompt, style_prompt, neg_prompt, temperature, max_tokens, seed, random):
-        embellish_content = next((content for name, content in self.embellish_prompts if name == embellish_prompt), "")
-        style_content = next((content for name, content in self.style_prompts if name == style_prompt), "")
-        neg_content = next((content for name, content in self.neg_prompts if name == neg_prompt), "")
+        embellish_content = self.embellish_prompts.get(embellish_prompt, "")
+        style_content = self.style_prompts.get(style_prompt, "")
+        neg_content = self.neg_prompts.get(neg_prompt, "")
         
         if engine == "anthropic":
             if random == True:

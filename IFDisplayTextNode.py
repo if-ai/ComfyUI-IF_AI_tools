@@ -26,3 +26,5 @@ class IFDisplayText:
     
 NODE_CLASS_MAPPINGS = {"IF_DisplayText": IFDisplayText}
 NODE_DISPLAY_NAME_MAPPINGS = {"IF_DisplayText": "IF Display Text📟"}
+
+
