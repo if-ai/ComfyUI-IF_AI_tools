@@ -24,4 +24,3 @@ av
 nltk
 WhisperSpeech
 librosa
-#sudo apt-get install libsox-fmt-all
