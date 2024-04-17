@@ -42,7 +42,7 @@ class IFBarkTTS:
         self.file_name = "IF_whisper_speech"
         self.cps = 14.0
         self.overlap = 100.0
-        self.speaker_v2_dir = os.path.join(os.path.dirname(__file__), "bark", "speakers", "v2")
+        self.speaker_v2_dir = os.path.join(os.path.dirname(__file__), "speakers", "v2")
         self.speakers = self.load_speakers(self.speaker_v2_dir)     
         self.sample_text = textwrap.dedent("""\
             Electromagnetism is a fundamental force of nature that encompasses the interaction between
