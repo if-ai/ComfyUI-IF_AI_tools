@@ -26,12 +26,12 @@ This tool enables you to enhance your image generation workflow by leveraging th
 
   for Linux
   
-       ```
-      sudo apt update
-      sudo apt install ffmpeg
-      open -e ~/.bash_profile
-      export PATH="/usr/local/bin:$PATH"
-      ```
+      ```bash
+        sudo apt update
+        sudo apt install ffmpeg
+        open -e ~/.bash_profile
+        export PATH="/usr/local/bin:$PATH"
+        ```
 
   Donwload the Dreamtalk models to your ComfyUI models folder should look like this /ComfyUI/models/dreamtalk/checkpoints/
   make sure it point to the correct location in your harddrive
