@@ -1,0 +1,588 @@
+{
+  "last_node_id": 72,
+  "last_link_id": 115,
+  "nodes": [
+    {
+      "id": 4,
+      "type": "VHS_VideoCombine",
+      "pos": [
+        1970,
+        150
+      ],
+      "size": [
+        320,
+        600
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 53
+        },
+        {
+          "name": "audio",
+          "type": "VHS_AUDIO",
+          "link": 71,
+          "slot_index": 1
+        },
+        {
+          "name": "batch_manager",
+          "type": "VHS_BatchManager",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Filenames",
+          "type": "VHS_FILENAMES",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_VideoCombine"
+      },
+      "widgets_values": {
+        "frame_rate": 25,
+        "loop_count": 0,
+        "filename_prefix": "AnimateDiff",
+        "format": "video/h264-mp4",
+        "pix_fmt": "yuv420p",
+        "crf": 19,
+        "save_metadata": true,
+        "pingpong": false,
+        "save_output": true,
+        "videopreview": {
+          "hidden": false,
+          "paused": false,
+          "params": {
+            "filename": "AnimateDiff_00012-audio.mp4",
+            "subfolder": "",
+            "type": "output",
+            "format": "video/h264-mp4"
+          }
+        }
+      },
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 23,
+      "type": "VHS_LoadAudio",
+      "pos": [
+        1630,
+        620
+      ],
+      "size": {
+        "0": 320,
+        "1": 80
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio_file",
+          "type": "STRING",
+          "link": 97,
+          "widget": {
+            "name": "audio_file"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audio",
+          "type": "VHS_AUDIO",
+          "links": [
+            71
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_LoadAudio"
+      },
+      "widgets_values": {
+        "audio_file": "/mnt/h/test/Congratulations12.wav",
+        "seek_seconds": 0
+      },
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 28,
+      "type": "VHS_LoadVideoPath",
+      "pos": [
+        1620,
+        150
+      ],
+      "size": [
+        320,
+        210
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "batch_manager",
+          "type": "VHS_BatchManager",
+          "link": null
+        },
+        {
+          "name": "video",
+          "type": "STRING",
+          "link": 69,
+          "widget": {
+            "name": "video"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            53
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "frame_count",
+          "type": "INT",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "audio",
+          "type": "VHS_AUDIO",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "video_info",
+          "type": "VHS_VIDEOINFO",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_LoadVideoPath"
+      },
+      "widgets_values": {
+        "video": "X://insert/path/here.mp4",
+        "force_rate": 0,
+        "force_size": "Disabled",
+        "custom_width": 512,
+        "custom_height": 512,
+        "frame_load_cap": 0,
+        "skip_first_frames": 0,
+        "select_every_nth": 1,
+        "videopreview": {
+          "hidden": false,
+          "paused": false,
+          "params": {
+            "frame_load_cap": 0,
+            "skip_first_frames": 0,
+            "force_rate": 0,
+            "filename": "X://insert/path/here.mp4",
+            "type": "path",
+            "format": "video/mp4",
+            "select_every_nth": 1
+          }
+        }
+      },
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 68,
+      "type": "LoadImage",
+      "pos": [
+        60,
+        580
+      ],
+      "size": [
+        320,
+        310
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            109
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "Leaf_istock.jpg",
+        "image"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 58,
+      "type": "IF_WhisperSpeech",
+      "pos": [
+        830,
+        600
+      ],
+      "size": {
+        "0": 400,
+        "1": 220
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 103,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audios",
+          "type": "AUDIO",
+          "links": null,
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "wav_16k_path",
+          "type": "STRING",
+          "links": [
+            97,
+            112
+          ],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_WhisperSpeech"
+      },
+      "widgets_values": [
+        "Electromagnetism is a fundamental force of nature that encompasses the interaction between\nelectrically charged particles. It is described by Maxwell's equations, which unify electricity, magnetism,\nand light into a single theory. In essence, electric charges produce electric fields that exert forces on\nother charges, while moving charges (currents) generate magnetic fields. These magnetic fields, in turn,\ncan affect the motion of charges and currents. The interaction between electric and magnetic fields propagates\nthrough space as electromagnetic waves, which include visible light, radio waves, and X-rays. Electromagnetic\nforces are responsible for practically all the phenomena encountered in daily life, excluding gravity.\n",
+        "IF_whisper_speech",
+        "teacher3.ogg",
+        false,
+        14,
+        100
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 63,
+      "type": "IF_ChatPrompt",
+      "pos": [
+        400,
+        580
+      ],
+      "size": {
+        "0": 400,
+        "1": 336
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 109,
+          "slot_index": 0
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Question",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "Response",
+          "type": "STRING",
+          "links": [
+            102,
+            103
+          ],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_ChatPrompt"
+      },
+      "widgets_values": [
+        "tell me briefly about the photosynthesis ",
+        "localhost",
+        "11434",
+        "ollama",
+        "llava:13b-v1.6-vicuna-q2_K",
+        "MissEmily",
+        0.7,
+        160,
+        669715262018912,
+        "randomize",
+        false
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 61,
+      "type": "IF_DisplayText",
+      "pos": [
+        830,
+        880
+      ],
+      "size": [
+        400,
+        280
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 102,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "Photosynthesis is the process by which green plants, algae, and some bacteria convert light energy into chemical energy stored in glucose. It occurs in two stages: the light-dependent reactions (light reactions) and the dark reactions. In the light reactions, light is absorbed by chlorophyll, a green pigment found in plant cells that contains magnesium. This process produces ATP, which is used to generate energy for the plant's growth and survival. The dark reactions occur in the absence of light and are responsible for converting the chemical energy stored in glucose into a form of energy usable by the cell.\n\nThe leaf in the image appears to be from a tree that undergoes photosynthesis. The chlorophyll, which is essential for this process, is present within the green parts of the leaf's cells, such as the mesophyll, chloroplasts, and the cell walls themselves. This process is crucial for plant life on Earth, providing the organic compounds needed by plants to grow and reproduce."
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 36,
+      "type": "IF_DreamTalk",
+      "pos": [
+        1240,
+        150
+      ],
+      "size": [
+        360,
+        210
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio_input",
+          "type": "STRING",
+          "link": 112,
+          "widget": {
+            "name": "audio_input"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "video_path",
+          "type": "STRING",
+          "links": [
+            69
+          ],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DreamTalk"
+      },
+      "widgets_values": [
+        "/mnt/h/test/woman.jpg",
+        true,
+        1,
+        "IF_AI_DreamTalk",
+        "/mnt/h/test/Congratulations12.wav",
+        "M030_front_neutral_level1_001.mat"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 72,
+      "type": "Note",
+      "pos": [
+        1750,
+        820
+      ],
+      "size": {
+        "0": 520,
+        "1": 660
+      },
+      "flags": {
+        "pinned": false
+      },
+      "order": 1,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "\n                                ▄                                               \n                             ▌  █  █                                            \n                            █▀ █▀ ▄▀                                            \n                           ╘▌  █  █     ,▄▄▄                                    \n                                       █▀▒▒▒█ ,▄▓▓▄                             \n                      ╓▄▀▀▀\"   ▀▀▀██&▄▄█▄▄▄█▌▄▀▄▀▒▒▌                            \n                    ,▄█▀▀▀█▄       █▌▒▒▒▒▒▒▒▒▒▒▀▒▄█                             \n                   ▄█▒╢╢╢╢╢▒▀▀▀▀▀▀▀▒▒▒▄▄▄▄▒▒▒▒▒▒▒▀▄                             \n                  ▐█╫█▓╢╣▓█▒╢╢╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒▒█                            \n                  █▒╢╢╢█▌╢╢╢╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╣▒▒▒▒█                           \n                  █╣╢╢╢█▌╢╢╢╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌                          \n                  █▒╢╢╢▓▌╢╢╢╢╢╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█                          \n                  ╘█╢╢╢▓█▒▒╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌                         \n                   ▀█▒▀▒▒▒▀▒╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒▒▒▒█                         \n                   ,,▀██▄▄▄▄▄▄▄▄▄▄▄█▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█║║║╖╖╖╖╓,                \n            ,╓╗║╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒╢║╗╖          \n         ╓╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▌▒▒╫▒╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒╙▒▒▒▒▒▒▒▒▄▒▒▒▒║╖       \n       ╖▒▒▒▒▒▒▒█▀█▀▀█▄▒▒▒▒▒▒▒▒║╙▒█▄▄▒▒▒▒▒▒▒▒▒▒▒▒▒▄▄▄▄█▀░╢`║▒▒▒▒▄█▀▀▀█▒▒▒▒▒╖     \n      ║▒▒▒▒▒▒▒█▒▒▒▒▒╣█▌▒▒▒▒▒▒▒╢╖╣╙╜╜▒▒▒▒▀▀▀▀▒▒▒▒▒▒▒╜╜╙`║▒╢▒▒▒▒▐▌▒▒▒▒▒█▌▒▒▒▒╖    \n     ║▒▒▒▒▒▒╜╙▀▀█▓███▀▒▒▒▒▒▄▄▄▄▄▒▒▒║║║║▒▒▒▒▒╖╥╗╗@║║║▒▒▒▒▒▒▒▒▒╝▒▀█▓███▀▒╜ ▒▒▒    \n     ]▒▒▒▒▒▒▒║╗╖╓▒▒╖╓╓╖▒▒▄█▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒║╖╖▒▒▒▒▒╖╗║▒▒▒▒    \n      ║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╜▒▀█████▀▒ ║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢     \n       ╙║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢╗╖╖▒▒▒▒▒║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╜`      \n          ╙╜╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╣╜╜\"          \n                `╙╙╙╜╝╝╝╜╜╝╝╝╝╜╨╜╜╜╜╜╜╝╝╜╨╨╜╝║║║║║║╝╨╨╝╝╝╜╙╙\"`                 \n _ _____ _____ _    _           _     \n| |   __|  _  | |  | |_ ___ ___| |___ \n| |   __|     | |  |  _| . | . | |_ -|\n|_|__|  |__|__|_|  | | |___|___|_|___|\n                   |__|               \n\nYou need ollama for this to work\nhttps://github.com/ollama/ollama/releases\nollama.com\n\nPlease star the repo and support my work links bellow to make updates updates come quicker \nhttps://github.com/if-ai/ComfyUI-IF_AI_tools\n\nto watch tutorials\n\nJoin the Impact Frames fam!  Subscribe now: https://youtube.com/@impactframes?si=DrBu3tOAC2-YbEvc\n\n\nhttps://ko-fi.com/impactframes\n\npatreon.com/ImpactFrames \n\nhttps://www.youtube.com/@impactframes\n\nthis tool is also available for SD webui https://github.com/if-ai/IF_prompt_MKR\n\n"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    },
+    {
+      "id": 15,
+      "type": "Note",
+      "pos": [
+        1280,
+        480
+      ],
+      "size": [
+        300,
+        270
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 2,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "IF WHISPER SPEECH can train a voice on the fly move a voice only 10 min long file to the audio folder to load the voice as a speaker\nEnable torch compile might throw an error on some systems but it will be tens of times faster \nMight only work on CPU torch compile to false the downside being super slow \n\nI am Testing RAG feature soon you will be able to chat with documents and much more"
+      ],
+      "color": "#595959",
+      "bgcolor": "#454545"
+    }
+  ],
+  "links": [
+    [
+      53,
+      28,
+      0,
+      4,
+      0,
+      "IMAGE"
+    ],
+    [
+      69,
+      36,
+      1,
+      28,
+      1,
+      "STRING"
+    ],
+    [
+      71,
+      23,
+      0,
+      4,
+      1,
+      "VHS_AUDIO"
+    ],
+    [
+      97,
+      58,
+      1,
+      23,
+      0,
+      "STRING"
+    ],
+    [
+      102,
+      63,
+      1,
+      61,
+      0,
+      "STRING"
+    ],
+    [
+      103,
+      63,
+      1,
+      58,
+      0,
+      "STRING"
+    ],
+    [
+      109,
+      68,
+      0,
+      63,
+      0,
+      "IMAGE"
+    ],
+    [
+      112,
+      58,
+      1,
+      36,
+      0,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "info": {
+      "name": "IF_Chat_Avatar",
+      "author": "",
+      "description": "",
+      "version": "1",
+      "created": "2024-04-10T13:48:15.400Z",
+      "modified": "2024-04-17T02:30:35.840Z",
+      "software": "ComfyUI"
+    }
+  },
+  "version": 0.4
+}
