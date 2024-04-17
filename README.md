@@ -6,6 +6,7 @@ ComfyUI-IF_AI_tools is a set of custom nodes for ComfyUI that allows you to gene
 This tool enables you to enhance your image generation workflow by leveraging the power of language models.
 
 ## Features
+Sorry it does not work on windows for now
 - [NEW] WhisperSpeech integration generate long form audio from Text while trining the voice on the fly from a 10min audio file
 - [NEW] Bark TTS generate speech from text in different languages (Sorry Not working yet)
 - [NEW] DreamTalk generate talking avatars right inside ComfyUI
