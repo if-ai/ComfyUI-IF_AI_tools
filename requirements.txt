@@ -1,4 +1,3 @@
-transformers
 torchaudio
 dlib
 poetry
