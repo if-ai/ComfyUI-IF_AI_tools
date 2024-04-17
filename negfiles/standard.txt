@@ -1,1 +1,0 @@
-lowres,  text,  error,  cropped,  worst quality,  low quality,  jpeg artifacts,  ugly,  duplicate,  morbid,  mutilated,  out of frame,  mutation,  deformed,  blurry,  dehydrated,  bad anatomy,  bad proportions,  disfigured, username,  watermark,  signature, backgound out of focus, black and white,  monochrome
