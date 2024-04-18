@@ -1,4 +1,5 @@
 import os
+import folder_paths
 from yacs.config import CfgNode as CN
 
 def find_comfy_dir(current_path):
@@ -11,8 +12,7 @@ def find_comfy_dir(current_path):
             raise Exception("ComfyUI directory not found")
         return find_comfy_dir(parent_path)
 
-script_path = os.path.abspath(__file__)
-comfy_dir = find_comfy_dir(script_path)
+comfy_dir = folder_paths.base_path
 model = os.path.join(comfy_dir, "models", "dreamtalk", "checkpoints", "denoising_network.pth")
 print(f"Model path: {model}")
 _C = CN()
