@@ -8,8 +8,6 @@ from .IFSaveTextNode import IFSaveText
 from .IFDisplayTextNode import IFDisplayText
 from .IFHFDownloadNode import IFHFDownload
 from .IFDreamTalkNode import IFDreamTalk
-from .IFWhisperSpeechNode import IFWhisperSpeech
-from .IFBarkTTSNode import IFBarkTTS
 from .IFChatPromptNode import IFChatPrompt    
 
 NODE_CLASS_MAPPINGS = {
@@ -19,8 +17,6 @@ NODE_CLASS_MAPPINGS = {
     "IF_DisplayText": IFDisplayText,
     "IF_HFDownloadNode": IFHFDownload,
     "IF_DreamTalk": IFDreamTalk,
-    "IF_WhisperSpeech": IFWhisperSpeech,
-    "IF_BarkTTS": IFBarkTTS,
     "IF_ChatPrompt": IFChatPrompt,
 }
 
@@ -31,8 +27,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "IF_DisplayText": "IF Display Text📟",
     "IF_HFDownloadNode": "Hugging Face Download🤗",
     "IF_DreamTalk": "IF DreamTalk🧏🏻",
-    "IF_WhisperSpeech": "IF Whisper Speech🌬️",
-    "IF_BarkTTS": "IF Bark TTS🐶",
     "IF_ChatPrompt": "IF Chat Prompt👨‍💻"
 }
 
