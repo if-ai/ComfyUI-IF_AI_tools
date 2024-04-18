@@ -1,17 +1,12 @@
 accelerate
 torchaudio
-dlib
-poetry
 Pillow
 requests
 opencv-python
-cryptography
-pypdf2
 IPython
 huggingface_hub
 openai
 anthropic
-mistralai
 moviepy
 scipy
 scikit-image
@@ -23,6 +18,5 @@ imageio
 ffmpeg-python
 av
 nltk
-WhisperSpeech
 librosa
 
