@@ -8,7 +8,9 @@ This tool enables you to enhance your image generation workflow by leveraging th
 ## Features
 
 - [NEW] WhisperSpeech integration generate long form audio from Text while trining the voice on the fly from a 10min audio file
-- [NEW] Bark TTS generate speech from text in different languages (Sorry Not working yet)
+- https://github.com/if-ai/ComfyUI-IF_AI_WishperSpeechNode
+- [NEW] ParlerTTS
+- available https://github.com/if-ai/ComfyUI-IF_AI_ParlerTTSNode
 - [NEW] DreamTalk generate talking avatars right inside ComfyUI
 - [NEW] Json Presets (got rid of Tetx Files)
 - Use OpenAI and Claude 3 you can analize images whit the Haiku vision model
