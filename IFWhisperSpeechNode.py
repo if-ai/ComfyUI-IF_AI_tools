@@ -143,3 +143,6 @@ class IFWhisperSpeech:
         wav.write(wav_16k_path, rate=16000, data=resampled_audio)
 
         return audios, wav_16k_path
+    
+NODE_CLASS_MAPPINGS = {"IF_WhisperSpeech": IFWhisperSpeech}
+NODE_DISPLAY_NAME_MAPPINGS = {"IF_WhisperSpeech": "IF Whisper Speech🌬️"}
