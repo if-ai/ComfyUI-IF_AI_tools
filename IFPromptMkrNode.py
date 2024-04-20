@@ -43,22 +43,24 @@ class IFPrompt2Prompt:
                 "temperature": ("FLOAT", {"default": 0.7, "min": 0.0, "max": 1.0, "step": 0.1}),
             },
             "optional": {
-                "max_tokens": ("INT", {"default": 160, "min": 1, "max": 2048}),
+                "max_tokens": ("INT", {"default": 256, "min": 1, "max": 8192}),
                 "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                 "random": ("BOOLEAN", {"default": False, "label_on": "Seed", "label_off": "Temperature"}),
+                "keep_alive": ("BOOLEAN", {"default": False, "label_on": "Keeps_Model", "label_off": "Unloads_Model"}),
             },
             "hidden": {
                 "model": ("STRING", {"default": ""}),
             },
         }
     @classmethod
-    def IS_CHANGED(cls, engine, base_ip, port):
+    def IS_CHANGED(cls, engine, base_ip, port, keep_alive):
         node = cls()
-        if engine != node.engine or base_ip != node.base_ip or port != node.port or node.selected_model != node.get_models(engine, base_ip, port):
+        if engine != node.engine or base_ip != node.base_ip or port != node.port or node.selected_model != node.get_models(engine, base_ip, port) or keep_alive != node.keep_alive:
             node.engine = engine
             node.base_ip = base_ip
             node.port = port
             node.selected_model = node.get_models(engine, base_ip, port)
+            node.keep_alive = keep_alive
             return True
         return False
 
@@ -130,32 +132,20 @@ class IFPrompt2Prompt:
         else:
             print(f'you are using ollama as the engine, no api key is required')
               
-    def sample(self, input_prompt, engine, base_ip, port, selected_model, embellish_prompt, style_prompt, neg_prompt, temperature, max_tokens, seed, random):
+    def sample(self, input_prompt, engine, base_ip, port, selected_model, embellish_prompt, style_prompt, neg_prompt, temperature, max_tokens, seed, random, keep_alive):
         embellish_content = self.embellish_prompts.get(embellish_prompt, "")
         style_content = self.style_prompts.get(style_prompt, "")
         neg_content = self.neg_prompts.get(neg_prompt, "")
         
         if engine == "anthropic":
-            if random == True:
-                data = {
-                    'model': selected_model,
-                    'system': self.prime_directive, 
-                    'messages': [
-                        {"role": "user", "content": input_prompt}  
-                    ],
-                    'temperature': temperature,
-                    'seed': seed,
-                    'max_tokens': max_tokens      
-                }
-            else:
-                data = {
+            data = {
                 'model': selected_model,
-                'system': self.prime_directive, 
+                'system': self.prime_directive,
                 'messages': [
-                    {"role": "user", "content": input_prompt}  
+                    {"role": "user", "content": input_prompt}
                 ],
                 'temperature': temperature,
-                'max_tokens': max_tokens      
+                'max_tokens': max_tokens
             }
         elif engine == "openai":
             if random == True:
@@ -182,24 +172,29 @@ class IFPrompt2Prompt:
         else:
             if random == True:
                 data = {
-                    'model': selected_model, 
-                    'messages': [
-                        {"role": "system", "content": self.prime_directive},
-                        {"role": "user", "content": input_prompt}
-                    ],
-                    'temperature': temperature, 
-                    'seed': seed,
-                    'max_tokens': max_tokens
-                }
+                    "model": selected_model,
+                    "system": self.prime_directive,
+                    "prompt": input_prompt,
+                    "stream": False,
+                    "options": {
+                        "temperature": temperature,
+                        "seed": seed,
+                        "num_ctx": max_tokens,
+                    },
+                    "keep_alive": -1 if keep_alive else 0,
+                }      
             else:
                 data = {
-                    'model': selected_model, 
-                    'messages': [
-                        {"role": "system", "content": self.prime_directive},
-                        {"role": "user", "content": input_prompt}
-                    ],
-                    'temperature': temperature,
-                    'max_tokens': max_tokens
+                    "model": selected_model,
+                    "system": self.prime_directive,
+                    "prompt": input_prompt,
+                    "stream": False,
+                    "options": {
+                        "temperature": temperature,
+                        "seed": seed,
+                        "num_ctx": max_tokens,
+                    },
+                    "keep_alive": -1 if keep_alive else 0,
                 }
 
         generated_text = self.send_request(engine, base_ip, port, data, headers={"Content-Type": "application/json"})
@@ -212,13 +207,20 @@ class IFPrompt2Prompt:
               
     def send_request(self, engine, base_ip, port, data, headers):
         if engine == "ollama":
-            base_url = f'http://{base_ip}:{port}/v1/chat/completions'
-            response = requests.post(base_url, headers=headers, json=data)
+            api_url = f'http://{base_ip}:{port}/api/generate'
+            response = requests.post(api_url, headers=headers, json=data)
             if response.status_code == 200:
-                return response.json().get('choices', [{}])[0].get('message', {}).get('content', '')
+                response_data = response.json()
+                prompt_response = response_data.get('response', 'No response text found')
+                
+                # Ensure there is a response to construct the full description
+                if prompt_response != 'No response text found':
+                    return prompt_response
+                else:
+                    return "No valid response generated for the image."
             else:
-                print(f"Error: Request failed with status code {response.status_code}")
-                return None
+                print(f"Failed to fetch response, status code: {response.status_code}")
+                return "Failed to fetch response from Ollama."
         elif engine == "anthropic":
             anthropic_api_key = self.get_api_key("ANTHROPIC_API_KEY", engine)
             try:

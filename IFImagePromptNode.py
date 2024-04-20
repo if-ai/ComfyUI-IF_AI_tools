@@ -52,9 +52,10 @@ class IFImagePrompt:
                 "temperature": ("FLOAT", {"default": 0.7, "min": 0.0, "max": 1.0, "step": 0.1}),
             },
             "optional": {
-                "max_tokens": ("INT", {"default": 160, "min": 1, "max": 2048}),
+                "max_tokens": ("INT", {"default": 160, "min": 1, "max": 8192}),
                 "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                 "random": ("BOOLEAN", {"default": False, "label_on": "Seed", "label_off": "Temperature"}),
+                "keep_alive": ("BOOLEAN", {"default": False, "label_on": "Keeps_Model", "label_off": "Unloads_Model"}),
             },
             "hidden": {
                 "model": ("STRING", {"default": ""}),
@@ -62,13 +63,14 @@ class IFImagePrompt:
         }
 
     @classmethod
-    def IS_CHANGED(cls, engine, base_ip, port):
+    def IS_CHANGED(cls, engine, base_ip, port, keep_alive):
         node = cls()
-        if engine != node.engine or base_ip != node.base_ip or port != node.port or node.selected_model != node.get_models(engine, base_ip, port):
+        if engine != node.engine or base_ip != node.base_ip or port != node.port or node.selected_model != node.get_models(engine, base_ip, port) or keep_alive != node.keep_alive:
             node.engine = engine
             node.base_ip = base_ip
             node.port = port
             node.selected_model = node.get_models(engine, base_ip, port)
+            node.keep_alive = keep_alive
             return True
         return False
     
@@ -166,7 +168,7 @@ class IFImagePrompt:
         return system_message, user_message
 
 
-    def describe_picture(self, image, engine, selected_model, base_ip, port, image_prompt, embellish_prompt, style_prompt, neg_prompt, temperature, max_tokens, seed, random):
+    def describe_picture(self, image, engine, selected_model, base_ip, port, image_prompt, embellish_prompt, style_prompt, neg_prompt, temperature, max_tokens, seed, random, keep_alive):
 
         embellish_content = self.embellish_prompts.get(embellish_prompt, "")
         style_content = self.style_prompts.get(style_prompt, "")
@@ -198,7 +200,7 @@ class IFImagePrompt:
         system_message, user_message = self._prepare_messages(image_prompt)
 
         try:
-            generated_text = self.send_request(engine, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random)
+            generated_text = self.send_request(engine, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random, keep_alive)
             description = f"{embellish_content} {generated_text} {style_content}".strip()
             return  image_prompt, description, neg_content
         except Exception as e:
@@ -206,7 +208,7 @@ class IFImagePrompt:
             return "Exception occurred while processing image."
 
 
-    def send_request(self, engine, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random):
+    def send_request(self, engine, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random, keep_alive): 
         if engine == "anthropic":
             anthropic_api_key = self.get_api_key("ANTHROPIC_API_KEY", engine)
             anthropic_headers = {
@@ -214,14 +216,14 @@ class IFImagePrompt:
                 "anthropic-version": "2023-06-01",  
                 "Content-Type": "application/json"
             }
-            if random == True:
-                data = {
-                    "model": selected_model,
-                    "system": system_message,
-                    "messages": [
-                        {
-                            "role": "user",
-                            "content": [
+
+            data = {
+                "model": selected_model,
+                "system": system_message,
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": [
                                 {
                                     "type": "image",
                                     "source": {
@@ -230,37 +232,13 @@ class IFImagePrompt:
                                         "data": base64_image
                                     }
                                 },
-                                {"type": "text", "text": user_message} 
-                            ]
-                        }
-                    ],
-                    "temperature": temperature,
-                    "seed": seed,
-                    "max_tokens": max_tokens
-                }
-            else:
-                data = {
-                    "model": selected_model,
-                    "system": system_message,
-                    "messages": [
-                        {
-                            "role": "user",
-                            "content": [
-                                {
-                                    "type": "image",
-                                    "source": {
-                                        "type": "base64",
-                                        "media_type": "image/png",
-                                        "data": base64_image
-                                    }
-                                },
-                                {"type": "text", "text": user_message} 
-                            ]
-                        }
-                    ],
-                    "temperature": temperature,
-                    "max_tokens": max_tokens
-                }
+                            {"type": "text", "text": user_message}
+                        ]
+                    }
+                ],
+                "temperature": temperature,
+                "max_tokens": max_tokens
+            }
             
             api_url = 'https://api.anthropic.com/v1/messages'
 
@@ -352,7 +330,6 @@ class IFImagePrompt:
                 print("Full response:", response.text)
                 return "Failed to fetch response from OpenAI."
 
-
         else:
             api_url = f'http://{base_ip}:{port}/api/generate'
             if random == True:
@@ -364,8 +341,10 @@ class IFImagePrompt:
                     "images": [base64_image],
                     "options": {
                         "temperature": temperature,
-                        "seed": seed
-                    }
+                        "seed": seed,
+                        "num_ctx": max_tokens
+                    },
+                    "keep_alive": -1 if keep_alive else 0,
                 }
             else:
                 data = {
@@ -375,9 +354,12 @@ class IFImagePrompt:
                     "stream": False,
                     "images": [base64_image],
                     "options": {
-                        "temperature": temperature
-                    }
+                        "temperature": temperature,
+                        "num_ctx": max_tokens,
+                    },
+                    "keep_alive": -1 if keep_alive else 0,
                 }
+
             ollama_headers = {"Content-Type": "application/json"}
             response = requests.post(api_url, headers=ollama_headers, json=data)
             if response.status_code == 200:

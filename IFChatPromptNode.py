@@ -50,9 +50,10 @@ class IFChatPrompt:
             },
             "optional": {
                 "image": ("IMAGE", ),
-                "max_tokens": ("INT", {"default": 256, "min": 1, "max": 8192}),
+                "max_tokens": ("INT", {"default": 2048, "min": 1, "max": 8192}),
                 "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                 "random": ("BOOLEAN", {"default": False, "label_on": "Seed", "label_off": "Temperature"}),
+                "keep_alive": ("BOOLEAN", {"default": False, "label_on": "Keeps_Model", "label_off": "Unloads_Model"}),
             },
             "hidden": {
                 "model": ("STRING", {"default": ""}),
@@ -60,14 +61,15 @@ class IFChatPrompt:
         }
 
     @classmethod
-    def IS_CHANGED(cls, engine, base_ip, port, profile):
+    def IS_CHANGED(cls, engine, base_ip, port, profile, keep_alive):
         node = cls()
-        if engine != node.engine or base_ip != node.base_ip or port != node.port or node.selected_model != node.get_models(engine, base_ip, port) or profile != node.profiles[node.selected_model]:
+        if engine != node.engine or base_ip != node.base_ip or port != node.port or node.selected_model != node.get_models(engine, base_ip, port) or profile != node.profile or keep_alive != node.keep_alive:
             node.engine = engine
             node.base_ip = base_ip
             node.port = port
             node.selected_model = node.get_models(engine, base_ip, port)
-            node.profiles[node.selected_model] = profile
+            node.profile = profile
+            node.keep_alive = keep_alive
             return True
         return False
     
@@ -76,6 +78,7 @@ class IFChatPrompt:
         self.port = "11434"     
         self.engine = "ollama" 
         self.selected_model = ""
+        self.profile = ""
         self.comfy_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         self.presets_dir = os.path.join(os.path.dirname(__file__), "presets")
         self.profiles_file = os.path.join(self.presets_dir, "profiles.json")
@@ -93,7 +96,6 @@ class IFChatPrompt:
                 return api_key
         else:
             print(f'you are using ollama as the engine, no api key is required')
-
 
     def get_models(self, engine, base_ip, port):
         if engine == "ollama":
@@ -123,7 +125,6 @@ class IFChatPrompt:
         image = Image.fromarray(image_np, mode='RGB')
         return image
 
-
     def prepare_messages(self, image_prompt, profile):
         profile_selected = self.profiles.get(profile, "")
         
@@ -144,10 +145,8 @@ class IFChatPrompt:
         user_message = image_prompt if image_prompt else "Please provide a general description of the image."
         
         return system_message, user_message
-
-    
-    def describe_picture(self, image, engine, selected_model, base_ip, port, image_prompt, profile, temperature, max_tokens, seed, random):
-        
+   
+    def describe_picture(self, image_prompt, engine, selected_model, base_ip, port, profile, temperature, max_tokens, seed, random, keep_alive, image=None):
         if image is not None:
             # Check the type of the 'image' object
             if isinstance(image, torch.Tensor):
@@ -159,13 +158,12 @@ class IFChatPrompt:
                 pil_image = Image.open(image)
             else:
                 print(f"Invalid image type: {type(image)}. Expected torch.Tensor, PIL.Image, or file path.")
-                return "Invalid image type"
+                return "Invalid image type", ""
 
             # Convert the PIL image to base64
             buffered = BytesIO()
             pil_image.save(buffered, format="PNG")
             base64_image = base64.b64encode(buffered.getvalue()).decode('utf-8')
-
         else:
             base64_image = None
 
@@ -178,350 +176,185 @@ class IFChatPrompt:
         system_message, user_message = self.prepare_messages(image_prompt, profile)
 
         try:
-            generated_text = self.send_request(engine, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random)
+            generated_text = self.send_request(engine, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random, keep_alive)
             description = f"{generated_text}".strip()
-            return  image_prompt, description
+            return image_prompt, description
         except Exception as e:
             print(f"Exception occurred: {e}")
-            return "Exception occurred while processing image."
-
-
-    def send_request(self, engine, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random):
-        if base64_image is None:
-            if engine == "anthropic":
-                anthropic_api_key = self.get_api_key("ANTHROPIC_API_KEY", engine)
-                anthropic_headers = {
-                    "x-api-key": anthropic_api_key,
-                    "anthropic-version": "2023-06-01",  
-                    "Content-Type": "application/json"
-                }
-                if random == True:
-                    data = {
-                        "model": selected_model,
-                        "system": system_message,
-                        "messages": [
-                            {
-                                "role": "user",
-                                "content": user_message
-                            }
-                        ],
-                        "temperature": temperature,
-                        "seed": seed,
-                        "max_tokens": max_tokens
-                    }
-                else:
-                    data = {
-                        "model": selected_model,
-                        "system": system_message,
-                        "messages": [
-                            {
-                                "role": "user",
-                                "content": user_message
-                            }
-                        ],
-                        "temperature": temperature,
-                        "max_tokens": max_tokens
-                    }
-                
-                api_url = 'https://api.anthropic.com/v1/messages'
-
-                response = requests.post(api_url, headers=anthropic_headers, json=data)
-                if response.status_code == 200:
-                    response_data = response.json()
-                    messages = response_data.get('content', [])
-                    generated_text = ''.join([msg.get('text', '') for msg in messages if msg.get('type') == 'text'])
-                    return generated_text
-                else:
-                    print(f"Error: Request failed with status code {response.status_code}, Response: {response.text}")
-                    return "Failed to fetch response from Anthropic."
-                    
-            elif engine == "openai":
-                openai_api_key = self.get_api_key("OPENAI_API_KEY", engine)
-                openai_headers = {
-                    "Authorization": f"Bearer {openai_api_key}",
-                    "Content-Type": "application/json"
-                }
-                if random == True:
-                    data = {
-                        "model": selected_model,
-                        "messages": [
-                            {
-                                "role": "system",
-                                "content": system_message
-                            },
-                            {
-                                "role": "user",
-                                "content": user_message
-                            }
-                        ],
-                        "temperature": temperature,
-                        "seed": seed,
-                        "max_tokens": max_tokens
-                    }
-                else:
-                    data = {
-                        "model": selected_model,
-                        "messages": [
-                            {
-                                "role": "system",
-                                "content": system_message
-                            },
-                            {
-                                "role": "user",
-                                "content": user_message
-                            }
-                        ],
-                        "temperature": temperature,
-                        "max_tokens": max_tokens
-                    }
-
-                api_url = 'https://api.openai.com/v1/chat/completions'
-                response = requests.post(api_url, headers=openai_headers, json=data)
-                if response.status_code == 200:
-                    response_data = response.json()
-                    print("Debug Response:", response_data)
-                    choices = response_data.get('choices', [])
-                    if choices:
-                        choice = choices[0]
-                        message = choice.get('message', {})
-                        generated_text = message.get('content', '')
-                        return generated_text
-                    else:
-                        print("No valid choices in the response.")
-                        print("Full response:", response.text)
-                        return "No valid response generated."
-                else:
-                    print(f"Failed to fetch response, status code: {response.status_code}")
-                    print("Full response:", response.text)
-                    return "Failed to fetch response from OpenAI."
-
-            else:
-                api_url = f'http://{base_ip}:{port}/api/generate'
-                if random == True:
-                    data = {
-                        "model": selected_model,
-                        "system": system_message,
-                        "prompt": user_message,
-                        "stream": False,
-                        "options": {
-                            "temperature": temperature,
-                            "seed": seed
-                        }
-                    }
-                else:
-                    data = {
-                        "model": selected_model,
-                        "system": system_message,
-                        "prompt": user_message,
-                        "stream": False,
-                        "options": {
-                            "temperature": temperature
-                        }
-                    }
-                ollama_headers = {"Content-Type": "application/json"}
-                response = requests.post(api_url, headers=ollama_headers, json=data)
-                if response.status_code == 200:
-                    response_data = response.json()
-                    prompt_response = response_data.get('response', 'No response text found')
-                    
-                    # Ensure there is a response to construct the full description
-                    if prompt_response != 'No response text found':
-                        return prompt_response
-                    else:
-                        return "No valid response generated."
-                else:
-                    print(f"Failed to fetch response, status code: {response.status_code}")
-                    return "Failed to fetch response from Ollama."
-        
-        else:
-                
-            if engine == "anthropic":
-                anthropic_api_key = self.get_api_key(
-                    "ANTHROPIC_API_KEY", engine)
-                anthropic_headers = {
-                    "x-api-key": anthropic_api_key,
-                    "anthropic-version": "2023-06-01",
-                    "Content-Type": "application/json"
-                }
-                if random == True:
-                    data = {
-                        "model": selected_model,
-                        "system": system_message,
-                        "messages": [
-                            {
-                                "role": "user",
-                                "content": [
-                                    {
-                                        "type": "image",
-                                        "source": {
-                                            "type": "base64",
-                                                "media_type": "image/png",
-                                                "data": base64_image
-                                        }
-                                    },
-                                    {"type": "text", "text": user_message}
-                                ]
-                            }
-                        ],
-                        "temperature": temperature,
-                        "seed": seed,
-                        "max_tokens": max_tokens
-                    }
-                else:
-                    data = {
-                        "model": selected_model,
-                        "system": system_message,
-                        "messages": [
-                            {
-                                "role": "user",
-                                "content": [
-                                    {
-                                        "type": "image",
-                                        "source": {
-                                            "type": "base64",
-                                                "media_type": "image/png",
-                                                "data": base64_image
-                                        }
-                                    },
-                                    {"type": "text", "text": user_message}
-                                ]
-                            }
-                        ],
-                        "temperature": temperature,
-                        "max_tokens": max_tokens
-                    }
-                    
-                    api_url = 'https://api.anthropic.com/v1/messages'
-
-                    response = requests.post(api_url, headers=anthropic_headers, json=data)
-                    if response.status_code == 200:
-                        response_data = response.json()
-                        messages = response_data.get('content', [])
-                        generated_text = ''.join([msg.get('text', '') for msg in messages if msg.get('type') == 'text'])
-                        return generated_text
-                    else:
-                        print(f"Error: Request failed with status code {response.status_code}, Response: {response.text}")
-                        return "Failed to fetch response from Anthropic."
-                        
-            elif engine == "openai":
-                openai_api_key = self.get_api_key("OPENAI_API_KEY", engine)
-                openai_headers = {
-                    "Authorization": f"Bearer {openai_api_key}",
-                    "Content-Type": "application/json"
-                }
-                if random == True:
-                    data = {
-                        "model": selected_model,
-                        "messages": [
-                            {
-                                "role": "system",
-                                "content": system_message
-                            },
-                            {
-                                "role": "user",
-                                "content": [
-                                    {
-                                        "type": "text",
-                                        "text": user_message
-                                    },
-                                    {
-                                        "type": "image_url",
-                                        "image_url": f"data:image/png;base64,{base64_image}"
-                                    }
-                                ]
-                            }
-                        ],
-                        "temperature": temperature,
-                        "seed": seed,
-                        "max_tokens": max_tokens
-                    }
-                else:
-                    data = {
-                        "model": selected_model,
-                        "messages": [
-                            {
-                                "role": "system",
-                                "content": system_message
-                            },
-                            {
-                                "role": "user",
-                                "content": [
-                                    {
-                                        "type": "text",
-                                        "text": user_message
-                                    },
-                                    {
-                                        "type": "image_url",
-                                        "image_url": f"data:image/png;base64,{base64_image}"
-                                    }
-                                ]
-                            }
-                        ],
-                        "temperature": temperature,
-                        "max_tokens": max_tokens
-                    }
-
-                    api_url = 'https://api.openai.com/v1/chat/completions'
-                    response = requests.post(api_url, headers=openai_headers, json=data)
-                    if response.status_code == 200:
-                        response_data = response.json()
-                        print("Debug Response:", response_data)
-                        choices = response_data.get('choices', [])
-                        if choices:
-                            choice = choices[0]
-                            message = choice.get('message', {})
-                            generated_text = message.get('content', '')
-                            return generated_text
-                        else:
-                            print("No valid choices in the response.")
-                            print("Full response:", response.text)
-                            return "No valid response generated for the image."
-                    else:
-                        print(f"Failed to fetch response, status code: {response.status_code}")
-                        print("Full response:", response.text)
-                        return "Failed to fetch response from OpenAI."
-
-            else:
-                api_url = f'http://{base_ip}:{port}/api/generate'
-                if random == True:
-                    data = {
-                        "model": selected_model,
-                        "system": system_message,
-                        "prompt": user_message,
-                        "stream": False,
-                        "images": [base64_image],
-                        "options": {
-                            "temperature": temperature,
-                            "seed": seed
-                        }
-                    }
-                else:
-                    data = {
-                        "model": selected_model,
-                        "system": system_message,
-                        "prompt": user_message,
-                        "stream": False,
-                        "images": [base64_image],
-                        "options": {
-                            "temperature": temperature
-                        }
-                    }
-                    ollama_headers = {"Content-Type": "application/json"}
-                    response = requests.post(api_url, headers=ollama_headers, json=data)
-                    if response.status_code == 200:
-                        response_data = response.json()
-                        prompt_response = response_data.get('response', 'No response text found')
-                        
-                        # Ensure there is a response to construct the full description
-                        if prompt_response != 'No response text found':
-                            return prompt_response
-                        else:
-                            return "No valid response generated for the image."
-                    else:
-                        print(f"Failed to fetch response, status code: {response.status_code}")
-                        return "Failed to fetch response from Ollama."
+            return "Exception occurred while processing image.", ""
             
+    def send_request(self, engine, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random, keep_alive):
+        if engine == "anthropic":
+            return self.send_anthropic_request(selected_model, base64_image, system_message, user_message, temperature, max_tokens)
+        elif engine == "openai":
+            return self.send_openai_request(selected_model, base64_image, system_message, user_message, temperature, max_tokens, seed, random)
+        else:
+            return self.send_ollama_request(selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random, keep_alive)
 
+    def send_anthropic_request(self, selected_model, base64_image, system_message, user_message, temperature, max_tokens):
+        anthropic_api_key = self.get_api_key("ANTHROPIC_API_KEY", "anthropic")
+        anthropic_headers = {
+            "x-api-key": anthropic_api_key,
+            "anthropic-version": "2023-06-01",
+            "Content-Type": "application/json"
+        }
+        
+        data = {
+            "model": selected_model,
+            "system": system_message,
+            "messages": self.prepare_anthropic_messages(base64_image, user_message),
+            "temperature": temperature,
+            "max_tokens": max_tokens
+        }
+        
+        
+        api_url = 'https://api.anthropic.com/v1/messages'
+        response = requests.post(api_url, headers=anthropic_headers, json=data)
+        
+        if response.status_code == 200:
+            response_data = response.json()
+            messages = response_data.get('content', [])
+            generated_text = ''.join([msg.get('text', '') for msg in messages if msg.get('type') == 'text'])
+            return generated_text
+        else:
+            print(f"Error: Request failed with status code {response.status_code}, Response: {response.text}")
+            return "Failed to fetch response from Anthropic."
+
+    def send_openai_request(self, selected_model, base64_image, system_message, user_message, temperature, max_tokens, seed, random):
+        openai_api_key = self.get_api_key("OPENAI_API_KEY", "openai")
+        openai_headers = {
+            "Authorization": f"Bearer {openai_api_key}",
+            "Content-Type": "application/json"
+        }
+        
+        data = {
+            "model": selected_model,
+            "messages": self.prepare_openai_messages(base64_image, system_message, user_message),
+            "temperature": temperature,
+            "max_tokens": max_tokens
+        }
+        
+        if random:
+            data["seed"] = seed
+        
+        api_url = 'https://api.openai.com/v1/chat/completions'
+        response = requests.post(api_url, headers=openai_headers, json=data)
+        
+        if response.status_code == 200:
+            response_data = response.json()
+            choices = response_data.get('choices', [])
+            if choices:
+                choice = choices[0]
+                message = choice.get('message', {})
+                generated_text = message.get('content', '')
+                return generated_text
+            else:
+                print("No valid choices in the response.")
+                print("Full response:", response.text)
+                return "No valid response generated."
+        else:
+            print(f"Failed to fetch response, status code: {response.status_code}")
+            print("Full response:", response.text)
+            return "Failed to fetch response from OpenAI."
+
+    def send_ollama_request(self, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random, keep_alive):
+        api_url = f'http://{base_ip}:{port}/api/generate'
+        
+        data = {
+            "model": selected_model,
+            "stream": False,
+            "options": {
+                "temperature": temperature,
+                "num_ctx": max_tokens
+            },
+            "keep_alive": -1 if keep_alive else 0,
+        }
+        
+        data.update(self.prepare_ollama_messages(base64_image, system_message, user_message))
+        
+        if random:
+            data["options"]["seed"] = seed
+        
+        ollama_headers = {"Content-Type": "application/json"}
+        response = requests.post(api_url, headers=ollama_headers, json=data)
+        
+        if response.status_code == 200:
+            response_data = response.json()
+            prompt_response = response_data.get('response', 'No response text found')
+            if prompt_response != 'No response text found':
+                return prompt_response
+            else:
+                return "No valid response generated."
+        else:
+            print(f"Failed to fetch response, status code: {response.status_code}")
+            return "Failed to fetch response from Ollama."
+
+    def prepare_anthropic_messages(self, base64_image, user_message):
+        if base64_image:
+            return [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "image",
+                            "source": {
+                                "type": "base64",
+                                "media_type": "image/png",
+                                "data": base64_image
+                            }
+                        },
+                        {"type": "text", "text": user_message}
+                    ]
+                }
+            ]
+        else:
+            return [
+                {
+                    "role": "user",
+                    "content": user_message
+                }
+            ]
+
+    def prepare_openai_messages(self, base64_image, system_message, user_message):
+        messages = [
+            {
+                "role": "system",
+                "content": system_message
+            }
+        ]
+        
+        if base64_image:
+            messages.append({
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": user_message
+                    },
+                    {
+                        "type": "image_url",
+                        "image_url": f"data:image/png;base64,{base64_image}"
+                    }
+                ]
+            })
+        else:
+            messages.append({
+                "role": "user",
+                "content": user_message
+            })
+        
+        return messages
+
+    def prepare_ollama_messages(self, base64_image, system_message, user_message):
+        messages = {
+            "system": system_message,
+            "prompt": user_message
+        }
+        
+        if base64_image:
+            messages["images"] = [base64_image]
+        
+        return messages
 
 NODE_CLASS_MAPPINGS = {"IF_ChatPrompt": IFChatPrompt}
 NODE_DISPLAY_NAME_MAPPINGS = {"IF_ChatPrompt": "IF Chat Prompt👨‍💻"}
