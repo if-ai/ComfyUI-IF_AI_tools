@@ -12,6 +12,7 @@ This tool enables you to enhance your image generation workflow by leveraging th
 - [NEW] ParlerTTS
 - available https://github.com/if-ai/ComfyUI-IF_AI_ParlerTTSNode
 - [NEW] DreamTalk generate talking avatars right inside ComfyUI
+  Moved https://github.com/if-ai/ComfyUI-IF_AI_Dreamtalk/tree/main
 - [NEW] Json Presets (got rid of Tetx Files)
 - Use OpenAI and Claude 3 you can analize images whit the Haiku vision model
 - Generate prompts using a local LLM via Ollama
