@@ -1,5 +1,3 @@
-accelerate
-torchaudio
 Pillow
 requests
 opencv-python
@@ -8,15 +6,6 @@ huggingface_hub
 openai
 anthropic
 moviepy
-scipy
-scikit-image
-scikit-learn
 numpy
-yacs
-PyYAML
-imageio
-ffmpeg-python
-av
-nltk
-librosa
+
 
