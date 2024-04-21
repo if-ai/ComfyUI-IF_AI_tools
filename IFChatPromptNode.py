@@ -45,7 +45,7 @@ class IFChatPrompt:
                 "engine": (["ollama", "openai", "anthropic"], {"default": node.engine}),
                 #"selected_model": (node.get_models("node.engine", node.base_ip, node.port), {}), 
                 "selected_model": ((), {}),
-                "profile": ([name for name in node.profiles.keys()], {}),
+                "profile": ([name for name in node.profiles.keys()], {"default": node.profile}),
                 "temperature": ("FLOAT", {"default": 0.7, "min": 0.0, "max": 1.0, "step": 0.1}),
             },
             "optional": {
@@ -78,7 +78,7 @@ class IFChatPrompt:
         self.port = "11434"     
         self.engine = "ollama" 
         self.selected_model = ""
-        self.profile = ""
+        self.profile = "Cortana"
         self.comfy_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         self.presets_dir = os.path.join(os.path.dirname(__file__), "presets")
         self.profiles_file = os.path.join(self.presets_dir, "profiles.json")
@@ -125,24 +125,20 @@ class IFChatPrompt:
         image = Image.fromarray(image_np, mode='RGB')
         return image
 
-    def prepare_messages(self, image_prompt, profile):
+    def prepare_messages(self, image_prompt, profile, image=None):
         profile_selected = self.profiles.get(profile, "")
         
-        if not image_prompt:
+        if image is not None:
             system_message = textwrap.dedent("""
-                When an image is provided, examine it closely and describe its contents, including the subject, setting, colors, composition, and any other relevant details.
-                If the user asks a question about the image, provide a thoughtful and informative response based on your analysis.
-                If no specific question is asked, provide a general description of the image.
+                Analyze the image provided, search for relevant details from the image to include on your response.
+                Reply to the user's specific question or prompt and include relevant details extracted from the image.
             """)
         else:
-            system_message = textwrap.dedent("""
-                Please analyze the provided image and respond to the user's specific question or prompt.
-                If no question is asked, provide a general description of the image, including the subject, setting, colors, composition, and any other relevant details.
-            """)
+            system_message = ""
         
         system_message = f"{profile_selected}\n{system_message}"
         
-        user_message = image_prompt if image_prompt else "Please provide a general description of the image."
+        user_message = image_prompt if image_prompt.strip() != "" else "Please provide a general description of the image."
         
         return system_message, user_message
    
@@ -173,7 +169,7 @@ class IFChatPrompt:
             print(error_message)
             raise ValueError(error_message)
 
-        system_message, user_message = self.prepare_messages(image_prompt, profile)
+        system_message, user_message = self.prepare_messages(image_prompt, profile, image)
 
         try:
             generated_text = self.send_request(engine, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random, keep_alive)

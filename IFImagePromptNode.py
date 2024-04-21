@@ -46,6 +46,7 @@ class IFImagePrompt:
                 "engine": (["ollama", "openai", "anthropic"], {"default": node.engine}),
                 #"selected_model": (node.get_models("node.engine", node.base_ip, node.port), {}), 
                 "selected_model": ((), {}),
+                "profile": ([name for name in node.profiles.keys()], {"default": node.profile}),
                 "embellish_prompt": ([name for name in node.embellish_prompts.keys()], {}),
                 "style_prompt": ([name for name in node.style_prompts.keys()], {}),
                 "neg_prompt": ([name for name in node.neg_prompts.keys()], {}),
@@ -63,14 +64,15 @@ class IFImagePrompt:
         }
 
     @classmethod
-    def IS_CHANGED(cls, engine, base_ip, port, keep_alive):
+    def IS_CHANGED(cls, engine, base_ip, port, keep_alive, profile):
         node = cls()
-        if engine != node.engine or base_ip != node.base_ip or port != node.port or node.selected_model != node.get_models(engine, base_ip, port) or keep_alive != node.keep_alive:
+        if engine != node.engine or base_ip != node.base_ip or port != node.port or node.selected_model != node.get_models(engine, base_ip, port) or keep_alive != node.keep_alive or profile != profile:
             node.engine = engine
             node.base_ip = base_ip
             node.port = port
             node.selected_model = node.get_models(engine, base_ip, port)
             node.keep_alive = keep_alive
+            node.profile = profile
             return True
         return False
     
@@ -79,8 +81,11 @@ class IFImagePrompt:
         self.port = "11434"     
         self.engine = "ollama" 
         self.selected_model = ""
+        self.profile = "IF_PromptMKR_IMG"
         self.comfy_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         self.presets_dir = os.path.join(os.path.dirname(__file__), "presets")
+        self.profiles_file = os.path.join(self.presets_dir, "profiles.json")
+        self.profiles = self.load_presets(self.profiles_file)
         self.neg_prompts_file = os.path.join(self.presets_dir, "neg_prompts.json")
         self.embellish_prompts_file = os.path.join(self.presets_dir, "embellishments.json")
         self.style_prompts_file = os.path.join(self.presets_dir, "style_prompts.json")
@@ -132,43 +137,35 @@ class IFImagePrompt:
         return image
 
 
-    def _prepare_messages(self, image_prompt):
-        system_message = textwrap.dedent("""\
-                    Act as a visual prompt maker with the following guidelines:
-                    - Describe the image in vivid detail.
-                    - Break keywords by commas.
-                    - Provide high-quality, non-verbose, coherent, concise, and not superfluous descriptions.
-                    - Focus solely on the visual elements of the picture; avoid art commentaries or intentions.
-                    - Construct the prompt by describing framing, subjects, scene elements, background, aesthetics.
-                    - Limit yourself up to 7 keywords per component  
-                    - Be varied and creative.
-                    - Always reply on the same line, use around 100 words long. 
-                    - Do not enumerate or enunciate components.
-                    - Do not include any additional information in the response.                                                       
-                    The following is an illustrative example for you to see how to construct a prompt your prompts should follow this format but always coherent to the subject worldbuilding or setting and consider the elements relationship:
-                    'Epic, Cover Art, Full body shot, dynamic angle, A Demon Hunter, standing, lone figure, glow eyes, deep purple light, cybernetic exoskeleton, sleek, metallic, glowing blue accents, energy weapons. Fighting Demon, grotesque creature, twisted metal, glowing red eyes, sharp claws, Cyber City, towering structures, shrouded haze, shimmering energy. Ciberpunk, dramatic lighthing, highly detailed. ' 
-                    Make a visual prompt for the following Image:
-                    """) if not image_prompt else "Please analyze the image and respond to the user's question."
-        user_message = image_prompt if image_prompt else textwrap.dedent("""\
-                    Act as a visual prompt maker with the following guidelines:
-                    - Describe the image in vivid detail.
-                    - Break keywords by commas.
-                    - Provide high-quality, non-verbose, coherent, concise, and not superfluous descriptions.
-                    - Focus solely on the visual elements of the picture; avoid art commentaries or intentions.
-                    - Construct the prompt by describing framing, subjects, scene elements, background, aesthetics.
-                    - Limit yourself up to 7 keywords per component  
-                    - Be varied and creative.
-                    - Always reply on the same line, use around 100 words long. 
-                    - Do not enumerate or enunciate components.
-                    - Do not include any additional information in the response.                                                       
-                    The following is an illustartive example for you to see how to construct a prompt your prompts should follow this format but always coherent to the subject worldbuilding or setting and consider the elements relationship:
-                    'Epic, Cover Art, Full body shot, dynamic angle, A Demon Hunter, standing, lone figure, glow eyes, deep purple light, cybernetic exoskeleton, sleek, metallic, glowing blue accents, energy weapons. Fighting Demon, grotesque creature, twisted metal, glowing red eyes, sharp claws, Cyber City, towering structures, shrouded haze, shimmering energy. Ciberpunk, dramatic lighthing, highly detailed. ' 
-                    Make a visual prompt for the following Image:
-                    """)
+    def prepare_messages(self, image_prompt, profile):
+        profile_selected = self.profiles.get(profile, "")
+        empty_image_prompt = "Make a visual prompt for the following Image:"
+        filled_image_prompt = textwrap.dedent("""\
+            Act as a visual prompt maker with the following guidelines:
+            - Describe the image in vivid detail.
+            - Break keywords by commas.
+            - Provide high-quality, non-verbose, coherent, concise, and not superfluous descriptions.
+            - Focus solely on the visual elements of the picture; avoid art commentaries or intentions.
+            - Construct the prompt by describing framing, subjects, scene elements, background, aesthetics.
+            - Limit yourself up to 7 keywords per component  
+            - Be varied and creative.
+            - Always reply on the same line, use around 100 words long. 
+            - Do not enumerate or enunciate components.
+            - Do not include any additional information in the response.                                                       
+            The following is an illustartive example for you to see how to construct a prompt your prompts should follow this format but always coherent to the subject worldbuilding or setting and consider the elements relationship:
+            'Epic, Cover Art, Full body shot, dynamic angle, A Demon Hunter, standing, lone figure, glow eyes, deep purple light, cybernetic exoskeleton, sleek, metallic, glowing blue accents, energy weapons. Fighting Demon, grotesque creature, twisted metal, glowing red eyes, sharp claws, Cyber City, towering structures, shrouded haze, shimmering energy. Ciberpunk, dramatic lighthing, highly detailed. ' 
+             """)
+        if image_prompt.strip() == "":
+            system_message = filled_image_prompt
+            user_message = empty_image_prompt
+        else:
+            system_message = profile_selected 
+            user_message = image_prompt
+
         return system_message, user_message
 
 
-    def describe_picture(self, image, engine, selected_model, base_ip, port, image_prompt, embellish_prompt, style_prompt, neg_prompt, temperature, max_tokens, seed, random, keep_alive):
+    def describe_picture(self, image, engine, selected_model, base_ip, port, image_prompt, embellish_prompt, style_prompt, neg_prompt, temperature, max_tokens, seed, random, keep_alive, profile):
 
         embellish_content = self.embellish_prompts.get(embellish_prompt, "")
         style_content = self.style_prompts.get(style_prompt, "")
@@ -197,7 +194,7 @@ class IFImagePrompt:
             print(error_message)
             raise ValueError(error_message)
 
-        system_message, user_message = self._prepare_messages(image_prompt)
+        system_message, user_message = self.prepare_messages(image_prompt, profile)
 
         try:
             generated_text = self.send_request(engine, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random, keep_alive)

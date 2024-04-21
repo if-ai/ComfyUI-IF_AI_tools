@@ -37,6 +37,7 @@ class IFPrompt2Prompt:
                 "engine": (["ollama", "openai", "anthropic"], {"default": node.engine}),
                 #"selected_model": (node.get_models("node.engine", node.base_ip, node.port), {}), 
                 "selected_model": ((), {}),
+                "profile": ([name for name in node.profiles.keys()], {"default": node.profile}),
                 "embellish_prompt": ([name for name in node.embellish_prompts.keys()], {}),
                 "style_prompt": ([name for name in node.style_prompts.keys()], {}),
                 "neg_prompt": ([name for name in node.neg_prompts.keys()], {}),
@@ -53,13 +54,14 @@ class IFPrompt2Prompt:
             },
         }
     @classmethod
-    def IS_CHANGED(cls, engine, base_ip, port, keep_alive):
+    def IS_CHANGED(cls, engine, base_ip, port, profile, keep_alive):
         node = cls()
         if engine != node.engine or base_ip != node.base_ip or port != node.port or node.selected_model != node.get_models(engine, base_ip, port) or keep_alive != node.keep_alive:
             node.engine = engine
             node.base_ip = base_ip
             node.port = port
             node.selected_model = node.get_models(engine, base_ip, port)
+            node.profile = profile
             node.keep_alive = keep_alive
             return True
         return False
@@ -69,36 +71,30 @@ class IFPrompt2Prompt:
         self.port = "11434"     
         self.engine = "ollama" 
         self.selected_model = ""
+        self.profile = "IF_PromptMKR"
         self.comfy_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         self.presets_dir = os.path.join(os.path.dirname(__file__), "presets")
+        self.profiles_file = os.path.join(self.presets_dir, "profiles.json")
+        self.profiles = self.load_presets(self.profiles_file)
         self.neg_prompts_file = os.path.join(self.presets_dir, "neg_prompts.json")
         self.embellish_prompts_file = os.path.join(self.presets_dir, "embellishments.json")
         self.style_prompts_file = os.path.join(self.presets_dir, "style_prompts.json")
         self.neg_prompts = self.load_presets(self.neg_prompts_file)
         self.embellish_prompts = self.load_presets(self.embellish_prompts_file)
         self.style_prompts = self.load_presets(self.style_prompts_file)
-        self.prime_directive = textwrap.dedent("""\
-            Act as a prompt maker with the following guidelines:
-            - Break keywords by commas.
-            - Provide high-quality, non-verbose, coherent, brief, concise, and not superfluous prompts.
-            - Focus solely on the visual elements of the picture; avoid art commentaries or intentions.
-            - Construct the prompt with the component format:
-            1. Start with the subject and keyword description.
-            2. Follow with scene keyword description.
-            3. Finish with background and keyword description.
-            - Limit yourself to no more than 7 keywords per component  
-            - Include all the keywords from the user's request verbatim as the main subject of the response.
-            - Be varied and creative.
-            - Always reply on the same line and no more than 100 words long. 
-            - Do not enumerate or enunciate components.
-            - Do not include any additional information in the response.                                                       
-            The following is an illustrative example for you to see how to construct a prompt your prompts should follow this format but always coherent to the subject worldbuilding or setting and consider the elements relationship.
-            Example:
-            Subject: Demon Hunter, Cyber City.
-            prompt: A Demon Hunter, standing, lone figure, glow eyes, deep purple light, cybernetic exoskeleton, sleek, metallic, glowing blue accents, energy weapons. Fighting Demon, grotesque creature, twisted metal, glowing red eyes, sharp claws, Cyber City, towering structures, shrouded haze, shimmering energy.                             
-            Make a prompt for the following Subject:
-            """)
-
+        
+    def load_presets(self, file_path):
+        with open(file_path, 'r') as f:
+            presets = json.load(f)
+        return presets
+   
+    def get_api_key(self, api_key_name, engine):
+        if engine != "ollama":  
+            api_key = os.getenv(api_key_name)
+            if api_key:
+                return api_key
+        else:
+            print(f'you are using ollama as the engine, no api key is required')
 
     def get_models(self, engine, base_ip, port):
         if engine == "ollama":
@@ -118,29 +114,17 @@ class IFPrompt2Prompt:
         else:
             print(f"Unsupported engine - {engine}")
             return []
-
-    def load_presets(self, file_path):
-        with open(file_path, 'r') as f:
-            presets = json.load(f)
-        return presets
-   
-    def get_api_key(self, api_key_name, engine):
-        if engine != "ollama":  
-            api_key = os.getenv(api_key_name)
-            if api_key:
-                return api_key
-        else:
-            print(f'you are using ollama as the engine, no api key is required')
               
-    def sample(self, input_prompt, engine, base_ip, port, selected_model, embellish_prompt, style_prompt, neg_prompt, temperature, max_tokens, seed, random, keep_alive):
+    def sample(self, input_prompt, engine, base_ip, port, selected_model, embellish_prompt, style_prompt, neg_prompt, temperature, max_tokens, seed, random, keep_alive, profile):
         embellish_content = self.embellish_prompts.get(embellish_prompt, "")
         style_content = self.style_prompts.get(style_prompt, "")
         neg_content = self.neg_prompts.get(neg_prompt, "")
-        
+        profile_selected = self.profiles.get(profile, "")
+
         if engine == "anthropic":
             data = {
                 'model': selected_model,
-                'system': self.prime_directive,
+                'system': profile_selected ,
                 'messages': [
                     {"role": "user", "content": input_prompt}
                 ],
@@ -152,7 +136,7 @@ class IFPrompt2Prompt:
                 data = {
                     'model': selected_model, 
                     'messages': [
-                        {"role": "system", "content": self.prime_directive},
+                        {"role": "system", "content": profile_selected },
                         {"role": "user", "content": input_prompt}
                     ],
                     'temperature': temperature,
@@ -163,7 +147,7 @@ class IFPrompt2Prompt:
                 data = {
                     'model': selected_model, 
                     'messages': [
-                        {"role": "system", "content": self.prime_directive},
+                        {"role": "system", "content": profile_selected },
                         {"role": "user", "content": input_prompt}
                     ],
                     'temperature': temperature,
@@ -173,7 +157,7 @@ class IFPrompt2Prompt:
             if random == True:
                 data = {
                     "model": selected_model,
-                    "system": self.prime_directive,
+                    "system": profile_selected ,
                     "prompt": input_prompt,
                     "stream": False,
                     "options": {
@@ -186,7 +170,7 @@ class IFPrompt2Prompt:
             else:
                 data = {
                     "model": selected_model,
-                    "system": self.prime_directive,
+                    "system": profile_selected ,
                     "prompt": input_prompt,
                     "stream": False,
                     "options": {
