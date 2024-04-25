@@ -6,14 +6,14 @@ ComfyUI-IF_AI_tools is a set of custom nodes for ComfyUI that allows you to gene
 This tool enables you to enhance your image generation workflow by leveraging the power of language models.
 
 ## Features
-
-- [NEW] WhisperSpeech integration generate long form audio from Text while trining the voice on the fly from a 10min audio file
+-[NEW] Groq and kobold engines set port to 5001 and GROQ_API_KEY
+- WhisperSpeech integration generate long form audio from Text while trining the voice on the fly from a 10min audio file
 - https://github.com/if-ai/ComfyUI-IF_AI_WishperSpeechNode
-- [NEW] ParlerTTS
+- ParlerTTS
 - available https://github.com/if-ai/ComfyUI-IF_AI_ParlerTTSNode
-- [NEW] DreamTalk generate talking avatars right inside ComfyUI
+- DreamTalk generate talking avatars right inside ComfyUI
   Moved https://github.com/if-ai/ComfyUI-IF_AI_Dreamtalk/tree/main
-- [NEW] Json Presets (got rid of Tetx Files)
+- Json Presets (got rid of Tetx Files)
 - Use OpenAI and Claude 3 you can analize images whit the Haiku vision model
 - Generate prompts using a local LLM via Ollama
 - generate SD prompts or ask questions about an image with Image to prompt node
@@ -23,7 +23,7 @@ This tool enables you to enhance your image generation workflow by leveraging th
 ## Prerequisites
 - [Ollama](https://github.com/ollama/ollama/releases) - You need to install Ollama for this tool to work. Visit [ollama.com](https://ollama.com) for more information.
 
-Optionally Set enviromnet variables for "ANTHROPIC_API_KEY" & "OPENAI_API_KEY" with those names or otherwise it won't pick it up and the respective API keys 
+Optionally Set enviromnet variables for "ANTHROPIC_API_KEY" & "OPENAI_API_KEY" & "GROQ_API_KEY" with those names or otherwise it won't pick it up and the respective API keys 
 
 
 ## Installation
