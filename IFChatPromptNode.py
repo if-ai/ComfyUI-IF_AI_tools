@@ -14,6 +14,11 @@ import anthropic
 import openai
 from server import PromptServer
 from aiohttp import web
+from .anthropic_api import send_anthropic_request
+from .ollama_api import send_ollama_request
+from .openai_api import send_openai_request
+from .kobold_api import send_kobold_request
+from .groq_api import send_groq_request
 
 @PromptServer.instance.routes.post("/IF_ChatPrompt/get_models")
 async def get_models_endpoint(request):
@@ -42,18 +47,23 @@ class IFChatPrompt:
                 "image_prompt": ("STRING", {"multiline": True, "default": ""}),
                 "base_ip": ("STRING", {"default": node.base_ip}),
                 "port": ("STRING", {"default": node.port}),
-                "engine": (["ollama", "openai", "anthropic"], {"default": node.engine}),
+                "engine": (["ollama", "kobold", "groq", "openai", "anthropic"], {"default": node.engine}),
                 #"selected_model": (node.get_models("node.engine", node.base_ip, node.port), {}), 
                 "selected_model": ((), {}),
                 "profile": ([name for name in node.profiles.keys()], {"default": node.profile}),
+                "max_tokens": ("INT", {"default": 2048, "min": 1, "max": 8192}),
                 "temperature": ("FLOAT", {"default": 0.7, "min": 0.0, "max": 1.0, "step": 0.1}),
+                "top_k": ("INT", {"default": 50, "min": 0, "max": 100}),
+                "top_p": ("FLOAT", {"default": 0.95, "min": 0.0, "max": 1.0, "step": 0.1}),
+                "repeat_penalty": ("FLOAT", {"default": 1.2, "min": 0.0, "max": 10.0, "step": 0.1}),
             },
             "optional": {
                 "image": ("IMAGE", ),
-                "max_tokens": ("INT", {"default": 2048, "min": 1, "max": 8192}),
                 "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                 "random": ("BOOLEAN", {"default": False, "label_on": "Seed", "label_off": "Temperature"}),
                 "keep_alive": ("BOOLEAN", {"default": False, "label_on": "Keeps_Model", "label_off": "Unloads_Model"}),
+                "stop": ("STRING", {"default": "", "multiline": False, "label": "Stop"}),
+                "history_steps": ("INT", {"default": 10, "min": 0, "max": 0xffffffffffffffff}),
             },
             "hidden": {
                 "model": ("STRING", {"default": ""}),
@@ -61,15 +71,29 @@ class IFChatPrompt:
         }
 
     @classmethod
-    def IS_CHANGED(cls, engine, base_ip, port, profile, keep_alive):
+    def IS_CHANGED(cls, engine, base_ip, port, profile, keep_alive, seed, random, history_steps):
         node = cls()
-        if engine != node.engine or base_ip != node.base_ip or port != node.port or node.selected_model != node.get_models(engine, base_ip, port) or profile != node.profile or keep_alive != node.keep_alive:
+        seed_changed = seed != node.seed or random != node.random
+        other_changes = (
+            engine != node.engine
+            or base_ip != node.base_ip
+            or port != node.port
+            or node.selected_model != node.get_models(engine, base_ip, port)
+            or profile != node.profile
+            or keep_alive != node.keep_alive
+            or history_steps != node.history_steps
+        )
+
+        if seed_changed or other_changes:
             node.engine = engine
             node.base_ip = base_ip
             node.port = port
             node.selected_model = node.get_models(engine, base_ip, port)
             node.profile = profile
             node.keep_alive = keep_alive
+            node.seed = seed
+            node.random = random
+            node.history_steps = history_steps
             return True
         return False
     
@@ -83,6 +107,10 @@ class IFChatPrompt:
         self.presets_dir = os.path.join(os.path.dirname(__file__), "presets")
         self.profiles_file = os.path.join(self.presets_dir, "profiles.json")
         self.profiles = self.load_presets(self.profiles_file)
+        self.chat_history = []
+        self.history_steps = 10
+
+
 
     def load_presets(self, file_path):
         with open(file_path, 'r') as f:
@@ -98,7 +126,9 @@ class IFChatPrompt:
             print(f'you are using ollama as the engine, no api key is required')
 
     def get_models(self, engine, base_ip, port):
-        if engine == "ollama":
+        if engine == "groq":   
+            return ["gemma-7b-it", "llama2-70b-4096", "llama3-70b-8192", "llama3-8b-8192","mixtral-8x7b-32768"]
+        elif engine == "ollama":
             api_url = f'http://{base_ip}:{port}/api/tags'
             try:
                 response = requests.get(api_url)
@@ -107,6 +137,16 @@ class IFChatPrompt:
                 return models
             except Exception as e:
                 print(f"Failed to fetch models from Ollama: {e}")
+                return []
+        elif engine == "kobold":
+            api_url = f'http://{base_ip}:{port}/api/v1/model'
+            try:
+                response = requests.get(api_url)
+                response.raise_for_status()
+                model = response.json()['result']
+                return [model]
+            except Exception as e:
+                print(f"Failed to fetch models from Kobold: {e}")
                 return []
         elif engine == "anthropic":
             return ["claude-3-opus-20240229", "claude-3-sonnet-20240229", "claude-3-haiku-20240307"]
@@ -140,9 +180,20 @@ class IFChatPrompt:
         
         user_message = image_prompt if image_prompt.strip() != "" else "Please provide a general description of the image."
         
-        return system_message, user_message
+        messages = [
+            {"role": "system", "content": system_message}
+        ]
+        
+        # Add the conversation history
+        for message in self.chat_history:
+            messages.append({"role": message["role"], "content": message["content"]})
+        
+        messages.append({"role": "user", "content": user_message})
+        
+        return user_message, system_message, messages
+
    
-    def describe_picture(self, image_prompt, engine, selected_model, base_ip, port, profile, temperature, max_tokens, seed, random, keep_alive, image=None):
+    def describe_picture(self, image_prompt, engine, selected_model, base_ip, port, profile, temperature, max_tokens, seed, random, history_steps, keep_alive, top_k, top_p, repeat_penalty, stop, image=None):
         if image is not None:
             # Check the type of the 'image' object
             if isinstance(image, torch.Tensor):
@@ -169,188 +220,57 @@ class IFChatPrompt:
             print(error_message)
             raise ValueError(error_message)
 
-        system_message, user_message = self.prepare_messages(image_prompt, profile, image)
-
+        system_message, user_message, messages = self.prepare_messages(image_prompt, profile, image)
+        self.chat_history = self.chat_history[-history_steps:] if history_steps > 0 else [] 
+        if engine == "ollama":
+            if stop is "":
+                stop = None 
+            else:
+                stop = ["\n", f"{stop}"]
+        elif engine == "kobold":
+            if stop is "":
+                stop = None 
+            else:
+                stop = ["\n\n\n\n\n", f"{stop}"]
+        else:
+            stop = None
         try:
-            generated_text = self.send_request(engine, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random, keep_alive)
+            generated_text = self.send_request(engine, selected_model, base_ip, port, base64_image, system_message, user_message, messages, temperature, max_tokens, seed, random, keep_alive, top_k, top_p, repeat_penalty, stop)
             description = f"{generated_text}".strip()
+            self.chat_history.append({"role": "user", "content": user_message})
+            self.chat_history.append({"role": "assistant", "content": description})
             return image_prompt, description
         except Exception as e:
             print(f"Exception occurred: {e}")
-            return "Exception occurred while processing image.", ""
+            return "Exception occurred while processing image.", ""      
+
+    def send_request(self, engine, selected_model, base_ip, port, base64_image, system_message, user_message, messages, temperature, max_tokens, seed, random, keep_alive, top_k, top_p, repeat_penalty, stop):
+        try:
+            if engine == "groq":
+                groq_api_key = self.get_api_key("GROQ_API_KEY", "groq")
+                response = send_groq_request(selected_model, groq_api_key, system_message, user_message, self.chat_history, temperature, max_tokens, seed, random)
+            elif engine == "anthropic":
+                anthropic_api_key = self.get_api_key("ANTHROPIC_API_KEY", "anthropic")
+                response = send_anthropic_request(selected_model, base64_image, system_message, user_message, self.chat_history, anthropic_api_key, temperature, max_tokens)
+            elif engine == "openai":
+                openai_api_key = self.get_api_key("OPENAI_API_KEY", "openai")
+                response = send_openai_request(selected_model, base64_image, system_message, user_message, openai_api_key, self.chat_history, temperature, max_tokens, seed, random)
+            elif engine == "kobold":
+                endpoint = f"http://{base_ip}:{port}/api/v1/generate"
+                response = send_kobold_request(user_message, system_message, endpoint, stop, messages=self.chat_history, base64_image=base64_image, max_length=max_tokens, temperature=temperature, top_k=top_k, top_p=top_p, rep_pen=repeat_penalty,)
+            elif engine == "ollama":
+                endpoint = f"http://{base_ip}:{port}/api/chat"
+                response = send_ollama_request(endpoint, base64_image, selected_model, messages, temperature, max_tokens, seed, random, keep_alive, top_k, top_p, repeat_penalty, stop)
+            else:
+                raise ValueError(f"Invalid engine: {engine}")
             
-    def send_request(self, engine, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random, keep_alive):
-        if engine == "anthropic":
-            return self.send_anthropic_request(selected_model, base64_image, system_message, user_message, temperature, max_tokens)
-        elif engine == "openai":
-            return self.send_openai_request(selected_model, base64_image, system_message, user_message, temperature, max_tokens, seed, random)
-        else:
-            return self.send_ollama_request(selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random, keep_alive)
+            # Update chat history after receiving the response
+            self.chat_history.append({"role": "user", "content": user_message})
+            self.chat_history.append({"role": "assistant", "content": response})
 
-    def send_anthropic_request(self, selected_model, base64_image, system_message, user_message, temperature, max_tokens):
-        anthropic_api_key = self.get_api_key("ANTHROPIC_API_KEY", "anthropic")
-        anthropic_headers = {
-            "x-api-key": anthropic_api_key,
-            "anthropic-version": "2023-06-01",
-            "Content-Type": "application/json"
-        }
-        
-        data = {
-            "model": selected_model,
-            "system": system_message,
-            "messages": self.prepare_anthropic_messages(base64_image, user_message),
-            "temperature": temperature,
-            "max_tokens": max_tokens
-        }
-        
-        
-        api_url = 'https://api.anthropic.com/v1/messages'
-        response = requests.post(api_url, headers=anthropic_headers, json=data)
-        
-        if response.status_code == 200:
-            response_data = response.json()
-            messages = response_data.get('content', [])
-            generated_text = ''.join([msg.get('text', '') for msg in messages if msg.get('type') == 'text'])
-            return generated_text
-        else:
-            print(f"Error: Request failed with status code {response.status_code}, Response: {response.text}")
-            return "Failed to fetch response from Anthropic."
-
-    def send_openai_request(self, selected_model, base64_image, system_message, user_message, temperature, max_tokens, seed, random):
-        openai_api_key = self.get_api_key("OPENAI_API_KEY", "openai")
-        openai_headers = {
-            "Authorization": f"Bearer {openai_api_key}",
-            "Content-Type": "application/json"
-        }
-        
-        data = {
-            "model": selected_model,
-            "messages": self.prepare_openai_messages(base64_image, system_message, user_message),
-            "temperature": temperature,
-            "max_tokens": max_tokens
-        }
-        
-        if random:
-            data["seed"] = seed
-        
-        api_url = 'https://api.openai.com/v1/chat/completions'
-        response = requests.post(api_url, headers=openai_headers, json=data)
-        
-        if response.status_code == 200:
-            response_data = response.json()
-            choices = response_data.get('choices', [])
-            if choices:
-                choice = choices[0]
-                message = choice.get('message', {})
-                generated_text = message.get('content', '')
-                return generated_text
-            else:
-                print("No valid choices in the response.")
-                print("Full response:", response.text)
-                return "No valid response generated."
-        else:
-            print(f"Failed to fetch response, status code: {response.status_code}")
-            print("Full response:", response.text)
-            return "Failed to fetch response from OpenAI."
-
-    def send_ollama_request(self, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random, keep_alive):
-        api_url = f'http://{base_ip}:{port}/api/generate'
-        
-        data = {
-            "model": selected_model,
-            "stream": False,
-            "options": {
-                "temperature": temperature,
-                "num_ctx": max_tokens
-            },
-            "keep_alive": -1 if keep_alive else 0,
-        }
-        
-        data.update(self.prepare_ollama_messages(base64_image, system_message, user_message))
-        
-        if random:
-            data["options"]["seed"] = seed
-        
-        ollama_headers = {"Content-Type": "application/json"}
-        response = requests.post(api_url, headers=ollama_headers, json=data)
-        
-        if response.status_code == 200:
-            response_data = response.json()
-            prompt_response = response_data.get('response', 'No response text found')
-            if prompt_response != 'No response text found':
-                return prompt_response
-            else:
-                return "No valid response generated."
-        else:
-            print(f"Failed to fetch response, status code: {response.status_code}")
-            return "Failed to fetch response from Ollama."
-
-    def prepare_anthropic_messages(self, base64_image, user_message):
-        if base64_image:
-            return [
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "image",
-                            "source": {
-                                "type": "base64",
-                                "media_type": "image/png",
-                                "data": base64_image
-                            }
-                        },
-                        {"type": "text", "text": user_message}
-                    ]
-                }
-            ]
-        else:
-            return [
-                {
-                    "role": "user",
-                    "content": user_message
-                }
-            ]
-
-    def prepare_openai_messages(self, base64_image, system_message, user_message):
-        messages = [
-            {
-                "role": "system",
-                "content": system_message
-            }
-        ]
-        
-        if base64_image:
-            messages.append({
-                "role": "user",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": user_message
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": f"data:image/png;base64,{base64_image}"
-                    }
-                ]
-            })
-        else:
-            messages.append({
-                "role": "user",
-                "content": user_message
-            })
-        
-        return messages
-
-    def prepare_ollama_messages(self, base64_image, system_message, user_message):
-        messages = {
-            "system": system_message,
-            "prompt": user_message
-        }
-        
-        if base64_image:
-            messages["images"] = [base64_image]
-        
-        return messages
+            return response
+        except Exception as e:
+            return f"Error: {str(e)}"
 
 NODE_CLASS_MAPPINGS = {"IF_ChatPrompt": IFChatPrompt}
 NODE_DISPLAY_NAME_MAPPINGS = {"IF_ChatPrompt": "IF Chat Prompt👨‍💻"}
