@@ -1,13 +1,16 @@
 import requests
-def send_kobold_request(user_message, system_message, endpoint, stop, messages, base64_image, max_length, temperature, top_k, top_p, rep_pen):
+
+def send_kobold_request(endpoint, stop, system_message, user_message, 
+                        messages, base64_image, max_length, temperature, 
+                        top_k, top_p, rep_pen):
     try:
-        conversation_history = ""
+
+        prompt = f"System: {system_message}\n"
         for message in messages:
             role = message["role"]
             content = message["content"]
-            conversation_history += f"{role}: {content}\n"
-
-        prompt = f"{system_message}\n{conversation_history}User: {user_message}\nBot:"
+            prompt += f"{role.capitalize()}: {content}\n"
+        prompt += f"User: {user_message}" 
 
         data = {
             "prompt": prompt,
@@ -16,7 +19,7 @@ def send_kobold_request(user_message, system_message, endpoint, stop, messages, 
             "top_k": top_k,
             "top_p": top_p,
             "rep_pen": rep_pen,
-            "stop_sequence": ["\n", f"{stop}"]
+            "stop_sequence": stop if stop else None
         }
 
         if base64_image:
@@ -33,3 +36,4 @@ def send_kobold_request(user_message, system_message, endpoint, stop, messages, 
 
     except Exception as e:
         return f"Error: {str(e)}"
+

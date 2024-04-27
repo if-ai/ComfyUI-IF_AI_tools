@@ -10,6 +10,7 @@ import torch
 import tempfile
 from torchvision.transforms.functional import to_pil_image
 import folder_paths
+import numpy as np
 import anthropic
 import openai
 from server import PromptServer
@@ -62,7 +63,7 @@ class IFChatPrompt:
                 "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                 "random": ("BOOLEAN", {"default": False, "label_on": "Seed", "label_off": "Temperature"}),
                 "keep_alive": ("BOOLEAN", {"default": False, "label_on": "Keeps_Model", "label_off": "Unloads_Model"}),
-                "stop": ("STRING", {"default": "", "multiline": False, "label": "Stop"}),
+                "stop": ("STRING", {"default": "", "multiline": False, "label": "stop something like <|end_of_text|>"}),
                 "history_steps": ("INT", {"default": 10, "min": 0, "max": 0xffffffffffffffff}),
             },
             "hidden": {
@@ -164,7 +165,7 @@ class IFChatPrompt:
         # Create PIL image
         image = Image.fromarray(image_np, mode='RGB')
         return image
-
+    
     def prepare_messages(self, image_prompt, profile, image=None):
         profile_selected = self.profiles.get(profile, "")
         
@@ -179,23 +180,23 @@ class IFChatPrompt:
         system_message = f"{profile_selected}\n{system_message}"
         
         user_message = image_prompt if image_prompt.strip() != "" else "Please provide a general description of the image."
-        
+
         messages = [
             {"role": "system", "content": system_message}
         ]
-        
-        # Add the conversation history
+
+        # Add the conversation history and user message regardless of history being empty
         for message in self.chat_history:
             messages.append({"role": message["role"], "content": message["content"]})
-        
+
         messages.append({"role": "user", "content": user_message})
-        
+
         return user_message, system_message, messages
+
 
    
     def describe_picture(self, image_prompt, engine, selected_model, base_ip, port, profile, temperature, max_tokens, seed, random, history_steps, keep_alive, top_k, top_p, repeat_penalty, stop, image=None):
         if image is not None:
-            # Check the type of the 'image' object
             if isinstance(image, torch.Tensor):
                 # Convert the tensor to a PIL image
                 pil_image = self.tensor_to_image(image)
@@ -223,54 +224,72 @@ class IFChatPrompt:
         system_message, user_message, messages = self.prepare_messages(image_prompt, profile, image)
         self.chat_history = self.chat_history[-history_steps:] if history_steps > 0 else [] 
         if engine == "ollama":
-            if stop is "":
+            if stop == "":
                 stop = None 
             else:
                 stop = ["\n", f"{stop}"]
         elif engine == "kobold":
-            if stop is "":
+            if stop == "":
                 stop = None 
             else:
                 stop = ["\n\n\n\n\n", f"{stop}"]
         else:
             stop = None
         try:
-            generated_text = self.send_request(engine, selected_model, base_ip, port, base64_image, system_message, user_message, messages, temperature, max_tokens, seed, random, keep_alive, top_k, top_p, repeat_penalty, stop)
+            generated_text = self.send_request(engine, selected_model, base_ip, port, base64_image, 
+                    system_message, user_message, messages, temperature, max_tokens, 
+                    seed, random, keep_alive, top_k, top_p, repeat_penalty, stop)
             description = f"{generated_text}".strip()
             self.chat_history.append({"role": "user", "content": user_message})
             self.chat_history.append({"role": "assistant", "content": description})
+            """print("Conversation History:")
+            for message in self.chat_history:
+                role = message["role"]
+                content = message["content"]
+                print(f"{role.capitalize()}: {content}")"""
+
             return image_prompt, description
         except Exception as e:
             print(f"Exception occurred: {e}")
             return "Exception occurred while processing image.", ""      
 
-    def send_request(self, engine, selected_model, base_ip, port, base64_image, system_message, user_message, messages, temperature, max_tokens, seed, random, keep_alive, top_k, top_p, repeat_penalty, stop):
-        try:
-            if engine == "groq":
-                groq_api_key = self.get_api_key("GROQ_API_KEY", "groq")
-                response = send_groq_request(selected_model, groq_api_key, system_message, user_message, self.chat_history, temperature, max_tokens, seed, random)
-            elif engine == "anthropic":
-                anthropic_api_key = self.get_api_key("ANTHROPIC_API_KEY", "anthropic")
-                response = send_anthropic_request(selected_model, base64_image, system_message, user_message, self.chat_history, anthropic_api_key, temperature, max_tokens)
-            elif engine == "openai":
-                openai_api_key = self.get_api_key("OPENAI_API_KEY", "openai")
-                response = send_openai_request(selected_model, base64_image, system_message, user_message, openai_api_key, self.chat_history, temperature, max_tokens, seed, random)
-            elif engine == "kobold":
-                endpoint = f"http://{base_ip}:{port}/api/v1/generate"
-                response = send_kobold_request(user_message, system_message, endpoint, stop, messages=self.chat_history, base64_image=base64_image, max_length=max_tokens, temperature=temperature, top_k=top_k, top_p=top_p, rep_pen=repeat_penalty,)
-            elif engine == "ollama":
-                endpoint = f"http://{base_ip}:{port}/api/chat"
-                response = send_ollama_request(endpoint, base64_image, selected_model, messages, temperature, max_tokens, seed, random, keep_alive, top_k, top_p, repeat_penalty, stop)
-            else:
-                raise ValueError(f"Invalid engine: {engine}")
-            
-            # Update chat history after receiving the response
-            self.chat_history.append({"role": "user", "content": user_message})
-            self.chat_history.append({"role": "assistant", "content": response})
+    def send_request(self, engine, selected_model, base_ip, port, base64_image, 
+                    system_message, user_message, messages, temperature, max_tokens, 
+                    seed, random, keep_alive, top_k, top_p, repeat_penalty, stop):
+        api_functions = {
+            "groq": send_groq_request,
+            "anthropic": send_anthropic_request,
+            "openai": send_openai_request,
+            "kobold": send_kobold_request,
+            "ollama": send_ollama_request
+        }
 
-            return response
-        except Exception as e:
-            return f"Error: {str(e)}"
+        if engine not in api_functions:
+            raise ValueError(f"Invalid engine: {engine}")
+
+        api_function = api_functions[engine]
+
+        if engine == "kobold":
+            response = api_function(f"http://{base_ip}:{port}/api/v1/generate", stop, 
+                                    system_message=system_message, user_message=user_message, 
+                                    messages=messages, base64_image=base64_image, 
+                                    max_length=max_tokens, temperature=temperature, 
+                                    top_k=top_k, top_p=top_p, rep_pen=repeat_penalty)
+        elif engine == "ollama":
+            response = api_function(f"http://{base_ip}:{port}/api/generate", base64_image, 
+                                    selected_model, system_message, user_message, messages, 
+                                    temperature, max_tokens, seed, random, keep_alive, 
+                                    top_k, top_p, repeat_penalty, stop)
+        else:
+            api_key = self.get_api_key(f"{engine.upper()}_API_KEY", engine)
+            response = api_function(selected_model, system_message, user_message, messages, api_key, temperature, max_tokens, base64_image)
+
+        # Update chat history after receiving the response
+        self.chat_history.append({"role": "user", "content": user_message})
+        self.chat_history.append({"role": "assistant", "content": response})
+
+        return response
+
 
 NODE_CLASS_MAPPINGS = {"IF_ChatPrompt": IFChatPrompt}
 NODE_DISPLAY_NAME_MAPPINGS = {"IF_ChatPrompt": "IF Chat Prompt👨‍💻"}

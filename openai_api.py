@@ -1,20 +1,17 @@
 import requests
 
-def send_openai_request(selected_model, base64_image, system_message, user_message, openai_api_key, chat_history, temperature, max_tokens, seed, random):
+def send_openai_request(selected_model, system_message, user_message, messages, api_key, temperature, max_tokens, base64_image):
     openai_headers = {
-        "Authorization": f"Bearer {openai_api_key}",
+        "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
     }
 
     data = {
         "model": selected_model,
-        "messages": prepare_openai_messages(base64_image, system_message, user_message, chat_history),
+        "messages": prepare_openai_messages(base64_image, system_message, user_message, messages),
         "temperature": temperature,
         "max_tokens": max_tokens
     }
-
-    if random:
-        data["seed"] = seed
 
     api_url = 'https://api.openai.com/v1/chat/completions'
     response = requests.post(api_url, headers=openai_headers, json=data)
@@ -36,40 +33,39 @@ def send_openai_request(selected_model, base64_image, system_message, user_messa
         print("Full response:", response.text)
         return "Failed to fetch response from OpenAI."
 
-def prepare_openai_messages(base64_image, system_message, user_message, chat_history):
-    messages = [
-        {
-            "role": "system",
-            "content": system_message
-        }
+def prepare_openai_messages(base64_image, system_message, user_message, messages):
+    openai_messages = [
+        {"role": "system", "content": system_message},
+        {"role": "user", "content": user_message}
     ]
-
-    for message in chat_history:
+    
+    for message in messages:
         role = message["role"]
         content = message["content"]
-        messages.append({"role": role, "content": content})
-
-    if base64_image:
-        messages.append({
-            "role": "user",
-            "content": [
-                {
-                    "type": "text",
-                    "text": user_message
-                },
-                {
-                    "type": "image_url",
-                    "image_url": f"data:image/png;base64,{base64_image}"
-                }
-            ]
-        })
-    else:
-        messages.append({
-            "role": "user",
-            "content": user_message
-        })
-
-    return messages
+        
+        if role == "system":
+            openai_messages.append({"role": "system", "content": content})
+        elif role == "user":
+            if base64_image:
+                openai_messages.append({
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": content
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": f"data:image/png;base64,{base64_image}"
+                        }
+                    ]
+                })
+            else:
+                openai_messages.append({"role": "user", "content": content})
+        elif role == "assistant":
+            openai_messages.append({"role": "assistant", "content": content})
+    
+    return openai_messages
 
 
 
