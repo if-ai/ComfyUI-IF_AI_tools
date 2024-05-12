@@ -1,111 +1,204 @@
 {
-  "last_node_id": 84,
-  "last_link_id": 129,
+  "last_node_id": 86,
+  "last_link_id": 130,
   "nodes": [
     {
-      "id": 75,
-      "type": "LoadImage",
+      "id": 80,
+      "type": "CLIPTextEncode",
       "pos": [
-        640,
-        222
+        1507,
+        315
       ],
-      "size": [
-        315,
-        314.0000228881836
-      ],
-      "flags": {},
-      "order": 0,
-      "mode": 2,
-      "outputs": [
+      "size": {
+        "0": 210,
+        "1": 50
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 11,
+      "mode": 0,
+      "inputs": [
         {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [],
-          "shape": 3
+          "name": "clip",
+          "type": "CLIP",
+          "link": 120
         },
         {
-          "name": "MASK",
-          "type": "MASK",
-          "links": null,
+          "name": "text",
+          "type": "STRING",
+          "link": 122,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            124
+          ],
+          "shape": 3
+        }
+      ],
+      "title": "+C",
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 81,
+      "type": "CLIPTextEncode",
+      "pos": [
+        1510,
+        366
+      ],
+      "size": {
+        "0": 400,
+        "1": 200
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 123
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 121,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            125
+          ],
+          "shape": 3
+        }
+      ],
+      "title": "-C",
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 82,
+      "type": "EmptyLatentImage",
+      "pos": [
+        1450,
+        456
+      ],
+      "size": {
+        "0": 210,
+        "1": 110
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            126
+          ],
           "shape": 3
         }
       ],
       "properties": {
-        "Node name for S&R": "LoadImage"
+        "Node name for S&R": "EmptyLatentImage"
       },
       "widgets_values": [
-        "00029.jpg",
-        "image"
-      ]
+        920,
+        1024,
+        4
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
     },
     {
-      "id": 76,
-      "type": "Note",
+      "id": 73,
+      "type": "IF_DisplayText",
       "pos": [
-        667,
-        122
-      ],
-      "size": [
-        210,
-        59.629145258865435
-      ],
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "CTRL+M to unmute again to mute back"
-      ],
-      "color": "#565656",
-      "bgcolor": "#424242"
-    },
-    {
-      "id": 79,
-      "type": "VAELoader",
-      "pos": [
-        1105,
-        319
+        1030,
+        670
       ],
       "size": {
-        "0": 315,
-        "1": 58
+        "0": 400,
+        "1": 170
       },
       "flags": {},
-      "order": 2,
+      "order": 10,
       "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 117,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
       "outputs": [
         {
-          "name": "VAE",
-          "type": "VAE",
+          "name": "STRING",
+          "type": "STRING",
           "links": [
-            128
+            121
           ],
           "shape": 3,
           "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "VAELoader"
+        "Node name for S&R": "IF_DisplayText"
       },
       "widgets_values": [
-        "madebyollin.bin"
-      ]
+        "",
+        "lowres,  text,  error,  cropped,  worst quality,  low quality,  jpeg artifacts,  ugly,  duplicate,  morbid,  mutilated,  out of frame,  mutation,  deformed,  blurry,  dehydrated,  bad anatomy,  bad proportions,  disfigured, username,  watermark,  signature, backgound out of focus, black and white,  monochrome"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
     },
     {
       "id": 77,
       "type": "CheckpointLoaderSimple",
       "pos": [
-        1104,
-        181
+        1100,
+        180
       ],
       "size": {
-        "0": 315,
-        "1": 98
+        "0": 320,
+        "1": 100
       },
       "flags": {},
-      "order": 3,
+      "order": 1,
       "mode": 0,
       "outputs": [
         {
@@ -139,122 +232,26 @@
         "Node name for S&R": "CheckpointLoaderSimple"
       },
       "widgets_values": [
-        "SDXL/ProteusV0.4.safetensors"
-      ]
-    },
-    {
-      "id": 80,
-      "type": "CLIPTextEncode",
-      "pos": [
-        1507,
-        315
+        "juggernautXL_v9Rdphoto2Lightning.safetensors"
       ],
-      "size": [
-        210,
-        54
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 10,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 120
-        },
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 122,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "links": [
-            124
-          ],
-          "shape": 3
-        }
-      ],
-      "title": "+C",
-      "properties": {
-        "Node name for S&R": "CLIPTextEncode"
-      },
-      "widgets_values": [
-        ""
-      ]
-    },
-    {
-      "id": 81,
-      "type": "CLIPTextEncode",
-      "pos": [
-        1510,
-        366
-      ],
-      "size": {
-        "0": 400,
-        "1": 200
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 11,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 123
-        },
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 121,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "links": [
-            125
-          ],
-          "shape": 3
-        }
-      ],
-      "title": "-C",
-      "properties": {
-        "Node name for S&R": "CLIPTextEncode"
-      },
-      "widgets_values": [
-        ""
-      ]
+      "color": "#222",
+      "bgcolor": "#000"
     },
     {
       "id": 83,
       "type": "VAEDecode",
       "pos": [
-        2008,
-        344
+        2020,
+        350
       ],
       "size": {
         "0": 210,
-        "1": 46
+        "1": 50
       },
       "flags": {
         "collapsed": true
       },
-      "order": 13,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
@@ -285,24 +282,221 @@
       }
     },
     {
+      "id": 84,
+      "type": "SaveImage",
+      "pos": [
+        1680,
+        490
+      ],
+      "size": {
+        "0": 320,
+        "1": 270
+      },
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 129
+        }
+      ],
+      "properties": {},
+      "widgets_values": [
+        "ComfyUI"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 72,
+      "type": "Note",
+      "pos": [
+        1030,
+        880
+      ],
+      "size": [
+        560,
+        690
+      ],
+      "flags": {
+        "pinned": false
+      },
+      "order": 2,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "\n                                ▄                                               \n                             ▌  █  █                                            \n                            █▀ █▀ ▄▀                                            \n                           ╘▌  █  █     ,▄▄▄                                    \n                                       █▀▒▒▒█ ,▄▓▓▄                             \n                      ╓▄▀▀▀\"   ▀▀▀██&▄▄█▄▄▄█▌▄▀▄▀▒▒▌                            \n                    ,▄█▀▀▀█▄       █▌▒▒▒▒▒▒▒▒▒▒▀▒▄█                             \n                   ▄█▒╢╢╢╢╢▒▀▀▀▀▀▀▀▒▒▒▄▄▄▄▒▒▒▒▒▒▒▀▄                             \n                  ▐█╫█▓╢╣▓█▒╢╢╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒▒█                            \n                  █▒╢╢╢█▌╢╢╢╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╣▒▒▒▒█                           \n                  █╣╢╢╢█▌╢╢╢╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌                          \n                  █▒╢╢╢▓▌╢╢╢╢╢╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█                          \n                  ╘█╢╢╢▓█▒▒╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌                         \n                   ▀█▒▀▒▒▒▀▒╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒▒▒▒█                         \n                   ,,▀██▄▄▄▄▄▄▄▄▄▄▄█▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█║║║╖╖╖╖╓,                \n            ,╓╗║╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒╢║╗╖          \n         ╓╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▌▒▒╫▒╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒╙▒▒▒▒▒▒▒▒▄▒▒▒▒║╖       \n       ╖▒▒▒▒▒▒▒█▀█▀▀█▄▒▒▒▒▒▒▒▒║╙▒█▄▄▒▒▒▒▒▒▒▒▒▒▒▒▒▄▄▄▄█▀░╢`║▒▒▒▒▄█▀▀▀█▒▒▒▒▒╖     \n      ║▒▒▒▒▒▒▒█▒▒▒▒▒╣█▌▒▒▒▒▒▒▒╢╖╣╙╜╜▒▒▒▒▀▀▀▀▒▒▒▒▒▒▒╜╜╙`║▒╢▒▒▒▒▐▌▒▒▒▒▒█▌▒▒▒▒╖    \n     ║▒▒▒▒▒▒╜╙▀▀█▓███▀▒▒▒▒▒▄▄▄▄▄▒▒▒║║║║▒▒▒▒▒╖╥╗╗@║║║▒▒▒▒▒▒▒▒▒╝▒▀█▓███▀▒╜ ▒▒▒    \n     ]▒▒▒▒▒▒▒║╗╖╓▒▒╖╓╓╖▒▒▄█▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒║╖╖▒▒▒▒▒╖╗║▒▒▒▒    \n      ║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╜▒▀█████▀▒ ║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢     \n       ╙║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢╗╖╖▒▒▒▒▒║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╜`      \n          ╙╜╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╣╜╜\"          \n                `╙╙╙╜╝╝╝╜╜╝╝╝╝╜╨╜╜╜╜╜╜╝╝╜╨╨╜╝║║║║║║╝╨╨╝╝╝╜╙╙\"`                 \n _ _____ _____ _    _           _     \n| |   __|  _  | |  | |_ ___ ___| |___ \n| |   __|     | |  |  _| . | . | |_ -|\n|_|__|  |__|__|_|  | | |___|___|_|___|\n                   |__|               \n\nI recommend ollama but you can use kobold, oobaboga and lm studio or use Groq and anthropic \ncosedai is available but I might remove it soon and don't recommend it\nhttps://github.com/ollama/ollama/releases\nollama.com\n\nI trained a few models that you can find on my ollama and HF profiles\n\nollama run impactframes/llama3_ifai_sd_prompt_mkr_q4km:latest ollama run impactframes/ifai_promptmkr_dolphin_phi3:latest https://huggingface.co/impactframes/llama3_if_ai_sdpromptmkr_q4km https://huggingface.co/impactframes/ifai_promptmkr_dolphin_phi3_gguf\n\nfor SD I like Proteus line of models by Datavoid, Pixart Sigma,  \n\nIF you like my models tutorials etc.. If possible please consider helping me out. I want to get a new computer so that I can work and bring better things faster and spend less renting\nhttps://ko-fi.com/impactframes\n\npatreon.com/ImpactFrames \n\nPlease star the repo and support my work links bellow to make updates updates come quicker \nhttps://github.com/if-ai/ComfyUI-IF_AI_tools\n\nto watch tutorials\n\nJoin the Impact Frames fam! Subscribe now: https://youtube.com/@impactframes?si=DrBu3tOAC2-YbEvc\n\nhttps://www.youtube.com/@impactframes\n\nthis tool is also available for SD webui https://github.com/if-ai/IF_prompt_MKR\n\n"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 79,
+      "type": "VAELoader",
+      "pos": [
+        1100,
+        320
+      ],
+      "size": {
+        "0": 320,
+        "1": 60
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            128
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "SDXL_lightening.safetensors"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 61,
+      "type": "IF_DisplayText",
+      "pos": [
+        1020,
+        440
+      ],
+      "size": {
+        "0": 400,
+        "1": 170
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 116,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            122
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "best-quality, professional, model-shoot-style, full-body, Female Cyber Dolphin, sleek design, aquatic creature morphology, metallic blue scales, energy blades for fins and tail, eyes glowing neon green, underwater setting with bioluminescent plants, bubbling streams, reflective surface water Female Cyber Dolphin Cover Design Sleek Metallic Blue, Energy Bladed Fins, Neon Green Eyes, Aquatic Biomimicry, Bio-Luminous Plants, Reflective Surface Water. Best quality, professional, Portrait, photo shoot,"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 78,
+      "type": "KSampler",
+      "pos": [
+        1673,
+        178
+      ],
+      "size": {
+        "0": 320,
+        "1": 260
+      },
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 119
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 124,
+          "slot_index": 1
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 125,
+          "slot_index": 2
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 126,
+          "slot_index": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            127
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        743123290623535,
+        "randomize",
+        8,
+        1.42,
+        "dpmpp_2m_sde_gpu",
+        "karras",
+        1
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
       "id": 74,
       "type": "IF_ChatPrompt",
       "pos": [
-        626,
-        582
+        620,
+        590
       ],
-      "size": [
-        385.8101024780276,
-        640
-      ],
+      "size": {
+        "0": 390,
+        "1": 664
+      },
       "flags": {},
-      "order": 4,
+      "order": 8,
       "mode": 0,
       "inputs": [
         {
           "name": "image",
           "type": "IMAGE",
-          "link": null,
+          "link": 130,
           "slot_index": 0
         },
         {
@@ -351,11 +545,11 @@
         "Node name for S&R": "IF_ChatPrompt"
       },
       "widgets_values": [
-        "female cyber dolphin, cover\n\n",
-        "localhost",
+        "describe the image \n\n",
+        "127.0.0.1",
         "11434",
         "ollama",
-        "impactframes/ifai_promptmkr_dolphin_phi3:latest",
+        "codeqwen:7b-chat",
         "IF_PromptMKR",
         "",
         2048,
@@ -364,7 +558,7 @@
         0.2,
         1.1,
         "<|end_of_text|>",
-        111657315913148,
+        314942527654274,
         "randomize",
         true,
         "Fullbodyshot",
@@ -373,270 +567,124 @@
         true,
         10,
         false,
+        true,
         true
-      ]
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
     },
     {
-      "id": 78,
-      "type": "KSampler",
+      "id": 75,
+      "type": "LoadImage",
       "pos": [
-        1673,
-        178
+        270,
+        300
       ],
-      "size": {
-        "0": 315,
-        "1": 262
-      },
+      "size": [
+        320,
+        310
+      ],
       "flags": {},
-      "order": 12,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 119
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 124,
-          "slot_index": 1
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 125,
-          "slot_index": 2
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 126,
-          "slot_index": 3
-        }
-      ],
+      "order": 4,
+      "mode": 2,
       "outputs": [
         {
-          "name": "LATENT",
-          "type": "LATENT",
+          "name": "IMAGE",
+          "type": "IMAGE",
           "links": [
-            127
+            130
           ],
           "shape": 3,
           "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "KSampler"
-      },
-      "widgets_values": [
-        462835098001531,
-        "randomize",
-        50,
-        6.01,
-        "dpmpp_2m_sde_gpu",
-        "karras",
-        1
-      ]
-    },
-    {
-      "id": 84,
-      "type": "SaveImage",
-      "pos": [
-        1664,
-        492
-      ],
-      "size": [
-        315,
-        270
-      ],
-      "flags": {},
-      "order": 14,
-      "mode": 0,
-      "inputs": [
+        },
         {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 129
-        }
-      ],
-      "properties": {},
-      "widgets_values": [
-        "ComfyUI"
-      ]
-    },
-    {
-      "id": 72,
-      "type": "Note",
-      "pos": [
-        1076,
-        846
-      ],
-      "size": [
-        546.9206084197994,
-        661.6988395410152
-      ],
-      "flags": {
-        "pinned": false
-      },
-      "order": 5,
-      "mode": 0,
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "\n                                ▄                                               \n                             ▌  █  █                                            \n                            █▀ █▀ ▄▀                                            \n                           ╘▌  █  █     ,▄▄▄                                    \n                                       █▀▒▒▒█ ,▄▓▓▄                             \n                      ╓▄▀▀▀\"   ▀▀▀██&▄▄█▄▄▄█▌▄▀▄▀▒▒▌                            \n                    ,▄█▀▀▀█▄       █▌▒▒▒▒▒▒▒▒▒▒▀▒▄█                             \n                   ▄█▒╢╢╢╢╢▒▀▀▀▀▀▀▀▒▒▒▄▄▄▄▒▒▒▒▒▒▒▀▄                             \n                  ▐█╫█▓╢╣▓█▒╢╢╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒▒█                            \n                  █▒╢╢╢█▌╢╢╢╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╣▒▒▒▒█                           \n                  █╣╢╢╢█▌╢╢╢╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌                          \n                  █▒╢╢╢▓▌╢╢╢╢╢╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█                          \n                  ╘█╢╢╢▓█▒▒╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌                         \n                   ▀█▒▀▒▒▒▀▒╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒▒▒▒█                         \n                   ,,▀██▄▄▄▄▄▄▄▄▄▄▄█▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█║║║╖╖╖╖╓,                \n            ,╓╗║╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒╢║╗╖          \n         ╓╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▌▒▒╫▒╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒╙▒▒▒▒▒▒▒▒▄▒▒▒▒║╖       \n       ╖▒▒▒▒▒▒▒█▀█▀▀█▄▒▒▒▒▒▒▒▒║╙▒█▄▄▒▒▒▒▒▒▒▒▒▒▒▒▒▄▄▄▄█▀░╢`║▒▒▒▒▄█▀▀▀█▒▒▒▒▒╖     \n      ║▒▒▒▒▒▒▒█▒▒▒▒▒╣█▌▒▒▒▒▒▒▒╢╖╣╙╜╜▒▒▒▒▀▀▀▀▒▒▒▒▒▒▒╜╜╙`║▒╢▒▒▒▒▐▌▒▒▒▒▒█▌▒▒▒▒╖    \n     ║▒▒▒▒▒▒╜╙▀▀█▓███▀▒▒▒▒▒▄▄▄▄▄▒▒▒║║║║▒▒▒▒▒╖╥╗╗@║║║▒▒▒▒▒▒▒▒▒╝▒▀█▓███▀▒╜ ▒▒▒    \n     ]▒▒▒▒▒▒▒║╗╖╓▒▒╖╓╓╖▒▒▄█▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒║╖╖▒▒▒▒▒╖╗║▒▒▒▒    \n      ║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╜▒▀█████▀▒ ║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢     \n       ╙║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢╗╖╖▒▒▒▒▒║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╜`      \n          ╙╜╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╣╜╜\"          \n                `╙╙╙╜╝╝╝╜╜╝╝╝╝╜╨╜╜╜╜╜╜╝╝╜╨╨╜╝║║║║║║╝╨╨╝╝╝╜╙╙\"`                 \n _ _____ _____ _    _           _     \n| |   __|  _  | |  | |_ ___ ___| |___ \n| |   __|     | |  |  _| . | . | |_ -|\n|_|__|  |__|__|_|  | | |___|___|_|___|\n                   |__|               \n\nI recommend ollama but you can use kobold, oobaboga and lm studio or use groq and anthropic \ncosedai is available but I might remove it soon and don't recommend it\nhttps://github.com/ollama/ollama/releases\nollama.com\n\nIF you like my models tutorials etc.. If possible please consider helping me out. I want to get a new computer so that I can work and bring better things faster and spend less renting\nhttps://ko-fi.com/impactframes\n\npatreon.com/ImpactFrames \n\nPlease star the repo and support my work links bellow to make updates updates come quicker \nhttps://github.com/if-ai/ComfyUI-IF_AI_tools\n\nto watch tutorials\n\nJoin the Impact Frames fam! Subscribe now: https://youtube.com/@impactframes?si=DrBu3tOAC2-YbEvc\n\nhttps://www.youtube.com/@impactframes\n\nthis tool is also available for SD webui https://github.com/if-ai/IF_prompt_MKR\n\n"
-      ],
-      "color": "#595959",
-      "bgcolor": "#454545"
-    },
-    {
-      "id": 82,
-      "type": "EmptyLatentImage",
-      "pos": [
-        1450,
-        456
-      ],
-      "size": [
-        210,
-        106
-      ],
-      "flags": {
-        "collapsed": false
-      },
-      "order": 6,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "links": [
-            126
-          ],
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
           "shape": 3
         }
       ],
       "properties": {
-        "Node name for S&R": "EmptyLatentImage"
+        "Node name for S&R": "LoadImage"
       },
       "widgets_values": [
-        920,
-        1024,
-        4
-      ]
-    },
-    {
-      "id": 61,
-      "type": "IF_DisplayText",
-      "pos": [
-        1029,
-        420
+        "GGQYB2wbgAAPRn6.png",
+        "image"
       ],
-      "size": [
-        404.3112246221499,
-        172.19913120021374
-      ],
-      "flags": {},
-      "order": 8,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 116,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            122
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        "best-quality, professional, model-shoot-style, full-body, : 1.8 meters tall, sleek body, metallic scales, glowing eyes, fins, tail fin, streamlined shape, aerodynamic design, propulsion system, advanced technology, underwater habitat, aquatic environment, bioluminescent patterns, mesmerizing movements, graceful swimming, captivating gaze, human-like intelligence, curiosity, exploration, discovery, deep sea adventure, marine life interaction, environmental conservation efforts, eco-friendly materials, sustainable energy sources, futuristic artistry, digital rendering, vivid colors, immersive experience, 8K resolution, HDR display, cinematic quality. Best quality, professional, Portrait, photo shoot,"
-      ],
-      "color": "#595959",
-      "bgcolor": "#454545"
-    },
-    {
-      "id": 73,
-      "type": "IF_DisplayText",
-      "pos": [
-        1033,
-        634
-      ],
-      "size": [
-        400.0243387228388,
-        165.41906492028772
-      ],
-      "flags": {},
-      "order": 9,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 117,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            121
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        "lowres,  text,  error,  cropped,  worst quality,  low quality,  jpeg artifacts,  ugly,  duplicate,  morbid,  mutilated,  out of frame,  mutation,  deformed,  blurry,  dehydrated,  bad anatomy,  bad proportions,  disfigured, username,  watermark,  signature, backgound out of focus, black and white,  monochrome"
-      ],
-      "color": "#595959",
-      "bgcolor": "#454545"
+      "color": "#222",
+      "bgcolor": "#000"
     },
     {
       "id": 15,
       "type": "Note",
       "pos": [
-        67,
-        654
+        70,
+        650
       ],
-      "size": [
-        522.9615355651854,
-        460.4704049023435
-      ],
+      "size": {
+        "0": 522.9615478515625,
+        "1": 460.47039794921875
+      },
       "flags": {},
-      "order": 7,
+      "order": 5,
       "mode": 2,
+      "title": "INSTRUCTIONS",
       "properties": {
         "text": ""
       },
       "widgets_values": [
         "INSTRUCTIONS SD MODE: \n\n-Select SD mode on the last switch mode \n-Recommended to unload the model\n-Select clear history but maybe in some cases keeping history is desired you will need big max tokens depending on the model llama3 can handle less than 8K\n-Select presets for negative prompt, style and embellishments (you can create your own by editing the json files)\n-select randomness base on temperature or seed \nyou can select fix seed etc..\nStop the generation different models have different stopping tokens dolphin uses <|im_end|>, llama3 <|end_of_text|> since I use Alpaca, ### Response: should work too or ### Assistant: \n-repeat penalty prevents words from repeating \n-top_p this control the token sampling base on  the cumulative probability of tokens mass (lower values might get unexpected tokens but be more creative while the inverse might give more coherent response) values between 0.1-0.95 \n-top_k selects the top k are tokens with the highest probabilities on the distribution output at each timestep during generation a mid value between 20 and 50 usually helps balance the responses but again is similar to top p where the higher the number it gets more deterministic the lower it gets more creative\n-temperature control the randomness of the response  goes from 0-2 a lower value like 0.2 will give very strict output for creative prompts 0.7-1.2 might work well above that starts to become wild but experiment your own settings\n-Max Tokens this is the amount of tokens allowed to be generated on the response and can be up to the maximum of the model capacity minus the the question, message history, context and assistant length so probs be bigger. A token is more or less  equivalent to a silabel or roughly 3 times the amount of word in your message.\n-Assistant is a system prompt defining the AI personality and behaviour you can edit the json files to make your own this can make or break the model performance\n-Model this will get populated with all the models available for the llm engine\n-port \n-base_ip the ip address of the machine that is running ollama you can use another machine on your network or even a remote computer (I recommend tailscale and brevdev)\n-Image will use the image for the response \n-context ollama only for now it keeps the history \n-enter prompt\nINSTRUCTION CHAT: \nComing soon for now is about the same as SD but keeping history I am working on long term memory and reag tools "
       ],
-      "color": "#595959",
-      "bgcolor": "#454545"
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 76,
+      "type": "Note",
+      "pos": [
+        280,
+        110
+      ],
+      "size": [
+        310,
+        130
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "title": "VISION MODELS",
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "CTRL+M to unmute again to mute back\n\nUse Llava or Moomdream Models \nollama run llava-llama3\nllava-hf/llava-v1.6-mistral-7b-hf\nollama run moondream\n\n\n"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 86,
+      "type": "Note",
+      "pos": [
+        770,
+        180
+      ],
+      "size": {
+        "0": 310,
+        "1": 130
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "title": "SD MODELS",
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "dataautogpt3/ProteusV0.3-Lightning\n\nhttps://civitai.com/models/133005?modelVersionId=357609\n\n\n"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
     }
   ],
   "links": [
@@ -743,6 +791,14 @@
       84,
       0,
       "IMAGE"
+    ],
+    [
+      130,
+      75,
+      0,
+      74,
+      0,
+      "IMAGE"
     ]
   ],
   "groups": [],
@@ -754,7 +810,7 @@
       "description": "",
       "version": "1",
       "created": "2024-04-10T13:48:15.400Z",
-      "modified": "2024-04-17T02:30:35.840Z",
+      "modified": "2024-05-12T20:04:34.002Z",
       "software": "ComfyUI"
     }
   },
