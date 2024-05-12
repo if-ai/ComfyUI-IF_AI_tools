@@ -6,9 +6,9 @@ ComfyUI-IF_AI_tools is a set of custom nodes for ComfyUI that allows you to gene
 This tool enables you to enhance your image generation workflow by leveraging the power of language models.
 
 ## Features
--[NEW] Oobabooga TextgenWebui is been added port 5000
+-[NEW] Oobabooga TextgenWebui has been added port 5000
 
--[NEW] LMstudio is been added port 1234
+-[NEW] LMstudio has been added port 1234
 -New LLama3 and Phi3 IF_AI Prompt mkr models released
 ![ComfyUI_00021_](https://github.com/if-ai/ComfyUI-IF_AI_tools/assets/21185218/fac9fb38-66ac-431b-8ef9-b0fee5d0e5dc)
 
