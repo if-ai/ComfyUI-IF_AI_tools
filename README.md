@@ -88,13 +88,16 @@ If you find this tool useful, please consider supporting my work by:
 Your support helps me bring updates and improvements faster!
 
 ## Related Tools
-- [IF_prompt_MKR](https://github.com/if-ai/IF_prompt_MKR) - A similar tool available for Stable Diffusion WebUI
+- [IF_prompt_MKR](https://github.com/if-ai/IF_prompt_MKR) -
+-  A similar tool available for Stable Diffusion WebUI
 
 ##
 AIFuzz made a great video usining ollama and IF_AI tools 
+
 [![AIFuzz](https://img.youtube.com/vi/nZx5g3TGsNc/0.jpg)](https://youtu.be/nZx5g3TGsNc?si=DFIqFuPoyKY1qJ2n)
 
 Also Future thinker @ Benji Thankyou both for putting out this awesome videos
+
 [![Future Thinker @Benji](https://img.youtube.com/vi/EQZWyn9eCFE/0.jpg)](https://youtu.be/EQZWyn9eCFE?si=jgC28GL7bwFWj_sK)
 
 
