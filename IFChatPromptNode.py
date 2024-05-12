@@ -80,7 +80,7 @@ class IFChatPrompt:
         }
 
     @classmethod
-    def IS_CHANGED(cls, engine, base_ip, port, assistant, keep_alive, seed, random, history_steps):
+    def IS_CHANGED(cls, engine, base_ip, port, assistant, keep_alive, seed, random, history_steps, selected_model):
         node = cls()
         seed_changed = seed != node.seed or random != node.random
         engine_changed = engine != node.engine
@@ -99,7 +99,12 @@ class IFChatPrompt:
             node.random = random
             node.history_steps = history_steps
             return True
+        if engine == "textgen":
+            if node.selected_model != selected_model:
+                node.load_model_textgen(selected_model, base_ip, port)
+            return True
         return False
+    
     
     def __init__(self):
         self.base_ip = "localhost" 
@@ -136,7 +141,19 @@ class IFChatPrompt:
                 return api_key
         else:
             print(f'you are using ollama as the engine, no api key is required')
-
+    
+    def load_model_textgen(self, selected_model, base_ip, port):
+        api_url = f'http://{base_ip}:{port}/v1/model/load'
+        data = {
+            "model_name": selected_model
+        }
+        try:
+            response = requests.post(api_url, json=data)
+            response.raise_for_status()
+            print(f"Model {selected_model} loaded successfully.")
+        except Exception as e:
+            print(f"Failed to load model {selected_model}: {e}")
+    
     def get_models(self, engine, base_ip, port):
         if engine == "groq":   
             return ["gemma-7b-it", "llama2-70b-4096", "llama3-70b-8192", "llama3-8b-8192","mixtral-8x7b-32768"]
@@ -162,11 +179,11 @@ class IFChatPrompt:
                 print(f"Failed to fetch models from LM Studio: {e}")
                 return []
         elif engine == "textgen":
-            api_url = f'http://{base_ip}:{port}/v1/models'
+            api_url = f'http://{base_ip}:{port}/v1/internal/model/list'
             try:
                 response = requests.get(api_url)
                 response.raise_for_status()
-                models = [model['id'] for model in response.json()['data']]
+                models = response.json()['model_names']
                 return models
             except Exception as e:
                 print(f"Failed to fetch models from text-generation-webui: {e}")
