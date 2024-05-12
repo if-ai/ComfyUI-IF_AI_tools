@@ -6,7 +6,17 @@ ComfyUI-IF_AI_tools is a set of custom nodes for ComfyUI that allows you to gene
 This tool enables you to enhance your image generation workflow by leveraging the power of language models.
 
 ## Features
--[NEW] Groq and kobold engines set port to 5001 and GROQ_API_KEY
+-[NEW] Oobabooga TextgenWebui is been added port 5000 
+-New LLama3 and Phi3 IF_AI Prompt mkr models released
+
+`ollama run impactframes/llama3_ifai_sd_prompt_mkr_q4km:latest`
+`ollama run impactframes/ifai_promptmkr_dolphin_phi3:latest`
+https://huggingface.co/impactframes/llama3_if_ai_sdpromptmkr_q4km
+https://huggingface.co/impactframes/ifai_promptmkr_dolphin_phi3_gguf
+-Many improvements like new profile assistants 
+-IFChatPromptNode has an SD mode now and will be the main node going forward but the other 
+-prompt to prompt and imageprompt will be kept for the sake of not braking peoples workflows 
+
 - WhisperSpeech integration generate long form audio from Text while trining the voice on the fly from a 10min audio file
 - https://github.com/if-ai/ComfyUI-IF_AI_WishperSpeechNode
 - ParlerTTS
