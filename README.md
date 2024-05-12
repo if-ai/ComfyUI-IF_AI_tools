@@ -15,7 +15,9 @@ This tool enables you to enhance your image generation workflow by leveraging th
 `ollama run impactframes/llama3_ifai_sd_prompt_mkr_q4km:latest`
 
 `ollama run impactframes/ifai_promptmkr_dolphin_phi3:latest`
+
 https://huggingface.co/impactframes/llama3_if_ai_sdpromptmkr_q4km
+
 https://huggingface.co/impactframes/ifai_promptmkr_dolphin_phi3_gguf
 
 -Many improvements like new profile assistants 
