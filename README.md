@@ -8,11 +8,13 @@ This tool enables you to enhance your image generation workflow by leveraging th
 ## Features
 -[NEW] Oobabooga TextgenWebui is been added port 5000 
 -New LLama3 and Phi3 IF_AI Prompt mkr models released
+![ComfyUI_00021_](https://github.com/if-ai/ComfyUI-IF_AI_tools/assets/21185218/fac9fb38-66ac-431b-8ef9-b0fee5d0e5dc)
 
 `ollama run impactframes/llama3_ifai_sd_prompt_mkr_q4km:latest`
 `ollama run impactframes/ifai_promptmkr_dolphin_phi3:latest`
 https://huggingface.co/impactframes/llama3_if_ai_sdpromptmkr_q4km
 https://huggingface.co/impactframes/ifai_promptmkr_dolphin_phi3_gguf
+
 -Many improvements like new profile assistants 
 -IFChatPromptNode has an SD mode now and will be the main node going forward but the other 
 -prompt to prompt and imageprompt will be kept for the sake of not braking peoples workflows 
