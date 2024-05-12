@@ -32,7 +32,7 @@ def send_textgen_request(api_url, selected_model, system_message, user_message, 
         print("Full response:", response.text)
         return "Failed to fetch response from text-generation-webui."
 
-def prepare_textgen_messages(system_message, user_message, messages):
+def prepare_textgen_messages(base64_image, system_message, user_message, messages):
     textgen_messages = [
         {"role": "system", "content": system_message},
         {"role": "user", "content": user_message}
@@ -45,8 +45,24 @@ def prepare_textgen_messages(system_message, user_message, messages):
         if role == "system":
             textgen_messages.append({"role": "system", "content": content})
         elif role == "user":
-            textgen_messages.append({"role": "user", "content": content})
+            if base64_image:
+                textgen_messages.append({
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": content
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": f"data:image/png;base64,{base64_image}"
+                        }
+                    ]
+                })
+            else:
+                textgen_messages.append({"role": "user", "content": content})
         elif role == "assistant":
             textgen_messages.append({"role": "assistant", "content": content})
     
     return textgen_messages
+    

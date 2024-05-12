@@ -10,6 +10,7 @@ def send_lms_request(api_url, selected_model, system_message, user_message, mess
         "max_tokens": max_tokens,
         "stop": stop
     }
+    
 
     response = requests.post(lmstudio_url, json=data)
 
@@ -43,7 +44,22 @@ def prepare_lmstudio_messages(base64_image, system_message, user_message, messag
         if role == "system":
             lmstudio_messages.append({"role": "system", "content": content})
         elif role == "user":
-            lmstudio_messages.append({"role": "user", "content": content})
+            if base64_image:
+                lmstudio_messages.append({
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": content
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": f"data:image/png;base64,{base64_image}"
+                        }
+                    ]
+                })
+            else:
+                lmstudio_messages.append({"role": "user", "content": content})
         elif role == "assistant":
             lmstudio_messages.append({"role": "assistant", "content": content})
     

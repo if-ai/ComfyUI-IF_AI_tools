@@ -22,6 +22,7 @@ from .kobold_api import send_kobold_request
 from .groq_api import send_groq_request
 from .lms_api import send_lms_request
 from .textgen_api import send_textgen_request
+from .text_cleanup import process_text
 
 @PromptServer.instance.routes.post("/IF_ChatPrompt/get_models")
 async def get_models_endpoint(request):
@@ -35,7 +36,7 @@ async def get_models_endpoint(request):
     return web.json_response(models)
 
 class IFChatPrompt:
-
+    
     RETURN_TYPES = ("STRING", "STRING", "STRING", "STRING",)
     RETURN_NAMES = ("Question", "Response", "Negative", "Context",)
     FUNCTION = "describe_picture"
@@ -69,10 +70,11 @@ class IFChatPrompt:
                 "embellish_prompt": ([name for name in node.embellish_prompts.keys()], {}),
                 "style_prompt": ([name for name in node.style_prompts.keys()], {}),
                 "neg_prompt": ([name for name in node.neg_prompts.keys()], {}),
-                "clear_history": ("BOOLEAN", {"default": False, "label_on": "Clear History", "label_off": "Keep History"}),
+                "clear_history": ("BOOLEAN", {"default": True, "label_on": "Clear History", "label_off": "Keep History"}),
                 "history_steps": ("INT", {"default": 10, "min": 0, "max": 0xffffffffffffffff}),
                 "keep_alive": ("BOOLEAN", {"default": False, "label_on": "Keeps_Model", "label_off": "Unloads_Model"}),
-                "mode": ("BOOLEAN", {"default": False, "label_on": "Mode: SD", "label_off": "Mode: Chat"}),
+                "text_cleanup": ("BOOLEAN", {"default": True, "label_on": "Apply", "label_off": "Raw Text"}),
+                "mode": ("BOOLEAN", {"default": True, "label_on": "Mode: SD", "label_off": "Mode: Chat"}),
             },
             "hidden": {
                 "model": ("STRING", {"default": ""}),
@@ -172,11 +174,15 @@ class IFChatPrompt:
             api_url = f'http://{base_ip}:{port}/v1/models'
             try:
                 response = requests.get(api_url)
-                response.raise_for_status()
-                models = [model['id'] for model in response.json()['data']]
-                return models
-            except Exception as e:
-                print(f"Failed to fetch models from LM Studio: {e}")
+                if response.status_code == 200:
+                    data = response.json()
+                    models = [model['id'] for model in data['data']]
+                    return models
+                else:
+                    print(f"Failed to fetch models from LM Studio. Status code: {response.status_code}")
+                    return []
+            except requests.exceptions.RequestException as e:
+                print(f"Error connecting to LM Studio server: {e}")
                 return []
         elif engine == "textgen":
             api_url = f'http://{base_ip}:{port}/v1/internal/model/list'
@@ -241,7 +247,7 @@ class IFChatPrompt:
         return user_message, system_message, messages
 
 
-    def describe_picture(self, prompt, engine, selected_model, base_ip, port, assistant, neg_prompt, embellish_prompt, style_prompt, temperature=0.7, max_tokens=2048, seed=0, random=False, history_steps=10, keep_alive=False, top_k=40, top_p=0.2, repeat_penalty=1.1, stop="", context=None, image=None, mode="chat", clear_history=False):
+    def describe_picture(self, prompt, engine, selected_model, base_ip, port, assistant, neg_prompt, embellish_prompt, style_prompt, temperature=0.7, max_tokens=2048, seed=0, random=False, history_steps=10, keep_alive=False, top_k=40, top_p=0.2, repeat_penalty=1.1, stop="", context=None, image=None, mode=True, clear_history=True, text_cleanup=True):
         embellish_content = self.embellish_prompts.get(embellish_prompt, "")
         style_content = self.style_prompts.get(style_prompt, "")
         neg_content = self.neg_prompts.get(neg_prompt, "")
@@ -301,6 +307,11 @@ class IFChatPrompt:
                     system_message, user_message, messages, temperature, max_tokens, 
                     seed, random, keep_alive, top_k, top_p, repeat_penalty, stop, context)           
             
+            if text_cleanup:
+                generated_text = process_text(generated_text)
+            else:
+                generated_text = generated_text      
+
             description = f"{generated_text}".strip()
             if not clear_history:   
                 context = context
@@ -314,7 +325,7 @@ class IFChatPrompt:
                 role = message["role"]
                 content = message["content"]
                 print(f"{role.capitalize()}: {content}")"""
-            if mode == "chat":
+            if mode == False:
                 return prompt, description, neg_prompt, context
             else:
                 combined_prompt = f"{embellish_content} {description} {style_content}"
@@ -355,11 +366,11 @@ class IFChatPrompt:
                                     top_k, top_p, repeat_penalty, stop, context)
         elif engine == "lms":
             response = api_function(f"http://{base_ip}:{port}/v1/chat/completions", selected_model, system_message,
-                                     user_message, messages, temperature, max_tokens, stop)
+                                     user_message, messages, temperature, max_tokens, base64_image, stop)
             context = None
         elif engine == "textgen":
             response = api_function(f"http://{base_ip}:{port}/v1/chat/completions", selected_model, system_message,
-                                     user_message, messages, temperature, max_tokens, stop)
+                                     user_message, messages, temperature, max_tokens, base64_image, stop)
             context = None
         else:
             api_key = self.get_api_key(f"{engine.upper()}_API_KEY", engine)
