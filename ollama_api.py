@@ -2,18 +2,22 @@ import requests
 import json
 import re
 
-def send_ollama_request(endpoint, base64_image, selected_model, system_message, user_message, messages, temperature, max_tokens, seed, random, keep_alive, top_k, top_p, repeat_penalty, stop):
+def send_ollama_request(endpoint, base64_image, selected_model, system_message, user_message, messages, temperature, max_tokens, seed, random, keep_alive, top_k, top_p, repeat_penalty, stop, context):
     try:
-        prompt = f"System: {system_message}\n"
+        prompt = ""
         for message in messages:
             role = message["role"]
             content = message["content"]
-            prompt += f"{role.capitalize()}: {content}\n"
-        prompt += f"User: {user_message}"
+            if role == "user":
+                prompt += f"User: {content}\n"
+            else:
+                prompt += f"Assistant: {content}\n"
 
         data = {
             "model": selected_model,
-            "prompt": prompt,
+            "system": system_message,
+            "context": context,
+            "prompt": prompt + f"User: {user_message}\n",
             "stream": False,
             "images": [base64_image] if base64_image else None,
             "options": {
@@ -24,33 +28,30 @@ def send_ollama_request(endpoint, base64_image, selected_model, system_message, 
                 "repeat_penalty": repeat_penalty,
                 "stop": stop if stop else None
             },
-            "keep_alive": keep_alive
+            "keep_alive": -1 if keep_alive else 0,
         }
 
         if random:
             data["options"].setdefault("seed", seed)
 
-
+        """print("Debugging - Data object before sending request:")
+        print(json.dumps(data, indent=2))"""
 
         ollama_headers = {"Content-Type": "application/json"}
         response = requests.post(endpoint, headers=ollama_headers, json=data)
 
-
         if response.status_code == 200:
-            response_text = response.text
-            # Extract the response text using regular expression
-            match = re.search(r'"response"\s*:\s*"(.*?)","done"', response_text, re.DOTALL)
-            if match:
-                prompt_response = match.group(1)
-                # Replace escaped newline characters with actual newlines
-                prompt_response = prompt_response.replace("\\n", "\n")
-                return prompt_response.strip()
-            else:
-                return "No response text found"
+            response_json = response.json()
+            prompt_response = response_json.get("response", "").strip()
+            context = response_json.get("context", None)
+            return prompt_response, context
         else:
-            return f"Error: {response.status_code} - {response.text}"
+            print("Debugging - Error response:")
+            print(response.text)
+            return f"Error: {response.status_code} - {response.text}", None
 
     except Exception as e:
-        return f"Error: {str(e)}"
-    
+        print("Debugging - Exception occurred:")
+        print(str(e))
+        return f"Error: {str(e)}", None
 

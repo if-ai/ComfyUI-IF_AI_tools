@@ -20,6 +20,8 @@ from .ollama_api import send_ollama_request
 from .openai_api import send_openai_request
 from .kobold_api import send_kobold_request
 from .groq_api import send_groq_request
+from .lms_api import send_lms_request
+from .textgen_api import send_textgen_request
 
 @PromptServer.instance.routes.post("/IF_ChatPrompt/get_models")
 async def get_models_endpoint(request):
@@ -34,8 +36,8 @@ async def get_models_endpoint(request):
 
 class IFChatPrompt:
 
-    RETURN_TYPES = ("STRING", "STRING",)
-    RETURN_NAMES = ("Question", "Response",)
+    RETURN_TYPES = ("STRING", "STRING", "STRING", "STRING",)
+    RETURN_NAMES = ("Question", "Response", "Negative", "Context",)
     FUNCTION = "describe_picture"
     OUTPUT_NODE = True
     CATEGORY = "ImpactFrames💥🎞️"
@@ -45,26 +47,32 @@ class IFChatPrompt:
         node = cls()
         return {
             "required": {
-                "image_prompt": ("STRING", {"multiline": True, "default": ""}),
+                "prompt": ("STRING", {"multiline": True, "default": ""}),
                 "base_ip": ("STRING", {"default": node.base_ip}),
                 "port": ("STRING", {"default": node.port}),
-                "engine": (["ollama", "kobold", "groq", "openai", "anthropic"], {"default": node.engine}),
+                "engine": (["ollama", "kobold", "lms", "textgen", "groq", "openai", "anthropic"], {"default": node.engine}),
                 #"selected_model": (node.get_models("node.engine", node.base_ip, node.port), {}), 
                 "selected_model": ((), {}),
-                "profile": ([name for name in node.profiles.keys()], {"default": node.profile}),
-                "max_tokens": ("INT", {"default": 2048, "min": 1, "max": 8192}),
-                "temperature": ("FLOAT", {"default": 0.7, "min": 0.0, "max": 1.0, "step": 0.1}),
-                "top_k": ("INT", {"default": 50, "min": 0, "max": 100}),
-                "top_p": ("FLOAT", {"default": 0.95, "min": 0.0, "max": 1.0, "step": 0.1}),
-                "repeat_penalty": ("FLOAT", {"default": 1.2, "min": 0.0, "max": 10.0, "step": 0.1}),
+                "assistant": ([name for name in node.assistants.keys()], {"default": node.assistant}),
             },
             "optional": {
+                "context": ("STRING", {"forceInput": True}),
                 "image": ("IMAGE", ),
-                "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
+                "max_tokens": ("INT", {"default": 2048, "min": 1, "max": 8192}),
+                "temperature": ("FLOAT", {"default": 0.7, "min": 0.0, "max": 2.0, "step": 0.1}),
+                "top_k": ("INT", {"default": 40, "min": 0, "max": 100}),
+                "top_p": ("FLOAT", {"default": 0.2, "min": 0.0, "max": 1.0, "step": 0.1}),
+                "repeat_penalty": ("FLOAT", {"default": 1.1, "min": 0.0, "max": 10.0, "step": 0.1}),
+                "stop": ("STRING", {"default": "<|end_of_text|>", "multiline": False}),
+                "seed": ("INT", {"default": 94687328150, "min": 0, "max": 0xffffffffffffffff}),
                 "random": ("BOOLEAN", {"default": False, "label_on": "Seed", "label_off": "Temperature"}),
-                "keep_alive": ("BOOLEAN", {"default": False, "label_on": "Keeps_Model", "label_off": "Unloads_Model"}),
-                "stop": ("STRING", {"default": "", "multiline": False, "label": "stop something like <|end_of_text|>"}),
+                "embellish_prompt": ([name for name in node.embellish_prompts.keys()], {}),
+                "style_prompt": ([name for name in node.style_prompts.keys()], {}),
+                "neg_prompt": ([name for name in node.neg_prompts.keys()], {}),
+                "clear_history": ("BOOLEAN", {"default": False, "label_on": "Clear History", "label_off": "Keep History"}),
                 "history_steps": ("INT", {"default": 10, "min": 0, "max": 0xffffffffffffffff}),
+                "keep_alive": ("BOOLEAN", {"default": False, "label_on": "Keeps_Model", "label_off": "Unloads_Model"}),
+                "mode": ("BOOLEAN", {"default": False, "label_on": "Mode: SD", "label_off": "Mode: Chat"}),
             },
             "hidden": {
                 "model": ("STRING", {"default": ""}),
@@ -72,25 +80,20 @@ class IFChatPrompt:
         }
 
     @classmethod
-    def IS_CHANGED(cls, engine, base_ip, port, profile, keep_alive, seed, random, history_steps):
+    def IS_CHANGED(cls, engine, base_ip, port, assistant, keep_alive, seed, random, history_steps):
         node = cls()
         seed_changed = seed != node.seed or random != node.random
-        other_changes = (
-            engine != node.engine
-            or base_ip != node.base_ip
-            or port != node.port
-            or node.selected_model != node.get_models(engine, base_ip, port)
-            or profile != node.profile
-            or keep_alive != node.keep_alive
-            or history_steps != node.history_steps
-        )
+        engine_changed = engine != node.engine
+        base_ip_changed = base_ip != node.base_ip
+        port_changed = port != node.port
+        selected_model_changed = node.selected_model != node.get_models(engine, base_ip, port)
 
-        if seed_changed or other_changes:
+        if seed_changed or engine_changed or base_ip_changed or port_changed or selected_model_changed:
             node.engine = engine
             node.base_ip = base_ip
             node.port = port
             node.selected_model = node.get_models(engine, base_ip, port)
-            node.profile = profile
+            node.assistant = assistant
             node.keep_alive = keep_alive
             node.seed = seed
             node.random = random
@@ -103,14 +106,22 @@ class IFChatPrompt:
         self.port = "11434"     
         self.engine = "ollama" 
         self.selected_model = ""
-        self.profile = "Cortana"
+        self.context = None
+        self.assistant = "Cortana"
         self.comfy_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         self.presets_dir = os.path.join(os.path.dirname(__file__), "presets")
-        self.profiles_file = os.path.join(self.presets_dir, "profiles.json")
-        self.profiles = self.load_presets(self.profiles_file)
+        self.assistants_file = os.path.join(self.presets_dir, "assistants.json")
+        self.assistants = self.load_presets(self.assistants_file)
+        self.neg_prompts_file = os.path.join(self.presets_dir, "neg_prompts.json")
+        self.embellish_prompts_file = os.path.join(self.presets_dir, "embellishments.json")
+        self.style_prompts_file = os.path.join(self.presets_dir, "style_prompts.json")
+        self.neg_prompts = self.load_presets(self.neg_prompts_file)
+        self.embellish_prompts = self.load_presets(self.embellish_prompts_file)
+        self.style_prompts = self.load_presets(self.style_prompts_file)
+        self.keep_alive = False
+        self.seed = 94687328150
         self.chat_history = []
         self.history_steps = 10
-
 
 
     def load_presets(self, file_path):
@@ -119,7 +130,7 @@ class IFChatPrompt:
         return presets
    
     def get_api_key(self, api_key_name, engine):
-        if engine != "ollama":  
+        if engine != "ollama" or engine != "kobold" or engine != "lms" or engine != "textgen":  
             api_key = os.getenv(api_key_name)
             if api_key:
                 return api_key
@@ -129,6 +140,7 @@ class IFChatPrompt:
     def get_models(self, engine, base_ip, port):
         if engine == "groq":   
             return ["gemma-7b-it", "llama2-70b-4096", "llama3-70b-8192", "llama3-8b-8192","mixtral-8x7b-32768"]
+        
         elif engine == "ollama":
             api_url = f'http://{base_ip}:{port}/api/tags'
             try:
@@ -138,6 +150,26 @@ class IFChatPrompt:
                 return models
             except Exception as e:
                 print(f"Failed to fetch models from Ollama: {e}")
+                return []
+        elif engine == "lms":
+            api_url = f'http://{base_ip}:{port}/v1/models'
+            try:
+                response = requests.get(api_url)
+                response.raise_for_status()
+                models = [model['id'] for model in response.json()['data']]
+                return models
+            except Exception as e:
+                print(f"Failed to fetch models from LM Studio: {e}")
+                return []
+        elif engine == "textgen":
+            api_url = f'http://{base_ip}:{port}/v1/models'
+            try:
+                response = requests.get(api_url)
+                response.raise_for_status()
+                models = [model['id'] for model in response.json()['data']]
+                return models
+            except Exception as e:
+                print(f"Failed to fetch models from text-generation-webui: {e}")
                 return []
         elif engine == "kobold":
             api_url = f'http://{base_ip}:{port}/api/v1/model'
@@ -166,24 +198,22 @@ class IFChatPrompt:
         image = Image.fromarray(image_np, mode='RGB')
         return image
     
-    def prepare_messages(self, image_prompt, profile, image=None):
-        profile_selected = self.profiles.get(profile, "")
-        
-        if image is not None:
-            system_message = textwrap.dedent("""
+    def prepare_messages(self, prompt, assistant, image=None):
+        assistant_content = self.assistants.get(assistant, "")
+        image_message = textwrap.dedent("""
                 Analyze the image provided, search for relevant details from the image to include on your response.
                 Reply to the user's specific question or prompt and include relevant details extracted from the image.
             """)
+        if image is not None:
+            system_message = f"{assistant_content}\n{image_message}"
+            
         else:
-            system_message = ""
+            system_message = f"{assistant_content}"
+   
         
-        system_message = f"{profile_selected}\n{system_message}"
-        
-        user_message = image_prompt if image_prompt.strip() != "" else "Please provide a general description of the image."
+        user_message = prompt if prompt.strip() != "" else "Please provide a general description of the image."
 
-        messages = [
-            {"role": "system", "content": system_message}
-        ]
+        messages = []
 
         # Add the conversation history and user message regardless of history being empty
         for message in self.chat_history:
@@ -194,8 +224,12 @@ class IFChatPrompt:
         return user_message, system_message, messages
 
 
-   
-    def describe_picture(self, image_prompt, engine, selected_model, base_ip, port, profile, temperature, max_tokens, seed, random, history_steps, keep_alive, top_k, top_p, repeat_penalty, stop, image=None):
+    def describe_picture(self, prompt, engine, selected_model, base_ip, port, assistant, neg_prompt, embellish_prompt, style_prompt, temperature=0.7, max_tokens=2048, seed=0, random=False, history_steps=10, keep_alive=False, top_k=40, top_p=0.2, repeat_penalty=1.1, stop="", context=None, image=None, mode="chat", clear_history=False):
+        embellish_content = self.embellish_prompts.get(embellish_prompt, "")
+        style_content = self.style_prompts.get(style_prompt, "")
+        neg_content = self.neg_prompts.get(neg_prompt, "")
+        
+
         if image is not None:
             if isinstance(image, torch.Tensor):
                 # Convert the tensor to a PIL image
@@ -221,9 +255,19 @@ class IFChatPrompt:
             print(error_message)
             raise ValueError(error_message)
 
-        system_message, user_message, messages = self.prepare_messages(image_prompt, profile, image)
-        self.chat_history = self.chat_history[-history_steps:] if history_steps > 0 else [] 
+        user_message, system_message, messages = self.prepare_messages(prompt, assistant, image)
+        if clear_history:
+            self.chat_history = []
+            context = None
+        else:
+            self.chat_history = self.chat_history[-history_steps:] if history_steps > 0 else []
+
         if engine == "ollama":
+            if stop == "":
+                stop = None 
+            else:
+                stop = ["\n", f"{stop}"]
+        elif engine == "lms":
             if stop == "":
                 stop = None 
             else:
@@ -236,32 +280,43 @@ class IFChatPrompt:
         else:
             stop = None
         try:
-            generated_text = self.send_request(engine, selected_model, base_ip, port, base64_image, 
+            generated_text, context = self.send_request(engine, selected_model, base_ip, port, base64_image, 
                     system_message, user_message, messages, temperature, max_tokens, 
-                    seed, random, keep_alive, top_k, top_p, repeat_penalty, stop)
+                    seed, random, keep_alive, top_k, top_p, repeat_penalty, stop, context)           
+            
             description = f"{generated_text}".strip()
-            self.chat_history.append({"role": "user", "content": user_message})
-            self.chat_history.append({"role": "assistant", "content": description})
+            if not clear_history:   
+                context = context
+                self.chat_history.append({"role": "user", "content": user_message})
+                self.chat_history.append({"role": "assistant", "content": description})
+            else:
+                context = None
+                self.chat_history = []        
             """print("Conversation History:")
             for message in self.chat_history:
                 role = message["role"]
                 content = message["content"]
                 print(f"{role.capitalize()}: {content}")"""
-
-            return image_prompt, description
+            if mode == "chat":
+                return prompt, description, neg_prompt, context
+            else:
+                combined_prompt = f"{embellish_content} {description} {style_content}"
+                return prompt, combined_prompt, neg_content, context
         except Exception as e:
             print(f"Exception occurred: {e}")
             return "Exception occurred while processing image.", ""      
 
     def send_request(self, engine, selected_model, base_ip, port, base64_image, 
                     system_message, user_message, messages, temperature, max_tokens, 
-                    seed, random, keep_alive, top_k, top_p, repeat_penalty, stop):
+                    seed, random, keep_alive, top_k, top_p, repeat_penalty, stop, context=None):
         api_functions = {
             "groq": send_groq_request,
             "anthropic": send_anthropic_request,
             "openai": send_openai_request,
             "kobold": send_kobold_request,
-            "ollama": send_ollama_request
+            "ollama": send_ollama_request,
+            "lms": send_lms_request,
+            "textgen": send_textgen_request
         }
 
         if engine not in api_functions:
@@ -275,20 +330,30 @@ class IFChatPrompt:
                                     messages=messages, base64_image=base64_image, 
                                     max_length=max_tokens, temperature=temperature, 
                                     top_k=top_k, top_p=top_p, rep_pen=repeat_penalty)
+            context = None
         elif engine == "ollama":
-            response = api_function(f"http://{base_ip}:{port}/api/generate", base64_image, 
+            response, context = api_function(f"http://{base_ip}:{port}/api/generate", base64_image, 
                                     selected_model, system_message, user_message, messages, 
                                     temperature, max_tokens, seed, random, keep_alive, 
-                                    top_k, top_p, repeat_penalty, stop)
+                                    top_k, top_p, repeat_penalty, stop, context)
+        elif engine == "lms":
+            response = api_function(f"http://{base_ip}:{port}/v1/chat/completions", selected_model, system_message,
+                                     user_message, messages, temperature, max_tokens, stop)
+            context = None
+        elif engine == "textgen":
+            response = api_function(f"http://{base_ip}:{port}/v1/chat/completions", selected_model, system_message,
+                                     user_message, messages, temperature, max_tokens, stop)
+            context = None
         else:
             api_key = self.get_api_key(f"{engine.upper()}_API_KEY", engine)
             response = api_function(selected_model, system_message, user_message, messages, api_key, temperature, max_tokens, base64_image)
+            context = None
 
         # Update chat history after receiving the response
         self.chat_history.append({"role": "user", "content": user_message})
         self.chat_history.append({"role": "assistant", "content": response})
 
-        return response
+        return response, context
 
 
 NODE_CLASS_MAPPINGS = {"IF_ChatPrompt": IFChatPrompt}
