@@ -207,7 +207,20 @@ class IFChatPrompt:
         elif engine == "anthropic":
             return ["claude-3-opus-20240229", "claude-3-sonnet-20240229", "claude-3-haiku-20240307"]
         elif engine == "openai":
-            return ["gpt-4-0125-preview", "gpt-4-1106-preview", "gpt-4-vision-preview", "gpt-4-1106-vision-preview", "gpt-3.5-turbo-0125", "gpt-3.5-turbo-1106"]
+            api_key = self.get_api_key("OPENAI_API_KEY", engine)
+            headers = {
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json"
+            }
+            api_url = "https://api.openai.com/v1/models"
+            try:
+                response = requests.get(api_url, headers=headers)
+                response.raise_for_status()
+                models = [model["id"] for model in response.json()["data"]]
+                return models
+            except Exception as e:
+                print(f"Failed to fetch models from OpenAI: {e}")
+                return []
         else:
             print(f"Unsupported engine - {engine}")
             return []

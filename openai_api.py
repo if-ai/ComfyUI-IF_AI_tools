@@ -56,7 +56,10 @@ def prepare_openai_messages(base64_image, system_message, user_message, messages
                         },
                         {
                             "type": "image_url",
-                            "image_url": f"data:image/png;base64,{base64_image}"
+                            "image_url": {
+                                "url": "data:image/png;base64," + base64_image,
+                                "data": base64_image
+                            }
                         }
                     ]
                 })
@@ -66,6 +69,4 @@ def prepare_openai_messages(base64_image, system_message, user_message, messages
             openai_messages.append({"role": "assistant", "content": content})
     
     return openai_messages
-
-
 
