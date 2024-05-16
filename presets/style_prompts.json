@@ -48,5 +48,17 @@
     "Editorial": "editorial illustration, magazine style, narrative scenes",
     "Caricature": "caricature art, exaggerated features, satirical portraits",
     "MapArt": "map art, cartography, topographic designs",
-    "Silhouette": "silhouette art, bold shapes, negative space compositions"
+    "Silhouette": "silhouette art, bold shapes, negative space compositions",
+    "Predator": "Jungle, camouflage, action, sci-fi, suspenseful,",
+    "Conan": "Barbaric, epic, fantasy, muscular, gritty,",
+    "Terminator": "Dystopian, robotic, futuristic, action-packed, intense,",
+    "LordOfTheRings": "Fantastical, epic, Middle-earth, mythical, adventurous,",
+    "HarryPotter": "Magical, whimsical, castle, adventurous, coming-of-age,",
+    "InTheMoodForLove": "Romantic, nostalgic, intimate, vintage, longing,",
+    "ChungkingExpress": "Urban, neon-lit, quirky, fast-paced, slice-of-life,",
+    "BladeRunner": "Cyberpunk, neo-noir, futuristic, gritty, atmospheric,",
+    "TheGrandBudapestHotel": "Whimsical, colorful, symmetrical, quirky, nostalgic,",
+    "Inception": "Mind-bending, surreal, dreamlike, labyrinthine, thought-provoking,",
+    "MadMax": "Post-apocalyptic, desert, gritty, action-packed, dystopian,",
+    "TheMatrix": "Cyberpunk, dystopian, action, mind-bending, green-tinted,"
 }
