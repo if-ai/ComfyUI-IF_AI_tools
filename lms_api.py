@@ -60,7 +60,10 @@ def prepare_lmstudio_messages(base64_image, system_message, user_message, messag
                         },
                         {
                             "type": "image_url",
-                            "image_url": f"data:image/png;base64,{base64_image}"
+                            "image_url": {
+                                "url": "data:image/png;base64," + base64_image,
+                                "data": base64_image
+                            }
                         }
                     ]
                 })
