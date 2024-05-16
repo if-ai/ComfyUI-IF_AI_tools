@@ -1,39 +1,77 @@
 import requests
+def send_kobold_request(api_url, base64_image, selected_model, system_message, user_message, messages, seed, temperature, max_tokens, top_k, top_p, repeat_penalty, stop):
+    headers = {
+        "Content-Type": "application/json"
+    }
 
-def send_kobold_request(endpoint, stop, system_message, user_message, 
-                        messages, base64_image, max_length, temperature, 
-                        top_k, top_p, rep_pen):
-    try:
+    data = {
+        "model": selected_model,
+        "messages": prepare_kobold_messages(system_message, user_message, messages, base64_image),
+        "max_length": max_tokens,
+        "rep_pen": repeat_penalty,
+        "temperature": temperature,
+        "top_k": top_k,
+        "top_p": top_p,
+        "seed": seed
+    }
 
-        prompt = f"System: {system_message}\n"
-        for message in messages:
-            role = message["role"]
-            content = message["content"]
-            prompt += f"{role.capitalize()}: {content}\n"
-        prompt += f"User: {user_message}" 
+    if stop:
+        data["stop_sequence"] = stop
 
-        data = {
-            "prompt": prompt,
-            "max_length": max_length,
-            "temperature": temperature,
-            "top_k": top_k,
-            "top_p": top_p,
-            "rep_pen": rep_pen,
-            "stop_sequence": stop if stop else None
-        }
+    response = requests.post(api_url, headers=headers, json=data)
 
-        if base64_image:
-            data["images"] = base64_image
-
-        response = requests.post(endpoint, json=data)
-
-        if response.status_code == 200:
-            result = response.json()["results"][0]["text"]
-            response_text = result.split('\n')[0].replace("  ", " ").strip()
-            return response_text
+    if response.status_code == 200:
+        response_data = response.json()
+        choices = response_data.get('choices', [])
+        if choices:
+            choice = choices[0]
+            message = choice.get('message', {})
+            generated_text = message.get('content', '')
+            if generated_text:
+                return generated_text
+            else:
+                print("No content found in the response message.")
         else:
-            return f"Error: {response.status_code} - {response.text}"
+            print("No valid choices in the response.")
+    else:
+        print(f"Failed to fetch response, status code: {response.status_code}")
+        print("Full response:", response.text)
 
-    except Exception as e:
-        return f"Error: {str(e)}"
+    return "Failed to fetch response from Kobold API."
 
+def prepare_kobold_messages(system_message, user_message, messages, base64_image=None):
+    kobold_messages = [
+        {"role": "system", "content": system_message},
+        {"role": "user", "content": user_message}
+    ]
+    
+    for message in messages:
+        role = message["role"]
+        content = message["content"]
+        
+        if role == "system":
+            kobold_messages.append({"role": "system", "content": content})
+        elif role == "user":
+            if base64_image:
+                kobold_messages.append({
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": content
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": "data:image/png;base64," + base64_image,
+                                "data": base64_image
+                            }
+                        }
+                    ]
+                })
+            else:
+                kobold_messages.append({"role": "user", "content": content})
+        elif role == "assistant":
+            kobold_messages.append({"role": "assistant", "content": content})
+    
+    return kobold_messages

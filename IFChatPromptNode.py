@@ -2,13 +2,13 @@ import json
 import requests
 import base64
 import textwrap
-import io
 import os
-from io import BytesIO
+import io
+import base64
+import numpy as np
 from PIL import Image
 import torch
 import tempfile
-from torchvision.transforms.functional import to_pil_image
 import folder_paths
 import numpy as np
 import anthropic
@@ -20,7 +20,7 @@ from .ollama_api import send_ollama_request
 from .openai_api import send_openai_request
 from .kobold_api import send_kobold_request
 from .groq_api import send_groq_request
-from .lms_api import send_lms_request
+from .lms_api import send_lmstudio_request
 from .textgen_api import send_textgen_request
 from .text_cleanup import process_text
 
@@ -58,7 +58,7 @@ class IFChatPrompt:
             },
             "optional": {
                 "context": ("STRING", {"forceInput": True}),
-                "image": ("IMAGE", ),
+                "images": ("IMAGE", ),
                 "max_tokens": ("INT", {"default": 2048, "min": 1, "max": 8192}),
                 "temperature": ("FLOAT", {"default": 0.7, "min": 0.0, "max": 2.0, "step": 0.1}),
                 "top_k": ("INT", {"default": 40, "min": 0, "max": 100}),
@@ -101,10 +101,10 @@ class IFChatPrompt:
             node.random = random
             node.history_steps = history_steps
             return True
-        if engine == "textgen":
+        """if engine == "textgen":
             if node.selected_model != selected_model:
                 node.load_model_textgen(selected_model, base_ip, port)
-            return True
+            return True"""
         return False
     
     
@@ -144,17 +144,19 @@ class IFChatPrompt:
         else:
             print(f'you are using ollama as the engine, no api key is required')
     
-    def load_model_textgen(self, selected_model, base_ip, port):
-        api_url = f'http://{base_ip}:{port}/v1/model/load'
+    """def load_model_textgen(self, selected_model, base_ip, port):
+        headers = {"Content-Type": "application/json"}
+        api_url = f'http://{base_ip}:{port}/v1/internal/model/load'   
         data = {
-            "model_name": selected_model
+            "model_name": selected_model,
+            "args": {"load_in_4bit": True }
         }
         try:
-            response = requests.post(api_url, json=data)
+            response = requests.post(api_url, headers=headers, json=data)
             response.raise_for_status()
             print(f"Model {selected_model} loaded successfully.")
         except Exception as e:
-            print(f"Failed to load model {selected_model}: {e}")
+            print(f"Failed to load model {selected_model}: {e}")"""
     
     def get_models(self, engine, base_ip, port):
         if engine == "groq":   
@@ -224,30 +226,21 @@ class IFChatPrompt:
         else:
             print(f"Unsupported engine - {engine}")
             return []
-
-    def tensor_to_image(self, tensor):
-        # Ensure tensor is on CPU
-        tensor = tensor.cpu()
-        # Normalize tensor 0-255 and convert to byte
-        image_np = tensor.squeeze().mul(255).clamp(0, 255).byte().numpy()
-        # Create PIL image
-        image = Image.fromarray(image_np, mode='RGB')
-        return image
     
-    def prepare_messages(self, prompt, assistant, image=None):
+    def prepare_messages(self, prompt, assistant, images=None):
         assistant_content = self.assistants.get(assistant, "")
         image_message = textwrap.dedent("""
-                Analyze the image provided, search for relevant details from the image to include on your response.
-                Reply to the user's specific question or prompt and include relevant details extracted from the image.
+                Analyze the images provided, search for relevant details from the images to include on your response.
+                Reply to the user's specific question or prompt and include relevant details extracted from the images.
             """)
-        if image is not None:
+        if images is not None:
             system_message = f"{assistant_content}\n{image_message}"
             
         else:
             system_message = f"{assistant_content}"
    
         
-        user_message = prompt if prompt.strip() != "" else "Please provide a general description of the image."
+        user_message = prompt if prompt.strip() != "" else "Please provide a general description of the images."
 
         messages = []
 
@@ -260,28 +253,31 @@ class IFChatPrompt:
         return user_message, system_message, messages
 
 
-    def describe_picture(self, prompt, engine, selected_model, base_ip, port, assistant, neg_prompt, embellish_prompt, style_prompt, temperature=0.7, max_tokens=2048, seed=0, random=False, history_steps=10, keep_alive=False, top_k=40, top_p=0.2, repeat_penalty=1.1, stop="", context=None, image=None, mode=True, clear_history=True, text_cleanup=True):
+    def describe_picture(self, prompt, engine, selected_model, base_ip, port, assistant, neg_prompt, embellish_prompt, style_prompt, 
+                         temperature=0.7, max_tokens=2048, seed=0, random=False, history_steps=10, keep_alive=False, top_k=40, top_p=0.2, 
+                         repeat_penalty=1.1, stop="", context=None, images=None, mode=True, clear_history=True, text_cleanup=True):
+        
         embellish_content = self.embellish_prompts.get(embellish_prompt, "")
         style_content = self.style_prompts.get(style_prompt, "")
         neg_content = self.neg_prompts.get(neg_prompt, "")
-        
 
-        if image is not None:
-            if isinstance(image, torch.Tensor):
-                # Convert the tensor to a PIL image
-                pil_image = self.tensor_to_image(image)
-            elif isinstance(image, Image.Image):
-                pil_image = image
-            elif isinstance(image, str) and os.path.isfile(image):
-                pil_image = Image.open(image)
-            else:
-                print(f"Invalid image type: {type(image)}. Expected torch.Tensor, PIL.Image, or file path.")
-                return "Invalid image type", ""
-
-            # Convert the PIL image to base64
-            buffered = BytesIO()
-            pil_image.save(buffered, format="PNG")
-            base64_image = base64.b64encode(buffered.getvalue()).decode('utf-8')
+        if images is not None:
+            # Normalize tensor 0-255
+            img_np = 255.0 * images[0].cpu().numpy()
+            # Clip the values to the valid range [0, 255]
+            img = Image.fromarray(np.clip(img_np, 0, 255).astype(np.uint8))
+            
+            # Resize the image if it's too large
+            max_size = (1024, 1024)  # Adjust the maximum size as needed
+            img.thumbnail(max_size)
+            
+            # Create a BytesIO object to store the image data
+            buffered = io.BytesIO()
+            
+            # Save the resized image as PNG
+            img.save(buffered, format="PNG")
+            
+            base64_image = base64.b64encode(buffered.getvalue()).decode("utf-8")
         else:
             base64_image = None
 
@@ -291,7 +287,7 @@ class IFChatPrompt:
             print(error_message)
             raise ValueError(error_message)
 
-        user_message, system_message, messages = self.prepare_messages(prompt, assistant, image)
+        user_message, system_message, messages = self.prepare_messages(prompt, assistant, images)
         if clear_history:
             self.chat_history = []
             context = None
@@ -316,9 +312,8 @@ class IFChatPrompt:
         else:
             stop = None
         try:
-            generated_text, context = self.send_request(engine, selected_model, base_ip, port, base64_image, 
-                    system_message, user_message, messages, temperature, max_tokens, 
-                    seed, random, keep_alive, top_k, top_p, repeat_penalty, stop, context)           
+            generated_text, context = self.send_request(engine, base_ip, port, base64_image, selected_model, system_message, user_message, messages, seed, 
+                                                        temperature, max_tokens, random, top_k, top_p, repeat_penalty, stop, keep_alive, context)           
             
             if text_cleanup:
                 generated_text = process_text(generated_text)
@@ -345,18 +340,18 @@ class IFChatPrompt:
                 return prompt, combined_prompt, neg_content, context
         except Exception as e:
             print(f"Exception occurred: {e}")
-            return "Exception occurred while processing image.", ""      
+            return "Exception occurred while processing images.", ""      
 
-    def send_request(self, engine, selected_model, base_ip, port, base64_image, 
-                    system_message, user_message, messages, temperature, max_tokens, 
-                    seed, random, keep_alive, top_k, top_p, repeat_penalty, stop, context=None):
+    def send_request(self, engine, base_ip, port, base64_image, selected_model, system_message, user_message, messages, seed, 
+                     temperature, max_tokens, random, top_k, top_p, repeat_penalty, stop, keep_alive, context=None):
+    
         api_functions = {
             "groq": send_groq_request,
             "anthropic": send_anthropic_request,
             "openai": send_openai_request,
             "kobold": send_kobold_request,
             "ollama": send_ollama_request,
-            "lms": send_lms_request,
+            "lms": send_lmstudio_request,
             "textgen": send_textgen_request
         }
 
@@ -365,29 +360,32 @@ class IFChatPrompt:
 
         api_function = api_functions[engine]
 
-        if engine == "kobold":
-            response = api_function(f"http://{base_ip}:{port}/api/v1/generate", stop, 
-                                    system_message=system_message, user_message=user_message, 
-                                    messages=messages, base64_image=base64_image, 
-                                    max_length=max_tokens, temperature=temperature, 
-                                    top_k=top_k, top_p=top_p, rep_pen=repeat_penalty)
-            context = None
-        elif engine == "ollama":
+        
+        if engine == "ollama":
             response, context = api_function(f"http://{base_ip}:{port}/api/generate", base64_image, 
-                                    selected_model, system_message, user_message, messages, 
-                                    temperature, max_tokens, seed, random, keep_alive, 
-                                    top_k, top_p, repeat_penalty, stop, context)
+                                    selected_model, system_message, user_message, messages, seed, 
+                                    temperature, max_tokens, random, top_k, top_p, repeat_penalty, stop, keep_alive, context)
+        elif engine == "kobold":
+            response = api_function(f"http://{base_ip}:{port}/v1/chat/completions", base64_image, selected_model, system_message,
+                                     user_message, messages, seed, temperature, max_tokens, top_k, top_p, repeat_penalty, stop)
+            context = None
         elif engine == "lms":
-            response = api_function(f"http://{base_ip}:{port}/v1/chat/completions", selected_model, system_message,
-                                     user_message, messages, temperature, max_tokens, base64_image, stop)
+            response = api_function(f"http://{base_ip}:{port}/v1/chat/completions", base64_image, selected_model, system_message,
+                                     user_message, messages, seed, temperature, max_tokens, top_k, top_p, repeat_penalty, stop)
             context = None
         elif engine == "textgen":
-            response = api_function(f"http://{base_ip}:{port}/v1/chat/completions", selected_model, system_message,
-                                     user_message, messages, temperature, max_tokens, base64_image, stop)
+            response = api_function(f"http://{base_ip}:{port}/v1/chat/completions", base64_image, selected_model, system_message,
+                                     user_message, messages, seed, temperature, max_tokens, top_k, top_p, repeat_penalty, stop)
+            context = None
+        elif engine == "openai":
+            api_key = self.get_api_key(f"{engine.upper()}_API_KEY", engine)
+            response = api_function(base64_image, selected_model, system_message, user_message, messages, api_key, 
+                                    seed, temperature, max_tokens, top_p, repeat_penalty)
             context = None
         else:
             api_key = self.get_api_key(f"{engine.upper()}_API_KEY", engine)
-            response = api_function(selected_model, system_message, user_message, messages, api_key, temperature, max_tokens, base64_image)
+            response = api_function(selected_model, system_message, user_message, messages, api_key, temperature, 
+                                    max_tokens, base64_image)
             context = None
 
         # Update chat history after receiving the response

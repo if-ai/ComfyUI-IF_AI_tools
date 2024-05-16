@@ -1,8 +1,7 @@
 import requests
-import json
-import re
 
-def send_ollama_request(endpoint, base64_image, selected_model, system_message, user_message, messages, temperature, max_tokens, seed, random, keep_alive, top_k, top_p, repeat_penalty, stop, context):
+def send_ollama_request(endpoint, base64_image, selected_model, system_message, user_message, messages, seed, 
+                        temperature, max_tokens, random, top_k, top_p, repeat_penalty, stop, keep_alive, context):
     try:
         prompt = ""
         for message in messages:
@@ -34,8 +33,6 @@ def send_ollama_request(endpoint, base64_image, selected_model, system_message, 
         if random:
             data["options"].setdefault("seed", seed)
 
-        """print("Debugging - Data object before sending request:")
-        print(json.dumps(data, indent=2))"""
 
         ollama_headers = {"Content-Type": "application/json"}
         response = requests.post(endpoint, headers=ollama_headers, json=data)

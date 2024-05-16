@@ -1,15 +1,21 @@
 import requests
 
-def send_lms_request(api_url, selected_model, system_message, user_message, messages, temperature, max_tokens, base64_image, stop):
-    lmstudio_url = api_url  # Replace with the appropriate port
+def send_lmstudio_request(api_url, base64_image, selected_model, system_message, user_message, messages, seed, temperature, max_tokens, top_k, top_p, repeat_penalty, stop):
+    lmstudio_url = api_url
 
     data = {
         "model": selected_model,
         "messages": prepare_lmstudio_messages(base64_image, system_message, user_message, messages),
         "temperature": temperature,
         "max_tokens": max_tokens,
-        "stop": stop
+        "presence_penalty": repeat_penalty,
+        "top_p": top_p,
+        "top_k": top_k,
+        "seed": seed
     }
+
+    if stop:
+        data["stop"] = stop
     
 
     response = requests.post(lmstudio_url, json=data)

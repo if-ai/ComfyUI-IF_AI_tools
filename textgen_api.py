@@ -1,16 +1,20 @@
 import requests
 
-def send_textgen_request(api_url, selected_model, system_message, user_message, messages, temperature, max_tokens, stop):
+def send_textgen_request(api_url, base64_image, selected_model, system_message, user_message, messages, seed, temperature, max_tokens, top_k, top_p, repeat_penalty, stop):
     headers = {
         "Content-Type": "application/json"
     }
 
     data = {
         "model": selected_model,
-        "messages": prepare_textgen_messages(system_message, user_message, messages),
+        "messages": prepare_textgen_messages(base64_image, system_message, user_message, messages),
         "temperature": temperature,
         "max_tokens": max_tokens,
-        "stop": stop
+        "presence_penalty": repeat_penalty,
+        "top_p": top_p,
+        "top_k": top_k,
+        "seed": seed,
+        "stop": stop if stop else None
     }
 
     response = requests.post(api_url, headers=headers, json=data)
@@ -22,15 +26,17 @@ def send_textgen_request(api_url, selected_model, system_message, user_message, 
             choice = choices[0]
             message = choice.get('message', {})
             generated_text = message.get('content', '')
-            return generated_text
+            if generated_text:
+                return generated_text
+            else:
+                print("No content found in the response message.")
         else:
             print("No valid choices in the response.")
-            print("Full response:", response.text)
-            return "No valid response generated."
     else:
         print(f"Failed to fetch response, status code: {response.status_code}")
         print("Full response:", response.text)
-        return "Failed to fetch response from text-generation-webui."
+
+    return "Failed to fetch response from Kobold API."
 
 def prepare_textgen_messages(base64_image, system_message, user_message, messages):
     textgen_messages = [
@@ -55,7 +61,10 @@ def prepare_textgen_messages(base64_image, system_message, user_message, message
                         },
                         {
                             "type": "image_url",
-                            "image_url": f"data:image/png;base64,{base64_image}"
+                            "image_url": {
+                                "url": "data:image/png;base64," + base64_image,
+                                "data": base64_image
+                            }
                         }
                     ]
                 })
