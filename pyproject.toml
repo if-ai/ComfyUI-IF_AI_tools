@@ -1,6 +1,6 @@
 [project]
 name = "comfyui-if_ai_tools"
-description = ""
+description = "Various AI tools to use in Comfy UI. Starting with VL and prompt making tools using Ollma as backend will evolve as I find time."
 version = "1.0.0"
 license = "LICENSE"
 dependencies = ["Pillow", "requests", "opencv-python", "IPython", "huggingface_hub", "groq", "openai", "anthropic", "moviepy", "numpy"]
