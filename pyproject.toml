@@ -1,6 +1,6 @@
 [project]
 name = "comfyui-if_ai_tools"
-description = "Various AI tools to use in Comfy UI. Starting with VL and prompt making tools using Ollma as backend will evolve as I find time."
+description = "A set of custom nodes to create assistant chatbots and generate prompts using a local LLMs via Ollama, LMstudio, Koboldcpp, Oobabooga or via APIs Anthropic, Groq, OpenAI"
 version = "1.0.0"
 license = "LICENSE"
 dependencies = ["Pillow", "requests", "opencv-python", "IPython", "huggingface_hub", "groq", "openai", "anthropic", "moviepy", "numpy"]
@@ -10,6 +10,6 @@ Repository = "https://github.com/if-ai/ComfyUI-IF_AI_tools"
 #  Used by Comfy Registry https://comfyregistry.org
 
 [tool.comfy]
-PublisherId = ""
+PublisherId = "impactframes"
 DisplayName = "ComfyUI-IF_AI_tools"
 Icon = ""
