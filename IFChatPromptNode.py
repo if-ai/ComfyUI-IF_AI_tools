@@ -75,7 +75,7 @@ class IFChatPrompt:
                 "keep_alive": ("BOOLEAN", {"default": False, "label_on": "Keeps_Model", "label_off": "Unloads_Model"}),
                 "text_cleanup": ("BOOLEAN", {"default": True, "label_on": "Apply", "label_off": "Raw Text"}),
                 "mode": ("BOOLEAN", {"default": True, "label_on": "Mode: SD", "label_off": "Mode: Chat"}),
-                "external_api_key": ("STRING", {"default": "", "multiline": false}),
+                "external_api_key": ("STRING", {"default": "", "multiline": False}),
             },
             "hidden": {
                 "model": ("STRING", {"default": ""}),
