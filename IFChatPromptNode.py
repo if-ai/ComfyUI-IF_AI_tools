@@ -139,7 +139,7 @@ class IFChatPrompt:
         return presets
    
     def get_api_key(self, api_key_name, engine):
-        if engine != "ollama":  
+        if engine not in ["ollama", "kobold", "lms", "textgen"]:  
             api_key = os.getenv(api_key_name)
             if api_key:
                 return api_key
