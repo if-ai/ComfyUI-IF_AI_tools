@@ -75,7 +75,7 @@ class IFChatPrompt:
                 "keep_alive": ("BOOLEAN", {"default": False, "label_on": "Keeps_Model", "label_off": "Unloads_Model"}),
                 "text_cleanup": ("BOOLEAN", {"default": True, "label_on": "Apply", "label_off": "Raw Text"}),
                 "mode": ("BOOLEAN", {"default": True, "label_on": "Mode: SD", "label_off": "Mode: Chat"}),
-                "external_api_key": ("STRING", {"default": "", "multiline": False}),
+                #"external_api_key": ("STRING", {"default": "", "multiline": False}),
             },
             "hidden": {
                 "model": ("STRING", {"default": ""}),
@@ -130,7 +130,7 @@ class IFChatPrompt:
         self.seed = 94687328150
         self.chat_history = []
         self.history_steps = 10
-        self.external_api_key = ""
+        #self.external_api_key = ""
 
 
     def load_presets(self, file_path):
@@ -139,9 +139,9 @@ class IFChatPrompt:
         return presets
    
     def get_api_key(self, api_key_name, engine):
-        if engine != "ollama" or engine != "kobold" or engine != "lms" or engine != "textgen": 
-            if self.external_api_key != "":
-                api_key = self.external_api_key if self.external_api_key else os.getenv(api_key_name)
+        if engine != "ollama":  
+            api_key = os.getenv(api_key_name)
+            if api_key:
                 return api_key
         else:
             print(f'you are using ollama as the engine, no api key is required')
