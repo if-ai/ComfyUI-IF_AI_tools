@@ -14,7 +14,6 @@ import numpy as np
 import anthropic
 import openai
 import asyncio
-import websockets
 import threading
 import platform
 import sys
