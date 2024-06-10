@@ -16,3 +16,4 @@ unstructured
 psycopg
 diskcache
 tiktoken
+pandas
