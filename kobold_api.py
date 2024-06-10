@@ -1,11 +1,11 @@
 import requests
-def send_kobold_request(api_url, base64_image, selected_model, system_message, user_message, messages, seed, temperature, max_tokens, top_k, top_p, repeat_penalty, stop):
+def send_kobold_request(api_url, base64_image, model, system_message, user_message, messages, seed, temperature, max_tokens, top_k, top_p, repeat_penalty, stop):
     headers = {
         "Content-Type": "application/json"
     }
 
     data = {
-        "model": selected_model,
+        "model": model,
         "messages": prepare_kobold_messages(system_message, user_message, messages, base64_image),
         "max_length": max_tokens,
         "rep_pen": repeat_penalty,

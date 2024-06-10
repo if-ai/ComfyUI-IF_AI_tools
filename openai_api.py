@@ -1,6 +1,6 @@
 import requests
 
-def send_openai_request(base64_image, selected_model, system_message, user_message, messages, api_key, 
+def send_openai_request(base64_image, model, system_message, user_message, messages, api_key, 
                                     seed, temperature, max_tokens, top_p, repeat_penalty):
     openai_headers = {
         "Authorization": f"Bearer {api_key}",
@@ -8,7 +8,7 @@ def send_openai_request(base64_image, selected_model, system_message, user_messa
     }
 
     data = {
-        "model": selected_model,
+        "model": model,
         "messages": prepare_openai_messages(base64_image, system_message, user_message, messages),
         "temperature": temperature,
         "max_tokens": max_tokens,

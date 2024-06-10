@@ -1,10 +1,10 @@
 import requests
 
-def send_lmstudio_request(api_url, base64_image, selected_model, system_message, user_message, messages, seed, temperature, max_tokens, top_k, top_p, repeat_penalty, stop):
+def send_lmstudio_request(api_url, base64_image, model, system_message, user_message, messages, seed, temperature, max_tokens, top_k, top_p, repeat_penalty, stop):
     lmstudio_url = api_url
 
     data = {
-        "model": selected_model,
+        "model": model,
         "messages": prepare_lmstudio_messages(base64_image, system_message, user_message, messages),
         "temperature": temperature,
         "max_tokens": max_tokens,
