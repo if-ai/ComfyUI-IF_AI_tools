@@ -13,7 +13,6 @@ import argparse
 import importlib.util
 import time
 import asyncio
-import websockets
 import threading
 
 from pathway.xpacks.llm import embedders, parsers, splitters, prompts, llms
