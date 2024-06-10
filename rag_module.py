@@ -184,30 +184,3 @@ def configure_llm(base_ip, port, engine, model, temperature, api_key, top_p):
         raise ValueError(f"Unsupported engine: {engine}")
     
     return chat
-
-"""
-parser = argparse.ArgumentParser(description="RAG Server")
-parser.add_argument("--base_ip", default="localhost", help="Base IP address for the engine")
-parser.add_argument("--rag_port", default=8081, type=int, help="Port for the RAG server")
-parser.add_argument("--port", default="11434", help="Port for the engine")
-parser.add_argument("--engine", default="ollama", help="Name of the engine to use")
-parser.add_argument("--model", default="mistral", help="Name of the model to use")
-parser.add_argument("--api_key", default=None, help="API key for the selected engine")
-parser.add_argument("--temperature", default=0.7, type=float, help="Temperature setting for the LLM")
-parser.add_argument("--top_p", default=0.2, type=float, help="Top P setting for the LLM")
-
-args = parser.parse_args()
-
-threading.Thread(target=run_pathway_pipeline,
-                 args=(args.base_ip, args.rag_port,
-                       args.port,
-                       args.engine,
-                       args.model,
-                       args.api_key,
-                       args.temperature,
-                       args.top_p), daemon=True).start()
-
-# Wait for the RAG server to be ready
-RAG_READY_EVENT.wait()
-
-print(f"Pathway RAG server started at http://{args.base_ip}:{args.rag_port}")"""
