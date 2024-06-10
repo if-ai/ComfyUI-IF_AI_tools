@@ -10,9 +10,3 @@ openai
 anthropic
 moviepy
 numpy
-litellm
-pathway
-unstructured
-psycopg
-diskcache
-tiktoken
