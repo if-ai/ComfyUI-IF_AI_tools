@@ -1,12 +1,12 @@
 import requests
 
-def send_textgen_request(api_url, base64_image, model, system_message, user_message, messages, seed, temperature, max_tokens, top_k, top_p, repeat_penalty, stop):
+def send_textgen_request(api_url, base64_image, selected_model, system_message, user_message, messages, seed, temperature, max_tokens, top_k, top_p, repeat_penalty, stop):
     headers = {
         "Content-Type": "application/json"
     }
 
     data = {
-        "model": model,
+        "model": selected_model,
         "messages": prepare_textgen_messages(base64_image, system_message, user_message, messages),
         "temperature": temperature,
         "max_tokens": max_tokens,

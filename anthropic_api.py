@@ -1,6 +1,6 @@
 import requests
 
-def send_anthropic_request(model, system_message, user_message, messages, anthropic_api_key, temperature, max_tokens, base64_image):
+def send_anthropic_request(selected_model, system_message, user_message, messages, anthropic_api_key, temperature, max_tokens, base64_image):
     
     anthropic_headers = {
         "x-api-key": anthropic_api_key,
@@ -9,7 +9,7 @@ def send_anthropic_request(model, system_message, user_message, messages, anthro
     }
     data = {
         "system": system_message,
-        "model": model,
+        "model": selected_model,
         "messages": prepare_anthropic_messages(user_message, messages, base64_image=base64_image),  # Pass base64_image as a keyword argument
         "temperature": temperature,
         "max_tokens": max_tokens
@@ -18,11 +18,11 @@ def send_anthropic_request(model, system_message, user_message, messages, anthro
     response = requests.post(api_url, headers=anthropic_headers, json=data)
     if response.status_code == 200:
         response_data = response.json()
-        #print("Debug Response:", response_data)  # Debug print
+        print("Debug Response:", response_data)  # Debug print
         content_blocks = response_data.get('content', [])
         if content_blocks:
             generated_text = content_blocks[0].get('text', '')
-            #print("Debug Generated Text:", generated_text)  # Debug print
+            print("Debug Generated Text:", generated_text)  # Debug print
         else:
             generated_text = ''
         return generated_text.strip()

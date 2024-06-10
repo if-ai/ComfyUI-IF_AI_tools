@@ -1,7 +1,7 @@
 import requests
 
-def send_ollama_request(endpoint, base64_image, model, system_message, user_message, messages, seed, 
-                        temperature, max_tokens, random, top_k, top_p, repeat_penalty, stop, keep_alive):
+def send_ollama_request(endpoint, base64_image, selected_model, system_message, user_message, messages, seed, 
+                        temperature, max_tokens, random, top_k, top_p, repeat_penalty, stop, keep_alive, context):
     try:
         prompt = ""
         for message in messages:
@@ -13,8 +13,9 @@ def send_ollama_request(endpoint, base64_image, model, system_message, user_mess
                 prompt += f"Assistant: {content}\n"
 
         data = {
-            "model": model,
+            "model": selected_model,
             "system": system_message,
+            "context": context,
             "prompt": prompt + f"User: {user_message}\n",
             "stream": False,
             "images": [base64_image] if base64_image else None,
@@ -39,7 +40,8 @@ def send_ollama_request(endpoint, base64_image, model, system_message, user_mess
         if response.status_code == 200:
             response_json = response.json()
             prompt_response = response_json.get("response", "").strip()
-            return prompt_response
+            context = response_json.get("context", None)
+            return prompt_response, context
         else:
             print("Debugging - Error response:")
             print(response.text)
