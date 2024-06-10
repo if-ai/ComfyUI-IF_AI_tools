@@ -11,7 +11,7 @@ anthropic
 moviepy
 numpy
 litellm
-pathway[xpack-llm]
+pathway
 unstructured
 psycopg
 diskcache
