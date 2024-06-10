@@ -1,0 +1,936 @@
+{
+  "last_node_id": 103,
+  "last_link_id": 159,
+  "nodes": [
+    {
+      "id": 80,
+      "type": "CLIPTextEncode",
+      "pos": [
+        1440.408056640625,
+        260
+      ],
+      "size": {
+        "0": 210,
+        "1": 54
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 13,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 120
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 122,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            124
+          ],
+          "shape": 3
+        }
+      ],
+      "title": "+C",
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 81,
+      "type": "CLIPTextEncode",
+      "pos": [
+        1440.408056640625,
+        310
+      ],
+      "size": {
+        "0": 400,
+        "1": 200
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 14,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 123
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 121,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            125
+          ],
+          "shape": 3
+        }
+      ],
+      "title": "-C",
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 79,
+      "type": "VAELoader",
+      "pos": [
+        1030.408056640625,
+        260
+      ],
+      "size": {
+        "0": 320,
+        "1": 60
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 2,
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            128
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "SDXL_lightening.safetensors"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 77,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        1030.408056640625,
+        120
+      ],
+      "size": {
+        "0": 320,
+        "1": 100
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 2,
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            119
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            120,
+            123
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": null,
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "juggernautXL_v9Rdphoto2Lightning.safetensors"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 82,
+      "type": "EmptyLatentImage",
+      "pos": [
+        1380.408056640625,
+        380
+      ],
+      "size": {
+        "0": 210,
+        "1": 110
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 2,
+      "mode": 2,
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            126
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        920,
+        1024,
+        4
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 83,
+      "type": "VAEDecode",
+      "pos": [
+        1940.408056640625,
+        280
+      ],
+      "size": {
+        "0": 210,
+        "1": 50
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 16,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 127
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 128,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            129
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 84,
+      "type": "SaveImage",
+      "pos": [
+        1970.408056640625,
+        130
+      ],
+      "size": {
+        "0": 320,
+        "1": 270
+      },
+      "flags": {},
+      "order": 17,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 129
+        }
+      ],
+      "properties": {},
+      "widgets_values": [
+        "ComfyUI"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 86,
+      "type": "Note",
+      "pos": [
+        1040.408056640625,
+        370
+      ],
+      "size": {
+        "0": 310,
+        "1": 130
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "title": "SD MODELS",
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "dataautogpt3/ProteusV0.3-Lightning\n\nhttps://civitai.com/models/133005?modelVersionId=357609\n\n\n"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 78,
+      "type": "KSampler",
+      "pos": [
+        1600.408056640625,
+        120
+      ],
+      "size": {
+        "0": 320,
+        "1": 262
+      },
+      "flags": {},
+      "order": 15,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 119
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 124,
+          "slot_index": 1
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 125,
+          "slot_index": 2
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 126,
+          "slot_index": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            127
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        41171698250928,
+        "randomize",
+        8,
+        1.42,
+        "dpmpp_2m_sde_gpu",
+        "karras",
+        1
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 76,
+      "type": "Note",
+      "pos": [
+        683,
+        94
+      ],
+      "size": {
+        "0": 293.7297668457031,
+        "1": 260.9291076660156
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 4,
+      "mode": 0,
+      "title": "VISION MODELS",
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Enable the Image prompt group \nand make sure to use a multimodal model\n\nUse Llava or Moomdream Models \nollama run llava-llama3\nllava-hf/llava-v1.6-mistral-7b-hf\nollama run moondream\n\nAnthropic Haiku or GPT-4o\n\nTextGen webui:\nonly support some LLAVA 1.5 not all and definitely not not 1.6\nYou need to load ooga booga in multimodal and --multimodal-pipeline [PIPELINE]. Available pipelines are:\n['llava-7b', 'llava-13b', 'llava-llama-2-13b', 'llava-v1.5-13b','llava-v1.5-7b'].\n\nKobold seems to have a similar problem like text gen, so only text is working\n\n\n\n\n"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 88,
+      "type": "Fast Groups Muter (rgthree)",
+      "pos": {
+        "0": 710,
+        "1": 410,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": {
+        "0": 230,
+        "1": 110
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "links": null
+        }
+      ],
+      "properties": {
+        "matchColors": "",
+        "matchTitle": "",
+        "showNav": true,
+        "sort": "position",
+        "customSortAlphabet": "",
+        "toggleRestriction": "default"
+      }
+    },
+    {
+      "id": 75,
+      "type": "LoadImage",
+      "pos": [
+        285.05841151499106,
+        184.33477466024323
+      ],
+      "size": [
+        320,
+        314.00000381469727
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 2,
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            156
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "0cb8a6aa47752b15ea68210a82ae4615 (1).jpg",
+        "image"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 103,
+      "type": "IF_DisplayText",
+      "pos": [
+        1038,
+        596
+      ],
+      "size": {
+        "0": 388.16900634765625,
+        "1": 88.41773986816406
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 157,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "How much was Operating lease cost in 2021 in the document"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 61,
+      "type": "IF_DisplayText",
+      "pos": [
+        1037,
+        738
+      ],
+      "size": {
+        "0": 392.2574462890625,
+        "1": 483.3253173828125
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 158,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            122
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "The document does not explicitly provide the exact dollar amount for the Operating lease cost in 2021. However, it mentions that the current portion of operating lease liabilities is included in accrued expenses and other current liabilities, with the long-term portion included in operating lease liabilities. The total operating lease liabilities for 2021 were $31.5 billion as per the document. To get the Operating lease cost for 2021, one would need to further analyze the financial statements of Alphabet Inc. to separate the current and long-term portions and determine which portion corresponds to the operating lease cost."
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 72,
+      "type": "Note",
+      "pos": [
+        1448,
+        556
+      ],
+      "size": {
+        "0": 560,
+        "1": 690
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 7,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "\n                                ▄                                               \n                             ▌  █  █                                            \n                            █▀ █▀ ▄▀                                            \n                           ╘▌  █  █     ,▄▄▄                                    \n                                       █▀▒▒▒█ ,▄▓▓▄                             \n                      ╓▄▀▀▀\"   ▀▀▀██&▄▄█▄▄▄█▌▄▀▄▀▒▒▌                            \n                    ,▄█▀▀▀█▄       █▌▒▒▒▒▒▒▒▒▒▒▀▒▄█                             \n                   ▄█▒╢╢╢╢╢▒▀▀▀▀▀▀▀▒▒▒▄▄▄▄▒▒▒▒▒▒▒▀▄                             \n                  ▐█╫█▓╢╣▓█▒╢╢╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒▒█                            \n                  █▒╢╢╢█▌╢╢╢╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╣▒▒▒▒█                           \n                  █╣╢╢╢█▌╢╢╢╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌                          \n                  █▒╢╢╢▓▌╢╢╢╢╢╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█                          \n                  ╘█╢╢╢▓█▒▒╢╢╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌                         \n                   ▀█▒▀▒▒▒▀▒╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒▒▒▒█                         \n                   ,,▀██▄▄▄▄▄▄▄▄▄▄▄█▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█║║║╖╖╖╖╓,                \n            ,╓╗║╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒╢║╗╖          \n         ╓╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▌▒▒╫▒╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒╙▒▒▒▒▒▒▒▒▄▒▒▒▒║╖       \n       ╖▒▒▒▒▒▒▒█▀█▀▀█▄▒▒▒▒▒▒▒▒║╙▒█▄▄▒▒▒▒▒▒▒▒▒▒▒▒▒▄▄▄▄█▀░╢`║▒▒▒▒▄█▀▀▀█▒▒▒▒▒╖     \n      ║▒▒▒▒▒▒▒█▒▒▒▒▒╣█▌▒▒▒▒▒▒▒╢╖╣╙╜╜▒▒▒▒▀▀▀▀▒▒▒▒▒▒▒╜╜╙`║▒╢▒▒▒▒▐▌▒▒▒▒▒█▌▒▒▒▒╖    \n     ║▒▒▒▒▒▒╜╙▀▀█▓███▀▒▒▒▒▒▄▄▄▄▄▒▒▒║║║║▒▒▒▒▒╖╥╗╗@║║║▒▒▒▒▒▒▒▒▒╝▒▀█▓███▀▒╜ ▒▒▒    \n     ]▒▒▒▒▒▒▒║╗╖╓▒▒╖╓╓╖▒▒▄█▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒║╖╖▒▒▒▒▒╖╗║▒▒▒▒    \n      ║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╜▒▀█████▀▒ ║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢     \n       ╙║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢╗╖╖▒▒▒▒▒║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╜`      \n          ╙╜╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╣╜╜\"          \n                `╙╙╙╜╝╝╝╜╜╝╝╝╝╜╨╜╜╜╜╜╜╝╝╜╨╨╜╝║║║║║║╝╨╨╝╝╝╜╙╙\"`                 \n _ _____ _____ _    _           _     \n| |   __|  _  | |  | |_ ___ ___| |___ \n| |   __|     | |  |  _| . | . | |_ -|\n|_|__|  |__|__|_|  | | |___|___|_|___|\n                   |__|               \n\nI recommend ollama but you can use kobold, oobaboga and lm studio or use Groq and anthropic \nclosedai \nhttps://github.com/ollama/ollama/releases\nollama.com\n\nI trained a few models that you can find on my ollama and HF profiles\n\nollama run impactframes/llama3_ifai_sd_prompt_mkr_q4km:latest ollama run impactframes/ifai_promptmkr_dolphin_phi3:latest https://huggingface.co/impactframes/llama3_if_ai_sdpromptmkr_q4km https://huggingface.co/impactframes/ifai_promptmkr_dolphin_phi3_gguf\n\nfor SD I like Proteus line of models by Datavoid, Pixart Sigma,  \n\n\nPlease star the repo and support my work links bellow to make updates updates come quicker \nhttps://github.com/if-ai/ComfyUI-IF_AI_tools\n\nto watch tutorials\n\nJoin the Impact Frames fam! Subscribe now: https://youtube.com/@impactframes?si=DrBu3tOAC2-YbEvc\n\n"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 73,
+      "type": "IF_DisplayText",
+      "pos": [
+        1036,
+        1261
+      ],
+      "size": {
+        "0": 391.7549743652344,
+        "1": 156.33306884765625
+      },
+      "flags": {
+        "pinned": false
+      },
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 159,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            121
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        ""
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 102,
+      "type": "IF_ChatPrompt",
+      "pos": [
+        614,
+        564
+      ],
+      "size": {
+        "0": 407.4779052734375,
+        "1": 766
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 156
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Question",
+          "type": "STRING",
+          "links": [
+            157
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "Response",
+          "type": "STRING",
+          "links": [
+            158
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "Negative",
+          "type": "STRING",
+          "links": [
+            159
+          ],
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_ChatPrompt"
+      },
+      "widgets_values": [
+        "How much was Operating lease cost in 2021 in the document",
+        "localhost",
+        "11434",
+        "ollama",
+        "adrienbrault/nous-hermes2pro:Q3_K_M",
+        "Cortana",
+        "8081",
+        2048,
+        0.7,
+        40,
+        0.2,
+        1.1,
+        "",
+        767092519647286,
+        "randomize",
+        false,
+        "None",
+        "None",
+        "None",
+        false,
+        10,
+        false,
+        false,
+        true,
+        "/mnt/h/alphabet_10K.pdf",
+        false,
+        null
+      ]
+    },
+    {
+      "id": 15,
+      "type": "Note",
+      "pos": [
+        86,
+        563
+      ],
+      "size": [
+        511.75457236530644,
+        573.9577420676069
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 8,
+      "mode": 2,
+      "title": "INSTRUCTIONS",
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "INSTRUCTIONS SD MODE: \n\n-Select SD mode on the last switch mode \n-Recommended to unload the model\n-Select clear history but maybe in some cases keeping history is desired you will need big max tokens depending on the model llama3 can handle less than 8K\n-Select presets for negative prompt, style and embellishments (you can create your own by editing the json files)\n-select randomness base on temperature or seed \nyou can select fix seed etc..\nStop the generation different models have different stopping tokens dolphin uses <|im_end|>, llama3 <|end_of_text|> since I use Alpaca, ### Response: should work too or ### Assistant: \n-repeat penalty prevents words from repeating \n-top_p this control the token sampling base on  the cumulative probability of tokens mass (lower values might get unexpected tokens but be more creative while the inverse might give more coherent response) values between 0.1-0.95 \n-top_k selects the top k are tokens with the highest probabilities on the distribution output at each timestep during generation a mid value between 20 and 50 usually helps balance the responses but again is similar to top p where the higher the number it gets more deterministic the lower it gets more creative\n-temperature control the randomness of the response  goes from 0-2 a lower value like 0.2 will give very strict output for creative prompts 0.7-1.2 might work well above that starts to become wild but experiment your own settings\n-Max Tokens this is the amount of tokens allowed to be generated on the response and can be up to the maximum of the model capacity minus the the question, message history, context and assistant length so probs be bigger. A token is more or less  equivalent to a silabel or roughly 3 times the amount of word in your message.\n-Assistant is a system prompt defining the AI personality and behaviour you can edit the json files to make your own this can make or break the model performance\n-Model this will get populated with all the models available for the llm engine\n-port \n-base_ip the ip address of the machine that is running ollama you can use another machine on your network or even a remote computer (I recommend tailscale and brevdev)\n-Image will use the image for the response \n-context ollama only for now it keeps the history \n-enter prompt\n\n\nINSTRUCTION CHAT: \n\npretty much the same but now you can use rag tools by making a prompt with any of this keywords \"remember\", \"document\", \"knowledge\", \"you\", \"told\", \"said\", \"memory\" you can launch the rag to chat with your documents \nthe firts time it will build the rag with your selected parameters if you want to change the parameters   "
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    }
+  ],
+  "links": [
+    [
+      119,
+      77,
+      0,
+      78,
+      0,
+      "MODEL"
+    ],
+    [
+      120,
+      77,
+      1,
+      80,
+      0,
+      "CLIP"
+    ],
+    [
+      121,
+      73,
+      0,
+      81,
+      1,
+      "STRING"
+    ],
+    [
+      122,
+      61,
+      0,
+      80,
+      1,
+      "STRING"
+    ],
+    [
+      123,
+      77,
+      1,
+      81,
+      0,
+      "CLIP"
+    ],
+    [
+      124,
+      80,
+      0,
+      78,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      125,
+      81,
+      0,
+      78,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      126,
+      82,
+      0,
+      78,
+      3,
+      "LATENT"
+    ],
+    [
+      127,
+      78,
+      0,
+      83,
+      0,
+      "LATENT"
+    ],
+    [
+      128,
+      79,
+      0,
+      83,
+      1,
+      "VAE"
+    ],
+    [
+      129,
+      83,
+      0,
+      84,
+      0,
+      "IMAGE"
+    ],
+    [
+      156,
+      75,
+      0,
+      102,
+      0,
+      "IMAGE"
+    ],
+    [
+      157,
+      102,
+      0,
+      103,
+      0,
+      "STRING"
+    ],
+    [
+      158,
+      102,
+      1,
+      61,
+      0,
+      "STRING"
+    ],
+    [
+      159,
+      102,
+      2,
+      73,
+      0,
+      "STRING"
+    ]
+  ],
+  "groups": [
+    {
+      "title": "Generate",
+      "bounding": [
+        1020,
+        46,
+        1280,
+        464
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "locked": false
+    },
+    {
+      "title": "IMAGE_Prompt",
+      "bounding": [
+        275,
+        110,
+        340,
+        398
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "locked": false
+    }
+  ],
+  "config": {},
+  "extra": {
+    "info": {
+      "name": "IF_Chat_Avatar",
+      "author": "",
+      "description": "",
+      "version": "1",
+      "created": "2024-04-10T13:48:15.400Z",
+      "modified": "2024-05-12T20:04:34.002Z",
+      "software": "ComfyUI"
+    },
+    "ds": {
+      "scale": 0.751314800901578,
+      "offset": {
+        "0": -86.6505723653066,
+        "1": -458.6801339438276
+      }
+    }
+  },
+  "version": 0.4
+}
