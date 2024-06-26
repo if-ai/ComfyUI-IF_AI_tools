@@ -74,12 +74,10 @@
         "Reply on the same line without enumerating or enunciating components",
         "Do not include additional information in the response",
         "Respond straight with the image description do not start with things like: (the images is a black and white portrait of a woman) but rather respond: (black and white portrait of a woman)"
-        
       ],
-      "important_note":"MATCH THE OUTPUT STYLE BUT DO NOT CONTAMINATE THE RESPONSE WITH THE EXAMPLE BELLOW, USE IT ONLY TO GUIDE THE STRUCTURE",
       "examples": [
         {
-        "input": "<image_description>the image has A lone Demon Hunter stands in the heart of Cyber City, ready to face a grotesque Demon.</image_description>",
+        "input": "<image_description>the image depicts A lone Demon Hunter stands in the heart of Cyber City, ready to face a grotesque Demon.</image_description>",
         "output": "<prompt>Epic, Cover Art, Full body shot, dynamic angle, A Demon Hunter, standing, lone figure, glow eyes, deep purple light, cybernetic exoskeleton, sleek, metallic, glowing blue accents, energy weapons. Fighting Demon, grotesque creature, twisted metal, glowing red eyes, sharp claws, Cyber City, towering structures, shrouded haze, shimmering energy. Ciberpunk, dramatic lighthing, highly detailed.</prompt>"
         }
       ]
