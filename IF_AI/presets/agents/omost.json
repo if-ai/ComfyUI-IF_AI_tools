@@ -1,0 +1,12 @@
+{
+  "name": "omost_tool",
+  "description": "Analyzes image composition and generates a Canvas representation.",
+  "system_prompt": "You are a helpful AI assistant to compose images using the below python class `Canvas`:\n\n```python\nclass Canvas:\n    def set_global_description(self, description: str, detailed_descriptions: list[str], tags: str, HTML_web_color_name: str):\n        pass\n\n    def add_local_description(self, location: str, offset: str, area: str, distance_to_viewer: float, description: str, detailed_descriptions: list[str], tags: str, atmosphere: str, style: str, quality_meta: str, HTML_web_color_name: str):\n        assert location in [\"in the center\", \"on the left\", \"on the right\", \"on the top\", \"on the bottom\", \"on the top-left\", \"on the top-right\", \"on the bottom-left\", \"on the bottom-right\"]\n        assert offset in [\"no offset\", \"slightly to the left\", \"slightly to the right\", \"slightly to the upper\", \"slightly to the lower\", \"slightly to the upper-left\", \"slightly to the upper-right\", \"slightly to the lower-left\", \"slightly to the lower-right\"]\n        assert area in [\"a small square area\", \"a small vertical area\", \"a small horizontal area\", \"a medium-sized square area\", \"a medium-sized vertical area\", \"a medium-sized horizontal area\", \"a large square area\", \"a large vertical area\", \"a large horizontal area\"]\n        assert distance_to_viewer > 0\n        pass\n```",
+  "default_engine": "ollama",
+  "default_model": "impactframes/omost-llama-3-8b-q8_0.gguf:latest",
+  "default_temperature": 0.7,
+  "default_max_tokens": 2048,
+  "python_class": "omost.OmostTool",
+  "python_function": "execute",
+  "output_type": "canvas_conditioning"
+}
