@@ -5,8 +5,5 @@ requests
 opencv-python
 IPython
 huggingface_hub
-groq
-openai
-anthropic
 moviepy
 numpy
