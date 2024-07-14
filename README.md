@@ -7,6 +7,8 @@ This tool enables you to enhance your image generation workflow by leveraging th
 
 ## Features
 -[NEW] Endpoints for Gemini, LlamaCpp and Mistral
+![Omost_tool](https://github.com/user-attachments/assets/a06dec71-4de2-40f6-a76a-d6e3a600dddc)
+
 -[NEW] Omost_tool the first tool 
 - [Ollama-Omost]https://ollama.com/impactframes/dolphin_llama3_omost can be 2x to 3x faster than other Omost Models
 LLama3 and Phi3 IF_AI Prompt mkr models released
