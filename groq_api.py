@@ -1,18 +1,23 @@
 from groq import Groq
 import json
 
-def send_groq_request(selected_model, system_message, user_message, 
+def send_groq_request(model, system_message, user_message, 
                       messages, api_key, temperature, max_tokens, 
-                      base64_image=None):
+                      base64_image=None, tools=None, tool_choice=None):
     try:
         client = Groq(api_key=api_key)
 
         data = {
-            "model": selected_model,
+            "model": model,
             "messages": prepare_groq_messages(base64_image, system_message, user_message, messages),
             "temperature": temperature,
             "max_tokens": max_tokens
         }
+
+        if tools:
+            data["tools"] = tools
+        if tool_choice:
+            data["tool_choice"] = tool_choice
 
         response = client.chat.completions.create(**data)
 
@@ -27,8 +32,7 @@ def send_groq_request(selected_model, system_message, user_message,
 
             assistant_content = assistant_content.replace("\n\n", " ").strip()
 
-
-            print(assistant_content)
+            #print(assistant_content)
             return assistant_content
            
         else:

@@ -10,8 +10,6 @@ import torch
 import tempfile
 from torchvision.transforms.functional import to_pil_image
 import folder_paths
-import anthropic
-import openai
 from server import PromptServer
 from aiohttp import web
 

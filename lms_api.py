@@ -1,11 +1,15 @@
 import requests
+import json
 
-def send_lmstudio_request(api_url, base64_image, selected_model, system_message, user_message, messages, seed, temperature, max_tokens, top_k, top_p, repeat_penalty, stop):
-    lmstudio_url = api_url
+def send_lmstudio_request(api_url, base64_image, model, system_message, user_message, messages, seed, temperature, 
+                          max_tokens, top_k, top_p, repeat_penalty, stop, tools=None, tool_choice=None):
+    headers = {
+        "Content-Type": "application/json"
+    }
 
     data = {
-        "model": selected_model,
-        "messages": prepare_lmstudio_messages(base64_image, system_message, user_message, messages),
+        "model": model,
+        "messages": prepare_lmstudio_messages(system_message, user_message, messages, base64_image),
         "temperature": temperature,
         "max_tokens": max_tokens,
         "presence_penalty": repeat_penalty,
@@ -16,60 +20,55 @@ def send_lmstudio_request(api_url, base64_image, selected_model, system_message,
 
     if stop:
         data["stop"] = stop
-    
+    if tools:
+        data["functions"] = tools
+    if tool_choice:
+        data["function_call"] = tool_choice
 
-    response = requests.post(lmstudio_url, json=data)
-
-    if response.status_code == 200:
+    try:
+        response = requests.post(api_url, headers=headers, json=data)
+        response.raise_for_status()  # This will raise an exception for HTTP errors
+        
         response_data = response.json()
-        choices = response_data.get('choices', [])
-        if choices:
-            choice = choices[0]
-            message = choice.get('message', {})
-            generated_text = message.get('content', '')
-            return generated_text
+        message = response_data["choices"][0]["message"]
+        
+        if "function_call" in message:
+            return {
+                "function_call": {
+                    "name": message["function_call"]["name"],
+                    "arguments": message["function_call"]["arguments"]
+                }
+            }
         else:
-            print("No valid choices in the response.")
-            print("Full response:", response.text)
-            return "No valid response generated."
-    else:
-        print(f"Failed to fetch response, status code: {response.status_code}")
-        print("Full response:", response.text)
-        return "Failed to fetch response from LM Studio."
+            return message["content"]
+    except requests.exceptions.RequestException as e:
+        print(f"Error in LMStudio API request: {e}")
+        return str(e)
 
-def prepare_lmstudio_messages(base64_image, system_message, user_message, messages):
+def prepare_lmstudio_messages(system_message, user_message, messages, base64_image=None):
     lmstudio_messages = [
         {"role": "system", "content": system_message},
-        {"role": "user", "content": user_message}
     ]
     
     for message in messages:
-        role = message["role"]
-        content = message["content"]
-        
-        if role == "system":
-            lmstudio_messages.append({"role": "system", "content": content})
-        elif role == "user":
-            if base64_image:
-                lmstudio_messages.append({
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": content
-                        },
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": "data:image/png;base64," + base64_image,
-                                "data": base64_image
-                            }
-                        }
-                    ]
-                })
-            else:
-                lmstudio_messages.append({"role": "user", "content": content})
-        elif role == "assistant":
-            lmstudio_messages.append({"role": "assistant", "content": content})
-    
+        if isinstance(message["content"], list):
+            # Handle multi-modal content
+            content = []
+            for item in message["content"]:
+                if item["type"] == "text":
+                    content.append(item["text"])
+                elif item["type"] == "image_url":
+                    content.append(f"[Image data: {item['image_url']['url']}]")
+            lmstudio_messages.append({"role": message["role"], "content": " ".join(content)})
+        else:
+            lmstudio_messages.append(message)
+
+    if base64_image:
+        lmstudio_messages.append({
+            "role": "user",
+            "content": f"{user_message}\n[Image data: data:image/jpeg;base64,{base64_image}]"
+        })
+    else:
+        lmstudio_messages.append({"role": "user", "content": user_message})
+
     return lmstudio_messages

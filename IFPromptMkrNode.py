@@ -2,8 +2,6 @@ import json
 import requests
 import os
 import textwrap
-import anthropic
-import openai
 from server import PromptServer
 from aiohttp import web
 import tempfile

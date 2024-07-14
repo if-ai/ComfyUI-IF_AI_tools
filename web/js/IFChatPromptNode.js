@@ -2,79 +2,73 @@ import { app } from "/scripts/app.js";
 
 app.registerExtension({
     name: "Comfy.IFChatPromptNode",
-  async beforeRegisterNodeDef(nodeType, nodeData, app) {
-    if (nodeData.name === "IF_ChatPrompt") {
-      const originalNodeCreated = nodeType.prototype.onNodeCreated;
-      nodeType.prototype.onNodeCreated = async function () {
-        if (originalNodeCreated) {
-          originalNodeCreated.apply(this, arguments);
+    async beforeRegisterNodeDef(nodeType, nodeData, app) {
+        if (nodeData.name === "IF_ChatPrompt") {
+            const originalWidget = nodeType.prototype.getWidget;
+            nodeType.prototype.getWidget = function (name) {
+                let widget = originalWidget.call(this, name);
+                if (name === "model") {
+                    widget.combo_type = 1; // Set to multiline dropdown
+                }
+                return widget;
+            };
+
+            const originalOnNodeCreated = nodeType.prototype.onNodeCreated;
+            nodeType.prototype.onNodeCreated = function () {
+                if (originalOnNodeCreated) {
+                    originalOnNodeCreated.apply(this, arguments);
+                }
+
+                const updateModels = async () => {
+                  const engineWidget = this.widgets.find((w) => w.name === "engine");
+                  const baseIpWidget = this.widgets.find((w) => w.name === "base_ip");
+                  const portWidget = this.widgets.find((w) => w.name === "port");
+                  const modelWidget = this.widgets.find((w) => w.name === "model");
+              
+                  if (engineWidget && baseIpWidget && portWidget && modelWidget) {
+                      const engine = engineWidget.value;
+                      const baseIp = baseIpWidget.value;
+                      const port = portWidget.value;
+              
+                      try {
+                          const response = await fetch("/IF_ChatPrompt/get_models", {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ engine, base_ip: baseIp, port })
+                          });
+              
+                          if (response.ok) {
+                              const models = await response.json();
+                              if (Array.isArray(models) && models.length > 0) {
+                                  modelWidget.options.values = models;
+                                  modelWidget.value = models[0] || "";
+                              } else {
+                                  modelWidget.options.values = ["No models available"];
+                                  modelWidget.value = "No models available";
+                              }
+                              app.graph.setDirtyCanvas(true);
+                          } else {
+                              console.error("Failed to fetch models:", await response.text());
+                              modelWidget.options.values = ["Error fetching models"];
+                              modelWidget.value = "Error fetching models";
+                          }
+                      } catch (error) {
+                          console.error("Error fetching models:", error);
+                          modelWidget.options.values = ["Error fetching models"];
+                          modelWidget.value = "Error fetching models";
+                      }
+                  }
+              };
+
+                this.widgets.forEach(w => {
+                    if (["engine", "base_ip", "port"].includes(w.name)) {
+                        w.callback = updateModels;
+                    }
+                });
+
+                // Initial update
+                updateModels();
+            };
         }
-
-        const engineWidget = this.widgets.find((w) => w.name === "engine");
-        const modelWidget = this.widgets.find((w) => w.name === "selected_model");
-        const baseIpWidget = this.widgets.find((w) => w.name === "base_ip");
-        const portWidget = this.widgets.find((w) => w.name === "port");
-
-        const fetchModels = async (engine, baseIp, port) => {
-          try {
-            const response = await fetch("/IF_ChatPrompt/get_models", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                engine: engine,
-                base_ip: baseIp,
-                port: port,
-              }),
-            });
-
-            if (response.ok) {
-              const models = await response.json();
-              console.log("Fetched models:", models);
-              return models;
-            } else {
-              console.error(`Failed to fetch models: ${response.status}`);
-              return [];
-            }
-          } catch (error) {
-            console.error(`Error fetching models for engine ${engine}:`, error);
-            return [];
-          }
-        };
-
-        const updateModels = async () => {
-          const engine = engineWidget.value;
-          const baseIp = baseIpWidget.value;
-          const port = portWidget.value;
-
-          console.log(`Selected engine: ${engine}`);
-          console.log(`Base IP: ${baseIp}`);
-          console.log(`Port: ${port}`);
-
-          const models = await fetchModels(engine, baseIp, port);
-
-          // Update modelWidget options and value
-          modelWidget.options.values = models;
-          console.log("Updated modelWidget.options.values:", modelWidget.options.values);
-
-          if (models.includes(modelWidget.value)) {
-            modelWidget.value = modelWidget.value;
-          } else if (models.length > 0) {
-            modelWidget.value = models[0];
-          } else {
-            modelWidget.value = "";
-          }
-          console.log("Updated modelWidget.value:", modelWidget.value);
-
-          this.triggerSlot(0);
-        };
-
-        engineWidget.callback = updateModels;
-
-        // Initial update
-        await updateModels();
-      };
     }
-  },
 });
