@@ -16,10 +16,13 @@ You are going to need the comfyui omost nodes here
 -https://github.com/huchenlei/ComfyUI_omost?tab=readme-ov-file
 
 https://github.com/huchenlei/ComfyUI_densediffusion
+![omost_00001_](https://github.com/user-attachments/assets/7a67836a-602c-490a-9843-eed3d67492f5)
+
+![omost_00004_](https://github.com/user-attachments/assets/6e4774e8-26c3-4edc-9a92-13af4e253568)
+
+![omost_00002_](https://github.com/user-attachments/assets/5131bb13-403a-4c0e-875a-c22e33118a7f)
 
 LLama3 and Phi3 IF_AI Prompt mkr models released
-![ComfyUI_00021_](https://github.com/if-ai/ComfyUI-IF_AI_tools/assets/21185218/fac9fb38-66ac-431b-8ef9-b0fee5d0e5dc)
-
 `ollama run impactframes/llama3_ifai_sd_prompt_mkr_q4km:latest`
 
 `ollama run impactframes/ifai_promptmkr_dolphin_phi3:latest`
