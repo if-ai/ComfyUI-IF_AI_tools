@@ -11,11 +11,20 @@ This tool enables you to enhance your image generation workflow by leveraging th
 -[NEW] Omost_tool the first tool 
 ![Omost_tool](https://github.com/user-attachments/assets/a06dec71-4de2-40f6-a76a-d6e3a600dddc)
 `ollama run impactframes/dolphin_llama3_omost` Omost via Ollama can be 2x to 3x faster than other Omost servings
+Sure! Here's a concise section you can add to your README.md file for the GitHub repository, incorporating the details you provided:
+
+---
+
+## Omost Guide
+You can watch it [here](https://youtu.be/Tku2COSKR88). 
+
+**Note:** For best results, it might help to set the temperature below 0.5.
 
 You are going to need the comfyui omost nodes here
+
 -https://github.com/huchenlei/ComfyUI_omost?tab=readme-ov-file
 
-https://github.com/huchenlei/ComfyUI_densediffusion
+-https://github.com/huchenlei/ComfyUI_densediffusion
 
 ![omost_00004_](https://github.com/user-attachments/assets/6e4774e8-26c3-4edc-9a92-13af4e253568)
 
