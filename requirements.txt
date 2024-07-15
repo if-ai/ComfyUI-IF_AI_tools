@@ -8,3 +8,4 @@ huggingface_hub
 moviepy
 numpy
 python-dotenv
+groq
