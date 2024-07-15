@@ -15,6 +15,8 @@ This tool enables you to enhance your image generation workflow by leveraging th
 You are going to need the comfyui omost nodes here
 -https://github.com/huchenlei/ComfyUI_omost?tab=readme-ov-file
 
+https://github.com/huchenlei/ComfyUI_densediffusion
+
 LLama3 and Phi3 IF_AI Prompt mkr models released
 ![ComfyUI_00021_](https://github.com/if-ai/ComfyUI-IF_AI_tools/assets/21185218/fac9fb38-66ac-431b-8ef9-b0fee5d0e5dc)
 
