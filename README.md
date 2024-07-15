@@ -26,28 +26,15 @@ https://huggingface.co/impactframes/llama3_if_ai_sdpromptmkr_q4km
 
 https://huggingface.co/impactframes/ifai_promptmkr_dolphin_phi3_gguf
 
--Many improvements like new profile assistants 
--IFChatPromptNode has an SD mode now and will be the main node going forward but the other 
--prompt to prompt and imageprompt will be kept for the sake of not braking peoples workflows 
-
-- WhisperSpeech integration generate long form audio from Text while trining the voice on the fly from a 10min audio file
-- https://github.com/if-ai/ComfyUI-IF_AI_WishperSpeechNode
-- ParlerTTS
-- available https://github.com/if-ai/ComfyUI-IF_AI_ParlerTTSNode
-- DreamTalk generate talking avatars right inside ComfyUI
-  Moved https://github.com/if-ai/ComfyUI-IF_AI_Dreamtalk/tree/main
-- Json Presets (got rid of Tetx Files)
-- Use OpenAI and Claude 3 you can analize images whit the Haiku vision model
-- Generate prompts using a local LLM via Ollama
-- generate SD prompts or ask questions about an image with Image to prompt node
-- Save generated text
-- Integrate with ComfyUI for a seamless workflow
 
 ## Prerequisites
-- [Ollama](https://github.com/ollama/ollama/releases) - You need to install Ollama for this tool to work. Visit [ollama.com](https://ollama.com) for more information.
+- [Ollama](https://github.com/ollama/ollama/releases) - install Ollama. Visit [ollama.com](https://ollama.com) for more information.
 
-Optionally Set enviromnet variables for "ANTHROPIC_API_KEY" & "OPENAI_API_KEY" & "GROQ_API_KEY" with those names or otherwise it won't pick it up and the respective API keys 
+- Optionally Kobold.cpp, Oobabooga and Llama.cpp or via 
 
+- For optional Apis Set enviromnet variables for "ANTHROPIC_API_KEY", "GEMINI_API_KEY", "OPENAI_API_KEY", "MISTRAL_API _KEY" & "GROQ_API_KEY" with those names or otherwise it won't pick it up and the respective API keys 
+
+You can use a .env in the custom_nodes/ComfyUI-IF_AI_tools/.env to define the variables with the same names as above or use the external api_key field on the node 
 
 ## Installation
 1. Install Ollama by following the instructions on their GitHub page on windows 
@@ -58,6 +45,7 @@ You can also install the Node from the ComfyUI manager
    ```bash
       ollama run brxce/stable-diffusion-prompt-generator
       ```
+3. Move the IF_AI folder from the ComfyUI-IF_AI_tools to inside the root input ComfyUI/input/IF_AI
    
 4. Navigate to your ComfyUI `custom_nodes` folder, type `CMD` on the address bar to open a command prompt,
    and run the following command to clone the repository:
@@ -65,7 +53,7 @@ You can also install the Node from the ComfyUI manager
       git clone https://github.com/if-ai/ComfyUI-IF_AI_tools.git
       ```
    
-5. In ComfyUI protable version just dounle click `embedded_install.bat` or  type `CMD` on the address bar on the newly created `custom_nodes\ComfyUI-IF_AI_tools` folder type 
+6. In ComfyUI protable version just dounle click `embedded_install.bat` or  type `CMD` on the address bar on the newly created `custom_nodes\ComfyUI-IF_AI_tools` folder type 
    ```bash
       H:\ComfyUI_windows_portable\python_embeded\python.exe -m pip install -r requirements.txt
       ```
