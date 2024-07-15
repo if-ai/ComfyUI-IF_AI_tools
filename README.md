@@ -30,7 +30,9 @@ https://huggingface.co/impactframes/ifai_promptmkr_dolphin_phi3_gguf
 ## Prerequisites
 - [Ollama](https://github.com/ollama/ollama/releases) - install Ollama. Visit [ollama.com](https://ollama.com) for more information.
 
-- Optionally Kobold.cpp, Oobabooga and Llama.cpp or via 
+- Optionally Kobold.cpp, Oobabooga 
+Llama.cpp or LM Studio.
+(vision not supported for Oobabooga and Kobold)
 
 - For optional Apis Set enviromnet variables for "ANTHROPIC_API_KEY", "GEMINI_API_KEY", "OPENAI_API_KEY", "MISTRAL_API _KEY" & "GROQ_API_KEY" with those names or otherwise it won't pick it up and the respective API keys 
 
