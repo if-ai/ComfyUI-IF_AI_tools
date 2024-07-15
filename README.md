@@ -47,7 +47,7 @@ You can also install the Node from the ComfyUI manager
 
 2. Open a terminal and type following command to install the model:
    ```bash
-      ollama run brxce/stable-diffusion-prompt-generator
+      ollama run impactframes/llama3_ifai_sd_prompt_mkr_q4km:latest
       ```
 3. Move the IF_AI folder from the ComfyUI-IF_AI_tools to inside the root input ComfyUI/input/IF_AI
    
