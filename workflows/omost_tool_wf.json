@@ -1,76 +1,20 @@
 {
-  "last_node_id": 93,
-  "last_link_id": 151,
+  "last_node_id": 112,
+  "last_link_id": 176,
   "nodes": [
-    {
-      "id": 87,
-      "type": "SaveImage",
-      "pos": [
-        1461.610426866597,
-        866.6431764382028
-      ],
-      "size": {
-        "0": 513.570068359375,
-        "1": 555.1339111328125
-      },
-      "flags": {},
-      "order": 26,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 132
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SaveImage"
-      },
-      "widgets_values": [
-        "ComfyUI/omost"
-      ]
-    },
-    {
-      "id": 91,
-      "type": "SaveImage",
-      "pos": [
-        1461.610426866597,
-        246.64317643820252
-      ],
-      "size": {
-        "0": 513.570068359375,
-        "1": 555.1339111328125
-      },
-      "flags": {},
-      "order": 27,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 141
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SaveImage"
-      },
-      "widgets_values": [
-        "ComfyUI/omost"
-      ]
-    },
     {
       "id": 81,
       "type": "OmostDenseDiffusionLayoutNode",
       "pos": [
-        951.6104268665966,
-        646.6431764382027
+        958.8178177596129,
+        619.3277693465797
       ],
       "size": {
         "0": 327.6000061035156,
         "1": 66
       },
       "flags": {},
-      "order": 12,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
@@ -118,348 +62,20 @@
       }
     },
     {
-      "id": 80,
-      "type": "SaveImage",
+      "id": 73,
+      "type": "KSampler",
       "pos": [
-        2171.6104268665968,
-        866.6431764382028
+        1858.8178177596142,
+        899.3277693465795
       ],
       "size": {
-        "0": 513.570068359375,
-        "1": 555.1339111328125
-      },
-      "flags": {},
-      "order": 28,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 115
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SaveImage"
-      },
-      "widgets_values": [
-        "ComfyUI/omost"
-      ]
-    },
-    {
-      "id": 90,
-      "type": "VAEDecode",
-      "pos": [
-        1319.610426866597,
-        363.64317643820243
-      ],
-      "size": {
-        "0": 210,
-        "1": 46
+        "0": 315,
+        "1": 262
       },
       "flags": {
         "collapsed": true
       },
       "order": 23,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 139
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 140,
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            141
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEDecode"
-      }
-    },
-    {
-      "id": 89,
-      "type": "KSampler",
-      "pos": [
-        1330.610426866597,
-        318.64317643820243
-      ],
-      "size": {
-        "0": 315,
-        "1": 262
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 19,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 135
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 136
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 137
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 138
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "links": [
-            139
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "KSampler"
-      },
-      "widgets_values": [
-        12349,
-        "fixed",
-        20,
-        8,
-        "dpmpp_2m_sde_gpu",
-        "karras",
-        1
-      ]
-    },
-    {
-      "id": 86,
-      "type": "VAEDecode",
-      "pos": [
-        1313.610426866597,
-        955.6431764382028
-      ],
-      "size": {
-        "0": 210,
-        "1": 46
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 22,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 130
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 131,
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            132
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEDecode"
-      }
-    },
-    {
-      "id": 85,
-      "type": "KSampler",
-      "pos": [
-        1318.610426866597,
-        912.6431764382028
-      ],
-      "size": {
-        "0": 315,
-        "1": 262
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 18,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 126
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 127
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 128
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 129
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "links": [
-            130
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "KSampler"
-      },
-      "widgets_values": [
-        12349,
-        "fixed",
-        20,
-        8,
-        "dpmpp_2m_sde_gpu",
-        "karras",
-        1
-      ]
-    },
-    {
-      "id": 83,
-      "type": "VAEDecode",
-      "pos": [
-        2021.6104268665968,
-        366.64317643820243
-      ],
-      "size": {
-        "0": 210,
-        "1": 46
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 21,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 123
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 124,
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            125
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEDecode"
-      }
-    },
-    {
-      "id": 74,
-      "type": "VAEDecode",
-      "pos": [
-        2021.6104268665968,
-        956.6431764382028
-      ],
-      "size": {
-        "0": 210,
-        "1": 46
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 24,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 109
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 110,
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            115
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEDecode"
-      }
-    },
-    {
-      "id": 73,
-      "type": "KSampler",
-      "pos": [
-        2041.6104268665968,
-        906.6431764382028
-      ],
-      "size": {
-        "0": 315,
-        "1": 262
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 20,
       "mode": 0,
       "inputs": [
         {
@@ -508,11 +124,301 @@
       ]
     },
     {
+      "id": 88,
+      "type": "OmostGreedyBagsTextEmbeddingNode",
+      "pos": [
+        958.8178177596129,
+        499.32776934657966
+      ],
+      "size": {
+        "0": 336.2585754394531,
+        "1": 52.690181732177734
+      },
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "canvas_conds",
+          "type": "OMOST_CANVAS_CONDITIONING",
+          "link": 144
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 134,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            136
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "OmostGreedyBagsTextEmbeddingNode"
+      }
+    },
+    {
+      "id": 72,
+      "type": "CLIPTextEncode",
+      "pos": [
+        958.8178177596129,
+        949.3277693465801
+      ],
+      "size": {
+        "0": 400,
+        "1": 200
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 104
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 147,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            107,
+            121,
+            128,
+            137
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "lowres, bad anatomy, bad hands, cropped, worst quality"
+      ]
+    },
+    {
+      "id": 71,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        968.8178177596129,
+        269.3277693465802
+      ],
+      "size": {
+        "0": 315,
+        "1": 98
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            105,
+            116,
+            126,
+            135
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            104,
+            114,
+            118,
+            134
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            110,
+            124,
+            131,
+            140
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "SDXL/ProteusV0.4.safetensors"
+      ]
+    },
+    {
+      "id": 35,
+      "type": "IF_DisplayText",
+      "pos": [
+        612,
+        695
+      ],
+      "size": {
+        "0": 314.11285400390625,
+        "1": 114.48042297363281
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 175,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            147
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 37,
+      "type": "LoadImage",
+      "pos": [
+        -156,
+        247
+      ],
+      "size": {
+        "0": 315,
+        "1": 314
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 2,
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            171
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "f71117d69576a815cec8f25a51b800d6.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 91,
+      "type": "SaveImage",
+      "pos": [
+        1318.8178177596142,
+        289.3277693465804
+      ],
+      "size": {
+        "0": 513.570068359375,
+        "1": 555.1339111328125
+      },
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 141
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI/omost"
+      ]
+    },
+    {
+      "id": 84,
+      "type": "SaveImage",
+      "pos": [
+        1858.8178177596142,
+        299.3277693465804
+      ],
+      "size": {
+        "0": 513.570068359375,
+        "1": 555.1339111328125
+      },
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 125
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI/omost"
+      ]
+    },
+    {
       "id": 82,
       "type": "KSampler",
       "pos": [
-        2031.6104268665968,
-        316.64317643820243
+        1858.8178177596142,
+        259.32776934658
       ],
       "size": {
         "0": 315,
@@ -521,7 +427,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 17,
+      "order": 20,
       "mode": 0,
       "inputs": [
         {
@@ -570,139 +476,346 @@
       ]
     },
     {
-      "id": 88,
-      "type": "OmostGreedyBagsTextEmbeddingNode",
+      "id": 85,
+      "type": "KSampler",
       "pos": [
-        951.6104268665966,
-        526.6431764382027
+        1328.8178177596142,
+        899.3277693465795
       ],
       "size": {
-        "0": 336.2585754394531,
-        "1": 52.690181732177734
+        "0": 315,
+        "1": 262
       },
-      "flags": {},
-      "order": 13,
+      "flags": {
+        "collapsed": true
+      },
+      "order": 21,
       "mode": 0,
       "inputs": [
         {
-          "name": "canvas_conds",
-          "type": "OMOST_CANVAS_CONDITIONING",
-          "link": 144
+          "name": "model",
+          "type": "MODEL",
+          "link": 126
         },
         {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 134,
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 127
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 128
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 129
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            130
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        12349,
+        "fixed",
+        20,
+        8,
+        "dpmpp_2m_sde_gpu",
+        "karras",
+        1
+      ]
+    },
+    {
+      "id": 89,
+      "type": "KSampler",
+      "pos": [
+        1318.8178177596142,
+        249.32776934658
+      ],
+      "size": {
+        "0": 315,
+        "1": 262
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 135
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 136
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 137
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 138
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            139
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        12349,
+        "fixed",
+        20,
+        8,
+        "dpmpp_2m_sde_gpu",
+        "karras",
+        1
+      ]
+    },
+    {
+      "id": 90,
+      "type": "VAEDecode",
+      "pos": [
+        1458.8178177596142,
+        249.32776934658
+      ],
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 139
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 140,
           "slot_index": 1
         }
       ],
       "outputs": [
         {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
+          "name": "IMAGE",
+          "type": "IMAGE",
           "links": [
-            136
+            141
           ],
           "shape": 3,
           "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "OmostGreedyBagsTextEmbeddingNode"
+        "Node name for S&R": "VAEDecode"
       }
     },
     {
-      "id": 72,
-      "type": "CLIPTextEncode",
+      "id": 86,
+      "type": "VAEDecode",
       "pos": [
-        981.6104268665966,
-        946.643176438203
+        1478.8178177596142,
+        899.3277693465795
       ],
       "size": {
-        "0": 400,
-        "1": 200
+        "0": 210,
+        "1": 46
       },
       "flags": {
         "collapsed": true
       },
-      "order": 10,
+      "order": 25,
       "mode": 0,
       "inputs": [
         {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 104
+          "name": "samples",
+          "type": "LATENT",
+          "link": 130
         },
         {
-          "name": "text",
-          "type": "STRING",
-          "link": 147,
-          "widget": {
-            "name": "text"
-          }
+          "name": "vae",
+          "type": "VAE",
+          "link": 131,
+          "slot_index": 1
         }
       ],
       "outputs": [
         {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
+          "name": "IMAGE",
+          "type": "IMAGE",
           "links": [
-            107,
-            121,
-            128,
-            137
+            132
           ],
           "shape": 3,
           "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "CLIPTextEncode"
-      },
-      "widgets_values": [
-        "lowres, bad anatomy, bad hands, cropped, worst quality"
-      ]
+        "Node name for S&R": "VAEDecode"
+      }
     },
     {
-      "id": 78,
-      "type": "PreviewImage",
+      "id": 83,
+      "type": "VAEDecode",
       "pos": [
-        961.6104268665968,
-        1006.6431764382027
+        2008.8178177596142,
+        259.32776934658
       ],
       "size": {
-        "0": 444.6390686035156,
-        "1": 448.57769775390625
+        "0": 210,
+        "1": 46
       },
       "flags": {
-        "collapsed": false
+        "collapsed": true
       },
-      "order": 16,
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 123
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 124,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            125
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 74,
+      "type": "VAEDecode",
+      "pos": [
+        1998.8178177596142,
+        899.3277693465795
+      ],
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 109
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 110,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            115
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 80,
+      "type": "SaveImage",
+      "pos": [
+        1858.8178177596142,
+        949.3277693465801
+      ],
+      "size": {
+        "0": 513.570068359375,
+        "1": 555.1339111328125
+      },
+      "flags": {},
+      "order": 31,
       "mode": 0,
       "inputs": [
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 112
+          "link": 115
         }
       ],
       "properties": {
-        "Node name for S&R": "PreviewImage"
-      }
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI/omost"
+      ]
     },
     {
       "id": 79,
       "type": "OmostLayoutCondNode",
       "pos": [
-        951.6104268665966,
-        766.6431764382028
+        958.8178177596129,
+        749.3277693465799
       ],
       "size": {
         "0": 330.0874938964844,
         "1": 147.511962890625
       },
       "flags": {},
-      "order": 14,
+      "order": 17,
       "mode": 0,
       "inputs": [
         {
@@ -751,8 +864,8 @@
       "id": 76,
       "type": "EmptyLatentImage",
       "pos": [
-        1194.6104268665972,
-        466.6431764382023
+        1088.8178177596142,
+        429.3277693465799
       ],
       "size": {
         "0": 315,
@@ -761,7 +874,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 0,
+      "order": 2,
       "mode": 0,
       "outputs": [
         {
@@ -787,97 +900,11 @@
       ]
     },
     {
-      "id": 71,
-      "type": "CheckpointLoaderSimple",
-      "pos": [
-        959.6104268665966,
-        289.64317643820254
-      ],
-      "size": {
-        "0": 315,
-        "1": 98
-      },
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            105,
-            116,
-            126,
-            135
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "CLIP",
-          "type": "CLIP",
-          "links": [
-            104,
-            114,
-            118,
-            134
-          ],
-          "shape": 3,
-          "slot_index": 1
-        },
-        {
-          "name": "VAE",
-          "type": "VAE",
-          "links": [
-            110,
-            124,
-            131,
-            140
-          ],
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "CheckpointLoaderSimple"
-      },
-      "widgets_values": [
-        "SDXL/ProteusV0.4.safetensors"
-      ]
-    },
-    {
-      "id": 84,
-      "type": "SaveImage",
-      "pos": [
-        2169,
-        270
-      ],
-      "size": {
-        "0": 513.570068359375,
-        "1": 555.1339111328125
-      },
-      "flags": {},
-      "order": 25,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 125
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SaveImage"
-      },
-      "widgets_values": [
-        "ComfyUI/omost"
-      ]
-    },
-    {
       "id": 77,
       "type": "OmostRenderCanvasConditioningNode",
       "pos": [
-        993,
-        1497
+        948.8178177596129,
+        999.3277693465798
       ],
       "size": {
         "0": 271.7767639160156,
@@ -886,7 +913,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 11,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
@@ -918,146 +945,31 @@
       }
     },
     {
-      "id": 37,
-      "type": "LoadImage",
+      "id": 87,
+      "type": "SaveImage",
       "pos": [
-        -156,
-        247
+        1318.8178177596142,
+        949.3277693465801
       ],
       "size": {
-        "0": 315,
-        "1": 314
+        "0": 513.570068359375,
+        "1": 555.1339111328125
       },
       "flags": {},
-      "order": 2,
-      "mode": 2,
-      "outputs": [
+      "order": 29,
+      "mode": 0,
+      "inputs": [
         {
-          "name": "IMAGE",
+          "name": "images",
           "type": "IMAGE",
-          "links": [
-            151
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": null,
-          "shape": 3
+          "link": 132
         }
       ],
       "properties": {
-        "Node name for S&R": "LoadImage"
+        "Node name for S&R": "SaveImage"
       },
       "widgets_values": [
-        "f71117d69576a815cec8f25a51b800d6.jpg",
-        "image"
-      ]
-    },
-    {
-      "id": 93,
-      "type": "Note",
-      "pos": [
-        -84,
-        837
-      ],
-      "size": {
-        "0": 240.44822692871094,
-        "1": 228.54710388183594
-      },
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "\"Do not input an image when using omost\"\n\nomost is not a vision model only vision models like haiku, sonnet, opus, gpt4-o, gemini, llava, moondream, phi3 vision etc.. can work with images \n\nhere is a video to get started with omost https://www.youtube.com/watch?v=Tku2COSKR88\n\n"
-      ],
-      "color": "#222",
-      "bgcolor": "#000"
-    },
-    {
-      "id": 62,
-      "type": "IF_DisplayText",
-      "pos": [
-        190,
-        1120
-      ],
-      "size": {
-        "0": 398.6273498535156,
-        "1": 76
-      },
-      "flags": {},
-      "order": 15,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 73,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        ""
-      ]
-    },
-    {
-      "id": 36,
-      "type": "IF_DisplayText",
-      "pos": [
-        613,
-        247
-      ],
-      "size": {
-        "0": 316.0174560546875,
-        "1": 136.58786010742188
-      },
-      "flags": {},
-      "order": 6,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 100,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        "a sheep and a Shepard dog"
+        "ComfyUI/omost"
       ]
     },
     {
@@ -1072,13 +984,77 @@
         "1": 230.83026123046875
       },
       "flags": {},
-      "order": 7,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
           "name": "text",
           "type": "STRING",
-          "link": 101,
+          "link": 174,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "Agent omost_tool executed successfully. Output generated.",
+        "Agent omost_tool executed successfully. Output generated. Agent omost_tool executed successfully. Output generated."
+      ]
+    },
+    {
+      "id": 101,
+      "type": "Note",
+      "pos": [
+        -492.73857066188657,
+        506.18890208160406
+      ],
+      "size": {
+        "0": 240.44822692871094,
+        "1": 228.54710388183594
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "title": "Prime directives",
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Prime directives is the system prompt for the model this will override the assistant and the model system prompt that rules the behavior and affect the response to a large extend specialy the style when you are not using tools in the turn a Turn is the convo assystant/user\n\nIf your prompt is too large you can also convert the prompt text widget to input by right clicking and use a IF Display Text Node to show the prompt\n\nDOES NOT AFFECT TOOLS, TOOLS HAVE PRECEDENT OVER THIS\n\n"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 108,
+      "type": "IF_DisplayText",
+      "pos": [
+        247,
+        1088
+      ],
+      "size": {
+        "0": 315,
+        "1": 76
+      },
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 169,
           "widget": {
             "name": "text"
           }
@@ -1097,49 +1073,6 @@
       },
       "widgets_values": [
         "",
-        "Agent omost_tool executed successfully. Output generated."
-      ]
-    },
-    {
-      "id": 35,
-      "type": "IF_DisplayText",
-      "pos": [
-        612,
-        695
-      ],
-      "size": {
-        "0": 314.11285400390625,
-        "1": 114.48042297363281
-      },
-      "flags": {},
-      "order": 8,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 102,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            147
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
         ""
       ]
     },
@@ -1147,21 +1080,21 @@
       "id": 44,
       "type": "IF_DisplayOmni",
       "pos": [
-        612,
-        861
+        610,
+        849
       ],
       "size": {
         "0": 319.1829528808594,
         "1": 759.370361328125
       },
       "flags": {},
-      "order": 9,
+      "order": 12,
       "mode": 0,
       "inputs": [
         {
           "name": "omni_input",
           "type": "OMNI",
-          "link": 103
+          "link": 176
         }
       ],
       "outputs": [
@@ -1181,7 +1114,7 @@
           "name": "text_output",
           "type": "STRING",
           "links": [
-            73
+            169
           ],
           "shape": 3,
           "slot_index": 1
@@ -1191,15 +1124,135 @@
         "Node name for S&R": "IF_DisplayOmni"
       },
       "widgets_values": [
-        "[{\"rect\": [0, 90, 0, 90], \"prefixes\": [\"A scene featuring a sheep alongside its shepherd dog in an idyllic countryside setting.\"], \"suffixes\": [\"The image captures a serene and picturesque moment where a gentle, fluffy white sheep stands peacefully beside its loyal shepherd dog on a lush green meadow under clear blue skies with scattered clouds.\", \"Both the animal companions are bathed in warm sunlight that highlights their textures - the soft wool of the sheep contrasting beautifully against the sleek fur coat of the well-groomed border collie.\", \"sheep, shepard dog, countryside, idyllic setting, meadow, clear skies, scattered clouds, peaceful moment, fluffy white sheep, loyal shepherd, lush greenery, warm sunlight, textures contrast, soft wool, sleek fur, picturesque scene.\"], \"color\": [135, 206, 235]}, {\"color\": [218, 165, 32], \"rect\": [0, 40, 50, 90], \"prefixes\": [\"A scene featuring a sheep alongside its shepherd dog in an idyllic countryside setting.\", \"Warm sunlight illuminating both animals.\"], \"suffixes\": [\"The sun casts a gentle, golden glow over this tranquil scene as it rises in the sky to its zenith position.\", \"This warm light enhances every detail of the sheep's wool and dog\\u2019s fur while also creating soft shadows that add depth without disturbing their peaceful surroundings.\", \"warm sunlight, natural lighting.\", \"The sunlit environment adds warmth and highlights nature's serene beauty.\", \"Naturalistic photography with a focus on warm light effects.\", \"High-resolution image capturing the interplay of light under optimal conditions for illumination.\"]}, {\"color\": [135, 206, 235], \"rect\": [0, 35, 0, 45], \"prefixes\": [\"A scene featuring a sheep alongside its shepherd dog in an idyllic countryside setting.\", \"Clear blue skies scattered with clouds.\"], \"suffixes\": [\"The sky is a brilliant shade of clear, unblemished azure that stretches infinitely above and around this serene scene below.\", \"Scattered across the expanse are fluffy white cumulus clouds which add depth to the image's composition while also casting gentle shadows on both animals.\", \"clear skies, scattered clouds, blue sky.\", \"The clear skies enhance the overall sense of peace in nature\\u2019s tranquil setting.\", \"Realistic landscape photography capturing natural light and atmospheric elements.\", \"High-resolution capture with detailed cloud formations under optimal lighting conditions.\"]}, {\"color\": [255, 255, 255], \"rect\": [15, 75, 0, 45], \"prefixes\": [\"A scene featuring a sheep alongside its shepherd dog in an idyllic countryside setting.\", \"A gentle and fluffy white sheep.\"], \"suffixes\": [\"The sheep is standing calmly, its soft wool glistening in the sunlight which highlights each strand of fur.\", \"Its eyes are calm and content as it enjoys this peaceful moment on a lush green meadow.\", \"This animal exudes tranquility with every breath taken under clear blue skies that stretch infinitely above.\", \"sheep, fluffy white sheep, soft wool, glistening sunlight, tranquil expression.\", \"The scene is calm and serene as the sheep stands peacefully in nature's embrace.\", \"Realistic photography capturing natural textures and lighting effects with a focus on tranquility.\", \"High-resolution image showcasing fine details of fur texture under optimal light conditions.\"]}, {\"color\": [211, 211, 211], \"rect\": [15, 75, 45, 90], \"prefixes\": [\"A scene featuring a sheep alongside its shepherd dog in an idyllic countryside setting.\", \"Its loyal shepherd dog.\"], \"suffixes\": [\"The border collie stands attentively by the sheep, its sleek fur reflecting a healthy shine.\", \"This well-groomed and alert animal is clearly devoted to protecting its flock companion in this picturesque setting under clear skies with scattered clouds adding depth to the scene's atmosphere.\", \"shepard dog, loyal shepherd, border collie, attentive stance, sleek fur.\", \"The presence of the sheepdog adds a sense of protection and companionship enhancing nature's tranquility.\", \"Detailed photography focusing on textures and expressions with natural lighting effects.\", \"High-resolution image capturing fine details in both animal features under optimal light conditions.\"]}, {\"color\": [173, 255, 47], \"rect\": [50, 90, 0, 40], \"prefixes\": [\"A scene featuring a sheep alongside its shepherd dog in an idyllic countryside setting.\", \"Lush green meadow.\"], \"suffixes\": [\"The ground is covered in a rich, verdant carpet of grass that looks soft and inviting underfoot.\", \"This lush expanse provides the perfect setting for these animals to roam freely while also adding vibrant color contrast against their white woolly sheep companion's fur.\", \"lush green meadow, verdant grass.\", \"The rich greens create a lively yet calming base that complements nature\\u2019s tranquility.\", \"Naturalistic photography focusing on the lushness and texture of foliage.\", \"High-resolution image capturing fine details in plant textures under optimal light conditions.\"]}]"
+        "[{\"rect\": [0, 90, 0, 90], \"prefixes\": [\"A Sheppard dog guarding a flock of sheep.\"], \"suffixes\": [\"The image depicts a vigilant Sheppard dog standing guard over a peaceful flock of sheep in an open field.\", \"The Sheppard dog, with its distinctive short coat and muscular build, is positioned at the forefront, alert and ready to protect.\", \"Behind it, the sheep are grazing calmly, their fluffy white wool contrasting against the green grass.\", \"The background features rolling hills under a clear blue sky, adding a sense of tranquility and vastness to the scene.\", \"The overall atmosphere is one of calm vigilance as nature's guardians watch over their domain.\", \"Sheppard dog, sheep, guard, flock, open field, vigilant, muscular build, short coat, grazing, fluffy wool, green grass, rolling hills, clear blue sky, tranquility, vastness, nature, guardians, protection, calm, alert.\"], \"color\": [144, 238, 144]}, {\"color\": [135, 206, 235], \"rect\": [0, 45, 0, 45], \"prefixes\": [\"A Sheppard dog guarding a flock of sheep.\", \"Rolling hills.\"], \"suffixes\": [\"The background features gently rolling hills that stretch into the distance.\", \"These hills are covered in lush green grass and dotted with occasional wildflowers, adding splashes of color to the scene.\", \"The clear blue sky above provides a serene backdrop, enhancing the image's tranquil atmosphere.\", \"rolling hills, top-left, background, lush green grass, wildflowers, clear blue sky, serene, tranquil.\", \"A peaceful and expansive feeling is conveyed by the rolling hills' presence.\", \"Naturalistic depiction with soft edges to blend into the background.\", \"High-resolution image capturing the details of the landscape and sky.\"]}, {\"color\": [255, 255, 255], \"rect\": [45, 90, 0, 90], \"prefixes\": [\"A Sheppard dog guarding a flock of sheep.\", \"Flock of sheep.\"], \"suffixes\": [\"The flock of sheep is spread across the lower part of the image, their fluffy white wool contrasting with the green grass.\", \"They are grazing peacefully, each sheep with its head down and legs slightly bent as they munch on the grass.\", \"The sheep's wool appears soft and well-kept, indicative of a healthy environment.\", \"flock of sheep, bottom, grazing, fluffy wool, white, green grass, peaceful, healthy environment.\", \"A serene and calm atmosphere pervades the flock's presence.\", \"Soft focus on the sheep to emphasize their gentle nature.\", \"High-quality depiction with attention to the texture and color of the wool.\"]}, {\"color\": [139, 69, 19], \"rect\": [15, 75, 15, 75], \"prefixes\": [\"A Sheppard dog guarding a flock of sheep.\", \"Sheppard dog.\"], \"suffixes\": [\"The Sheppard dog stands proudly in the center of the image, its short coat and muscular build clearly visible.\", \"Its ears are perked up, and its eyes are focused on the surroundings, ready to react at any moment.\", \"The dog's posture is one of alertness and readiness, showcasing its role as a guardian.\", \"Sheppard dog, center, short coat, muscular build, alert, vigilant, guardian, ears perked up, eyes focused.\", \"A sense of vigilance and readiness emanates from the Sheppard dog's posture.\", \"Realistic depiction with attention to detail in fur texture and body structure.\", \"High-resolution image capturing fine details of the dog\\u2019s coat and muscles.\"]}]"
       ]
+    },
+    {
+      "id": 107,
+      "type": "IF_TextTyper",
+      "pos": [
+        -586.2829432204804,
+        247.0069501784058
+      ],
+      "size": {
+        "0": 400,
+        "1": 200
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 2,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            172
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_TextTyper"
+      },
+      "widgets_values": [
+        "You are a famous bard from the 15th century, <INSTRUNTION>Always respond in Rhymes</INSTRUCTION>"
+      ]
+    },
+    {
+      "id": 36,
+      "type": "IF_DisplayText",
+      "pos": [
+        613,
+        247
+      ],
+      "size": {
+        "0": 316.0174560546875,
+        "1": 136.58786010742188
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 173,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "a sheep and a Shepard dog",
+        "a sheep and a Shepard dog Shepperd dog and sheep"
+      ]
+    },
+    {
+      "id": 110,
+      "type": "Note",
+      "pos": [
+        -113,
+        611
+      ],
+      "size": {
+        "0": 234.14266967773438,
+        "1": 121.23505401611328
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 2,
+      "title": "IMAGE",
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Plug the image and/or enable the IMAGE\n\nSelect a Vision model and stopping string   \n\nImages only work with Vision models \nTextgen and kobold are not compatible engines"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 93,
+      "type": "Note",
+      "pos": [
+        -110,
+        1020
+      ],
+      "size": {
+        "0": 240.44822692871094,
+        "1": 228.54710388183594
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "title": "READ",
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "REMEMBER TO MOVE IF_AI from the custom_nodes/ComfyUI-IF_AI_tools to inside your root ComfyUI/Input/IF_AI\nfolder\n\n\"Do not input an image when using omost\"\n\nomost is not a vision model only vision models like haiku, sonnet, opus, gpt4-o, gemini, llava, moondream, phi3 vision etc.. can work with images \n\nhere is a video to get started with omost https://www.youtube.com/watch?v=Tku2COSKR88\n\n\n\n"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
     },
     {
       "id": 30,
       "type": "Fast Groups Muter (rgthree)",
       "pos": {
-        "0": -77,
-        "1": 644,
+        "0": -103,
+        "1": 794,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -1211,10 +1264,10 @@
       },
       "size": {
         "0": 230,
-        "1": 154
+        "1": 178
       },
       "flags": {},
-      "order": 4,
+      "order": 7,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -1224,6 +1277,7 @@
           "links": null
         }
       ],
+      "title": "Mute Groups Control",
       "properties": {
         "matchColors": "",
         "matchTitle": "",
@@ -1234,29 +1288,64 @@
       }
     },
     {
-      "id": 70,
-      "type": "IF_ChatPrompt",
+      "id": 78,
+      "type": "PreviewImage",
       "pos": [
-        190,
-        293.52822560689543
+        970,
+        1046
       ],
       "size": {
-        "0": 400,
-        "1": 712
+        "0": 218.5187530517578,
+        "1": 188.141845703125
       },
-      "flags": {},
-      "order": 5,
+      "flags": {
+        "collapsed": false
+      },
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 151
+          "link": 112
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 109,
+      "type": "IF_ChatPrompt",
+      "pos": [
+        191,
+        297
+      ],
+      "size": {
+        "0": 400,
+        "1": 718
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 171
         },
         {
           "name": "tool_input",
           "type": "OMNI",
           "link": null
+        },
+        {
+          "name": "prime_directives",
+          "type": "STRING",
+          "link": 172,
+          "widget": {
+            "name": "prime_directives"
+          }
         }
       ],
       "outputs": [
@@ -1264,7 +1353,7 @@
           "name": "Question",
           "type": "STRING",
           "links": [
-            100
+            173
           ],
           "shape": 3,
           "slot_index": 0
@@ -1273,7 +1362,7 @@
           "name": "Response",
           "type": "STRING",
           "links": [
-            101
+            174
           ],
           "shape": 3,
           "slot_index": 1
@@ -1282,7 +1371,7 @@
           "name": "Negative",
           "type": "STRING",
           "links": [
-            102
+            175
           ],
           "shape": 3,
           "slot_index": 2
@@ -1291,7 +1380,7 @@
           "name": "Tool_Output",
           "type": "OMNI",
           "links": [
-            103
+            176
           ],
           "shape": 3,
           "slot_index": 3
@@ -1301,75 +1390,36 @@
         "Node name for S&R": "IF_ChatPrompt"
       },
       "widgets_values": [
-        "a sheep and a Shepard dog",
+        "a ship and a Shepard dog",
         "localhost",
         "11434",
         "ollama",
         "impactframes/dolphin_llama3_omost:latest",
-        "IF_PromptMKR_IMG2",
-        0.2,
+        "None",
+        0.7,
         2048,
         40,
         0.2,
-        1.3,
-        "",
-        1085814114134508,
-        "increment",
+        1.1,
+        "None",
+        232713303560994,
+        "randomize",
         false,
         "None",
         "None",
-        "Standard",
+        "Simple_negative",
         true,
         10,
         false,
         true,
         false,
         "",
-        "omost_tool"
+        "omost_tool",
+        ""
       ]
     }
   ],
   "links": [
-    [
-      73,
-      44,
-      1,
-      62,
-      0,
-      "STRING"
-    ],
-    [
-      100,
-      70,
-      0,
-      36,
-      0,
-      "STRING"
-    ],
-    [
-      101,
-      70,
-      1,
-      34,
-      0,
-      "STRING"
-    ],
-    [
-      102,
-      70,
-      2,
-      35,
-      0,
-      "STRING"
-    ],
-    [
-      103,
-      70,
-      3,
-      44,
-      0,
-      "OMNI"
-    ],
     [
       104,
       71,
@@ -1683,22 +1733,70 @@
       "STRING"
     ],
     [
-      151,
+      169,
+      44,
+      1,
+      108,
+      0,
+      "STRING"
+    ],
+    [
+      171,
       37,
       0,
-      70,
+      109,
       0,
       "IMAGE"
+    ],
+    [
+      172,
+      107,
+      0,
+      109,
+      2,
+      "STRING"
+    ],
+    [
+      173,
+      109,
+      0,
+      36,
+      0,
+      "STRING"
+    ],
+    [
+      174,
+      109,
+      1,
+      34,
+      0,
+      "STRING"
+    ],
+    [
+      175,
+      109,
+      2,
+      35,
+      0,
+      "STRING"
+    ],
+    [
+      176,
+      109,
+      3,
+      44,
+      0,
+      "OMNI"
     ]
   ],
   "groups": [
     {
       "title": "ComfyUI_Omost",
       "bounding": [
-        942,
-        173,
-        1764,
-        1348
+        939,
+        175,
+        1444,
+        1339
       ],
       "color": "#444",
       "font_size": 24
@@ -1719,8 +1817,8 @@
       "bounding": [
         -165,
         176,
-        335,
-        398
+        336,
+        570
       ],
       "color": "#444",
       "font_size": 24
@@ -1728,22 +1826,33 @@
     {
       "title": "IFChat",
       "bounding": [
-        180,
-        220,
+        179,
+        221,
         420,
-        796
+        802
       ],
       "color": "#88A",
+      "font_size": 24
+    },
+    {
+      "title": "Prime directive lol",
+      "bounding": [
+        -596,
+        173,
+        420,
+        572
+      ],
+      "color": "#444",
       "font_size": 24
     }
   ],
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.3504938994813935,
+      "scale": 0.513158118230707,
       "offset": {
-        "0": 553.5563354492188,
-        "1": -68.65641784667969
+        "0": 494.71074334569636,
+        "1": -161.30234659667974
       }
     },
     "info": {
@@ -1752,7 +1861,7 @@
       "description": "",
       "version": "1",
       "created": "2024-06-03T15:41:46.655Z",
-      "modified": "2024-07-16T09:54:40.997Z",
+      "modified": "2024-07-16T22:55:02.732Z",
       "software": "ComfyUI"
     }
   },
