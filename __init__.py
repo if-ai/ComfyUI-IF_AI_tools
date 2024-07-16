@@ -8,6 +8,8 @@ from .IFSaveTextNode import IFSaveText
 from .IFDisplayTextNode import IFDisplayText
 from .IFChatPromptNode import IFChatPrompt
 from .IFDisplayOmniNode import IFDisplayOmni
+from .IFTextTyperNode import IFTextTyper
+
 
 class OmniType(str):
     """A special string type that acts as a wildcard for universal input/output. 
@@ -25,6 +27,7 @@ NODE_CLASS_MAPPINGS = {
     "IF_DisplayText": IFDisplayText,
     "IF_ChatPrompt": IFChatPrompt,
     "IF_DisplayOmni": IFDisplayOmni,
+    "IF_TextTyper": IFTextTyper,
 
 }
 
@@ -35,6 +38,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "IF_DisplayText": "IF Display Text📟",
     "IF_ChatPrompt": "IF Chat Prompt👨‍💻",
     "IF_DisplayOmni": "IF Display Omni🔍",
+    "IF_TextTyper": "IF Text Typer✍️"
     #"IF_AI_Agent": "IF AI Agent 🤖"
 }
 
