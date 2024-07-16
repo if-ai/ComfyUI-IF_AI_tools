@@ -9,7 +9,10 @@ This tool enables you to enhance your image generation workflow by leveraging th
 -[NEW] Endpoints for Gemini, LlamaCpp and Mistral
 
 -[NEW] Omost_tool the first tool 
-![Omost_tool](https://github.com/user-attachments/assets/a06dec71-4de2-40f6-a76a-d6e3a600dddc)
+
+![Omost_tool](https://github.com/user-attachments/assets/b1e95917-7010-4bee-8103-426c44a2507f)
+
+
 `ollama run impactframes/dolphin_llama3_omost` Omost via Ollama can be 2x to 3x faster than other Omost servings
 
 
