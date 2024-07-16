@@ -34,13 +34,9 @@ def send_ollama_request(endpoint, base64_image, model, system_message, user_mess
 
         ollama_headers = {"Content-Type": "application/json"}
         response = requests.post(endpoint, headers=ollama_headers, json=data)
-        #print(f"Debugging - Ollama response status: {response.status_code}")
-        #print(f"Debugging - Ollama response headers: {response.headers}")
 
         try:
             response_json = response.json()
-            #print(f"Debugging - Ollama response JSON: {json.dumps(response_json, indent=2)}")
-            
             if "response" in response_json:
                 return response_json["response"].strip()
             elif "message" in response_json:
@@ -62,22 +58,13 @@ def prepare_ollama_messages(system_message, user_message, messages, base64_image
     ]
     
     for message in messages:
-        if isinstance(message["content"], list):
-            # Handle multi-modal content
-            content = []
-            for item in message["content"]:
-                if item["type"] == "text":
-                    content.append(item["text"])
-                elif item["type"] == "image_url":
-                    content.append(f"[Image data: {item['image_url']['url']}]")
-            ollama_messages.append({"role": message["role"], "content": " ".join(content)})
-        else:
-            ollama_messages.append(message)
+        ollama_messages.append(message)
 
     if base64_image:
         ollama_messages.append({
             "role": "user",
-            "content": f"{user_message}\n[Image data: data:image/jpeg;base64,{base64_image}]"
+            "content": user_message,
+            "images": [base64_image]
         })
     else:
         ollama_messages.append({"role": "user", "content": user_message})

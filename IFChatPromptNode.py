@@ -44,12 +44,14 @@ class IFChatPrompt:
         self.assistant = "Cortana"
         self.comfy_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         self.presets_dir = os.path.join(self.comfy_dir, "input", "IF_AI", "presets")
+        self.stop_file = os.path.join(self.presets_dir, "stop_strings.json")
         self.assistants_file = os.path.join(self.presets_dir, "assistants.json")
         self.neg_prompts_file = os.path.join(self.presets_dir, "neg_prompts.json")
         self.embellish_prompts_file = os.path.join(self.presets_dir, "embellishments.json")
         self.style_prompts_file = os.path.join(self.presets_dir, "style_prompts.json")
         self.agents_dir = os.path.join(self.presets_dir, "agents")
         self.agent_tools = self.load_agent_tools()
+        self.stop_strings = self.load_presets(self.stop_file)
         self.assistants = self.load_presets(self.assistants_file)
         self.neg_prompts = self.load_presets(self.neg_prompts_file)
         self.embellish_prompts = self.load_presets(self.embellish_prompts_file)
@@ -59,6 +61,8 @@ class IFChatPrompt:
         self.messages = []
         self.history_steps = 10
         self.external_api_key = ""
+        self.tool_input = ""
+        self.prime_directives = None
         #self.agent_tools = self.load_agent_tools()
         #self.agent_tools["omost_tool"] = OmostTool()
 
@@ -121,7 +125,7 @@ class IFChatPrompt:
                 "top_k": ("INT", {"default": 40, "min": 0, "max": 100}),
                 "top_p": ("FLOAT", {"default": 0.2, "min": 0.0, "max": 1.0, "step": 0.1}),
                 "repeat_penalty": ("FLOAT", {"default": 1.1, "min": 0.0, "max": 10.0, "step": 0.1}),
-                "stop": ("STRING", {"default": "<|end_of_text|>", "multiline": False}),
+                "stop_string": ([name for name in node.stop_strings.keys()], {}),
                 "seed": ("INT", {"default": 94687328150, "min": 0, "max": 0xffffffffffffffff}),
                 "random": ("BOOLEAN", {"default": False, "label_on": "Seed", "label_off": "Temperature"}),
                 "embellish_prompt": ([name for name in node.embellish_prompts.keys()], {}),
@@ -135,6 +139,7 @@ class IFChatPrompt:
                 "external_api_key": ("STRING", {"default": "", "multiline": False}), 
                 "tool": (["None"] + [name for name in node.agent_tools.keys()], {"default": "None"}),
                 "tool_input": ("OMNI", {"default": None}),
+                "prime_directives": ("STRING", {"forceInput": True}),
             },
             "hidden": {
                 "model": ("STRING", {"default": ""}),
@@ -171,12 +176,14 @@ class IFChatPrompt:
 
     def process_chat(self, prompt, engine, model, base_ip, port, assistant, neg_prompt, embellish_prompt, style_prompt, external_api_key,
                  temperature=0.7, max_tokens=2048, seed=0, random=False, history_steps=10, keep_alive=False, top_k=40, top_p=0.2,
-                 repeat_penalty=1.1, stop="", images=None, mode=True, clear_history=False, text_cleanup=True,
-                 tool=None, omni_input=None):
+                 repeat_penalty=1.1, stop_string=None, images=None, mode=True, clear_history=False, text_cleanup=True,
+                 tool=None, tool_input=None, prime_directives=None):
         
-        
-        system_message = self.assistants.get(assistant, "")
-        system_message_str = json.dumps(system_message)
+        if prime_directives != None:
+            system_message_str = prime_directives
+        else:  
+            system_message = self.assistants.get(assistant, "")
+            system_message_str = json.dumps(system_message)
         #print("system_message", system_message_str)
         
 
@@ -188,7 +195,7 @@ class IFChatPrompt:
 
         # Process image if provided
         base64_image = None
-        if images is not None or isinstance(omni_input, torch.Tensor):
+        if images is not None:
             img_np = 255.0 * images[0].cpu().numpy()
             img = Image.fromarray(np.clip(img_np, 0, 255).astype(np.uint8))
             max_size = (1024, 1024)
@@ -210,16 +217,25 @@ class IFChatPrompt:
             print(error_message)
             raise ValueError(error_message)
 
-        # Handle stop sequences for different engines
-        if engine in ["ollama", "llamacpp", "vllm", "lmstudio", "gemeni"]:
-            stop = ["\n", f"{stop}"] if stop else None
-        elif engine == "kobold":
-            stop = ["\n\n\n\n\n", f"{stop}"] if stop else None
-        elif engine == "mistral":
-            stop = ["\n\n", f"{stop}"] if stop else None 
+        # Handle stop sequences
+        if stop_string is None or stop_string == "None":
+            stop_content = None
         else:
-            stop = None
+            stop_content = self.stop_strings.get(stop_string, None)
+        
+        # For Ollama, we need to pass the stop content as is
+        stop = stop_content
 
+        # For other engines, we might need to adjust the stop content
+        if engine not in ["ollama", "llamacpp", "vllm", "lmstudio", "gemeni"]:
+            if engine == "kobold":
+                stop = stop_content + ["\n\n\n\n\n"] if stop_content else ["\n\n\n\n\n"]
+            elif engine == "mistral":
+                stop = stop_content + ["\n\n"] if stop_content else ["\n\n"]
+            else:
+                stop = stop_content if stop_content else None
+
+        
         # Handle tools
         try:
             if tool and tool != "None":
@@ -231,9 +247,8 @@ class IFChatPrompt:
                 tool_message = f"Execute the {tool} tool with the following input: {prompt}"
                 system_prompt = json.dumps(selected_tool.system_prompt)
                 # Prepare the tool data for the API call
-                tool_data = selected_tool.to_dict()
+                #tool_data = selected_tool.to_dict()
                 #print (f"this is the content of tool data dict {tool_data}")
-
                 # Send request to LLM for tool execution
                 generated_text = send_request(
                     engine=engine,
@@ -270,7 +285,7 @@ class IFChatPrompt:
                     "input": prompt,
                     "llm_response": generated_text,
                     "function_call": function_call,
-                    "omni_input": omni_input,
+                    "omni_input": tool_input,
                     "name": selected_tool.name,
                     "description": selected_tool.description,
                     "system_prompt": selected_tool.system_prompt
