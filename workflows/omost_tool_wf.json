@@ -118,49 +118,6 @@
       }
     },
     {
-      "id": 35,
-      "type": "IF_DisplayText",
-      "pos": [
-        599.5355001635298,
-        696
-      ],
-      "size": {
-        "0": 314.11285400390625,
-        "1": 114.48042297363281
-      },
-      "flags": {},
-      "order": 8,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 102,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            147
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        ""
-      ]
-    },
-    {
       "id": 80,
       "type": "SaveImage",
       "pos": [
@@ -888,47 +845,6 @@
       ]
     },
     {
-      "id": 62,
-      "type": "IF_DisplayText",
-      "pos": [
-        189.2392273363811,
-        998
-      ],
-      "size": {
-        "0": 398.6273498535156,
-        "1": 76
-      },
-      "flags": {},
-      "order": 15,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 73,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        ""
-      ]
-    },
-    {
       "id": 84,
       "type": "SaveImage",
       "pos": [
@@ -954,57 +870,6 @@
       },
       "widgets_values": [
         "ComfyUI/omost"
-      ]
-    },
-    {
-      "id": 44,
-      "type": "IF_DisplayOmni",
-      "pos": [
-        603.1196136474609,
-        857
-      ],
-      "size": {
-        "0": 319.1829528808594,
-        "1": 759.370361328125
-      },
-      "flags": {},
-      "order": 9,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "omni_input",
-          "type": "OMNI",
-          "link": 103
-        }
-      ],
-      "outputs": [
-        {
-          "name": "canvas_conditioning",
-          "type": "OMOST_CANVAS_CONDITIONING",
-          "links": [
-            142,
-            143,
-            144,
-            145
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "text_output",
-          "type": "STRING",
-          "links": [
-            73
-          ],
-          "shape": 3,
-          "slot_index": 1
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayOmni"
-      },
-      "widgets_values": [
-        "[{\"rect\": [0, 90, 0, 90], \"prefixes\": [\"A scene featuring both an old wooden sailing ship and a loyal shepherd dog.\"], \"suffixes\": [\"The image captures a serene moment where an ancient, weathered wooden sailboat is anchored in calm waters under clear skies with gentle waves lapping at its sides.\", \"Beside the boat stands a majestic Shepherd dog, gazing intently towards the horizon as if guarding or guiding.\", \"Both elements are bathed in natural light that highlights their textures and details beautifully against an azure backdrop of sky meeting sea.\", \"ship,sailing ship,dog,Shepherd dog,nautical scene,waterside,calm waters,gentle waves,ocean skies,horizontal horizon,line art,birds eye view,aerial perspective,timber texture,majestic animal,fantasy setting,pastel colors.\"], \"color\": [135, 206, 235]}, {\"color\": [240, 255, 255], \"rect\": [5, 45, 0, 55], \"prefixes\": [\"A scene featuring both an old wooden sailing ship and a loyal shepherd dog.\", \"Clear Azure Skies Meeting Calm Waters.\"], \"suffixes\": [\"The upper left portion of this image features a seamless blend between clear azure skies and calm, gentle waters that meet at an almost invisible horizon line.\", \"This serene backdrop provides the perfect setting for both elements in focus while adding depth to the scene's overall composition.\", \"skies,waters,horizontal horizon,clean sky,gentle waves,natural scenery.\", \"A tranquil and peaceful ambiance, enhancing the image\\u2019s serenity.\", \"Soft gradients with a smooth transition between water and skies.\", \"High-definition background that complements main subjects beautifully.\"]}, {\"color\": [139, 69, 19], \"rect\": [15, 75, 0, 90], \"prefixes\": [\"A scene featuring both an old wooden sailing ship and a loyal shepherd dog.\", \"An old, weathered wooden sailboat.\"], \"suffixes\": [\"The central focus of this image is an ancient sailing ship with a rich history etched into its timeworn planks and sails that have seen countless journeys across the seas.\", \"Its tall masts stand proudly against the sky while gently swaying in rhythm to nature's breeze.\", \"Each detail, from the intricate carvings on the hull to the frayed edges of the ropes, tells a story of adventure and endurance under the sunlit skies above.\", \"ship,sailing ship,timeworn planks,masts,breezes,nautical history,intricate details,faded sails,endurance,captaincy,voyages.\", \"A sense of timeless exploration and resilience.\", \"Detailed line art with a focus on texture and historical elements.\", \"High-resolution image capturing intricate textures in fine detail.\"]}, {\"color\": [218, 165, 32], \"rect\": [25, 85, 35, 90], \"prefixes\": [\"A scene featuring both an old wooden sailing ship and a loyal shepherd dog.\", \"The Shepherd dog, a loyal and vigilant guardian.\"], \"suffixes\": [\"Standing slightly off-center on the right side of this image is an imposing yet gentle shepherd dog with its keen eyes focused towards the horizon as if guarding or guiding something beyond sight.\", \"Its fur glistens under natural light that accentuates every strand's texture, while a slight breeze ruffles it gently.\", \"dog,shepherd,dog breed,fur,glistening,natural lighting,breeze,vigilance.\", \"A sense of loyalty and watchfulness over the ship\\u2019s surroundings.\", \"Realistic depiction with attention to fur detail.\", \"High-quality rendering capturing fine details in natural light.\"]}]"
       ]
     },
     {
@@ -1053,46 +918,6 @@
       }
     },
     {
-      "id": 36,
-      "type": "IF_DisplayText",
-      "pos": [
-        599.1196136474609,
-        248
-      ],
-      "size": {
-        "0": 316.0174560546875,
-        "1": 136.58786010742188
-      },
-      "flags": {},
-      "order": 6,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 100,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        "a ship and a Shepard dog"
-      ]
-    },
-    {
       "id": 37,
       "type": "LoadImage",
       "pos": [
@@ -1132,11 +957,115 @@
       ]
     },
     {
+      "id": 93,
+      "type": "Note",
+      "pos": [
+        -84,
+        837
+      ],
+      "size": {
+        "0": 240.44822692871094,
+        "1": 228.54710388183594
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "\"Do not input an image when using omost\"\n\nomost is not a vision model only vision models like haiku, sonnet, opus, gpt4-o, gemini, llava, moondream, phi3 vision etc.. can work with images \n\nhere is a video to get started with omost https://www.youtube.com/watch?v=Tku2COSKR88\n\n"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 62,
+      "type": "IF_DisplayText",
+      "pos": [
+        190,
+        1120
+      ],
+      "size": {
+        "0": 398.6273498535156,
+        "1": 76
+      },
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 73,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 36,
+      "type": "IF_DisplayText",
+      "pos": [
+        613,
+        247
+      ],
+      "size": {
+        "0": 316.0174560546875,
+        "1": 136.58786010742188
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 100,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "a sheep and a Shepard dog"
+      ]
+    },
+    {
       "id": 34,
       "type": "IF_DisplayText",
       "pos": [
-        601.1196136474609,
-        423
+        610,
+        422
       ],
       "size": {
         "0": 313.6071472167969,
@@ -1172,6 +1101,100 @@
       ]
     },
     {
+      "id": 35,
+      "type": "IF_DisplayText",
+      "pos": [
+        612,
+        695
+      ],
+      "size": {
+        "0": 314.11285400390625,
+        "1": 114.48042297363281
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 102,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            147
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 44,
+      "type": "IF_DisplayOmni",
+      "pos": [
+        612,
+        861
+      ],
+      "size": {
+        "0": 319.1829528808594,
+        "1": 759.370361328125
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "omni_input",
+          "type": "OMNI",
+          "link": 103
+        }
+      ],
+      "outputs": [
+        {
+          "name": "canvas_conditioning",
+          "type": "OMOST_CANVAS_CONDITIONING",
+          "links": [
+            142,
+            143,
+            144,
+            145
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "text_output",
+          "type": "STRING",
+          "links": [
+            73
+          ],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayOmni"
+      },
+      "widgets_values": [
+        "[{\"rect\": [0, 90, 0, 90], \"prefixes\": [\"A scene featuring a sheep alongside its shepherd dog in an idyllic countryside setting.\"], \"suffixes\": [\"The image captures a serene and picturesque moment where a gentle, fluffy white sheep stands peacefully beside its loyal shepherd dog on a lush green meadow under clear blue skies with scattered clouds.\", \"Both the animal companions are bathed in warm sunlight that highlights their textures - the soft wool of the sheep contrasting beautifully against the sleek fur coat of the well-groomed border collie.\", \"sheep, shepard dog, countryside, idyllic setting, meadow, clear skies, scattered clouds, peaceful moment, fluffy white sheep, loyal shepherd, lush greenery, warm sunlight, textures contrast, soft wool, sleek fur, picturesque scene.\"], \"color\": [135, 206, 235]}, {\"color\": [218, 165, 32], \"rect\": [0, 40, 50, 90], \"prefixes\": [\"A scene featuring a sheep alongside its shepherd dog in an idyllic countryside setting.\", \"Warm sunlight illuminating both animals.\"], \"suffixes\": [\"The sun casts a gentle, golden glow over this tranquil scene as it rises in the sky to its zenith position.\", \"This warm light enhances every detail of the sheep's wool and dog\\u2019s fur while also creating soft shadows that add depth without disturbing their peaceful surroundings.\", \"warm sunlight, natural lighting.\", \"The sunlit environment adds warmth and highlights nature's serene beauty.\", \"Naturalistic photography with a focus on warm light effects.\", \"High-resolution image capturing the interplay of light under optimal conditions for illumination.\"]}, {\"color\": [135, 206, 235], \"rect\": [0, 35, 0, 45], \"prefixes\": [\"A scene featuring a sheep alongside its shepherd dog in an idyllic countryside setting.\", \"Clear blue skies scattered with clouds.\"], \"suffixes\": [\"The sky is a brilliant shade of clear, unblemished azure that stretches infinitely above and around this serene scene below.\", \"Scattered across the expanse are fluffy white cumulus clouds which add depth to the image's composition while also casting gentle shadows on both animals.\", \"clear skies, scattered clouds, blue sky.\", \"The clear skies enhance the overall sense of peace in nature\\u2019s tranquil setting.\", \"Realistic landscape photography capturing natural light and atmospheric elements.\", \"High-resolution capture with detailed cloud formations under optimal lighting conditions.\"]}, {\"color\": [255, 255, 255], \"rect\": [15, 75, 0, 45], \"prefixes\": [\"A scene featuring a sheep alongside its shepherd dog in an idyllic countryside setting.\", \"A gentle and fluffy white sheep.\"], \"suffixes\": [\"The sheep is standing calmly, its soft wool glistening in the sunlight which highlights each strand of fur.\", \"Its eyes are calm and content as it enjoys this peaceful moment on a lush green meadow.\", \"This animal exudes tranquility with every breath taken under clear blue skies that stretch infinitely above.\", \"sheep, fluffy white sheep, soft wool, glistening sunlight, tranquil expression.\", \"The scene is calm and serene as the sheep stands peacefully in nature's embrace.\", \"Realistic photography capturing natural textures and lighting effects with a focus on tranquility.\", \"High-resolution image showcasing fine details of fur texture under optimal light conditions.\"]}, {\"color\": [211, 211, 211], \"rect\": [15, 75, 45, 90], \"prefixes\": [\"A scene featuring a sheep alongside its shepherd dog in an idyllic countryside setting.\", \"Its loyal shepherd dog.\"], \"suffixes\": [\"The border collie stands attentively by the sheep, its sleek fur reflecting a healthy shine.\", \"This well-groomed and alert animal is clearly devoted to protecting its flock companion in this picturesque setting under clear skies with scattered clouds adding depth to the scene's atmosphere.\", \"shepard dog, loyal shepherd, border collie, attentive stance, sleek fur.\", \"The presence of the sheepdog adds a sense of protection and companionship enhancing nature's tranquility.\", \"Detailed photography focusing on textures and expressions with natural lighting effects.\", \"High-resolution image capturing fine details in both animal features under optimal light conditions.\"]}, {\"color\": [173, 255, 47], \"rect\": [50, 90, 0, 40], \"prefixes\": [\"A scene featuring a sheep alongside its shepherd dog in an idyllic countryside setting.\", \"Lush green meadow.\"], \"suffixes\": [\"The ground is covered in a rich, verdant carpet of grass that looks soft and inviting underfoot.\", \"This lush expanse provides the perfect setting for these animals to roam freely while also adding vibrant color contrast against their white woolly sheep companion's fur.\", \"lush green meadow, verdant grass.\", \"The rich greens create a lively yet calming base that complements nature\\u2019s tranquility.\", \"Naturalistic photography focusing on the lushness and texture of foliage.\", \"High-resolution image capturing fine details in plant textures under optimal light conditions.\"]}]"
+      ]
+    },
+    {
       "id": 30,
       "type": "Fast Groups Muter (rgthree)",
       "pos": {
@@ -1187,11 +1210,11 @@
         "9": 0
       },
       "size": {
-        "0": 226.8000030517578,
-        "1": 130
+        "0": 230,
+        "1": 154
       },
       "flags": {},
-      "order": 3,
+      "order": 4,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -1214,8 +1237,8 @@
       "id": 70,
       "type": "IF_ChatPrompt",
       "pos": [
-        191.11961364746094,
-        248
+        190,
+        293.52822560689543
       ],
       "size": {
         "0": 400,
@@ -1278,7 +1301,7 @@
         "Node name for S&R": "IF_ChatPrompt"
       },
       "widgets_values": [
-        "a ship and a Shepard dog",
+        "a sheep and a Shepard dog",
         "localhost",
         "11434",
         "ollama",
@@ -1290,8 +1313,8 @@
         0.2,
         1.3,
         "",
-        981245458705232,
-        "randomize",
+        1085814114134508,
+        "increment",
         false,
         "None",
         "None",
@@ -1304,29 +1327,6 @@
         "",
         "omost_tool"
       ]
-    },
-    {
-      "id": 93,
-      "type": "Note",
-      "pos": [
-        -84,
-        837
-      ],
-      "size": [
-        240.4482242033688,
-        228.54710256707722
-      ],
-      "flags": {},
-      "order": 4,
-      "mode": 0,
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "\"Do not input an image when using omost\"\n\nomost is not a vision model only vision models like haiku, sonnet, opus, gpt4-o, gemini, llava, moondream, phi3 vision etc.. can work with images \n\nhere is a video to get started with omost https://www.youtube.com/watch?v=Tku2COSKR88\n\n"
-      ],
-      "color": "#222",
-      "bgcolor": "#000"
     }
   ],
   "links": [
@@ -1724,15 +1724,26 @@
       ],
       "color": "#444",
       "font_size": 24
+    },
+    {
+      "title": "IFChat",
+      "bounding": [
+        180,
+        220,
+        420,
+        796
+      ],
+      "color": "#88A",
+      "font_size": 24
     }
   ],
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.46650738020973365,
+      "scale": 0.3504938994813935,
       "offset": {
-        "0": 294.7217712402344,
-        "1": -28.932758331298828
+        "0": 553.5563354492188,
+        "1": -68.65641784667969
       }
     },
     "info": {
@@ -1741,7 +1752,7 @@
       "description": "",
       "version": "1",
       "created": "2024-06-03T15:41:46.655Z",
-      "modified": "2024-07-15T13:59:20.811Z",
+      "modified": "2024-07-16T09:54:40.997Z",
       "software": "ComfyUI"
     }
   },
