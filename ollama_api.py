@@ -6,23 +6,25 @@ def send_ollama_request(endpoint, base64_image, model, system_message, user_mess
     try:
         ollama_messages = prepare_ollama_messages(system_message, user_message, messages, base64_image)
 
+        options = {k: v for k, v in {
+            "temperature": temperature,
+            "num_predict": max_tokens,
+            "top_k": top_k,
+            "top_p": top_p,
+            "repeat_penalty": repeat_penalty,
+            "stop": stop if stop else None
+        }.items() if v is not None}
+
+        if random:
+            options["seed"] = seed
+
         data = {
             "model": model,
             "messages": ollama_messages,
             "stream": False,
-            "options": {
-                "temperature": temperature,
-                "num_predict": max_tokens,
-                "top_k": top_k,
-                "top_p": top_p,
-                "repeat_penalty": repeat_penalty,
-                "stop": stop if stop else None
-            },
+            "options": options,
             "keep_alive": -1 if keep_alive else 0,
         }
-
-        if random:
-            data["options"]["seed"] = seed
 
         # Add tools if provided
         if tools:
@@ -32,7 +34,6 @@ def send_ollama_request(endpoint, base64_image, model, system_message, user_mess
 
         ollama_headers = {"Content-Type": "application/json"}
         response = requests.post(endpoint, headers=ollama_headers, json=data)
-
         #print(f"Debugging - Ollama response status: {response.status_code}")
         #print(f"Debugging - Ollama response headers: {response.headers}")
 

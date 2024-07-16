@@ -49,7 +49,7 @@ def send_request(engine, base_ip, port, base64_image, model, system_message, use
             "seed": seed,
             "temperature": temperature,
             "max_tokens": max_tokens,
-            "random": random,
+            "random": random,  # Add this line
             "top_k": top_k,
             "top_p": top_p,
             "repeat_penalty": repeat_penalty,
