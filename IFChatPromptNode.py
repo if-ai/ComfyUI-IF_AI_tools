@@ -50,6 +50,7 @@ class IFChatPrompt:
         self.embellish_prompts_file = os.path.join(self.presets_dir, "embellishments.json")
         self.style_prompts_file = os.path.join(self.presets_dir, "style_prompts.json")
         self.agents_dir = os.path.join(self.presets_dir, "agents")
+        os.makedirs(self.agents_dir, exist_ok=True)
         self.agent_tools = self.load_agent_tools()
         self.stop_strings = self.load_presets(self.stop_file)
         self.assistants = self.load_presets(self.assistants_file)
