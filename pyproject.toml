@@ -2,7 +2,7 @@
 name = "comfyui-if_ai_tools"
 description = "A set of custom nodes to create assistant chatbots and generate prompts using a local LLMs via Ollama, LMstudio, Koboldcpp, Oobabooga or via APIs Anthropic, Groq, OpenAI"
 version = "1.0.0"
-license = "LICENSE"
+license = { file = "LICENSE.txt" }
 dependencies = ["Pillow", "requests", "opencv-python", "IPython", "huggingface_hub", "groq", "openai", "anthropic", "moviepy", "numpy"]
 
 [project.urls]
