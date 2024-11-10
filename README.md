@@ -127,7 +127,7 @@ ancient Megastructure, small lone figure
 
 ## TODO
 - Undergoing full refactor the next update will have three nodes one for general purpose chat,
-one for Images creation, one complementary carrying the embeddings and axiliary tools
+one for Images creation, one complementary carrying the embeddings and auxiliary tools
 - [ ] Fix Bugs and make it work on latest ComfyUI
 - [ ] Fix Graph Visualizer Node
 - [ ] Tweak IF_Assistants and Templates
