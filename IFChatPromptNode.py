@@ -363,11 +363,13 @@ class IFChatPrompt:
         self.embedding_provider = "sentence_transformers"
         self.llm_model = ""
         self.embedding_model = ""
-        self.assistant = "Cortana"
+        self.assistant = "None"
         self.random = False
-        self.rag_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI_IF_AI_tools", "IF_AI", "rag")
+
         self.comfy_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        self.rag_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI_IF_AI_tools", "IF_AI", "rag")
         self.presets_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI_IF_AI_tools", "IF_AI", "presets")
+        
         self.stop_file = os.path.join(self.presets_dir, "stop_strings.json")
         self.assistants_file = os.path.join(self.presets_dir, "assistants.json")
         self.neg_prompts_file = os.path.join(self.presets_dir, "neg_prompts.json")
@@ -375,6 +377,7 @@ class IFChatPrompt:
         self.style_prompts_file = os.path.join(self.presets_dir, "style_prompts.json")
         self.tasks_file = os.path.join(self.presets_dir, "florence_prompts.json")
         self.agents_dir = os.path.join(self.presets_dir, "agents")
+
         self.agent_tools = self.load_agent_tools()
         self.stop_strings = self.load_presets(self.stop_file)
         self.assistants = self.load_presets(self.assistants_file)
@@ -382,6 +385,7 @@ class IFChatPrompt:
         self.embellish_prompts = self.load_presets(self.embellish_prompts_file)
         self.style_prompts = self.load_presets(self.style_prompts_file)
         self.florence_prompts = self.load_presets(self.tasks_file)
+
         self.keep_alive = False
         self.seed = 94687328150
         self.messages = []
@@ -394,8 +398,6 @@ class IFChatPrompt:
         self.colpali_app = colpaliRAGapp()
         self.fix_json = True
         self.cached_colpali_model = None
-        #self.transformers_manager = TransformersModelManager()
-        #self.transformers_app = self.transformers_manager.send_transformers_request
         self.florence_app = FlorenceModule()
         self.florence_models = {}
         self.query_type = "global"  
@@ -411,9 +413,8 @@ class IFChatPrompt:
         self.top_k_search = 3
         
         self.placeholder_image_path = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI_IF_AI_tools", "IF_AI", "placeholder.png")
-        # Ensure the placeholder image exists
+
         if not os.path.exists(self.placeholder_image_path):
-            # Create a proper RGB placeholder image
             placeholder = Image.new('RGB', (512, 512), color=(73, 109, 137))
             os.makedirs(os.path.dirname(self.placeholder_image_path), exist_ok=True)
             placeholder.save(self.placeholder_image_path)
@@ -424,29 +425,34 @@ class IFChatPrompt:
         return presets
 
     def load_agent_tools(self):
+        os.makedirs(self.agents_dir, exist_ok=True)
         agent_tools = {}
-        for filename in os.listdir(self.agents_dir):
-            if filename.endswith('.json'):
-                full_path = os.path.join(self.agents_dir, filename)
-                with open(full_path, 'r') as f:
-                    try:
-                        data = json.load(f)
-                        if 'output_type' not in data:
-                            data['output_type'] = None
-                        agent_tool = AgentTool(**data)
-                        agent_tool.load()
-                        if agent_tool._class_instance is not None:
-                            if agent_tool.python_function:
-                                agent_tools[agent_tool.name] = agent_tool
+        try:
+            for filename in os.listdir(self.agents_dir):
+                if filename.endswith('.json'):
+                    full_path = os.path.join(self.agents_dir, filename)
+                    with open(full_path, 'r') as f:
+                        try:
+                            data = json.load(f)
+                            if 'output_type' not in data:
+                                data['output_type'] = None
+                            agent_tool = AgentTool(**data)
+                            agent_tool.load()
+                            if agent_tool._class_instance is not None:
+                                if agent_tool.python_function:
+                                    agent_tools[agent_tool.name] = agent_tool
+                                else:
+                                    print(f"Warning: Agent tool {agent_tool.name} in {filename} does not have a python_function defined.")
                             else:
-                                print(f"Warning: Agent tool {agent_tool.name} in {filename} does not have a python_function defined.")
-                        else:
-                            print(f"Failed to create class instance for {filename}")
-                    except json.JSONDecodeError:
-                        print(f"Error: Invalid JSON in {filename}")
-                    except Exception as e:
-                        print(f"Error loading {filename}: {str(e)}")
-        return agent_tools
+                                print(f"Failed to create class instance for {filename}")
+                        except json.JSONDecodeError:
+                            print(f"Error: Invalid JSON in {filename}")
+                        except Exception as e:
+                            print(f"Error loading {filename}: {str(e)}")
+            return agent_tools
+        except Exception as e:
+            print(f"Warning: Error accessing agent tools directory: {str(e)}")
+            return {}
 
     async def process_chat(
         self,
@@ -648,7 +654,7 @@ class IFChatPrompt:
                 )
 
                 generated_text = response.get("Response")
-                selected_neg_prompt_name = neg_prompt  # The name/key selected in the UI
+                selected_neg_prompt_name = neg_prompt 
                 omni = response.get("Tool_Output")
                 retrieved_image = response.get("Retrieved_Image")  
                 retrieved_mask = response.get("Mask")
@@ -677,21 +683,17 @@ class IFChatPrompt:
                     # Handle negative prompts
                     if selected_neg_prompt_name == "AI_Fill":
                         try:
-                            # Get the NegativePromptEngineer system message
                             neg_system_message = self.assistants.get("NegativePromptEngineer")
                             if not neg_system_message:
                                 logger.error("NegativePromptEngineer not found in assistants configuration")
                                 negative_prompt = "Error: NegativePromptEngineer not configured"
                             else:
-                                # Construct a clear prompt for negative generation
                                 user_message = f"Generate negative prompts for the following prompt:\n{text_result}"
                                 
-                                # Ensure we have a valid system message
                                 system_message_str = json.dumps(neg_system_message)
                                 
                                 logger.info(f"Requesting negative prompts for prompt: {text_result[:100]}...")
                                 
-                                # Make the LLM request with proper parameter handling
                                 neg_response = await send_request(
                                     llm_provider=llm_provider,
                                     base_ip=base_ip,
@@ -716,19 +718,16 @@ class IFChatPrompt:
                                 logger.debug(f"Received negative prompt response: {neg_response}")
                                 
                                 if neg_response:
-                                    # Split the AI-generated negative prompts into lines
                                     negative_lines = []
                                     for line in neg_response.split('\n'):
                                         line = line.strip()
                                         if line:
                                             negative_lines.append(line)
                                     
-                                    # Match number of negative prompts to positive prompts
                                     while len(negative_lines) < len(lines):
                                         negative_lines.append(negative_lines[-1] if negative_lines else "")
                                     negative_lines = negative_lines[:len(lines)]
                                     
-                                    # Create multiline string with explicit newlines
                                     negative_prompt = "\n".join(negative_lines)
                                 else:
                                     negative_prompt = "Error: Empty response from LLM"
@@ -737,7 +736,6 @@ class IFChatPrompt:
                             negative_prompt = f"Error generating negative prompts: {str(e)}"
                         
                     elif neg_prompt != "None":
-                        # Create a negative prompt for each line
                         neg_content = self.neg_prompts.get(neg_prompt, "").strip()
                         negative_lines = [neg_content for _ in range(len(lines))]
                         negative_prompt = "\n".join(negative_lines)
@@ -749,7 +747,6 @@ class IFChatPrompt:
                     negative_prompt = ""
 
                 try:
-                    # Check if retrieved_image is already a tensor in ComfyUI format
                     if isinstance(retrieved_image, torch.Tensor):
                         # Ensure it's in the correct format (B, C, H, W)
                         if retrieved_image.dim() == 3:  # Single image (C, H, W)
@@ -778,7 +775,6 @@ class IFChatPrompt:
                                 # Process retrieved_mask if it's not a tensor
                                 mask_tensor = process_mask(retrieved_mask, image_tensor)
                     else:
-                        # Process the retrieved image using process_images_for_comfy
                         image_tensor, default_mask_tensor = process_images_for_comfy(
                             retrieved_image, 
                             self.placeholder_image_path
@@ -786,10 +782,7 @@ class IFChatPrompt:
                         mask_tensor = default_mask_tensor
 
                         if retrieved_mask is not None:
-                            # Process retrieved_mask to ensure it's in the correct format
                             mask_tensor = process_mask(retrieved_mask, image_tensor)
-
-                    # Now image_tensor and mask_tensor are ready to be used
                     return (
                         prompt,
                         combined_prompt,
