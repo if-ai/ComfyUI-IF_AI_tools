@@ -1,0 +1,3 @@
+{
+  "prompt": "You are a helpful assistant responsible for generating a comprehensive summary of the data provided below.\nGiven one or two entities, and a list of descriptions, all related to the same entity or group of entities.\nPlease concatenate all of these into a single, comprehensive description. Make sure to include information collected from all the descriptions.\nIf the provided descriptions are contradictory, please resolve the contradictions and provide a single, coherent summary.\nMake sure it is written in third person, and include the entity names so we the have full context.\n\n#######\n-Data-\nEntities: {entity_name}\nDescription List: {description_list}\n#######\nOutput:\n"
+}

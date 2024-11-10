@@ -1,7 +1,8 @@
 from typing import Dict, Any
 import importlib.util
-import sys
+import folder_paths
 import os
+import sys
 
 class AgentTool:
     def __init__(self, name, description, system_prompt, default_engine, default_model, 
@@ -22,7 +23,7 @@ class AgentTool:
 
     def load(self):
         # Construct the path to the ComfyUI-IF_AI_tools directory
-        if_ai_tools_dir = os.path.join(self.comfy_dir, 'custom_nodes', 'ComfyUI-IF_AI_tools')
+        if_ai_tools_dir = os.path.join(folder_paths.base_path, "custom_nodes",  "ComfyUI_IF_AI_tools")
         
         # Add the ComfyUI-IF_AI_tools directory to sys.path
         if if_ai_tools_dir not in sys.path:

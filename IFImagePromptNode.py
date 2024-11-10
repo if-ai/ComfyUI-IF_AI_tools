@@ -10,19 +10,31 @@ import torch
 import tempfile
 from torchvision.transforms.functional import to_pil_image
 import folder_paths
-from server import PromptServer
-from aiohttp import web
+import sys
 
-@PromptServer.instance.routes.post("/IF_ImagePrompt/get_models")
-async def get_models_endpoint(request):
-    data = await request.json()
-    engine = data.get("engine")
-    base_ip = data.get("base_ip")
-    port = data.get("port")
+# Add the ComfyUI directory to the Python path
+comfy_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.insert(0, comfy_path)
 
-    node = IFImagePrompt()
-    models = node.get_models(engine, base_ip, port)
-    return web.json_response(models)
+try:
+    from server import PromptServer
+    from aiohttp import web
+
+    @PromptServer.instance.routes.post("/IF_ImagePrompt/get_models")
+    async def get_models_endpoint(request):
+        data = await request.json()
+        engine = data.get("engine")
+        base_ip = data.get("base_ip")
+        port = data.get("port")
+
+        node = IFImagePrompt()
+        models = node.get_models(engine, base_ip, port)
+        return web.json_response(models)
+except AttributeError:
+    print("PromptServer.instance not available. Skipping route decoration for IF_ImagePrompt.")
+    async def get_models_endpoint(request):
+        # Fallback implementation
+        return web.json_response({"error": "PromptServer.instance not available"})
 
 class IFImagePrompt:
 

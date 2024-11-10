@@ -1,6 +1,7 @@
 {
   "None": "",
-  "AnimeTI": "negative_hand-neg, worst quality, low quality, nsfw, lamp, bad_pictures, bad-artist-anime, verybadimagenegative_v1.3, ng_deepnegative_v1_75t, bad_anatomy, text, title, logo, signature,",
+  "AI_Fill": "lowres, lowquality, bad,",
+  "SD3x_q1": "deformed and malformed with worst qualities. distortions and artifacts, low quality, bad ratings ☆☆☆☆☆, 0/10 review, 0/5 review ↓",
   "AtomeaseNoWaifus": "(3D, Adorable, Anime, CGI, Cartoon, Cartoonish, Childish, Computer Generated, Manga, Rendered)",
   "BadChill": "ng_deepnegative_v1_75t, bad-picture-chill-75v, bad_prompt, bad anatomy",
   "BadChill2": "bad-picture-chill-75v, ng_deepnegative_v1_75t, easynegative, verybadimagenegative_v1.3, negative_hand-neg",

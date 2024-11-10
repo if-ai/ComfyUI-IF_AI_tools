@@ -1,21 +1,22 @@
-import requests
+# gemini_api.py
+import aiohttp
 import json
-import base64
+import logging
+import asyncio
 
-import requests
-import json
+logger = logging.getLogger(__name__)
 
-def send_gemini_request(api_url, base64_image, model, system_message, user_message, messages, seed,
-                        temperature, max_tokens, top_k, top_p, repeat_penalty, stop, api_key,
-                        tools=None, tool_choice=None):
+async def send_gemini_request(base64_images, model, system_message, user_message, messages,
+                             temperature, max_tokens, top_k, top_p, stop, api_key,
+                             tools=None, tool_choice=None):
     headers = {
         "Content-Type": "application/json"
     }
-    
+    base_url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
     # Append the API key to the URL
-    api_url = f"{api_url}?key={api_key}"
+    api_url = f"{base_url}?key={api_key}"
     
-    gemini_messages = prepare_gemini_messages(base64_image, system_message, user_message, messages)
+    gemini_messages = prepare_gemini_messages(base64_images, system_message, user_message, messages)
     
     data = {
         "contents": gemini_messages,
@@ -29,42 +30,54 @@ def send_gemini_request(api_url, base64_image, model, system_message, user_messa
     }
 
     if tools:
-        data["tools"] = [{"functionDeclarations": tools}]
-    
+        data["generationConfig"]["tools"] = [{"functionDeclarations": tools}] # Changed to functionDeclarations
+
     if tool_choice:
-        data["toolChoice"] = tool_choice
+        data["toolChoice"] = tool_choice  # Assuming Gemini supports this
 
-    #print(f"Sending request to Gemini API: {api_url}")
-    response = requests.post(api_url, headers=headers, json=data)
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.post(api_url, headers=headers, json=data) as response:
+                response.raise_for_status() # Raise HTTPError for bad responses (4xx or 5xx)
+                response_data = await response.json()
 
-    if response.status_code == 200:
-        response_data = response.json()
-        candidates = response_data.get('candidates', [])
-        if candidates:
-            candidate = candidates[0]
-            content = candidate.get('content', {})
-            if 'parts' in content:
-                for part in content['parts']:
-                    if 'functionCall' in part:
+
+                if tools:
+                    return response_data
+                else:
+                    candidates = response_data.get('candidates', [])
+                    if candidates:
+                        candidate = candidates[0]
+                        content = candidate.get('content', {})
+                        if 'parts' in content:
+                            for part in content['parts']:
+                                if 'functionCall' in part:
+                                    return {
+                                        "function_call": {
+                                            "name": part['functionCall']['name'],
+                                            "arguments": json.loads(part['functionCall']['args'])
+                                        }
+                                    }
+                        generated_text = content.get('parts', [{}])[0].get('text', '')
                         return {
-                            "function_call": {
-                                "name": part['functionCall']['name'],
-                                "arguments": json.loads(part['functionCall']['args'])
-                            }
+                            "choices": [{
+                                "message": {
+                                    "content": generated_text
+                                }
+                            }]
                         }
-            generated_text = content.get('parts', [{}])[0].get('text', '')
-            return generated_text
-        else:
-            print("No valid candidates in the response.")
-            print("Full response:", response.text)
-            return "No valid response generated."
-    else:
-        print(f"Failed to fetch response, status code: {response.status_code}")
-        print("Full response:", response.text)
-        return f"Failed to fetch response from Gemini. Status code: {response.status_code}"
+                    else:
+                        error_msg = "Error: No valid candidates in the Gemini response."
+                        logger.error(error_msg)
+                        return {"choices": [{"message": {"content": error_msg}}]}  # Return error in unified format
 
+    except Exception as e:
+        error_msg = "Unexpected error during Gemini API call"
+        # Log the full error for debugging but return sanitized message
+        logger.error(f"{error_msg}: {str(e)}")
+        return {"choices": [{"message": {"content": error_msg}}]}
     
-def prepare_gemini_messages(base64_image, system_message, user_message, messages):
+def prepare_gemini_messages(base64_images, system_message, user_message, messages):
     gemini_messages = []
 
     # Add system message if provided
@@ -81,19 +94,19 @@ def prepare_gemini_messages(base64_image, system_message, user_message, messages
         else:
             gemini_messages.append({"role": role, "parts": [{"text": content}]})
 
-    # Add current user message
-    if base64_image:
+    # Add current user message with multiple images
+    if base64_images:
+        parts = [{"text": user_message}]
+        for base64_image in base64_images:
+            parts.append({
+                "inline_data": {
+                    "mime_type": "image/jpeg",
+                    "data": base64_image
+                }
+            })
         gemini_messages.append({
             "role": "user",
-            "parts": [
-                {"text": user_message},
-                {
-                    "inline_data": {
-                        "mime_type": "image/jpeg",
-                        "data": base64_image
-                    }
-                }
-            ]
+            "parts": parts
         })
     else:
         gemini_messages.append({"role": "user", "parts": [{"text": user_message}]})

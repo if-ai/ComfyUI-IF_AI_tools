@@ -1,0 +1,13 @@
+working_dir: "./graphrag_data"
+llm_provider: "ollama"
+llm_model: "qwen2"
+embedding_provider: "sentence_transformers"
+embedding_model: "all-MiniLM-L6-v2"
+api_base: "http://localhost:11434"
+enable_rag: true
+query_type: "local"
+community_level: 2
+response_type: "Detailed"
+additional_params:
+  max_tokens: 2048
+  temperature: 0.7

@@ -1,21 +1,34 @@
 import json
 import requests
 import os
+import sys
 import textwrap
-from server import PromptServer
-from aiohttp import web
+
+# Add the ComfyUI directory to the Python path
+comfy_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.insert(0, comfy_path)
+
+try:
+    from server import PromptServer
+    from aiohttp import web
+
+    @PromptServer.instance.routes.post("/IF_PromptMkr/get_models")
+    async def get_models_endpoint(request):
+        data = await request.json()
+        engine = data.get("engine")
+        base_ip = data.get("base_ip")
+        port = data.get("port")
+
+        node = IFPrompt2Prompt()
+        models = node.get_models(engine, base_ip, port)
+        return web.json_response(models)
+except AttributeError:
+    print("PromptServer.instance not available. Skipping route decoration.")
+    async def get_models_endpoint(request):
+        # Fallback implementation
+        return web.json_response({"error": "PromptServer.instance not available"})
+
 import tempfile
-
-@PromptServer.instance.routes.post("/IF_PromptMkr/get_models")
-async def get_models_endpoint(request):
-    data = await request.json()
-    engine = data.get("engine")
-    base_ip = data.get("base_ip")
-    port = data.get("port")
-
-    node = IFPrompt2Prompt()
-    models = node.get_models(engine, base_ip, port)
-    return web.json_response(models)
 
 class IFPrompt2Prompt: 
     RETURN_TYPES = ("STRING", "STRING", "STRING",)
@@ -254,6 +267,3 @@ class IFPrompt2Prompt:
 
 NODE_CLASS_MAPPINGS = {"IF_PromptMkr": IFPrompt2Prompt}
 NODE_DISPLAY_NAME_MAPPINGS = {"IF_PromptMkr": "IF Prompt to Prompt💬"}
-
-
-

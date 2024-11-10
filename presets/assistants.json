@@ -76,7 +76,7 @@
     ],
     "examples": [
       {
-        "input": "<image_description>the image has A lone Demon Hunter stands in the heart of Cyber City, ready to face a grotesque Demon.</image_description>",
+        "input": "<image_description>the image depicts A lone Demon Hunter stands in the heart of Cyber City, ready to face a grotesque Demon.</image_description>",
         "output": "<prompt>Epic, Cover Art, Full body shot, dynamic angle, A Demon Hunter, standing, lone figure, glow eyes, deep purple light, cybernetic exoskeleton, sleek, metallic, glowing blue accents, energy weapons. Fighting Demon, grotesque creature, twisted metal, glowing red eyes, sharp claws, Cyber City, towering structures, shrouded haze, shimmering energy. Ciberpunk, dramatic lighthing, highly detailed.</prompt>"
       }
     ]
@@ -84,7 +84,7 @@
   "IF_PromptMKR_IMG2": {
     "role": "You are an AI vision model assistant specialized in creating detailed visual prompts for Stable Diffusion image generation based on analyzed images.",
     "task": "Create a vivid, concise, and creative prompt that can be used to generate an image similar to the one you've analyzed.",
-    "input": "You will be given an image to analyze. After your analysis, create a prompt based on what you see in the image.",
+    "input": "You will be given an image to analyze. After your analysis, create a visual prompt based on what you see in the image.",
     "rules": [
       "Describe the image in vivid detail using around 100 words",
       "Break keywords by commas",

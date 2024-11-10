@@ -2,6 +2,10 @@ import os
 import importlib.util
 import glob
 import shutil
+import sys
+import folder_paths
+from aiohttp import web
+
 from .IFPromptMkrNode import IFPrompt2Prompt
 from .IFImagePromptNode import IFImagePrompt
 from .IFSaveTextNode import IFSaveText
@@ -9,8 +13,37 @@ from .IFDisplayTextNode import IFDisplayText
 from .IFChatPromptNode import IFChatPrompt
 from .IFDisplayOmniNode import IFDisplayOmni
 from .IFTextTyperNode import IFTextTyper
+from .IFVisualizeGraphNode import IFVisualizeGraphNode
+from .IFStepCounterNode import IFCounter
+from .IFJoinTextNode import IFJoinText
+from .IFLoadImagesNode import IFLoadImages
+from .send_request import *
 
-
+# Try to import omost from the current directory
+# Add the current directory to sys.path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
+#print(f"Current directory: {current_dir}")
+#print(f"Files in current directory: {os.listdir(current_dir)}")
+try:
+    from .omost import omost_function
+    print("Successfully imported omost_function from omost.py in the current directory")
+except ImportError as e:
+    print(f"Error importing omost from current directory: {e}")
+    
+    # If import fails, try to import from the parent directory
+    parent_dir = os.path.dirname(current_dir)
+    parent_dir_name = os.path.basename(parent_dir)
+    if parent_dir_name == 'ComfyUI_IF_AI_tools':
+        sys.path.insert(0, parent_dir)
+        try:
+            from omost import omost_function
+            print(f"Successfully imported omost_function from {parent_dir}/omost.py")
+        except ImportError as e:
+            print(f"Error importing omost from parent directory: {e}")
+            print(f"Current sys.path: {sys.path}")
+            raise
 class OmniType(str):
     """A special string type that acts as a wildcard for universal input/output. 
        It always evaluates as equal in comparisons."""
@@ -28,7 +61,10 @@ NODE_CLASS_MAPPINGS = {
     "IF_ChatPrompt": IFChatPrompt,
     "IF_DisplayOmni": IFDisplayOmni,
     "IF_TextTyper": IFTextTyper,
-
+    "IF_VisualizeGraph": IFVisualizeGraphNode,
+    "IF_StepCounter": IFCounter,
+    "IF_JoinText": IFJoinText,
+    "IF_LoadImages": IFLoadImages,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -38,9 +74,17 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "IF_DisplayText": "IF Display Text📟",
     "IF_ChatPrompt": "IF Chat Prompt👨‍💻",
     "IF_DisplayOmni": "IF Display Omni🔍",
-    "IF_TextTyper": "IF Text Typer✍️"
-    #"IF_AI_Agent": "IF AI Agent 🤖"
+    "IF_TextTyper": "IF Text Typer✍️",
+    "IF_VisualizeGraph": "IF Visualize Graph🕸️",
+    "IF_StepCounter": "IF Step Counter 🔢",
+    "IF_JoinText": "IF Join Text 📝",
+    "IF_LoadImages": "IF Load Images🖼️",
 }
 
 WEB_DIRECTORY = "./web"
-__all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
+__all__ = [
+    "NODE_CLASS_MAPPINGS", 
+    "NODE_DISPLAY_NAME_MAPPINGS", 
+    "WEB_DIRECTORY", 
+    "omost_function"
+    ]

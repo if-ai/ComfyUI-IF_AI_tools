@@ -1,0 +1,27 @@
+embedding_provider: sentence_transformers
+embedding_model: sentence-transformers/all-MiniLM-L6-v2
+base_ip: localhost
+port: '11434'
+llm_provider: openai
+llm_model: gpt-4o-mini
+temperature: 1.2000000000000002
+max_tokens: 2048
+stop: null
+keep_alive: false
+top_k: 40
+top_p: 0.9
+repeat_penalty: 1.2
+seed: 558413258089916
+rag_folder_name: safiro1
+query_type: local
+community_level: 2
+preset: Default
+external_llm_api_key: ''
+random: false
+prime_directives: null
+prompt: Who helped Safiro infiltrate the Zaltar Organisation?
+response_format: json
+precision: fp16
+attention: sdpa
+aspect_ratio: '16:9'
+top_k_search: 3

@@ -1,20 +1,353 @@
 {
-  "last_node_id": 112,
-  "last_link_id": 176,
+  "last_node_id": 92,
+  "last_link_id": 148,
   "nodes": [
+    {
+      "id": 34,
+      "type": "IF_DisplayText",
+      "pos": [
+        493.2962728271484,
+        425
+      ],
+      "size": {
+        "0": 313.6071472167969,
+        "1": 230.83026123046875
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 101,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "Agent omost_tool executed successfully. Output generated."
+      ]
+    },
+    {
+      "id": 62,
+      "type": "IF_DisplayText",
+      "pos": [
+        81,
+        999
+      ],
+      "size": {
+        "0": 398.6273498535156,
+        "1": 76
+      },
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 73,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 74,
+      "type": "VAEDecode",
+      "pos": [
+        2470,
+        1280
+      ],
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 109
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 110,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            115
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 83,
+      "type": "VAEDecode",
+      "pos": [
+        2470,
+        670
+      ],
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 123
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 124,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            125
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 84,
+      "type": "SaveImage",
+      "pos": [
+        2730,
+        670
+      ],
+      "size": {
+        "0": 513.570068359375,
+        "1": 555.1339111328125
+      },
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 125
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI/omost"
+      ]
+    },
+    {
+      "id": 86,
+      "type": "VAEDecode",
+      "pos": [
+        2470,
+        60
+      ],
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 130
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 131,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            132
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 87,
+      "type": "SaveImage",
+      "pos": [
+        2730,
+        60
+      ],
+      "size": {
+        "0": 513.570068359375,
+        "1": 555.1339111328125
+      },
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 132
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI/omost"
+      ]
+    },
+    {
+      "id": 91,
+      "type": "SaveImage",
+      "pos": [
+        2730,
+        -560
+      ],
+      "size": {
+        "0": 513.570068359375,
+        "1": 555.1339111328125
+      },
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 141
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI/omost"
+      ]
+    },
+    {
+      "id": 88,
+      "type": "OmostGreedyBagsTextEmbeddingNode",
+      "pos": [
+        1310,
+        310
+      ],
+      "size": {
+        "0": 336.2585754394531,
+        "1": 52.690181732177734
+      },
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "canvas_conds",
+          "type": "OMOST_CANVAS_CONDITIONING",
+          "link": 144
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 134,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            136
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "OmostGreedyBagsTextEmbeddingNode"
+      }
+    },
     {
       "id": 81,
       "type": "OmostDenseDiffusionLayoutNode",
       "pos": [
-        958.8178177596129,
-        619.3277693465797
+        1310,
+        430
       ],
       "size": {
         "0": 327.6000061035156,
         "1": 66
       },
       "flags": {},
-      "order": 15,
+      "order": 11,
       "mode": 0,
       "inputs": [
         {
@@ -62,372 +395,18 @@
       }
     },
     {
-      "id": 73,
-      "type": "KSampler",
-      "pos": [
-        1858.8178177596142,
-        899.3277693465795
-      ],
-      "size": {
-        "0": 315,
-        "1": 262
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 23,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 105
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 106
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 107
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 108
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "links": [
-            109
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "KSampler"
-      },
-      "widgets_values": [
-        12349,
-        "fixed",
-        20,
-        8,
-        "dpmpp_2m_sde_gpu",
-        "karras",
-        1
-      ]
-    },
-    {
-      "id": 88,
-      "type": "OmostGreedyBagsTextEmbeddingNode",
-      "pos": [
-        958.8178177596129,
-        499.32776934657966
-      ],
-      "size": {
-        "0": 336.2585754394531,
-        "1": 52.690181732177734
-      },
-      "flags": {},
-      "order": 16,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "canvas_conds",
-          "type": "OMOST_CANVAS_CONDITIONING",
-          "link": 144
-        },
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 134,
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "links": [
-            136
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "OmostGreedyBagsTextEmbeddingNode"
-      }
-    },
-    {
-      "id": 72,
-      "type": "CLIPTextEncode",
-      "pos": [
-        958.8178177596129,
-        949.3277693465801
-      ],
-      "size": {
-        "0": 400,
-        "1": 200
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 13,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 104
-        },
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 147,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "links": [
-            107,
-            121,
-            128,
-            137
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "CLIPTextEncode"
-      },
-      "widgets_values": [
-        "lowres, bad anatomy, bad hands, cropped, worst quality"
-      ]
-    },
-    {
-      "id": 71,
-      "type": "CheckpointLoaderSimple",
-      "pos": [
-        968.8178177596129,
-        269.3277693465802
-      ],
-      "size": {
-        "0": 315,
-        "1": 98
-      },
-      "flags": {},
-      "order": 0,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            105,
-            116,
-            126,
-            135
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "CLIP",
-          "type": "CLIP",
-          "links": [
-            104,
-            114,
-            118,
-            134
-          ],
-          "shape": 3,
-          "slot_index": 1
-        },
-        {
-          "name": "VAE",
-          "type": "VAE",
-          "links": [
-            110,
-            124,
-            131,
-            140
-          ],
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "CheckpointLoaderSimple"
-      },
-      "widgets_values": [
-        "SDXL/ProteusV0.4.safetensors"
-      ]
-    },
-    {
-      "id": 35,
-      "type": "IF_DisplayText",
-      "pos": [
-        612,
-        695
-      ],
-      "size": {
-        "0": 314.11285400390625,
-        "1": 114.48042297363281
-      },
-      "flags": {},
-      "order": 11,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 175,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            147
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        ""
-      ]
-    },
-    {
-      "id": 37,
-      "type": "LoadImage",
-      "pos": [
-        -156,
-        247
-      ],
-      "size": {
-        "0": 315,
-        "1": 314
-      },
-      "flags": {},
-      "order": 1,
-      "mode": 2,
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            171
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadImage"
-      },
-      "widgets_values": [
-        "f71117d69576a815cec8f25a51b800d6.jpg",
-        "image"
-      ]
-    },
-    {
-      "id": 91,
-      "type": "SaveImage",
-      "pos": [
-        1318.8178177596142,
-        289.3277693465804
-      ],
-      "size": {
-        "0": 513.570068359375,
-        "1": 555.1339111328125
-      },
-      "flags": {},
-      "order": 30,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 141
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SaveImage"
-      },
-      "widgets_values": [
-        "ComfyUI/omost"
-      ]
-    },
-    {
-      "id": 84,
-      "type": "SaveImage",
-      "pos": [
-        1858.8178177596142,
-        299.3277693465804
-      ],
-      "size": {
-        "0": 513.570068359375,
-        "1": 555.1339111328125
-      },
-      "flags": {},
-      "order": 28,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 125
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SaveImage"
-      },
-      "widgets_values": [
-        "ComfyUI/omost"
-      ]
-    },
-    {
       "id": 82,
       "type": "KSampler",
       "pos": [
-        1858.8178177596142,
-        259.32776934658
+        2072,
+        661
       ],
       "size": {
         "0": 315,
         "1": 262
       },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 20,
+      "flags": {},
+      "order": 16,
       "mode": 0,
       "inputs": [
         {
@@ -476,20 +455,61 @@
       ]
     },
     {
+      "id": 35,
+      "type": "IF_DisplayText",
+      "pos": [
+        490.2962728271484,
+        696
+      ],
+      "size": {
+        "0": 314.11285400390625,
+        "1": 114.48042297363281
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 102,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            147
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "lowres,  text,  error,  cropped,  worst quality,  low quality,  jpeg artifacts,  ugly,  duplicate,  morbid,  mutilated,  out of frame,  mutation,  deformed,  blurry,  dehydrated,  bad anatomy,  bad proportions,  disfigured, username,  watermark,  signature, backgound out of focus, black and white,  monochrome"
+      ]
+    },
+    {
       "id": 85,
       "type": "KSampler",
       "pos": [
-        1328.8178177596142,
-        899.3277693465795
+        2081,
+        288
       ],
       "size": {
         "0": 315,
         "1": 262
       },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 21,
+      "flags": {},
+      "order": 17,
       "mode": 0,
       "inputs": [
         {
@@ -541,17 +561,15 @@
       "id": 89,
       "type": "KSampler",
       "pos": [
-        1318.8178177596142,
-        249.32776934658
+        2081,
+        -55
       ],
       "size": {
         "0": 315,
         "1": 262
       },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 22,
+      "flags": {},
+      "order": 18,
       "mode": 0,
       "inputs": [
         {
@@ -600,194 +618,115 @@
       ]
     },
     {
-      "id": 90,
-      "type": "VAEDecode",
+      "id": 73,
+      "type": "KSampler",
       "pos": [
-        1458.8178177596142,
-        249.32776934658
+        2076,
+        996
       ],
       "size": {
-        "0": 210,
-        "1": 46
+        "0": 315,
+        "1": 262
       },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 26,
+      "flags": {},
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 139
+          "name": "model",
+          "type": "MODEL",
+          "link": 105
         },
         {
-          "name": "vae",
-          "type": "VAE",
-          "link": 140,
-          "slot_index": 1
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 106
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 107
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 108
         }
       ],
       "outputs": [
         {
-          "name": "IMAGE",
-          "type": "IMAGE",
+          "name": "LATENT",
+          "type": "LATENT",
           "links": [
-            141
+            109
           ],
           "shape": 3,
           "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "VAEDecode"
-      }
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        12349,
+        "fixed",
+        20,
+        8,
+        "dpmpp_2m_sde_gpu",
+        "karras",
+        1
+      ]
     },
     {
-      "id": 86,
-      "type": "VAEDecode",
+      "id": 76,
+      "type": "EmptyLatentImage",
       "pos": [
-        1478.8178177596142,
-        899.3277693465795
+        1745,
+        309
       ],
       "size": {
-        "0": 210,
-        "1": 46
+        "0": 315,
+        "1": 106
       },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 25,
+      "flags": {},
+      "order": 0,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 130
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 131,
-          "slot_index": 1
-        }
-      ],
       "outputs": [
         {
-          "name": "IMAGE",
-          "type": "IMAGE",
+          "name": "LATENT",
+          "type": "LATENT",
           "links": [
-            132
+            108,
+            122,
+            129,
+            138
           ],
           "shape": 3,
           "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "VAEDecode"
-      }
-    },
-    {
-      "id": 83,
-      "type": "VAEDecode",
-      "pos": [
-        2008.8178177596142,
-        259.32776934658
-      ],
-      "size": {
-        "0": 210,
-        "1": 46
+        "Node name for S&R": "EmptyLatentImage"
       },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 24,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 123
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 124,
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            125
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEDecode"
-      }
-    },
-    {
-      "id": 74,
-      "type": "VAEDecode",
-      "pos": [
-        1998.8178177596142,
-        899.3277693465795
-      ],
-      "size": {
-        "0": 210,
-        "1": 46
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 27,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 109
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 110,
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            115
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEDecode"
-      }
+      "widgets_values": [
+        1024,
+        768,
+        1
+      ]
     },
     {
       "id": 80,
       "type": "SaveImage",
       "pos": [
-        1858.8178177596142,
-        949.3277693465801
+        2730,
+        1280
       ],
       "size": {
         "0": 513.570068359375,
         "1": 555.1339111328125
       },
       "flags": {},
-      "order": 31,
+      "order": 27,
       "mode": 0,
       "inputs": [
         {
@@ -804,18 +743,139 @@
       ]
     },
     {
+      "id": 77,
+      "type": "OmostRenderCanvasConditioningNode",
+      "pos": [
+        1421,
+        1324
+      ],
+      "size": {
+        "0": 271.7767639160156,
+        "1": 46
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "canvas_conds",
+          "type": "OMOST_CANVAS_CONDITIONING",
+          "link": 142,
+          "slot_index": 0
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            112
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "OmostRenderCanvasConditioningNode"
+      }
+    },
+    {
+      "id": 78,
+      "type": "PreviewImage",
+      "pos": [
+        1801,
+        1324
+      ],
+      "size": [
+        444.6390791001654,
+        448.5777024470226
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 112
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 44,
+      "type": "IF_DisplayOmni",
+      "pos": [
+        494,
+        851
+      ],
+      "size": {
+        "0": 319.1829528808594,
+        "1": 759.370361328125
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "omni_input",
+          "type": "OMNI",
+          "link": 103
+        }
+      ],
+      "outputs": [
+        {
+          "name": "canvas_conditioning",
+          "type": "OMOST_CANVAS_CONDITIONING",
+          "links": [
+            142,
+            143,
+            144,
+            145
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "text_output",
+          "type": "STRING",
+          "links": [
+            73
+          ],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayOmni"
+      },
+      "widgets_values": [
+        "[{\"rect\": [0, 90, 0, 90], \"prefixes\": [\"A majestic jaguar in its natural habitat, amidst rain and dense foliage.\"], \"suffixes\": [\"The image captures an awe-inspiring scene of a magnificent jaguar standing confidently on the forest floor amid heavy rainfall.\", \"Surrounded by tall trees with lush green leaves that are drenched from the downpour, this powerful predator's sleek fur glistens under the dim light filtering through the canopy.\", \"Raindrops cascade off its muscular frame as it stands poised and alert in a dense thicket of plants and vines.\", \"jaguar, rainforest, wildlife photography, nature scene, jungle cat, predatory animal, forest floor, heavy rainfall, lush foliage, greenery, tall trees, canopy cover, glistening fur, powerful predator, muscular frame, poised stance, alert jaguar, dense thicket, plants and vines.\"], \"color\": [0, 100, 0]}, {\"color\": [143, 188, 143], \"rect\": [5, 45, 35, 90], \"prefixes\": [\"A majestic jaguar in its natural habitat, amidst rain and dense foliage.\", \"Canopy Cover.\"], \"suffixes\": [\"The dense forest canopy is visible at this part of the image, with leaves and branches creating a thick cover overhead.\", \"This natural roof shields much of the rainforest's inhabitants from direct sunlight while allowing filtered light to penetrate through.\", \"canopy layer, tree foliage.\", \"A sense of sheltering protection provided by dense forest canopy.\", \"Nature photography focusing on upper layers and interplay between light and shadow.\", \"High-resolution image capturing the intricate details in leaf shapes and branch patterns above.\"]}, {\"color\": [34, 139, 34], \"rect\": [0, 80, 0, 35], \"prefixes\": [\"A majestic jaguar in its natural habitat, amidst rain and dense foliage.\", \"Tall Trees.\"], \"suffixes\": [\"The forest is dominated by towering, ancient trees with thick trunks and sprawling branches.\", \"Their leaves are dense green canopies that provide shelter to the jaguar's habitat.\", \"Raindrops cling heavily on their surfaces as they filter down towards the ground in a steady drizzle.\", \"tall trees, forest canopy, rainforest vegetation, ancient woodlands.\", \"The towering presence of these tall trees adds depth and majesty to the scene.\", \"Nature photography emphasizing vertical scale with detailed textures on tree bark and leaves.\", \"High-definition capture highlighting intricate details in foliage and trunk texture.\"]}, {\"color\": [85, 107, 47], \"rect\": [15, 90, 60, 90], \"prefixes\": [\"A majestic jaguar in its natural habitat, amidst rain and dense foliage.\", \"Dense Thicket.\"], \"suffixes\": [\"A thick cluster of plants and vines fills this part of the image, creating a dense thicket that adds complexity to the forest floor.\", \"The foliage is lush with various shades of green, providing both cover for smaller animals as well as an intricate maze-like environment.\", \"dense vegetation, jungle undergrowth, rainforest flora.\", \"This area feels rich and teeming with life due to its dense plant coverage.\", \"Macro photography focusing on the fine details within a complex natural setting.\", \"High-resolution image capturing minute textures of leaves and vines in great detail.\"]}, {\"color\": [139, 69, 19], \"rect\": [15, 75, 15, 75], \"prefixes\": [\"A majestic jaguar in its natural habitat, amidst rain and dense foliage.\", \"The majestic jaguar.\"], \"suffixes\": [\"A magnificent and powerful jaguar stands confidently in its natural habitat.\", \"Its sleek, glistening fur is drenched from the rain as it surveys its surroundings.\", \"This predator's muscular frame exudes strength while its alert eyes reflect a sense of readiness to pounce at any moment.\", \"jaguar, majestic animal, powerful presence, predatory cat, wet coat, strong muscles, vigilant gaze.\", \"The jaguar commands attention with an air of dominance and grace in the rain-soaked forest floor.\", \"Wildlife photography capturing raw natural beauty amidst a dramatic setting.\", \"High-resolution image showcasing intricate details like fur texture and muscle definition.\"]}, {\"color\": [160, 82, 45], \"rect\": [60, 90, 0, 50], \"prefixes\": [\"A majestic jaguar in its natural habitat, amidst rain and dense foliage.\", \"Rain-Soaked Forest Floor.\"], \"suffixes\": [\"The ground is a mix of wet soil, fallen leaves and twigs that are drenched from the continuous rainfall.\", \"Puddles have formed in low-lying areas where water collects on uneven surfaces.\", \"This area teems with life as insects can be seen moving through this damp environment.\", \"forest floor, rain-soaked soil, wet leaves and twigs.\", \"The forest's ground is alive yet quiet under the persistent downpour.\", \"Close-up nature photography capturing minute details of a rainy landscape.\", \"High-definition image showing fine textures in water droplets on foliage and earth.\"]}]"
+      ]
+    },
+    {
       "id": 79,
       "type": "OmostLayoutCondNode",
       "pos": [
-        958.8178177596129,
-        749.3277693465799
+        1310,
+        550
       ],
       "size": {
         "0": 330.0874938964844,
         "1": 147.511962890625
       },
       "flags": {},
-      "order": 17,
+      "order": 13,
       "mode": 0,
       "inputs": [
         {
@@ -861,75 +921,74 @@
       ]
     },
     {
-      "id": 76,
-      "type": "EmptyLatentImage",
+      "id": 72,
+      "type": "CLIPTextEncode",
       "pos": [
-        1088.8178177596142,
-        429.3277693465799
+        1312,
+        1016
       ],
-      "size": {
-        "0": 315,
-        "1": 106
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 2,
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 9,
       "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 104
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 147,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
       "outputs": [
         {
-          "name": "LATENT",
-          "type": "LATENT",
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
           "links": [
-            108,
-            122,
-            129,
-            138
+            107,
+            121,
+            128,
+            137
           ],
           "shape": 3,
           "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "EmptyLatentImage"
+        "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        1024,
-        768,
-        1
+        "lowres, bad anatomy, bad hands, cropped, worst quality"
       ]
     },
     {
-      "id": 77,
-      "type": "OmostRenderCanvasConditioningNode",
+      "id": 37,
+      "type": "LoadImage",
       "pos": [
-        948.8178177596129,
-        999.3277693465798
+        -251,
+        248
       ],
       "size": {
-        "0": 271.7767639160156,
-        "1": 46
+        "0": 315,
+        "1": 314
       },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 14,
+      "flags": {},
+      "order": 1,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "canvas_conds",
-          "type": "OMOST_CANVAS_CONDITIONING",
-          "link": 142,
-          "slot_index": 0
-        }
-      ],
       "outputs": [
         {
           "name": "IMAGE",
           "type": "IMAGE",
-          "links": [
-            112
-          ],
+          "links": [],
           "shape": 3,
           "slot_index": 0
         },
@@ -941,318 +1000,19 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "OmostRenderCanvasConditioningNode"
-      }
-    },
-    {
-      "id": 87,
-      "type": "SaveImage",
-      "pos": [
-        1318.8178177596142,
-        949.3277693465801
-      ],
-      "size": {
-        "0": 513.570068359375,
-        "1": 555.1339111328125
-      },
-      "flags": {},
-      "order": 29,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 132
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SaveImage"
+        "Node name for S&R": "LoadImage"
       },
       "widgets_values": [
-        "ComfyUI/omost"
+        "f71117d69576a815cec8f25a51b800d6.jpg",
+        "image"
       ]
-    },
-    {
-      "id": 34,
-      "type": "IF_DisplayText",
-      "pos": [
-        610,
-        422
-      ],
-      "size": {
-        "0": 313.6071472167969,
-        "1": 230.83026123046875
-      },
-      "flags": {},
-      "order": 10,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 174,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "Agent omost_tool executed successfully. Output generated.",
-        "Agent omost_tool executed successfully. Output generated. Agent omost_tool executed successfully. Output generated."
-      ]
-    },
-    {
-      "id": 101,
-      "type": "Note",
-      "pos": [
-        -492.73857066188657,
-        506.18890208160406
-      ],
-      "size": {
-        "0": 240.44822692871094,
-        "1": 228.54710388183594
-      },
-      "flags": {},
-      "order": 3,
-      "mode": 2,
-      "title": "Prime directives",
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "Prime directives is the system prompt for the model this will override the assistant and the model system prompt that rules the behavior and affect the response to a large extend specialy the style when you are not using tools in the turn a Turn is the convo assystant/user\n\nIf your prompt is too large you can also convert the prompt text widget to input by right clicking and use a IF Display Text Node to show the prompt\n\nDOES NOT AFFECT TOOLS, TOOLS HAVE PRECEDENT OVER THIS\n\n"
-      ],
-      "color": "#222",
-      "bgcolor": "#000"
-    },
-    {
-      "id": 108,
-      "type": "IF_DisplayText",
-      "pos": [
-        247,
-        1088
-      ],
-      "size": {
-        "0": 315,
-        "1": 76
-      },
-      "flags": {},
-      "order": 18,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 169,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "",
-        ""
-      ]
-    },
-    {
-      "id": 44,
-      "type": "IF_DisplayOmni",
-      "pos": [
-        610,
-        849
-      ],
-      "size": {
-        "0": 319.1829528808594,
-        "1": 759.370361328125
-      },
-      "flags": {},
-      "order": 12,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "omni_input",
-          "type": "OMNI",
-          "link": 176
-        }
-      ],
-      "outputs": [
-        {
-          "name": "canvas_conditioning",
-          "type": "OMOST_CANVAS_CONDITIONING",
-          "links": [
-            142,
-            143,
-            144,
-            145
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "text_output",
-          "type": "STRING",
-          "links": [
-            169
-          ],
-          "shape": 3,
-          "slot_index": 1
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayOmni"
-      },
-      "widgets_values": [
-        "[{\"rect\": [0, 90, 0, 90], \"prefixes\": [\"A Sheppard dog guarding a flock of sheep.\"], \"suffixes\": [\"The image depicts a vigilant Sheppard dog standing guard over a peaceful flock of sheep in an open field.\", \"The Sheppard dog, with its distinctive short coat and muscular build, is positioned at the forefront, alert and ready to protect.\", \"Behind it, the sheep are grazing calmly, their fluffy white wool contrasting against the green grass.\", \"The background features rolling hills under a clear blue sky, adding a sense of tranquility and vastness to the scene.\", \"The overall atmosphere is one of calm vigilance as nature's guardians watch over their domain.\", \"Sheppard dog, sheep, guard, flock, open field, vigilant, muscular build, short coat, grazing, fluffy wool, green grass, rolling hills, clear blue sky, tranquility, vastness, nature, guardians, protection, calm, alert.\"], \"color\": [144, 238, 144]}, {\"color\": [135, 206, 235], \"rect\": [0, 45, 0, 45], \"prefixes\": [\"A Sheppard dog guarding a flock of sheep.\", \"Rolling hills.\"], \"suffixes\": [\"The background features gently rolling hills that stretch into the distance.\", \"These hills are covered in lush green grass and dotted with occasional wildflowers, adding splashes of color to the scene.\", \"The clear blue sky above provides a serene backdrop, enhancing the image's tranquil atmosphere.\", \"rolling hills, top-left, background, lush green grass, wildflowers, clear blue sky, serene, tranquil.\", \"A peaceful and expansive feeling is conveyed by the rolling hills' presence.\", \"Naturalistic depiction with soft edges to blend into the background.\", \"High-resolution image capturing the details of the landscape and sky.\"]}, {\"color\": [255, 255, 255], \"rect\": [45, 90, 0, 90], \"prefixes\": [\"A Sheppard dog guarding a flock of sheep.\", \"Flock of sheep.\"], \"suffixes\": [\"The flock of sheep is spread across the lower part of the image, their fluffy white wool contrasting with the green grass.\", \"They are grazing peacefully, each sheep with its head down and legs slightly bent as they munch on the grass.\", \"The sheep's wool appears soft and well-kept, indicative of a healthy environment.\", \"flock of sheep, bottom, grazing, fluffy wool, white, green grass, peaceful, healthy environment.\", \"A serene and calm atmosphere pervades the flock's presence.\", \"Soft focus on the sheep to emphasize their gentle nature.\", \"High-quality depiction with attention to the texture and color of the wool.\"]}, {\"color\": [139, 69, 19], \"rect\": [15, 75, 15, 75], \"prefixes\": [\"A Sheppard dog guarding a flock of sheep.\", \"Sheppard dog.\"], \"suffixes\": [\"The Sheppard dog stands proudly in the center of the image, its short coat and muscular build clearly visible.\", \"Its ears are perked up, and its eyes are focused on the surroundings, ready to react at any moment.\", \"The dog's posture is one of alertness and readiness, showcasing its role as a guardian.\", \"Sheppard dog, center, short coat, muscular build, alert, vigilant, guardian, ears perked up, eyes focused.\", \"A sense of vigilance and readiness emanates from the Sheppard dog's posture.\", \"Realistic depiction with attention to detail in fur texture and body structure.\", \"High-resolution image capturing fine details of the dog\\u2019s coat and muscles.\"]}]"
-      ]
-    },
-    {
-      "id": 107,
-      "type": "IF_TextTyper",
-      "pos": [
-        -586.2829432204804,
-        247.0069501784058
-      ],
-      "size": {
-        "0": 400,
-        "1": 200
-      },
-      "flags": {},
-      "order": 4,
-      "mode": 2,
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            172
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_TextTyper"
-      },
-      "widgets_values": [
-        "You are a famous bard from the 15th century, <INSTRUNTION>Always respond in Rhymes</INSTRUCTION>"
-      ]
-    },
-    {
-      "id": 36,
-      "type": "IF_DisplayText",
-      "pos": [
-        613,
-        247
-      ],
-      "size": {
-        "0": 316.0174560546875,
-        "1": 136.58786010742188
-      },
-      "flags": {},
-      "order": 9,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 173,
-          "widget": {
-            "name": "text"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IF_DisplayText"
-      },
-      "widgets_values": [
-        "a sheep and a Shepard dog",
-        "a sheep and a Shepard dog Shepperd dog and sheep"
-      ]
-    },
-    {
-      "id": 110,
-      "type": "Note",
-      "pos": [
-        -113,
-        611
-      ],
-      "size": {
-        "0": 234.14266967773438,
-        "1": 121.23505401611328
-      },
-      "flags": {},
-      "order": 5,
-      "mode": 2,
-      "title": "IMAGE",
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "Plug the image and/or enable the IMAGE\n\nSelect a Vision model and stopping string   \n\nImages only work with Vision models \nTextgen and kobold are not compatible engines"
-      ],
-      "color": "#222",
-      "bgcolor": "#000"
-    },
-    {
-      "id": 93,
-      "type": "Note",
-      "pos": [
-        -110,
-        1020
-      ],
-      "size": {
-        "0": 240.44822692871094,
-        "1": 228.54710388183594
-      },
-      "flags": {},
-      "order": 6,
-      "mode": 0,
-      "title": "READ",
-      "properties": {
-        "text": ""
-      },
-      "widgets_values": [
-        "REMEMBER TO MOVE IF_AI from the custom_nodes/ComfyUI-IF_AI_tools to inside your root ComfyUI/Input/IF_AI\nfolder\n\n\"Do not input an image when using omost\"\n\nomost is not a vision model only vision models like haiku, sonnet, opus, gpt4-o, gemini, llava, moondream, phi3 vision etc.. can work with images \n\nhere is a video to get started with omost https://www.youtube.com/watch?v=Tku2COSKR88\n\n\n\n"
-      ],
-      "color": "#222",
-      "bgcolor": "#000"
     },
     {
       "id": 30,
       "type": "Fast Groups Muter (rgthree)",
       "pos": {
-        "0": -103,
-        "1": 794,
+        "0": 501,
+        "1": -55,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -1263,11 +1023,11 @@
         "9": 0
       },
       "size": {
-        "0": 230,
-        "1": 178
+        "0": 226.8000030517578,
+        "1": 106
       },
       "flags": {},
-      "order": 7,
+      "order": 2,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -1277,7 +1037,6 @@
           "links": null
         }
       ],
-      "title": "Mute Groups Control",
       "properties": {
         "matchColors": "",
         "matchTitle": "",
@@ -1288,64 +1047,29 @@
       }
     },
     {
-      "id": 78,
-      "type": "PreviewImage",
-      "pos": [
-        970,
-        1046
-      ],
-      "size": {
-        "0": 218.5187530517578,
-        "1": 188.141845703125
-      },
-      "flags": {
-        "collapsed": false
-      },
-      "order": 19,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 112
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "PreviewImage"
-      }
-    },
-    {
-      "id": 109,
+      "id": 70,
       "type": "IF_ChatPrompt",
       "pos": [
-        191,
-        297
+        82,
+        248
       ],
       "size": {
         "0": 400,
-        "1": 718
+        "1": 712
       },
       "flags": {},
-      "order": 8,
+      "order": 3,
       "mode": 0,
       "inputs": [
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 171
+          "link": null
         },
         {
           "name": "tool_input",
           "type": "OMNI",
           "link": null
-        },
-        {
-          "name": "prime_directives",
-          "type": "STRING",
-          "link": 172,
-          "widget": {
-            "name": "prime_directives"
-          }
         }
       ],
       "outputs": [
@@ -1353,7 +1077,7 @@
           "name": "Question",
           "type": "STRING",
           "links": [
-            173
+            100
           ],
           "shape": 3,
           "slot_index": 0
@@ -1362,7 +1086,7 @@
           "name": "Response",
           "type": "STRING",
           "links": [
-            174
+            101
           ],
           "shape": 3,
           "slot_index": 1
@@ -1371,7 +1095,7 @@
           "name": "Negative",
           "type": "STRING",
           "links": [
-            175
+            102
           ],
           "shape": 3,
           "slot_index": 2
@@ -1380,7 +1104,7 @@
           "name": "Tool_Output",
           "type": "OMNI",
           "links": [
-            176
+            103
           ],
           "shape": 3,
           "slot_index": 3
@@ -1390,36 +1114,215 @@
         "Node name for S&R": "IF_ChatPrompt"
       },
       "widgets_values": [
-        "a ship and a Shepard dog",
+        "a jaguar on the rainy forest",
         "localhost",
         "11434",
         "ollama",
         "impactframes/dolphin_llama3_omost:latest",
-        "None",
+        "IF_PromptMKR",
         0.7,
         2048,
         40,
         0.2,
-        1.1,
-        "None",
-        232713303560994,
+        1.3,
+        "",
+        765471159361993,
         "randomize",
         false,
         "None",
         "None",
-        "Simple_negative",
+        "Standard",
         true,
         10,
         false,
         true,
-        false,
+        true,
         "",
-        "omost_tool",
-        ""
+        "omost_tool"
+      ]
+    },
+    {
+      "id": 90,
+      "type": "VAEDecode",
+      "pos": [
+        2485,
+        -560
+      ],
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 139
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 140,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            141
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 36,
+      "type": "IF_DisplayText",
+      "pos": [
+        490.2962728271484,
+        248
+      ],
+      "size": {
+        "0": 316.0174560546875,
+        "1": 136.58786010742188
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 100,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IF_DisplayText"
+      },
+      "widgets_values": [
+        "",
+        "a jaguar on the rainy forest"
+      ]
+    },
+    {
+      "id": 71,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        974,
+        305
+      ],
+      "size": {
+        "0": 315,
+        "1": 98
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            105,
+            116,
+            126,
+            135
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            104,
+            114,
+            118,
+            134
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            110,
+            124,
+            131,
+            140
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "SDXL/ProteusV0.4.safetensors"
       ]
     }
   ],
   "links": [
+    [
+      73,
+      44,
+      1,
+      62,
+      0,
+      "STRING"
+    ],
+    [
+      100,
+      70,
+      0,
+      36,
+      0,
+      "STRING"
+    ],
+    [
+      101,
+      70,
+      1,
+      34,
+      0,
+      "STRING"
+    ],
+    [
+      102,
+      70,
+      2,
+      35,
+      0,
+      "STRING"
+    ],
+    [
+      103,
+      70,
+      3,
+      44,
+      0,
+      "OMNI"
+    ],
     [
       104,
       71,
@@ -1731,137 +1634,48 @@
       72,
       1,
       "STRING"
-    ],
-    [
-      169,
-      44,
-      1,
-      108,
-      0,
-      "STRING"
-    ],
-    [
-      171,
-      37,
-      0,
-      109,
-      0,
-      "IMAGE"
-    ],
-    [
-      172,
-      107,
-      0,
-      109,
-      2,
-      "STRING"
-    ],
-    [
-      173,
-      109,
-      0,
-      36,
-      0,
-      "STRING"
-    ],
-    [
-      174,
-      109,
-      1,
-      34,
-      0,
-      "STRING"
-    ],
-    [
-      175,
-      109,
-      2,
-      35,
-      0,
-      "STRING"
-    ],
-    [
-      176,
-      109,
-      3,
-      44,
-      0,
-      "OMNI"
     ]
   ],
   "groups": [
     {
       "title": "ComfyUI_Omost",
       "bounding": [
-        939,
-        175,
-        1444,
-        1339
+        964,
+        -634,
+        2290,
+        2479
       ],
-      "color": "#444",
+      "color": "#3f789e",
       "font_size": 24
     },
     {
       "title": "IF",
       "bounding": [
-        179,
-        174,
-        753,
-        1446
+        -260,
+        166,
+        1158,
+        1526
       ],
-      "color": "#444",
-      "font_size": 24
-    },
-    {
-      "title": "Image",
-      "bounding": [
-        -165,
-        176,
-        336,
-        570
-      ],
-      "color": "#444",
-      "font_size": 24
-    },
-    {
-      "title": "IFChat",
-      "bounding": [
-        179,
-        221,
-        420,
-        802
-      ],
-      "color": "#88A",
-      "font_size": 24
-    },
-    {
-      "title": "Prime directive lol",
-      "bounding": [
-        -596,
-        173,
-        420,
-        572
-      ],
-      "color": "#444",
+      "color": "#3f789e",
       "font_size": 24
     }
   ],
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.513158118230707,
+      "scale": 0.2853116706110026,
       "offset": {
-        "0": 494.71074334569636,
-        "1": -161.30234659667974
+        "0": 736.4045039956784,
+        "1": 930.7186643975201
       }
     },
     "info": {
-      "name": "omost_tool_wf",
+      "name": "omost_agent_test",
       "author": "",
       "description": "",
       "version": "1",
       "created": "2024-06-03T15:41:46.655Z",
-      "modified": "2024-07-16T22:55:02.732Z",
+      "modified": "2024-07-14T13:32:31.490Z",
       "software": "ComfyUI"
     }
   },
