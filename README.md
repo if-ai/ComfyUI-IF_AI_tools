@@ -126,6 +126,8 @@ ancient Megastructure, small lone figure
 ![_IF_prompt_Mkr__00014_](https://github.com/if-ai/ComfyUI-IF_AI_tools/assets/21185218/d0b436cd-c4a8-41a2-83ad-34d8c50bb39b)
 
 ## TODO
+- Undergoing full restyructuration the next update will have three nodes one for general purpose chat,
+one for Images creation, one complementary carrying the embeddings and axiliary tools
 - [ ] Fix Bugs and make it work on latest ComfyUI
 - [ ] Fix Graph Visualizer Node
 - [ ] Tweak IF_Assistants and Templates
