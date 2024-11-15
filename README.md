@@ -6,7 +6,7 @@ ComfyUI-IF_AI_tools is a set of custom nodes to Run Local and API LLMs and LMMs,
 
 ################# ATENTION ####################
 
-   COPY THE IF_AI FOLDER TO YOUR USER FOLDER
+   *COPY THE IF_AI FOLDER TO YOUR USER FOLDER*
    
 ###############################################
 # Prerequisite Installation (Poppler)
