@@ -9,7 +9,6 @@ from aiohttp import web
 from .IFChatPromptNode import IFChatPrompt
 from .IFImagePromptNode import IFImagePrompt
 from .IFPromptMkrNode import IFPrompt2Prompt
-from .IFSupervisionNode import IFSupervision
 from .IFDisplayTextWildcardNode import IFDisplayTextWildcard
 from .IFSaveTextNode import IFSaveText
 from .IFDisplayTextNode import IFDisplayText
@@ -58,7 +57,6 @@ NODE_CLASS_MAPPINGS = {
     "IF_ChatPrompt": IFChatPrompt, 
     "IF_PromptMkr": IFPrompt2Prompt,
     "IF_ImagePrompt": IFImagePrompt,
-    "IF_Supervision": IFSupervision,
     "IF_SaveText": IFSaveText,
     "IF_DisplayText": IFDisplayText,
     "IF_DisplayTextWildcard": IFDisplayTextWildcard,
