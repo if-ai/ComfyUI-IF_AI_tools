@@ -367,8 +367,8 @@ class IFChatPrompt:
         self.random = False
 
         self.comfy_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        self.rag_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI_IF_AI_tools", "IF_AI", "rag")
-        self.presets_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI_IF_AI_tools", "IF_AI", "presets")
+        self.rag_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI-IF_AI_tools", "IF_AI", "rag")
+        self.presets_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI-IF_AI_tools", "IF_AI", "presets")
         
         self.stop_file = os.path.join(self.presets_dir, "stop_strings.json")
         self.assistants_file = os.path.join(self.presets_dir, "assistants.json")
@@ -412,7 +412,7 @@ class IFChatPrompt:
         self.aspect_ratio = "16:9"
         self.top_k_search = 3
         
-        self.placeholder_image_path = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI_IF_AI_tools", "IF_AI", "placeholder.png")
+        self.placeholder_image_path = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI-IF_AI_tools", "IF_AI", "placeholder.png")
 
         if not os.path.exists(self.placeholder_image_path):
             placeholder = Image.new('RGB', (512, 512), color=(73, 109, 137))

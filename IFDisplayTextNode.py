@@ -1,4 +1,9 @@
 import sys
+import logging
+from typing import Optional
+
+# Initialize logger
+logger = logging.getLogger(__name__)
 
 class IFDisplayText:
     def __init__(self):
@@ -27,7 +32,11 @@ class IFDisplayText:
     OUTPUT_NODE = True
     CATEGORY = "ImpactFrames💥🎞️"
     
-    def display_text(self, text, select):
+    def display_text(self, text: Optional[str], select):
+        if text is None:
+            logger.error("Received None for text input in display_text.")
+            return ""  # Or handle appropriately
+
         print("==================")
         print("IF_AI_tool_output:")
         print("==================")

@@ -1,388 +1,715 @@
-import json
-import requests
-import base64
-import textwrap
-import io
+# IFImagePromptNode.py
 import os
-from io import BytesIO
-from PIL import Image
-import torch
-import tempfile
-from torchvision.transforms.functional import to_pil_image
-import folder_paths
 import sys
+import json
+import torch
+import asyncio
+import requests
+from PIL import Image
+from io import BytesIO
+from typing import List, Dict, Any, Optional, Union, Tuple
+import folder_paths
+from .omost import omost_function
+from .send_request import send_request
+from .utils import (
+    get_api_key,
+    get_models,
+    process_images_for_comfy,
+    process_mask,
+    clean_text,
+    load_placeholder_image,
+    validate_models,
+)
 
-# Add the ComfyUI directory to the Python path
+# Add ComfyUI directory to path
 comfy_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 sys.path.insert(0, comfy_path)
+
+# Set up logging
+import logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 try:
     from server import PromptServer
     from aiohttp import web
 
-    @PromptServer.instance.routes.post("/IF_ImagePrompt/get_models")
-    async def get_models_endpoint(request):
-        data = await request.json()
-        engine = data.get("engine")
-        base_ip = data.get("base_ip")
-        port = data.get("port")
+    @PromptServer.instance.routes.post("/IF_ImagePrompt/get_llm_models")
+    async def get_llm_models_endpoint(request):
+        try:
+            data = await request.json()
+            llm_provider = data.get("llm_provider")
+            engine = llm_provider
+            base_ip = data.get("base_ip")
+            port = data.get("port")
+            external_api_key = data.get("external_api_key")
+        
+            if external_api_key:
+                api_key = external_api_key
+            else:
+                api_key_name = f"{llm_provider.upper()}_API_KEY"
+                try:
+                    api_key = get_api_key(api_key_name, engine)
+                except ValueError:
+                    api_key = None
 
-        node = IFImagePrompt()
-        models = node.get_models(engine, base_ip, port)
-        return web.json_response(models)
+            node = IFImagePrompt()
+            models = node.get_models(engine, base_ip, port, api_key)
+            return web.json_response(models)
+        
+        except Exception as e:
+            print(f"Error in get_llm_models_endpoint: {str(e)}")
+            return web.json_response([], status=500)
+
+    @PromptServer.instance.routes.post("/IF_ImagePrompt/add_routes")
+    async def add_routes_endpoint(request):
+        return web.json_response({"status": "success"})
+
 except AttributeError:
     print("PromptServer.instance not available. Skipping route decoration for IF_ImagePrompt.")
-    async def get_models_endpoint(request):
-        # Fallback implementation
-        return web.json_response({"error": "PromptServer.instance not available"})
 
 class IFImagePrompt:
+    def __init__(self):
+        self.strategies = "normal"
+        # Initialize paths and load presets
+        self.base_path = folder_paths.base_path
+        self.presets_dir = os.path.join(self.base_path, "custom_nodes", "ComfyUI-IF_AI_tools", "IF_AI", "presets")
 
-    RETURN_TYPES = ("STRING", "STRING", "STRING",)
-    RETURN_NAMES = ("Question", "Response", "Negative",)
-    FUNCTION = "describe_picture"
-    OUTPUT_NODE = True
-    CATEGORY = "ImpactFrames💥🎞️"
+        # Load preset configurations
+        self.profiles = self.load_presets(os.path.join(self.presets_dir, "profiles.json"))
+        self.neg_prompts = self.load_presets(os.path.join(self.presets_dir, "neg_prompts.json"))
+        self.embellish_prompts = self.load_presets(os.path.join(self.presets_dir, "embellishments.json"))
+        self.style_prompts = self.load_presets(os.path.join(self.presets_dir, "style_prompts.json"))
+        self.stop_strings = self.load_presets(os.path.join(self.presets_dir, "stop_strings.json"))
+
+        # Initialize placeholder image path
+        self.placeholder_image_path = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI-IF_AI_tools", "IF_AI", "placeholder.png")
+
+        # Default values
+
+        self.base_ip = "localhost"
+        self.port = "11434"
+        self.engine = "xai"
+        self.selected_model = ""
+        self.profile = "IF_PromptMKR_IMG"
+        self.messages = []
+        self.keep_alive = False
+        self.seed = 94687328150
+        self.history_steps = 10
+        self.external_api_key = ""
+        self.preset = "Default"
+        self.precision = "fp16"
+        self.attention = "sdpa"
+        self.Omni = None
+        self.mask = None
+        self.aspect_ratio = "1:1"
+        self.keep_alive = False
+        self.clear_history = False
+        self.random = False
+        self.max_tokens = 2048
+        self.temperature = 0.7
+        self.top_k = 40
+        self.top_p = 0.9
+        self.repeat_penalty = 1.1
+        self.stop = None
+        self.batch_count = 4
 
     @classmethod
     def INPUT_TYPES(cls):
-        node = cls()
+        node = cls() 
         return {
             "required": {
-                "image": ("IMAGE", ),
-                "image_prompt": ("STRING", {"multiline": True, "default": ""}),
-                "base_ip": ("STRING", {"default": node.base_ip}),
-                "port": ("STRING", {"default": node.port}),
-                "engine": (["ollama", "openai", "anthropic"], {"default": node.engine}),
-                #"selected_model": (node.get_models("node.engine", node.base_ip, node.port), {}), 
-                "selected_model": ((), {}),
-                "profile": ([name for name in node.profiles.keys()], {"default": node.profile}),
-                "embellish_prompt": ([name for name in node.embellish_prompts.keys()], {}),
-                "style_prompt": ([name for name in node.style_prompts.keys()], {}),
-                "neg_prompt": ([name for name in node.neg_prompts.keys()], {}),
-                "temperature": ("FLOAT", {"default": 0.7, "min": 0.0, "max": 1.0, "step": 0.1}),
+                "images": ("IMAGE", {"list": True}),  # Primary image input
+                "llm_provider": (["xai","llamacpp", "ollama", "kobold", "lmstudio", "textgen", "groq", "gemini", "openai", "anthropic", "mistral", "transformers"], {}),
+                "llm_model": ((), {}),
+                "base_ip": ("STRING", {"default": "localhost"}),
+                "port": ("STRING", {"default": "11434"}),
+                "user_prompt": ("STRING", {"multiline": True}),
             },
             "optional": {
-                "max_tokens": ("INT", {"default": 160, "min": 1, "max": 8192}),
-                "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
-                "random": ("BOOLEAN", {"default": False, "label_on": "Seed", "label_off": "Temperature"}),
-                "keep_alive": ("BOOLEAN", {"default": False, "label_on": "Keeps_Model", "label_off": "Unloads_Model"}),
-            },
-            "hidden": {
-                "model": ("STRING", {"default": ""}),
-            },
+                "strategy": (["normal", "omost", "create", "edit", "variations"], {"default": "normal"}),
+                "mask": ("MASK", {}),
+                "prime_directives": ("STRING", {"forceInput": True, "tooltip": "The system prompt for the LLM."}),
+                "profiles": (["None"] + list(cls().profiles.keys()), {"default": "None", "tooltip": "The pre-defined system_prompt from the json profile file on the presets folder you can edit or make your own will be listed here."}),
+                "embellish_prompt": (list(cls().embellish_prompts.keys()), {"tooltip": "The pre-defined embellishment from the json embellishments file on the presets folder you can edit or make your own will be listed here."}),
+                "style_prompt": (list(cls().style_prompts.keys()), {"tooltip": "The pre-defined style from the json style_prompts file on the presets folder you can edit or make your own will be listed here."}),
+                "neg_prompt": (list(cls().neg_prompts.keys()), {"tooltip": "The pre-defined negative prompt from the json neg_prompts file on the presets folder you can edit or make your own will be listed here."}),
+                "stop_string": (list(cls().stop_strings.keys()), {"tooltip": "Specifies a string at which text generation should stop."}),
+                "max_tokens": ("INT", {"default": 2048, "min": 1, "max": 8192, "tooltip": "Maximum number of tokens to generate in the response."}),
+                "random": ("BOOLEAN", {"default": False, "label_on": "Seed", "label_off": "Temperature", "tooltip": "Toggles between using a fixed seed or temperature-based randomness."}),
+                "seed": ("INT", {"default": 0, "tooltip": "Random seed for reproducible outputs."}),
+                "temperature": ("FLOAT", {"default": 0.7, "min": 0.0, "max": 1.0, "tooltip": "Controls randomness in output generation. Higher values increase creativity but may reduce coherence."}),
+                "top_k": ("INT", {"default": 40, "tooltip": "Limits the next token selection to the K most likely tokens."}),
+                "top_p": ("FLOAT", {"default": 0.9, "tooltip": "Cumulative probability cutoff for token selection."}),
+                "repeat_penalty": ("FLOAT", {"default": 1.1, "tooltip": "Penalizes repetition in generated text."}),
+                "keep_alive": ("BOOLEAN", {"default": False, "label_on": "Keeps Model on Memory", "label_off": "Unloads Model from Memory", "tooltip": "Determines whether to keep the model loaded in memory between calls."}),
+                "clear_history": ("BOOLEAN", {"default": False, "label_on": "Clear History", "label_off": "Keep History", "tooltip": "Determines whether to clear the history between calls."}),
+                "history_steps": ("INT", {"default": 10, "tooltip": "Number of steps to keep in history."}),
+                "aspect_ratio": (["1:1", "16:9", "4:5", "3:4", "5:4", "9:16"], {"default": "1:1", "tooltip": "Aspect ratio for the generated images."}),
+                "batch_count": ("INT", {"default": 4, "tooltip": "Number of images to generate. only for create, edit and variations strategies."}),
+                "external_api_key": ("STRING", {"default": "", "tooltip": "If this is not empty, it will be used instead of the API key from the .env file. Make sure it is empty to use the .env file."}),
+                "precision": (["fp16", "fp32", "bf16"], {"tooltip": "Select preccision on Transformer models."}),
+                "attention": (["sdpa", "flash_attention_2", "xformers"], {"tooltip": "Select attention mechanism on Transformer models."}),
+                "Omni": ("OMNI", {"default": None, "tooltip": "Additional input for the selected tool."}),
+            }
         }
 
-    @classmethod
-    def IS_CHANGED(cls, engine, base_ip, port, keep_alive, profile):
-        node = cls()
-        if engine != node.engine or base_ip != node.base_ip or port != node.port or node.selected_model != node.get_models(engine, base_ip, port) or keep_alive != node.keep_alive or profile != profile:
-            node.engine = engine
-            node.base_ip = base_ip
-            node.port = port
-            node.selected_model = node.get_models(engine, base_ip, port)
-            node.keep_alive = keep_alive
-            node.profile = profile
-            return True
-        return False
-    
-    def __init__(self):
-        self.base_ip = "localhost" 
-        self.port = "11434"     
-        self.engine = "ollama" 
-        self.selected_model = ""
-        self.profile = "IF_PromptMKR_IMG"
-        self.comfy_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        self.presets_dir = os.path.join(os.path.dirname(__file__), "presets")
-        self.profiles_file = os.path.join(self.presets_dir, "profiles.json")
-        self.profiles = self.load_presets(self.profiles_file)
-        self.neg_prompts_file = os.path.join(self.presets_dir, "neg_prompts.json")
-        self.embellish_prompts_file = os.path.join(self.presets_dir, "embellishments.json")
-        self.style_prompts_file = os.path.join(self.presets_dir, "style_prompts.json")
-        self.neg_prompts = self.load_presets(self.neg_prompts_file)
-        self.embellish_prompts = self.load_presets(self.embellish_prompts_file)
-        self.style_prompts = self.load_presets(self.style_prompts_file)
+    RETURN_TYPES = ("STRING", "STRING", "STRING", "OMNI", "IMAGE", "MASK")
+    RETURN_NAMES = ("question", "response", "negative", "omni", "generated_images", "mask")
 
+    FUNCTION = "process_image_wrapper"
+    OUTPUT_NODE = True
+    CATEGORY = "ImpactFrames💥🎞️"
 
-    def load_presets(self, file_path):
-        with open(file_path, 'r') as f:
-            presets = json.load(f)
-        return presets
-   
-    def get_api_key(self, api_key_name, engine):
-        if engine != "ollama":  
-            api_key = os.getenv(api_key_name)
-            if api_key:
-                return api_key
-        else:
-            print(f'you are using ollama as the engine, no api key is required')
+    def get_models(self, engine, base_ip, port, api_key=None):
+        return get_models(engine, base_ip, port, api_key)
 
+    def load_presets(self, file_path: str) -> Dict[str, Any]:
+        try:
+            with open(file_path, 'r') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error loading presets from {file_path}: {e}")
+            return {}
 
-    def get_models(self, engine, base_ip, port):
-        if engine == "ollama":
-            api_url = f'http://{base_ip}:{port}/api/tags'
-            try:
-                response = requests.get(api_url)
-                response.raise_for_status()
-                models = [model['name'] for model in response.json().get('models', [])]
-                return models
-            except Exception as e:
-                print(f"Failed to fetch models from Ollama: {e}")
-                return []
-        elif engine == "anthropic":
-            return ["claude-3-opus-20240229", "claude-3-sonnet-20240229", "claude-3-haiku-20240307"]
-        elif engine == "openai":
-            return ["gpt-4-0125-preview", "gpt-4-1106-preview", "gpt-4-vision-preview", "gpt-4-1106-vision-preview", "gpt-3.5-turbo-0125", "gpt-3.5-turbo-1106"]
-        else:
-            print(f"Unsupported engine - {engine}")
-            return []
+    def validate_outputs(self, outputs):
+        """Helper to validate output types match expectations"""
+        if len(outputs) != len(self.RETURN_TYPES):
+            raise ValueError(
+                f"Expected {len(self.RETURN_TYPES)} outputs, got {len(outputs)}"
+            )
 
-    def tensor_to_image(self, tensor):
-        # Ensure tensor is on CPU
-        tensor = tensor.cpu()
-        # Normalize tensor 0-255 and convert to byte
-        image_np = tensor.squeeze().mul(255).clamp(0, 255).byte().numpy()
-        # Create PIL image
-        image = Image.fromarray(image_np, mode='RGB')
-        return image
+        for i, (output, expected_type) in enumerate(zip(outputs, self.RETURN_TYPES)):
+            if output is None and expected_type in ["IMAGE", "MASK"]:
+                raise ValueError(
+                    f"Output {i} ({self.RETURN_NAMES[i]}) cannot be None for type {expected_type}"
+                )
 
-
-    def prepare_messages(self, image_prompt, profile):
-        profile_selected = self.profiles.get(profile, "")
-        empty_image_prompt = "Make a visual prompt for the following Image:"
-        filled_image_prompt = textwrap.dedent("""\
-            Act as a visual prompt maker with the following guidelines:
-            - Describe the image in vivid detail.
-            - Break keywords by commas.
-            - Provide high-quality, non-verbose, coherent, concise, and not superfluous descriptions.
-            - Focus solely on the visual elements of the picture; avoid art commentaries or intentions.
-            - Construct the prompt by describing framing, subjects, scene elements, background, aesthetics.
-            - Limit yourself up to 7 keywords per component  
-            - Be varied and creative.
-            - Always reply on the same line, use around 100 words long. 
-            - Do not enumerate or enunciate components.
-            - Do not include any additional information in the response.                                                       
-            The following is an illustartive example for you to see how to construct a prompt your prompts should follow this format but always coherent to the subject worldbuilding or setting and consider the elements relationship:
-            'Epic, Cover Art, Full body shot, dynamic angle, A Demon Hunter, standing, lone figure, glow eyes, deep purple light, cybernetic exoskeleton, sleek, metallic, glowing blue accents, energy weapons. Fighting Demon, grotesque creature, twisted metal, glowing red eyes, sharp claws, Cyber City, towering structures, shrouded haze, shimmering energy. Ciberpunk, dramatic lighthing, highly detailed. ' 
-             """)
-        if image_prompt.strip() == "":
-            system_message = filled_image_prompt
-            user_message = empty_image_prompt
-        else:
-            system_message = profile_selected 
-            user_message = image_prompt
-
-        return system_message, user_message
-
-
-    def describe_picture(self, image, engine, selected_model, base_ip, port, image_prompt, embellish_prompt, style_prompt, neg_prompt, temperature, max_tokens, seed, random, keep_alive, profile):
-
-        embellish_content = self.embellish_prompts.get(embellish_prompt, "")
-        style_content = self.style_prompts.get(style_prompt, "")
-        neg_content = self.neg_prompts.get(neg_prompt, "")
+    async def generate_negative_prompts(
+        self,
+        prompt: str,
+        llm_provider: str,
+        llm_model: str,
+        base_ip: str,
+        port: str,
+        config: dict,
+        messages: list = None
+    ) -> List[str]:
+        """
+        Generate negative prompts for the given input prompt.
         
-        # Check the type of the 'image' object
-        if isinstance(image, torch.Tensor):
-            # Convert the tensor to a PIL image
-            pil_image = self.tensor_to_image(image)
-        elif isinstance(image, Image.Image):
-            pil_image = image
-        elif isinstance(image, str) and os.path.isfile(image):
-            pil_image = Image.open(image)
-        else:
-            print(f"Invalid image type: {type(image)}. Expected torch.Tensor, PIL.Image, or file path.")
-            return "Invalid image type"
+        Args:
+            prompt: Input prompt text
+            llm_provider: LLM provider name
+            llm_model: Model name
+            base_ip: API base IP
+            port: API port
+            config: Dict containing generation parameters like seed, temperature etc
+            messages: Optional message history
+            
+        Returns:
+            List of generated negative prompts
+        """
+        try:
+            if not prompt:
+                return []
 
-        # Convert the PIL image to base64
-        buffered = BytesIO()
-        pil_image.save(buffered, format="PNG")
-        base64_image = base64.b64encode(buffered.getvalue()).decode('utf-8')
+            # Get system message for negative prompts
+            neg_system_message = self.profiles.get("IF_NegativePromptEngineer", "")
 
-        available_models = self.get_models(engine, base_ip, port)
-        if available_models is None or selected_model not in available_models:
-            error_message = f"Invalid model selected: {selected_model} for engine {engine}. Available models: {available_models}"
-            print(error_message)
-            raise ValueError(error_message)
+            # Generate negative prompts
+            neg_response = await send_request(
+                llm_provider=llm_provider,
+                base_ip=base_ip,
+                port=port,
+                images=None,
+                llm_model=llm_model,
+                system_message=neg_system_message,
+                user_message=f"Generate negative prompts for:\n{prompt}",
+                messages=messages or [],
+                **config
+            )
 
-        system_message, user_message = self.prepare_messages(image_prompt, profile)
+            if not neg_response:
+                return []
+
+            # Split into lines and clean up
+            neg_lines = [line.strip() for line in neg_response.split('\n') if line.strip()]
+
+            # Match number of prompts
+            num_prompts = len(prompt.split('\n'))
+            if len(neg_lines) < num_prompts:
+                neg_lines.extend([neg_lines[-1] if neg_lines else ""] * (num_prompts - len(neg_lines)))
+
+            return neg_lines[:num_prompts]
+
+        except Exception as e:
+            logger.error(f"Error generating negative prompts: {str(e)}")
+            return ["Error generating negative prompt"] * num_prompts
+
+    @classmethod
+    def IS_CHANGED(cls, **kwargs):
+        return float("NaN")
+
+    async def process_image(
+        self,
+        llm_provider: str,
+        llm_model: str,
+        base_ip: str,
+        port: str,
+        user_prompt: str,
+        strategy: str = "normal",
+        images=None,
+        prime_directives: Optional[str] = None,
+        profiles: Optional[str] = None,
+        embellish_prompt: Optional[str] = None,
+        style_prompt: Optional[str] = None,
+        neg_prompt: Optional[str] = None,
+        stop_string: Optional[str] = None,
+        max_tokens: int = 2048,
+        seed: int = 0,
+        random: bool = False,
+        temperature: float = 0.8,
+        top_k: int = 40,
+        top_p: float = 0.9,
+        repeat_penalty: float = 1.1,
+        keep_alive: bool = False,
+        clear_history: bool = False,
+        history_steps: int = 10,
+        external_api_key: str = "",
+        precision: str = "fp16",
+        attention: str = "sdpa",
+        Omni: Optional[str] = None,
+        aspect_ratio: str = "1:1",
+        mask: Optional[torch.Tensor] = None,
+        batch_count: int = 4,
+        **kwargs
+    ) -> Union[str, Dict[str, Any]]:
+        try:
+            # Initialize variables at the start
+            formatted_response = None
+            generated_images = None
+            generated_masks = None
+            tool_output = None
+
+            if external_api_key != "":
+                llm_api_key = external_api_key
+            else:
+                llm_api_key = get_api_key(f"{llm_provider.upper()}_API_KEY", llm_provider)
+            print(f"LLM API key: {llm_api_key[:5]}...")
+
+            # Validate LLM model
+            validate_models(llm_model, llm_provider, "LLM", base_ip, port, llm_api_key)
+
+            # Handle history
+            if clear_history:
+                self.messages = []
+            elif history_steps > 0:
+                self.messages = self.messages[-history_steps:]
+
+            messages = self.messages
+
+            # Handle stop
+            if stop_string is None or stop_string == "None":
+                stop_content = None
+            else:
+                stop_content = self.stop_strings.get(stop_string, None)
+            stop = stop_content
+
+            if llm_provider not in ["ollama", "llamacpp", "vllm", "lmstudio", "gemeni"]:
+                if llm_provider == "kobold":
+                    stop = stop_content + \
+                        ["\n\n\n\n\n"] if stop_content else ["\n\n\n\n\n"]
+                elif llm_provider == "mistral":
+                    stop = stop_content + \
+                        ["\n\n"] if stop_content else ["\n\n"]
+                else:
+                    stop = stop_content if stop_content else None
+
+            # Prepare embellishments and styles
+            embellish_content = self.embellish_prompts.get(embellish_prompt, "").strip() if embellish_prompt else ""
+            style_content = self.style_prompts.get(style_prompt, "").strip() if style_prompt else ""
+            neg_content = self.neg_prompts.get(neg_prompt, "").strip() if neg_prompt else ""
+            profile_content = self.profiles.get(profiles, "")
+
+            # Prepare system prompt
+            if prime_directives is not None:
+                system_message_str = prime_directives
+            else:
+                system_message_str= json.dumps(profile_content)
+
+            if strategy == "omost":
+                system_prompt = self.profiles.get("IF_Omost")
+                messages = []
+                # Generate the text using LLM
+                llm_response = await send_request(
+                    llm_provider=llm_provider,
+                    base_ip=base_ip,
+                    port=port,
+                    images=images,
+                    llm_model=llm_model,
+                    system_message=system_prompt,
+                    user_message=user_prompt,
+                    messages=messages,
+                    seed=seed,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    random=random,
+                    top_k=top_k,
+                    top_p=top_p,
+                    repeat_penalty=repeat_penalty,
+                    stop=stop,
+                    keep_alive=keep_alive,
+                    llm_api_key=llm_api_key,
+                    tools=None,
+                    tool_choice=None,
+                    precision=precision, 
+                    attention=attention,
+                    aspect_ratio=aspect_ratio,
+                    strategy="omost",
+                    batch_count=batch_count,
+                    mask=mask,
+                    )
+
+                # Pass the generated_text to omost_function
+                tool_args = {
+                    "name": "omost_tool",
+                    "description": "Analyzes images composition and generates a Canvas representation.",
+                    "system_prompt": system_prompt,
+                    "input": user_prompt,
+                    "llm_response": llm_response,
+                    "function_call": None,
+                    "omni_input": Omni
+                }
+
+                tool_result = await omost_function(tool_args)
+
+                # Process the tool output
+                if "error" in tool_result:
+                    llm_response = f"Error: {tool_result['error']}"
+                    tool_output = None
+                else:
+                    tool_output = tool_result.get("canvas_conditioning", "")
+                    llm_response = f"{tool_output}"
+                    cleaned_response = clean_text(llm_response)
+
+                neg_content = self.neg_prompts.get(neg_prompt, "").strip() if neg_prompt else ""
+
+                # Update message history if keeping alive
+                if keep_alive and cleaned_response:
+                    messages.append({"role": "user", "content": user_prompt})
+                    messages.append({"role": "assistant", "content": cleaned_response})
+
+                return {
+                    "Question": user_prompt,
+                    "Response": cleaned_response,
+                    "Negative": neg_content,
+                    "Tool_Output": tool_output,
+                    "Retrieved_Image": None,
+                    "Mask": None
+                }
+            elif strategy in ["create", "edit", "variations"]:
+                resulting_images = await send_request(
+                    llm_provider=llm_provider,
+                    base_ip=base_ip,
+                    port=port,
+                    images=images,
+                    llm_model=llm_model,
+                    system_message=system_prompt,
+                    user_message=user_prompt,
+                    messages=messages,
+                    seed=seed,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    random=random,
+                    top_k=top_k,
+                    top_p=top_p,
+                    repeat_penalty=repeat_penalty,
+                    stop=stop,
+                    keep_alive=keep_alive,
+                    llm_api_key=llm_api_key,
+                    tools=None,
+                    tool_choice=None,
+                    precision=precision, 
+                    attention=attention,
+                    aspect_ratio=aspect_ratio,
+                    strategy=strategy,
+                    batch_count=batch_count,
+                    mask=mask,
+                )
+                if isinstance(resulting_images, dict) and "images" in resulting_images:
+                    generated_images = resulting_images["images"]
+                    generated_masks = None
+                else:
+                    generated_images = None
+                    generated_masks = None
+
+                try: 
+                    if generated_images is not None:
+                        if isinstance(generated_images, torch.Tensor):
+                            # Ensure correct format (B, C, H, W)
+                            image_tensor = generated_images.unsqueeze(0) if generated_images.dim() == 3 else generated_images
+
+                            # Create matching batch masks
+                            batch_size = image_tensor.shape[0]
+                            height = image_tensor.shape[2]
+                            width = image_tensor.shape[3]
+
+                            # Create default masks
+                            mask_tensor = torch.ones((batch_size, 1, height, width), 
+                                                dtype=torch.float32,
+                                                device=image_tensor.device)
+
+                            if generated_masks is not None:
+                                mask_tensor = process_mask(generated_masks, image_tensor)
+                        else:
+                            image_tensor, mask_tensor = process_images_for_comfy(generated_images, self.placeholder_image_path)
+                            mask_tensor = process_mask(generated_masks, image_tensor) if generated_masks is not None else mask_tensor
+                    else:
+                        # No retrieved image - use original or placeholder
+                        if images is not None and len(images) > 0:
+                            image_tensor = images[0] if isinstance(images[0], torch.Tensor) else process_images_for_comfy(images, self.placeholder_image_path)[0]
+                            mask_tensor = torch.ones_like(image_tensor[:1]) # Create mask with same spatial dimensions
+                        else:
+                            image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
+
+                    return {
+                            "Question": user_prompt,
+                            "Response": f"{strategy} image has been successfully generated.",
+                            "Negative": neg_content,
+                            "Tool_Output": None,
+                            "Retrieved_Image": image_tensor,
+                            "Mask": mask_tensor
+                        }
+
+                except Exception as e:
+                    print(f"Error in process_image: {str(e)}")
+                    image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
+                    return {
+                        "Question": user_prompt,
+                        "Response": f"Error: {str(e)}",
+                        "Negative": "",
+                        "Tool_Output": None,
+                        "Retrieved_Image": image_tensor,
+                        "Mask": mask_tensor
+                    }
+            elif strategy == "normal":
+                try:
+                    formatted_responses = []
+                    final_prompts = []
+                    final_negative_prompts = []
+                    
+                    # Handle images as they come from ComfyUI - no extra processing needed
+                    current_images = images if images is not None else None
+                    
+                    # If mask provided, ensure it matches image dimensions
+                    if mask is not None:
+                        mask_tensor = process_mask(mask, current_images)
+                    else:
+                        # Create default mask if needed
+                        if current_images is not None:
+                            mask_tensor = torch.ones((current_images.shape[0], 1, current_images.shape[2], current_images.shape[3]), 
+                                                dtype=torch.float32,
+                                                device=current_images.device)
+                        else:
+                            _, mask_tensor = load_placeholder_image(self.placeholder_image_path)
+
+                    # Iterate over batches
+                    for batch_idx in range(batch_count):
+                        try:
+                            response = await send_request(
+                                llm_provider=llm_provider,
+                                base_ip=base_ip,
+                                port=port,
+                                images=current_images,  # Pass images directly
+                                llm_model=llm_model,
+                                system_message=system_message_str,
+                                user_message=user_prompt,
+                                messages=messages,
+                                seed=seed + batch_idx if seed != 0 else seed,
+                                temperature=temperature,
+                                max_tokens=max_tokens,
+                                random=random,
+                                top_k=top_k,
+                                top_p=top_p,
+                                repeat_penalty=repeat_penalty,
+                                stop=stop,
+                                keep_alive=keep_alive,
+                                llm_api_key=llm_api_key,
+                                precision=precision,
+                                attention=attention,
+                                aspect_ratio=aspect_ratio,
+                                strategy="normal",
+                                batch_count=1,
+                                mask=mask_tensor,
+                            )
+
+                            if not response:
+                                raise ValueError("No response received from LLM API")
+                            
+                            # Clean and process response 
+                            cleaned_response = clean_text(response)
+                            final_prompts.append(cleaned_response)
+                            
+                            # Handle negative prompts
+                            if neg_prompt == "AI_Fill":
+                                negative_prompt = await self.generate_negative_prompts(
+                                    prompt=cleaned_response,
+                                    llm_provider=llm_provider,
+                                    llm_model=llm_model,
+                                    base_ip=base_ip,
+                                    port=port,
+                                    config={
+                                        "seed": seed + batch_idx if seed != 0 else seed,
+                                        "temperature": temperature,
+                                        "max_tokens": max_tokens,
+                                        "random": random,
+                                        "top_k": top_k,
+                                        "top_p": top_p,
+                                        "repeat_penalty": repeat_penalty
+                                    },
+                                    messages=messages
+                                )
+                                final_negative_prompts.append(negative_prompt[0] if negative_prompt else neg_content)
+                            else:
+                                final_negative_prompts.append(neg_content)
+                                
+                            formatted_responses.append(cleaned_response)
+                            
+                        except Exception as e:
+                            logger.error(f"Error in batch {batch_idx}: {str(e)}")
+                            formatted_responses.append(f"Error in batch {batch_idx}: {str(e)}")
+                            final_negative_prompts.append(f"Error generating negative prompt for batch {batch_idx}")
+                    
+                    # Combine all responses
+                    formatted_response = "\n".join(final_prompts)
+                    neg_content = "\n".join(final_negative_prompts)
+                    
+                    # Update message history if needed
+                    if keep_alive and formatted_response:
+                        messages.append({"role": "user", "content": user_prompt})
+                        messages.append({"role": "assistant", "content": formatted_response})
+
+                    return {
+                        "Question": user_prompt,
+                        "Response": formatted_response,
+                        "Negative": neg_content,
+                        "Tool_Output": None,
+                        "Retrieved_Image": current_images,  # Return original images
+                        "Mask": mask_tensor
+                    }
+
+                except Exception as e:
+                    logger.error(f"Error in normal strategy: {str(e)}")
+                    # Return original images or placeholder on error
+                    if images is not None:
+                        current_images = images  # Use original images
+                        if mask is not None:
+                            current_mask = mask
+                        else:
+                            # Create default mask matching image dimensions
+                            current_mask = torch.ones((current_images.shape[0], 1, current_images.shape[2], current_images.shape[3]), 
+                                                    dtype=torch.float32,
+                                                    device=current_images.device)
+                    else:
+                        current_images, current_mask = load_placeholder_image(self.placeholder_image_path)
+
+                    return {
+                        "Question": user_prompt,
+                        "Response": f"Error in processing: {str(e)}",
+                        "Negative": "",
+                        "Tool_Output": None,
+                        "Retrieved_Image": current_images,
+                        "Mask": current_mask 
+                    }
+                    
+        except Exception as e:
+            logger.error(f"Error in process_image: {str(e)}")
+            return {
+                "Question": kwargs.get("user_prompt", ""),
+                "Response": f"Error: {str(e)}",
+                "Negative": "",
+                "Tool_Output": None,
+                "Retrieved_Image": (
+                    images[0]
+                    if images is not None and len(images) > 0
+                    else load_placeholder_image(self.placeholder_image_path)[0]
+                ),
+                "Mask": (
+                    torch.ones_like(images[0][:1])
+                    if images is not None and len(images) > 0
+                    else load_placeholder_image(self.placeholder_image_path)[1]
+                ),
+            }
+
+    def process_image_wrapper(self, **kwargs):
+        """Wrapper to handle async execution of process_image"""
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
 
         try:
-            generated_text = self.send_request(engine, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random, keep_alive)
-            description = f"{embellish_content} {generated_text} {style_content}".strip()
-            return  image_prompt, description, neg_content
+            # Ensure images is present in kwargs
+            if 'images' not in kwargs:
+                raise ValueError("Input images are required")
+
+            # Ensure all other required parameters are present
+            required_params = ['llm_provider', 'llm_model', 'base_ip', 'port', 'user_prompt']
+            missing_params = [p for p in required_params if p not in kwargs]
+            if missing_params:
+                raise ValueError(f"Missing required parameters: {', '.join(missing_params)}")
+
+            # Get the result from process_image
+            result = loop.run_until_complete(self.process_image(**kwargs))
+
+            # Extract values in the correct order matching RETURN_TYPES
+            prompt = result.get("Response", "")  # This is the formatted prompt
+            response = result.get("Question", "")  # Original question/prompt
+            negative = result.get("Negative", "")
+            omni = result.get("Tool_Output")
+            retrieved_image = result.get("Retrieved_Image")
+            mask = result.get("Mask")
+
+            # Ensure we have valid image and mask tensors
+            if retrieved_image is None or not isinstance(retrieved_image, torch.Tensor):
+                retrieved_image, mask = load_placeholder_image(self.placeholder_image_path)
+
+            # Ensure mask has correct format
+            if mask is None:
+                mask = torch.ones((retrieved_image.shape[0], 1, retrieved_image.shape[2], retrieved_image.shape[3]), 
+                                dtype=torch.float32,
+                                device=retrieved_image.device)
+
+            # Return tuple matching RETURN_TYPES order: ("STRING", "STRING", "STRING", "OMNI", "IMAGE", "MASK")
+            return (
+                response,  # First STRING (question/prompt)
+                prompt,    # Second STRING (generated response)
+                negative,  # Third STRING (negative prompt)
+                omni,      # OMNI
+                retrieved_image,  # IMAGE
+                mask       # MASK
+            )
+
         except Exception as e:
-            print(f"Exception occurred: {e}")
-            return "Exception occurred while processing image."
+            logger.error(f"Error in process_image_wrapper: {str(e)}")
+            # Create fallback values
+            image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
+            return (
+                kwargs.get("user_prompt", ""),  # Original prompt
+                f"Error: {str(e)}",            # Error message as response
+                "",                            # Empty negative prompt
+                None,                          # No OMNI data
+                image_tensor,                  # Placeholder image
+                mask_tensor                    # Default mask
+            )
 
+# Node registration
+NODE_CLASS_MAPPINGS = {
+    "IF_ImagePrompt": IFImagePrompt
+}
 
-    def send_request(self, engine, selected_model, base_ip, port, base64_image, system_message, user_message, temperature, max_tokens, seed, random, keep_alive): 
-        if engine == "anthropic":
-            anthropic_api_key = self.get_api_key("ANTHROPIC_API_KEY", engine)
-            anthropic_headers = {
-                "x-api-key": anthropic_api_key,
-                "anthropic-version": "2023-06-01",  
-                "Content-Type": "application/json"
-            }
-
-            data = {
-                "model": selected_model,
-                "system": system_message,
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": [
-                                {
-                                    "type": "image",
-                                    "source": {
-                                        "type": "base64",
-                                        "media_type": "image/png",
-                                        "data": base64_image
-                                    }
-                                },
-                            {"type": "text", "text": user_message}
-                        ]
-                    }
-                ],
-                "temperature": temperature,
-                "max_tokens": max_tokens
-            }
-            
-            api_url = 'https://api.anthropic.com/v1/messages'
-
-            response = requests.post(api_url, headers=anthropic_headers, json=data)
-            if response.status_code == 200:
-                response_data = response.json()
-                messages = response_data.get('content', [])
-                generated_text = ''.join([msg.get('text', '') for msg in messages if msg.get('type') == 'text'])
-                return generated_text
-            else:
-                print(f"Error: Request failed with status code {response.status_code}, Response: {response.text}")
-                return "Failed to fetch response from Anthropic."
-                
-        elif engine == "openai":
-            openai_api_key = self.get_api_key("OPENAI_API_KEY", engine)
-            openai_headers = {
-                "Authorization": f"Bearer {openai_api_key}",
-                "Content-Type": "application/json"
-            }
-            if random == True:
-                data = {
-                    "model": selected_model,
-                    "messages": [
-                        {
-                            "role": "system",
-                            "content": system_message
-                        },
-                        {
-                            "role": "user",
-                            "content": [
-                                {
-                                    "type": "text",
-                                    "text": user_message
-                                },
-                                {
-                                    "type": "image_url",
-                                    "image_url": f"data:image/png;base64,{base64_image}"
-                                }
-                            ]
-                        }
-                    ],
-                    "temperature": temperature,
-                    "seed": seed,
-                    "max_tokens": max_tokens
-                }
-            else:
-                data = {
-                    "model": selected_model,
-                    "messages": [
-                        {
-                            "role": "system",
-                            "content": system_message
-                        },
-                        {
-                            "role": "user",
-                            "content": [
-                                {
-                                    "type": "text",
-                                    "text": user_message
-                                },
-                                {
-                                    "type": "image_url",
-                                    "image_url": f"data:image/png;base64,{base64_image}"
-                                }
-                            ]
-                        }
-                    ],
-                    "temperature": temperature,
-                    "max_tokens": max_tokens
-                }
-
-            api_url = 'https://api.openai.com/v1/chat/completions'
-            response = requests.post(api_url, headers=openai_headers, json=data)
-            if response.status_code == 200:
-                response_data = response.json()
-                print("Debug Response:", response_data)
-                choices = response_data.get('choices', [])
-                if choices:
-                    choice = choices[0]
-                    message = choice.get('message', {})
-                    generated_text = message.get('content', '')
-                    return generated_text
-                else:
-                    print("No valid choices in the response.")
-                    print("Full response:", response.text)
-                    return "No valid response generated for the image."
-            else:
-                print(f"Failed to fetch response, status code: {response.status_code}")
-                print("Full response:", response.text)
-                return "Failed to fetch response from OpenAI."
-
-        else:
-            api_url = f'http://{base_ip}:{port}/api/generate'
-            if random == True:
-                data = {
-                    "model": selected_model,
-                    "system": system_message,
-                    "prompt": user_message,
-                    "stream": False,
-                    "images": [base64_image],
-                    "options": {
-                        "temperature": temperature,
-                        "seed": seed,
-                        "num_ctx": max_tokens
-                    },
-                    "keep_alive": -1 if keep_alive else 0,
-                }
-            else:
-                data = {
-                    "model": selected_model,
-                    "system": system_message,
-                    "prompt": user_message,
-                    "stream": False,
-                    "images": [base64_image],
-                    "options": {
-                        "temperature": temperature,
-                        "num_ctx": max_tokens,
-                    },
-                    "keep_alive": -1 if keep_alive else 0,
-                }
-
-            ollama_headers = {"Content-Type": "application/json"}
-            response = requests.post(api_url, headers=ollama_headers, json=data)
-            if response.status_code == 200:
-                response_data = response.json()
-                prompt_response = response_data.get('response', 'No response text found')
-                
-                # Ensure there is a response to construct the full description
-                if prompt_response != 'No response text found':
-                    return prompt_response
-                else:
-                    return "No valid response generated for the image."
-            else:
-                print(f"Failed to fetch response, status code: {response.status_code}")
-                return "Failed to fetch response from Ollama."
-
-
-
-NODE_CLASS_MAPPINGS = {"IF_ImagePrompt": IFImagePrompt}
-NODE_DISPLAY_NAME_MAPPINGS = {"IF_ImagePrompt": "IF Image to Prompt🖼️"}
+NODE_DISPLAY_NAME_MAPPINGS = {
+    "IF_ImagePrompt": "IF Image to Prompt🖼️"
+}

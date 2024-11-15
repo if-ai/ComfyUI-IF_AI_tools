@@ -36,7 +36,7 @@ if not hasattr(builtins, 'global_colpali_model'):
 class colpaliRAGapp:
     def __init__(self):
         self.comfy_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        self.rag_dir = os.path.join(folder_paths.base_path, "custom_nodes",  "ComfyUI_IF_AI_tools", "IF_AI", "rag")
+        self.rag_dir = os.path.join(folder_paths.base_path, "custom_nodes",  "ComfyUI-IF_AI_tools", "IF_AI", "rag")
         self._rag_root_dir = None
         self._input_dir = None
         self.graphrag_app = GraphRAGapp()

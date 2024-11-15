@@ -6,17 +6,19 @@ import sys
 import folder_paths
 from aiohttp import web
 
-from .IFPromptMkrNode import IFPrompt2Prompt
+from .IFChatPromptNode import IFChatPrompt
 from .IFImagePromptNode import IFImagePrompt
+from .IFPromptMkrNode import IFPrompt2Prompt
+from .IFSupervisionNode import IFSupervision
+from .IFDisplayTextWildcardNode import IFDisplayTextWildcard
 from .IFSaveTextNode import IFSaveText
 from .IFDisplayTextNode import IFDisplayText
-from .IFChatPromptNode import IFChatPrompt
 from .IFDisplayOmniNode import IFDisplayOmni
 from .IFTextTyperNode import IFTextTyper
 from .IFVisualizeGraphNode import IFVisualizeGraphNode
 from .IFStepCounterNode import IFCounter
 from .IFJoinTextNode import IFJoinText
-from .IFLoadImagesNode import IFLoadImages
+from .IFLoadImagesNode import IFLoadImagess
 from .send_request import *
 
 # Try to import omost from the current directory
@@ -35,7 +37,7 @@ except ImportError as e:
     # If import fails, try to import from the parent directory
     parent_dir = os.path.dirname(current_dir)
     parent_dir_name = os.path.basename(parent_dir)
-    if parent_dir_name == 'ComfyUI_IF_AI_tools':
+    if parent_dir_name == 'ComfyUI-IF_AI_tools':
         sys.path.insert(0, parent_dir)
         try:
             from omost import omost_function
@@ -51,34 +53,36 @@ class OmniType(str):
         return False
     
 OMNI = OmniType("*")
-
-
+                       
 NODE_CLASS_MAPPINGS = {
+    "IF_ChatPrompt": IFChatPrompt, 
     "IF_PromptMkr": IFPrompt2Prompt,
     "IF_ImagePrompt": IFImagePrompt,
+    "IF_Supervision": IFSupervision,
     "IF_SaveText": IFSaveText,
     "IF_DisplayText": IFDisplayText,
-    "IF_ChatPrompt": IFChatPrompt,
+    "IF_DisplayTextWildcard": IFDisplayTextWildcard,
     "IF_DisplayOmni": IFDisplayOmni,
     "IF_TextTyper": IFTextTyper,
     "IF_VisualizeGraph": IFVisualizeGraphNode,
     "IF_StepCounter": IFCounter,
     "IF_JoinText": IFJoinText,
-    "IF_LoadImages": IFLoadImages,
+    "IF_LoadImagesS": IFLoadImagess,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "IF_PromptMkr": "IF Prompt to Prompt💬",
+    "IF_ChatPrompt": "IF Chat Prompt👨‍💻",
+    "IF_PromptMkr": "IF Prompt Maker🎨",
     "IF_ImagePrompt": "IF Image to Prompt🖼️",
     "IF_SaveText": "IF Save Text📝",
     "IF_DisplayText": "IF Display Text📟",
-    "IF_ChatPrompt": "IF Chat Prompt👨‍💻",
+    "IF_DisplayTextWildcard": "IF Display Text Wildcard📟",
     "IF_DisplayOmni": "IF Display Omni🔍",
     "IF_TextTyper": "IF Text Typer✍️",
     "IF_VisualizeGraph": "IF Visualize Graph🕸️",
     "IF_StepCounter": "IF Step Counter 🔢",
     "IF_JoinText": "IF Join Text 📝",
-    "IF_LoadImages": "IF Load Images🖼️",
+    "IF_LoadImagesS": "IF Load Images S 🖼️"
 }
 
 WEB_DIRECTORY = "./web"

@@ -150,7 +150,7 @@ class FlorenceModule:
         self.device = self.model_manager.device
         self.offload_device = self.model_manager.offload_device
         self.comfy_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        self.placeholder_image_path = os.path.join(folder_paths.base_path, "custom_nodes",  "ComfyUI_IF_AI_tools", "IF_AI", "placeholder.png")
+        self.placeholder_image_path = os.path.join(folder_paths.base_path, "custom_nodes",  "ComfyUI-IF_AI_tools", "IF_AI", "placeholder.png")
 
         self.box_annotator = sv.BoxAnnotator(
             color=sv.ColorPalette.DEFAULT,

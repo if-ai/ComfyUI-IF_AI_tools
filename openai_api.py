@@ -176,7 +176,13 @@ def prepare_openai_messages(base64_images, system_message, user_message, message
     
     return openai_messages
 
-async def generate_image(prompt: str, model: str = "dall-e-3", n: int = 1, size: str = "1024x1024", api_key: Optional[str] = None) -> List[str]:
+async def generate_image(
+    prompt: str,
+    model: str = "dall-e-3",
+    n: int = 1,
+    size: str = "1024x1024",
+    api_key: Optional[str] = None
+) -> List[str]:
     """
     Generate images from a text prompt using DALL·E.
 
@@ -197,22 +203,30 @@ async def generate_image(prompt: str, model: str = "dall-e-3", n: int = 1, size:
         "prompt": prompt,
         "n": n,
         "size": size,
-        "response_format": "url"  # Change to "b64_json" for Base64
+        "response_format": "b64_json"
     }
 
     async with aiohttp.ClientSession() as session:
         async with session.post(api_url, headers=headers, json=payload) as response:
             response.raise_for_status()
             data = await response.json()
-            images = [item["url"] for item in data.get("data", [])]
+            images = [item["b64_json"] for item in data.get("data", [])]
             return images
 
-async def edit_image(image_path: str, mask_path: str, prompt: str, model: str = "dall-e-2", n: int = 1, size: str = "1024x1024", api_key: Optional[str] = None) -> List[str]:
+async def edit_image(
+    image_base64: str,
+    mask_base64: str,
+    prompt: str,
+    model: str = "dall-e-2",
+    n: int = 1,
+    size: str = "1024x1024",
+    api_key: Optional[str] = None
+) -> List[str]:
     """
     Edit an existing image by replacing areas defined by a mask using DALL·E.
 
-    :param image_path: Path to the original image file.
-    :param mask_path: Path to the mask image file.
+    :param image_base64: Base64-encoded original image.
+    :param mask_base64: Base64-encoded mask image.
     :param prompt: The text prompt describing the desired edits.
     :param model: The model to use ("dall-e-2").
     :param n: Number of edited images to generate.
@@ -224,29 +238,36 @@ async def edit_image(image_path: str, mask_path: str, prompt: str, model: str = 
     headers = {
         "Authorization": f"Bearer {api_key}"
     }
+    payload = {
+        "model": model,
+        "prompt": prompt,
+        "n": n,
+        "size": size,
+        "response_format": "b64_json"
+    }
+    files = {
+        "image": image_base64,
+        "mask": mask_base64
+    }
 
-    with open(image_path, "rb") as img_file, open(mask_path, "rb") as mask_file:
-        files = {
-            "model": (None, model),
-            "image": (os.path.basename(image_path), img_file, "image/png"),
-            "mask": (os.path.basename(mask_path), mask_file, "image/png"),
-            "prompt": (None, prompt),
-            "n": (None, str(n)),
-            "size": (None, size)
-        }
+    async with aiohttp.ClientSession() as session:
+        async with session.post(api_url, headers=headers, json=payload) as response:
+            response.raise_for_status()
+            data = await response.json()
+            images = [item["b64_json"] for item in data.get("data", [])]
+            return images
 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(api_url, headers=headers, data=files) as response:
-                response.raise_for_status()
-                data = await response.json()
-                images = [item["url"] for item in data.get("data", [])]
-                return images
-
-async def generate_image_variations(image_path: str, model: str = "dall-e-2", n: int = 1, size: str = "1024x1024", api_key: Optional[str] = None) -> List[str]:
+async def generate_image_variations(
+    image_base64: str,
+    model: str = "dall-e-2",
+    n: int = 1,
+    size: str = "1024x1024",
+    api_key: Optional[str] = None
+) -> List[str]:
     """
     Generate variations of an existing image using DALL·E.
 
-    :param image_path: Path to the original image file.
+    :param image_base64: Base64-encoded original image.
     :param model: The model to use ("dall-e-2").
     :param n: Number of variations to generate.
     :param size: Size of the generated images.
@@ -257,21 +278,22 @@ async def generate_image_variations(image_path: str, model: str = "dall-e-2", n:
     headers = {
         "Authorization": f"Bearer {api_key}"
     }
+    payload = {
+        "model": model,
+        "n": n,
+        "size": size,
+        "response_format": "b64_json"
+    }
+    files = {
+        "image": image_base64
+    }
 
-    with open(image_path, "rb") as img_file:
-        files = {
-            "model": (None, model),
-            "image": (os.path.basename(image_path), img_file, "image/png"),
-            "n": (None, str(n)),
-            "size": (None, size)
-        }
-
-        async with aiohttp.ClientSession() as session:
-            async with session.post(api_url, headers=headers, data=files) as response:
-                response.raise_for_status()
-                data = await response.json()
-                images = [item["url"] for item in data.get("data", [])]
-                return images
+    async with aiohttp.ClientSession() as session:
+        async with session.post(api_url, headers=headers, json=payload) as response:
+            response.raise_for_status()
+            data = await response.json()
+            images = [item["b64_json"] for item in data.get("data", [])]
+            return images
 
 async def text_to_speech(text: str, model: str = "tts-1", voice: str = "alloy", response_format: str = "mp3", output_path: str = "speech.mp3", api_key: Optional[str] = None) -> None:
     """

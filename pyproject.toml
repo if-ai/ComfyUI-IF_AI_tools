@@ -1,6 +1,6 @@
 [project]
-name = "comfyui_if_ai_tools"
-description = "ComfyUI-IF_AI_tools is a set of custom nodes to Run Local and API LLMs and LMMs, Features OCR-RAG (Bialdy), nanoGraphRAG, Supervision Object Detection, supports Ollama, LlamaCPP LMstudio, Koboldcpp, TextGen, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI and create your own charcters assistants (SystemPrompts) with custom presets and muchmore"
+name = "comfyui-if_ai_tools"
+description = "Run Local and API LLMs, Features OCR-RAG (Bialdy), nanoGraphRAG, Supervision Object Detection, Conditioning manipulation via Omost, supports Ollama, LlamaCPP LMstudio, Koboldcpp, TextGen, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI and create your own charcters assistants (SystemPrompts) with custom presets and muchmore"
 version = "1.0.1"
 license = { file = "LICENSE.txt" } 
 dependencies = ["anthropic",
@@ -35,5 +35,5 @@ Repository = "https://github.com/if-ai/ComfyUI-IF_AI_tools"
 
 [tool.comfy]
 PublisherId = "impactframes"
-DisplayName = "ComfyUI_IF_AI_tools"
+DisplayName = "ComfyUI-IF_AI_tools"
 Icon = ""

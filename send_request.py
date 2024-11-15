@@ -9,7 +9,7 @@ from typing import List, Union, Optional, Dict, Any
 # Existing imports
 from .anthropic_api import send_anthropic_request
 from .ollama_api import send_ollama_request, create_ollama_embedding
-from .openai_api import send_openai_request, create_openai_compatible_embedding
+from .openai_api import send_openai_request, create_openai_compatible_embedding, generate_image, generate_image_variations, edit_image
 from .xai_api import send_xai_request
 from .kobold_api import send_kobold_request
 from .groq_api import send_groq_request
@@ -20,32 +20,23 @@ from .mistral_api import send_mistral_request
 from .vllm_api import send_vllm_request
 from .gemini_api import send_gemini_request
 from .transformers_api import TransformersModelManager  # Import the manager
-from .utils import convert_images_for_api, format_response
+from .utils import format_images_for_provider, convert_images_for_api, format_response
 # Set up logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)    
 
 # Initialize the TransformersModelManager
-_transformers_manager = TransformersModelManager()  # <-- Removed models_dir parameter
+_transformers_manager = TransformersModelManager()  
 
-"""class MockCompletion:
-    def __init__(self, **kwargs):
-        # Initialize all attributes to None
-        for key in ['choices', 'id', 'object', 'created', 'model', 'usage', 'message']:
-            setattr(self, key, None)
-        
-        # Update attributes based on kwargs
-        self.__dict__.update(kwargs)
-        
-        # Ensure 'choices' has at least one default choice if not provided
-        if not self.choices and hasattr(self, 'message') and self.message.get("content"):
-            self.choices = [{
-                "message": {
-                    "content": self.message["content"]
-                },
-                "finish_reason": "stop",
-                "index": 0
-            }]"""
+
+def run_async(coroutine):
+    """Helper function to run coroutines in a new event loop if necessary"""
+    try:
+        loop = asyncio.get_event_loop()
+    except RuntimeError:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+    return loop.run_until_complete(coroutine)
 
 async def send_request(
     llm_provider: str,
@@ -70,6 +61,10 @@ async def send_request(
     tool_choice: Optional[Any] = None,
     precision: Optional[str] = "fp16", 
     attention: Optional[str] = "sdpa",
+    aspect_ratio: Optional[str] = "1:1",
+    strategy: Optional[str] = "normal",
+    batch_count: Optional[int] = 4,
+    mask: Optional[str] = None,
 ) -> Union[str, Dict[str, Any]]:
     """
     Sends a request to the specified LLM provider and returns a unified response.
@@ -97,22 +92,41 @@ async def send_request(
         tool_choice (Optional[Any], optional): Tool choice.
         precision (Optional[str], optional): Precision for the model.
         attention (Optional[str], optional): Attention mechanism for the model.
+        aspect_ratio (Optional[str], optional): Desired aspect ratio for image generation/editing. 
+            Options: "1:1", "4:5", "3:4", "5:4", "16:9", "9:16". Defaults to "1:1".
+        image_mode (Optional[str], optional): Mode for image processing.
+            Options: "create", "edit", "variations". Defaults to "create".
 
     Returns:
         Union[str, Dict[str, Any]]: Unified response format.
     """
     try:
+        #formatted_images = format_images_for_provider(images, llm_provider) if images is not None else None
+        #formatted_mask = format_images_for_provider(mask, llm_provider) if mask is not None else None
+        # Define aspect ratio to size mapping
+        aspect_ratio_mapping = {
+            "1:1": "1024x1024",
+            "4:5": "1024x1280",
+            "3:4": "1024x1365",
+            "5:4": "1280x1024",
+            "16:9": "1600x900",
+            "9:16": "900x1600"
+        }
+
+        # Get the size based on the provided aspect_ratio
+        size = aspect_ratio_mapping.get(aspect_ratio.lower(), "1024x1024")  # Default to square if invalid
+
         # Convert images to base64 format for API consumption
         if llm_provider == "transformers":
-            # For transformers, we'll pass PIL images
-            pil_images = convert_images_for_api(images, target_format='pil') if images is not None and len(images) > 0 else None
+            
+            formatted_images = convert_images_for_api(images, target_format='pil') if images is not None and len(images) > 0 else None
             response = await _transformers_manager.send_transformers_request(
                 model_name=llm_model,
                 system_message=system_message,
                 user_message=user_message,
                 messages=messages,
                 max_new_tokens=max_tokens,
-                images=pil_images,  
+                images=formatted_images,  
                 temperature=temperature,
                 top_p=top_p,
                 top_k=top_k,
@@ -126,7 +140,8 @@ async def send_request(
             return response
         else:
             # For other providers, convert to base64 only if images exist
-            base64_images = convert_images_for_api(images, target_format='base64') if images is not None and len(images) > 0 else None
+            formatted_images = convert_images_for_api(images, target_format='base64') if images is not None and len(images) > 0 else None
+            formatted_mask = convert_images_for_api(mask, target_format='base64') if mask is not None and len(mask) > 0 else None
             
             api_functions = {
                 "groq": send_groq_request,
@@ -160,7 +175,7 @@ async def send_request(
                     api_url = f"http://{base_ip}:{port}/api/chat"  
                     kwargs = dict(
                         api_url=api_url,
-                        base64_images=base64_images,  
+                        base64_images=formatted_images,  
                         model=llm_model,
                         system_message=system_message,
                         user_message=user_message,
@@ -181,7 +196,7 @@ async def send_request(
                     api_url = f"http://{base_ip}:{port}/v1/chat/completions"
                     kwargs = {
                         "api_url": api_url,
-                        "base64_images": base64_images,  
+                        "base64_images": formatted_images,  
                         "model": llm_model,
                         "system_message": system_message,
                         "user_message": user_message,
@@ -202,7 +217,7 @@ async def send_request(
                         kwargs["api_key"] = llm_api_key
                 elif llm_provider == "gemini":
                     kwargs = {
-                        "base64_images": base64_images,  
+                        "base64_images": formatted_images,  
                         "model": llm_model,
                         "system_message": system_message,
                         "user_message": user_message,
@@ -217,28 +232,63 @@ async def send_request(
                         "tool_choice": tool_choice,
                     }      
                 elif llm_provider == "openai":
-                    api_url = f"https://api.openai.com/v1/chat/completions"
-                    kwargs = {
-                        "api_url": api_url,
-                        "base64_images": base64_images,  
-                        "model": llm_model,
-                        "system_message": system_message,
-                        "user_message": user_message,
-                        "messages": messages,
-                        "api_key": llm_api_key,
-                        "seed": seed if random else None,
-                        "temperature": temperature,
-                        "max_tokens": max_tokens,
-                        "top_p": top_p,
-                        "repeat_penalty": repeat_penalty,
-                        "tools": tools,
-                        "tool_choice": tool_choice,
-                    }
+                    if llm_model.startswith("dall-e"):
+                        if strategy == "create":
+                            # Generate image
+                            generated_images = await generate_image(
+                                prompt=user_message,
+                                model=llm_model,
+                                n=batch_count,
+                                size=size,
+                                api_key=llm_api_key
+                            )
+                            return {"images": generated_images}
+                        elif strategy == "edit":
+
+                            # Edit image
+                            edited_images = await edit_image(
+                                image_base64=formatted_images[0],
+                                mask_base64=formatted_mask,
+                                prompt=user_message,
+                                model=llm_model,
+                                n=batch_count,
+                                size=size,
+                                api_key=llm_api_key
+                            )
+                            return {"images": edited_images}
+                        elif strategy == "variations":
+                            # Generate variations
+                            variations_images = await generate_image_variations(
+                                image_base64=formatted_images[0],
+                                model=llm_model,
+                                n=batch_count,
+                                size=size,
+                                api_key=llm_api_key
+                            )
+                            return {"images": variations_images}
+                    else:
+                        api_url = f"https://api.openai.com/v1/chat/completions"
+                        kwargs = {
+                            "api_url": api_url,
+                            "base64_images": formatted_images,  
+                            "model": llm_model,
+                            "system_message": system_message,
+                            "user_message": user_message,
+                            "messages": messages,
+                            "api_key": llm_api_key,
+                            "seed": seed if random else None,
+                            "temperature": temperature,
+                            "max_tokens": max_tokens,
+                            "top_p": top_p,
+                            "repeat_penalty": repeat_penalty,
+                            "tools": tools,
+                            "tool_choice": tool_choice,
+                        }
                 elif llm_provider == "xai":
                     api_url = f"https://api.x.ai/v1/chat/completions"
                     kwargs = {
                         "api_url": api_url,
-                        "base64_images": base64_images,  
+                        "base64_images": formatted_images,  
                         "model": llm_model,
                         "system_message": system_message,
                         "user_message": user_message,
@@ -261,13 +311,13 @@ async def send_request(
                         "messages": messages,
                         "temperature": temperature,
                         "max_tokens": max_tokens,
-                        "base64_images": base64_images,  
+                        "base64_images": formatted_images,  
                         "tools": tools,
                         "tool_choice": tool_choice
                     }
                 elif llm_provider == "groq":
                     kwargs = {
-                        "base64_images": base64_images,  
+                        "base64_images": formatted_images,  
                         "model": llm_model,
                         "system_message": system_message,
                         "user_message": user_message,
@@ -281,7 +331,7 @@ async def send_request(
                     }
                 elif llm_provider == "mistral":
                     kwargs = {
-                        "base64_images": base64_images, 
+                        "base64_images": formatted_images, 
                         "model": llm_model,
                         "system_message": system_message,
                         "user_message": user_message,
@@ -297,7 +347,11 @@ async def send_request(
                 else:
                     raise ValueError(f"Unsupported llm_provider: {llm_provider}")
             
-            response = await api_function(**kwargs)  
+            response = await api_function(**kwargs)
+
+            # Ensure response is properly awaited if it's a coroutine
+            if asyncio.iscoroutine(response):
+                response = await response
 
             if isinstance(response, dict):
                 choices = response.get("choices", [])
@@ -319,27 +373,18 @@ async def send_request(
         logger.error(f"Exception in send_request: {str(e)}", exc_info=True)
         return {"choices": [{"message": {"content": f"Exception: {str(e)}"}}]}
 
-def response_format_handler(response: Dict[str, Any], tools: Optional[Any]) -> Union[str, Dict[str, Any]]:
-    """
-    Formats the response based on the desired response format.
-
-    Args:
-        response (Dict[str, Any]): The raw response from the API.
-        tools (Optional[Any]): Tools that might affect the response.
-        response_format (str): 'text' or 'json'.
-
-    Returns:
-        Union[str, Dict[str, Any]]: Formatted response.
-    """
+def format_response(response, tools):
+    """Helper function to format the response consistently"""
     if tools:
         return response
-    else:
-        try:
+    try:
+        if isinstance(response, dict) and "choices" in response:
             return response["choices"][0]["message"]["content"]
-        except (KeyError, IndexError, TypeError) as e:
-            error_msg = f"Error formatting response: {str(e)}"
-            logger.error(error_msg)
-            return {"choices": [{"message": {"content": error_msg}}]}
+        return response
+    except (KeyError, IndexError, TypeError) as e:
+        error_msg = f"Error formatting response: {str(e)}"
+        logger.error(error_msg)
+        return {"choices": [{"message": {"content": error_msg}}]}
 
 async def create_embedding(embedding_provider: str, api_base: str, embedding_model: str, input: Union[str, List[str]], embedding_api_key: Optional[str] = None) -> Union[List[float], None]: # Correct return type hint
     if embedding_provider == "ollama":
@@ -350,7 +395,7 @@ async def create_embedding(embedding_provider: str, api_base: str, embedding_mod
         try:
             return await create_openai_compatible_embedding(api_base, embedding_model, input, embedding_api_key) # Try block for more precise error handling
         except ValueError as e:
-            print(f"Error creating embedding: {e}")  # Log the specific error
+            print(f"Error creating embedding: {e}")  
             return None # Return None on error
     
     else:

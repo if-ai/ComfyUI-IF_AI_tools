@@ -396,6 +396,52 @@ def process_mask(retrieved_mask, image_tensor):
         # Return a default mask matching the image dimensions
         return torch.ones((image_tensor.shape[0], image_tensor.shape[2], image_tensor.shape[3]), dtype=torch.float32)
 
+def convert_mask_to_grayscale_alpha(mask_input):
+    """
+    Convert mask to grayscale alpha channel.
+    Handles tensors, PIL images and numpy arrays.
+    Returns tensor in shape [B,1,H,W].
+    """
+    if isinstance(mask_input, torch.Tensor):
+        # Handle tensor input
+        if mask_input.dim() == 2:  # [H,W]
+            return mask_input.unsqueeze(0).unsqueeze(0)  # Add batch and channel dims
+        elif mask_input.dim() == 3:  # [C,H,W] or [B,H,W]
+            if mask_input.shape[0] in [1,3,4]:  # Assume channel-first
+                if mask_input.shape[0] == 4:  # Use alpha channel
+                    return mask_input[3:4].unsqueeze(0)
+                else:  # Convert to grayscale
+                    weights = torch.tensor([0.299, 0.587, 0.114]).to(mask_input.device)
+                    return (mask_input * weights.view(-1,1,1)).sum(0).unsqueeze(0).unsqueeze(0)
+            else:  # Assume batch dimension
+                return mask_input.unsqueeze(1)  # Add channel dim
+        elif mask_input.dim() == 4:  # [B,C,H,W]
+            if mask_input.shape[1] == 4:  # Use alpha channel
+                return mask_input[:,3:4]
+            else:  # Convert to grayscale
+                weights = torch.tensor([0.299, 0.587, 0.114]).to(mask_input.device)
+                return (mask_input * weights.view(1,-1,1,1)).sum(1).unsqueeze(1)
+                
+    elif isinstance(mask_input, Image.Image):
+        # Convert PIL image to grayscale
+        mask = mask_input.convert('L')
+        tensor = torch.from_numpy(np.array(mask)).float() / 255.0
+        return tensor.unsqueeze(0).unsqueeze(0)  # Add batch and channel dims
+        
+    elif isinstance(mask_input, np.ndarray):
+        # Handle numpy array
+        if mask_input.ndim == 2:  # [H,W]
+            tensor = torch.from_numpy(mask_input).float()
+            return tensor.unsqueeze(0).unsqueeze(0)
+        elif mask_input.ndim == 3:  # [H,W,C]
+            if mask_input.shape[2] == 4:  # Use alpha channel
+                tensor = torch.from_numpy(mask_input[:,:,3]).float()
+            else:  # Convert to grayscale
+                tensor = torch.from_numpy(np.dot(mask_input[...,:3], [0.299, 0.587, 0.114])).float()
+            return tensor.unsqueeze(0).unsqueeze(0)
+            
+    raise ValueError(f"Unsupported mask input type: {type(mask_input)}")
+
 def tensor_to_base64(tensor: torch.Tensor) -> str:
     """Convert a tensor to a base64-encoded PNG image string."""
     try:
