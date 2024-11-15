@@ -23,7 +23,7 @@ class AgentTool:
 
     def load(self):
         # Construct the path to the ComfyUI-IF_AI_tools directory
-        if_ai_tools_dir = os.path.join(folder_paths.base_path, "custom_nodes",  "ComfyUI-IF_AI_tools")
+        if_ai_tools_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI-IF_AI_tools")
         
         # Add the ComfyUI-IF_AI_tools directory to sys.path
         if if_ai_tools_dir not in sys.path:

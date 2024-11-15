@@ -20,8 +20,8 @@ class IFDisplayTextWildcard:
         
         # Initialize paths
         self.base_path = folder_paths.base_path
-        self.presets_dir = os.path.join(self.base_path, "custom_nodes", "ComfyUI_IF_AI_tools", "IF_AI", "presets")
-        self.wildcards_dir = os.path.join(self.presets_dir, "wildcards")  # Updated path
+        self.presets_dir = os.path.join(folder_paths.user_directory, "IF_AI", "presets")
+        self.wildcards_dir = os.path.join(self.presets_dir, "wildcards") 
 
         # Load wildcards
         self.wildcards = self.load_wildcards()

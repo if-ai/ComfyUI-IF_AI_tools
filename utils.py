@@ -6,7 +6,6 @@ import json
 import torch
 import torchvision
 import cv2
-import folder_paths
 import base64
 import logging
 import datetime
