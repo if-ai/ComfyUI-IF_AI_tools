@@ -1,0 +1,3621 @@
+Colors:
+  Basic:
+  - red
+  - orange
+  - yellow
+  - brown
+  - tan
+  - lime green
+  - green
+  - cyan
+  - teal
+  - blue
+  - navy blue
+  - indigo
+  - purple
+  - pink
+  - magenta
+  - grey
+  - white
+  - black
+  Black:
+  - bistre
+  - black
+  - black bean
+  - black olive
+  - café noir
+  - charcoal
+  - dark gray
+  - dark purple
+  - dim gray
+  - ebony
+  - eerie black
+  - jet
+  - licorice
+  - midnight blue
+  - night
+  - onyx
+  - outer space
+  - raisin black
+  - rich black
+  - russian violet
+  - smoky black
+  - taupe
+  Blue:
+  - aero
+  - air force blue
+  - air superiority blue
+  - alice blue
+  - aqua
+  - aqua blue
+  - aquamarine
+  - argentinian blue
+  - azul
+  - azure
+  - baby blue
+  - berkeley blue
+  - bice blue
+  - bleu de france
+  - blue
+  - blue (crayola)
+  - blue (munsell)
+  - blue (ncs)
+  - blue violet
+  - blue-gray
+  - blue-green
+  - bondi blue
+  - brandeis blue
+  - byzantine blue
+  - cambridge blue
+  - capri
+  - caribbean current
+  - carolina blue
+  - celeste    cerulean
+  - celestial blue
+  - celtic blue
+  - cerulean
+  - chefchaouen blue
+  - chrysler blue
+  - cobalt blue
+  - columbia blue
+  - cornflower blue
+  - cyan
+  - dark blue
+  - dark cyan
+  - deep sky blue
+  - delft blue
+  - denim
+  - dodger blue
+  - duke blue
+  - egyptian blue
+  - electric blue
+  - electric indigo
+  - federal blue
+  - fluorescent cyan
+  - french blue
+  - glaucous
+  - green-blue
+  - honolulu blue
+  - ice blue
+  - indigo
+  - indigo dye
+  - international klein blue
+  - jordy blue
+  - jungle green
+  - keppel    ice blue
+  - lapis lazuli
+  - light blue
+  - light cyan
+  - light sea green
+  - light sky blue
+  - majorelle blue
+  - marian blue
+  - maya blue
+  - medium blue
+  - medium slate blue
+  - midnight blue
+  - mint
+  - mint green
+  - moonstone
+  - myrtle green
+  - navy blue
+  - neon blue
+  - non-photo blue
+  - oxford blue
+  - pacific cyan
+  - palatinate blue
+  - pale azure
+  - penn blue
+  - periwinkle
+  - persian blue
+  - persian green
+  - phthalo blue
+  - picton blue
+  - pine green
+  - polynesian blue
+  - powder blue
+  - process cyan
+  - prussian blue
+  - resolution blue
+  - risd blue
+  - robin egg blue
+  - royal blue
+  - ruddy blue
+  - sapphire
+  - savoy blue
+  - sea green
+  - silver lake blue
+  - skobeloff
+  - sky blue
+  - slate blue
+  - space cadet
+  - spring green
+  - steel blue
+  - tang blue
+  - teal
+  - tiffany blue
+  - true blue
+  - tufts blue
+  - turquoise
+  - turquoise blue
+  - ucla blue
+  - ultramarine
+  - united nations blue
+  - uranian blue
+  - verdigris
+  - violet-blue
+  - vista blue
+  - vivid sky blue
+  - yale blue
+  - yinmn blue
+  - zaffre
+  - zomp
+  Brown:
+  - auburn
+  - beaver
+  - beige
+  - bistre
+  - black bean
+  - black olive
+  - bole
+  - bone
+  - bronze
+  - brown
+  - brown sugar
+  - buff
+  - burgundy
+  - burnt sienna
+  - burnt umber
+  - camel
+  - caput mortuum
+  - caramel
+  - chamoisee
+  - chestnut
+  - chocolate
+  - citron
+  - cocoa brown
+  - coffee
+  - copper
+  - cordovan
+  - coyote
+  - dark brown
+  - dark orange
+  - dark red
+  - dark yellow
+  - desert sand
+  - drab dark brown
+  - dun
+  - earth yellow
+  - ecru
+  - fallow
+  - fawn
+  - field drab
+  - fulvous    golden brown
+  - goldenrod
+  - gray brown
+  - harvest gold
+  - khaki
+  - kobicha
+  - light brown
+  - lion
+  - liver
+  - mahogany
+  - maroon
+  - ochre
+  - raw umber
+  - red-brown
+  - redwood
+  - rufous
+  - russet
+  - rust
+  - sand
+  - sandy brown
+  - satin sheen gold
+  - seal brown
+  - sepia
+  - sienna
+  - sinopia
+  - tan
+  - taupe
+  - tawny
+  - umber
+  - van dyke
+  - walnut brown
+  - wenge
+  - wheat
+  Green:
+  - apple green
+  - aquamarine
+  - asparagus
+  - avocado
+  - bright green
+  - british racing green
+  - brunswick green
+  - cal poly green
+  - castleton green
+  - celadon
+  - chartreuse
+  - cyan
+  - dark green
+  - dark moss green
+  - dark pastel green
+  - dark spring green
+  - dartmouth green
+  - emerald    erin
+  - fern green
+  - forest green
+  - green
+  - green-yellow
+  - harlequin
+  - honeydew
+  - hooker's green
+  - hunter green
+  - india green
+  - islamic green
+  - jade
+  - jungle green
+  - kelly green
+  - lawn green
+  - light green
+  - lime
+  - lime green
+  - malachite
+  - mantis
+  - midnight green
+  - mindaro
+  - mint
+  - moss green
+  - myrtle green
+  - neon green
+  - office green
+  - olive
+  - olive green
+  - olivine
+  - pakistan green
+  - paris green
+  - pear
+  - persian green
+  - pigment green
+  - pine green
+  - pistachio
+  - reseda green
+  - robin egg blue
+  - sage
+  - screamin' green
+  - sea green
+  - sgbus green
+  - shamrock green
+  - spring bud
+  - spring green
+  - tea green
+  - teal
+  - turquoise
+  - viridian
+  - yellow green
+  - yellow-green
+  Grey:
+  - ash grey
+  - battleship grey
+  - grey
+  - cadet grey
+  - cinereous
+  - cool grey
+  - dark gray
+  - dark slate grey
+  - davy's grey
+  - dim gray
+  - dim grey
+  - feldgrau
+  - french grey
+  - glaucous
+  - gray
+  - gunmetal
+  - light gray
+  - payne's grey
+  - platinum
+  - rose quartz
+  - silver
+  - slate gray
+  - slate grey
+  - taupe grey
+  - timberwolf
+  - white smoke
+  Magenta:
+  - magenta
+  - dark magenta
+  - light magenta
+  - pink
+  - fuchsia
+  Misc:
+  - '#aquamarine'
+  - '#azure'
+  - '#blue'
+  - '#chartreuse'
+  - '#cyan'
+  - '#green'
+  - '#magenta'
+  - '#orange'
+  - '#rose'
+  - '#violet'
+  - '#yellow'
+  - abbey
+  - absolute zero
+  - acadia
+  - acapulco
+  - acid green
+  - advent purple
+  - aero
+  - aero blue
+  - affair
+  - african violet
+  - agreeable gray
+  - air force blue
+  - air superiority blue
+  - akaroa
+  - alabama crimson
+  - alabaster
+  - albescent white
+  - algae green
+  - alice blue
+  - alien armpit
+  - alizarin
+  - alizarin crimson
+  - alloy orange
+  - allports
+  - almond
+  - almond frost
+  - alpine
+  - alto
+  - aluminium
+  - aluminum
+  - amaranth
+  - amaranth deep purple
+  - amaranth pink
+  - amaranth purple
+  - amaranth red
+  - amazon
+  - amber
+  - amber (sae/ece)
+  - amber brown
+  - american rose
+  - americano
+  - amethyst
+  - amethyst smoke
+  - amour
+  - amulet
+  - anakiwa
+  - android green
+  - anti flash white
+  - antique brass
+  - antique bronze
+  - antique fuchsia
+  - antique gray
+  - antique ruby
+  - antique white
+  - anzac
+  - ao
+  - apache
+  - apple
+  - apple blossom
+  - apple green
+  - apricot
+  - apricot white
+  - aqua
+  - aqua blue
+  - aqua deep
+  - aqua forest
+  - aqua green
+  - aqua haze
+  - aqua island
+  - aqua spring
+  - aqua squeeze
+  - aquamarine
+  - aquamarine blue
+  - arapawa
+  - arctic lime
+  - armadillo
+  - army brown
+  - army green
+  - arrowtown
+  - arsenic
+  - artichoke
+  - artichoke green
+  - arylide yellow
+  - ash
+  - ash gray
+  - ash grey
+  - asparagus
+  - asphalt
+  - asphalt gray
+  - astra
+  - astral
+  - astronaut
+  - astronaut blue
+  - athens gray
+  - aths special
+  - atlantis
+  - atoll
+  - atomic tangerine
+  - au chico
+  - aubergine
+  - auburn
+  - aureolin
+  - auro metal saurus
+  - australian mint
+  - avocado
+  - axolotl
+  - azalea
+  - aztec
+  - aztec gold
+  - azure
+  - azure (x11/web color)
+  - azure mist
+  - azureish white
+  - b'dazzled blue
+  - baby blue
+  - baby blue eyes
+  - baby pink
+  - baby powder
+  - baby yellow
+  - bahama blue
+  - bahia
+  - baja white
+  - baker miller pink
+  - baker-miller pink
+  - bali hai
+  - ball blue
+  - baltic sea
+  - bamboo
+  - banana mania
+  - banana yellow
+  - bandicoot
+  - barberry
+  - barbie pink
+  - barley corn
+  - barley white
+  - barn red
+  - barossa
+  - bastille
+  - battleship gray
+  - battleship grey
+  - bay leaf
+  - bay of many
+  - bazaar
+  - bdazzled blue
+  - bear brown
+  - beau blue
+  - beauty bush
+  - beaver
+  - beeswax
+  - beige
+  - belgion
+  - bermuda
+  - bermuda gray
+  - beryl green
+  - bianca
+  - big dip oruby
+  - big dip o’ruby
+  - big foot feet
+  - big stone
+  - bilbao
+  - biloba flower
+  - birch
+  - bird flower
+  - biscay
+  - bismark
+  - bison hide
+  - bisque
+  - bistre
+  - bistre brown
+  - bitter
+  - bitter lemon
+  - bittersweet
+  - bittersweet shimmer
+  - bizarre
+  - black
+  - black bean
+  - black coral
+  - black forest
+  - black haze
+  - black leather jacket
+  - black marlin
+  - black olive
+  - black pearl
+  - black rock
+  - black rose
+  - black russian
+  - black shadows
+  - black squeeze
+  - black white
+  - blackberry
+  - blackcurrant
+  - blanched almond
+  - blast off bronze
+  - blast-off bronze
+  - blaze orange
+  - bleach white
+  - bleached cedar
+  - bleu de france
+  - blizzard blue
+  - blond
+  - blood red
+  - blossom
+  - blue
+  - blue (crayola)
+  - blue (munsell)
+  - blue (ncs)
+  - blue (pantone)
+  - blue (pigment)
+  - blue bayoux
+  - blue bell
+  - blue chalk
+  - blue charcoal
+  - blue chill
+  - blue diamond
+  - blue dianne
+  - blue gem
+  - blue gray
+  - blue green
+  - blue haze
+  - blue jeans
+  - blue lagoon
+  - blue magenta violet
+  - blue marguerite
+  - blue ribbon
+  - blue romance
+  - blue sapphire
+  - blue screen of death
+  - blue smoke
+  - blue stone
+  - blue violet
+  - blue whale
+  - blue yonder
+  - blue zodiac
+  - blue-gray
+  - blue-violet
+  - blueberry
+  - bluebonnet
+  - bluetiful
+  - blumine
+  - blush
+  - blush pink
+  - bole
+  - bombay
+  - bon jour
+  - bondi blue
+  - bone
+  - booger buster
+  - bordeaux
+  - bossanova
+  - boston blue
+  - boston university red
+  - botticelli
+  - bottle green
+  - boulder
+  - bouquet
+  - bourbon
+  - boysenberry
+  - bracken
+  - brandeis blue
+  - brandy
+  - brandy punch
+  - brandy rose
+  - brass
+  - breaker bay
+  - brick red
+  - bridal heath
+  - bridesmaid
+  - bright blue
+  - bright cerulean
+  - bright gray
+  - bright green
+  - bright lavender
+  - bright lilac
+  - bright maroon
+  - bright navy
+  - bright navy blue
+  - bright orange
+  - bright pink
+  - bright purple
+  - bright red
+  - bright sun
+  - bright turquoise
+  - bright ube
+  - bright yellow
+  - bright yellow (crayola)
+  - brilliant azure
+  - brilliant lavender
+  - brilliant rose
+  - brink pink
+  - british racing green
+  - bronco
+  - bronze
+  - bronze olive
+  - bronze yellow
+  - bronzetone
+  - broom
+  - brown
+  - brown bramble
+  - brown derby
+  - brown pod
+  - brown rust
+  - brown sugar
+  - brown tumbleweed
+  - brown yellow
+  - brunswick green
+  - bubble gum
+  - bubblegum pink
+  - bubbles
+  - buccaneer
+  - bud
+  - bud green
+  - buddha gold
+  - buff
+  - bulgarian rose
+  - bull shot
+  - bunker
+  - bunting
+  - burgundy
+  - burlap brown
+  - burlywood
+  - burnham
+  - burning orange
+  - burning sand
+  - burnished brown
+  - burnt maroon
+  - burnt orange
+  - burnt sienna
+  - burnt umber
+  - bush
+  - buttercup
+  - buttered rum
+  - butterfly bush
+  - buttermilk
+  - buttery white
+  - byzantine
+  - byzantium
+  - cab sav
+  - cabaret
+  - cabbage pont
+  - cactus
+  - cadet
+  - cadet blue
+  - cadet grey
+  - cadillac
+  - cadmium green
+  - cadmium orange
+  - cadmium red
+  - cadmium yellow
+  - cafe noir
+  - cafe royale
+  - café au lait
+  - café noir
+  - cal poly green
+  - calico
+  - california
+  - calypso
+  - camarone
+  - cambridge blue
+  - camel
+  - camelot
+  - cameo
+  - cameo pink
+  - camouflage
+  - camouflage green
+  - can can
+  - canary
+  - canary yellow
+  - candlelight
+  - candy apple red
+  - candy pink
+  - cannon black
+  - cannon pink
+  - cape cod
+  - cape honey
+  - cape palliser
+  - caper
+  - capri
+  - caput mortuum
+  - caramel
+  - cararra
+  - cardin green
+  - cardinal
+  - cardinal pink
+  - careys pink
+  - caribbean green
+  - carissma
+  - carla
+  - carmine
+  - carmine (m&p)
+  - carmine pink
+  - carmine red
+  - carnaby tan
+  - carnation
+  - carnation pink
+  - carnelian
+  - carolina blue
+  - carousel pink
+  - carrot orange
+  - casablanca
+  - casal
+  - cascade
+  - cashmere
+  - casper
+  - castleton green
+  - castro
+  - catalina blue
+  - catawba
+  - catskill white
+  - cavern pink
+  - cedar
+  - cedar chest
+  - cedar wood finish
+  - ceil
+  - celadon
+  - celadon green
+  - celery
+  - celeste
+  - celestial blue
+  - cello
+  - celtic
+  - celtic blue
+  - cement
+  - cement gray
+  - ceramic
+  - cerise
+  - cerise pink
+  - cerulean
+  - cerulean (crayola)
+  - cerulean blue
+  - cerulean frost
+  - cetacean blue
+  - cg blue
+  - cg red
+  - chablis
+  - chalet green
+  - chalky
+  - chambray
+  - chambray blue
+  - chamois
+  - chamoisee
+  - champagne
+  - champagne pink
+  - chantilly
+  - charade
+  - charcoal
+  - charcoal gray
+  - chardon
+  - chardonnay
+  - charleston green
+  - charlotte
+  - charm
+  - charm pink
+  - chartreuse
+  - chartreuse (web)
+  - chateau green
+  - chatelle
+  - chathams blue
+  - chelsea cucumber
+  - chelsea gem
+  - chenin
+  - cherokee
+  - cherry blossom pink
+  - cherry pie
+  - cherry red
+  - cherrywood
+  - cherub
+  - chestnut
+  - chetwode blue
+  - chicago
+  - chiffon
+  - chilean fire
+  - chilean heath
+  - chili red
+  - china ivory
+  - china pink
+  - china rose
+  - chinese red
+  - chinese violet
+  - chinese yellow
+  - chino
+  - chinook
+  - chlorophyll green
+  - chocolate
+  - chocolate (traditional)
+  - chocolate (web)
+  - chocolate brown
+  - chocolate cosmos
+  - christalle
+  - christi
+  - christine
+  - christmas green
+  - christmas red
+  - chrome
+  - chrome white
+  - chrome yellow
+  - cinder
+  - cinderella
+  - cinereous
+  - cinnabar
+  - cinnamon satin
+  - cioccolato
+  - citrine
+  - citrine white
+  - citron
+  - citrus
+  - clairvoyant
+  - clam shell
+  - claret
+  - classic purple
+  - classic rose
+  - clay
+  - clay ash
+  - clay creek
+  - clear day
+  - clementine
+  - clinker
+  - cloud
+  - cloud burst
+  - cloud burst blue
+  - cloudy
+  - clover
+  - cobalt blue
+  - cocoa bean
+  - cocoa brown
+  - coconut
+  - coconut cream
+  - cod gray
+  - coffee
+  - coffee bean
+  - coffee brown
+  - cognac
+  - cola
+  - cold purple
+  - cold turkey
+  - colonial white
+  - columbia blue
+  - columbia green
+  - comet
+  - comic book red
+  - comic book yellow
+  - como
+  - conch
+  - concord
+  - concrete
+  - confetti
+  - congo brown
+  - congo pink
+  - congress blue
+  - conifer
+  - construction orange
+  - contessa
+  - cool black
+  - cool gray
+  - cool grey
+  - copper
+  - copper (crayola)
+  - copper canyon
+  - copper penny
+  - copper red
+  - copper rose
+  - copper rust
+  - coquelicot
+  - coral
+  - coral pink
+  - coral red
+  - coral reef
+  - coral tree
+  - cordovan
+  - corduroy
+  - coriander
+  - cork
+  - corn
+  - corn field
+  - corn green
+  - corn harvest
+  - cornflower blue
+  - cornflower lilac
+  - cornsilk
+  - cortana blue
+  - corvette
+  - cosmic
+  - cosmic cobalt
+  - cosmic latte
+  - cosmos
+  - costa del sol
+  - cotton candy
+  - cotton candy pink
+  - cotton seed
+  - county green
+  - cowboy
+  - coyote brown
+  - crail
+  - cranberry
+  - crater brown
+  - crayola blue
+  - crayola green
+  - crayola orange
+  - crayola red
+  - crayola yellow
+  - cream
+  - cream brulee
+  - cream can
+  - creole
+  - crete
+  - crimson
+  - crimson (ua)
+  - crimson glory
+  - crimson red
+  - crocodile
+  - crown of thorns
+  - crowshead
+  - cruise
+  - crusoe
+  - crusta
+  - cultured
+  - cumin
+  - cumulus
+  - cupid
+  - curious blue
+  - cutty sark
+  - cyan
+  - cyan (process)
+  - cyan azure
+  - cyan blue azure
+  - cyan cobalt blue
+  - cyan cornflower blue
+  - cyber grape
+  - cyber yellow
+  - cyclamen
+  - cyprus
+  - daffodil
+  - daintree
+  - dairy cream
+  - daisy bush
+  - dallas
+  - dandelion
+  - danube
+  - dark blue
+  - dark blue gray
+  - dark blue-gray
+  - dark brown
+  - dark brown tangelo
+  - dark burgundy
+  - dark byzantium
+  - dark candy apple red
+  - dark cerulean
+  - dark chestnut
+  - dark chocolate brown
+  - dark coral
+  - dark cyan
+  - dark ebony
+  - dark electric blue
+  - dark fern
+  - dark goldenrod
+  - dark gray
+  - dark green
+  - dark green (x11)
+  - dark gunmetal
+  - dark imperial blue
+  - dark jungle green
+  - dark khaki
+  - dark lava
+  - dark lavender
+  - dark liver
+  - dark liver (horses)
+  - dark magenta
+  - dark medium gray
+  - dark midnight blue
+  - dark moss green
+  - dark olive green
+  - dark orange
+  - dark orchid
+  - dark pastel blue
+  - dark pastel green
+  - dark pastel purple
+  - dark pastel red
+  - dark pink
+  - dark powder blue
+  - dark puce
+  - dark purple
+  - dark raspberry
+  - dark red
+  - dark salmon
+  - dark sand brown
+  - dark scarlet
+  - dark sea green
+  - dark sienna
+  - dark sky blue
+  - dark slate blue
+  - dark slate gray
+  - dark spring green
+  - dark steel gray
+  - dark tan
+  - dark tangerine
+  - dark terra cotta
+  - dark turquoise
+  - dark vanilla
+  - dark violet
+  - dark yellow
+  - dartmouth green
+  - davy grey
+  - davy's grey
+  - davys grey
+  - dawn
+  - dawn pink
+  - dazzling blue
+  - de york
+  - debian red
+  - deco
+  - deep blue
+  - deep blush
+  - deep bronze
+  - deep carmine
+  - deep carmine pink
+  - deep carrot orange
+  - deep cerise
+  - deep champagne
+  - deep chestnut
+  - deep coffee
+  - deep cove
+  - deep fir
+  - deep forest green
+  - deep fuchsia
+  - deep green
+  - deep green cyan turquoise
+  - deep jungle green
+  - deep koamaru
+  - deep lemon
+  - deep lilac
+  - deep magenta
+  - deep maroon
+  - deep oak
+  - deep pink
+  - deep puce
+  - deep red
+  - deep ruby
+  - deep saffron
+  - deep sapphire
+  - deep sea
+  - deep sea green
+  - deep sky blue
+  - deep space sparkle
+  - deep taupe
+  - deep teal
+  - deep tuscan red
+  - deep violet
+  - deer
+  - del rio
+  - dell
+  - delta
+  - deluge
+  - denim
+  - denim blue
+  - derby
+  - desaturated cyan
+  - desert
+  - desert sand
+  - desert storm
+  - desire
+  - dew
+  - di serria
+  - diamond
+  - diesel
+  - dim gray
+  - dingley
+  - dingy dungeon
+  - dirt
+  - dirt brown
+  - disco
+  - dixie
+  - dodger blue
+  - dogs
+  - dogwood rose
+  - dollar bill
+  - dolly
+  - dolphin
+  - domino
+  - don juan
+  - donkey brown
+  - dorado
+  - dorian gray
+  - double colonial white
+  - double pearl lusta
+  - double spanish white
+  - dove gray
+  - downriver
+  - downy
+  - drab
+  - driftwood
+  - drover
+  - duke blue
+  - dull lavender
+  - dune
+  - dust storm
+  - dusty gray
+  - dusty rose pink
+  - dutch white
+  - eagle
+  - eagle green
+  - earls green
+  - early dawn
+  - earth yellow
+  - earthy red
+  - east bay
+  - east side
+  - eastern blue
+  - ebb
+  - ebony
+  - ebony clay
+  - eclipse
+  - ecru
+  - ecru white
+  - ecstasy
+  - eden
+  - edgewater
+  - edward
+  - eerie black
+  - egg sour
+  - egg white
+  - eggplant
+  - eggshell
+  - egyptian blue
+  - el paso
+  - el salva
+  - electric blue
+  - electric crimson
+  - electric indigo
+  - electric lime
+  - electric purple
+  - electric violet
+  - electric yellow
+  - elephant
+  - elf green
+  - elm
+  - emerald
+  - emerald green
+  - eminence
+  - emperor
+  - empress
+  - endeavour
+  - energy yellow
+  - engineering international orange
+  - english holly
+  - english lavender
+  - english red
+  - english vermillion
+  - english violet
+  - english walnut
+  - envy
+  - equator
+  - erin
+  - espresso
+  - espresso brown
+  - eternity
+  - eton blue
+  - eucalyptus
+  - eunry
+  - evening sea
+  - everglade
+  - eye brown
+  - faded jade
+  - fair pink
+  - falcon
+  - fallow
+  - falu red
+  - fandango
+  - fandango pink
+  - fantasy
+  - fashion fuchsia
+  - fawn
+  - fedora
+  - feijoa
+  - feldgrau
+  - fern
+  - fern frond
+  - fern green
+  - ferra
+  - ferrari red
+  - festival
+  - feta
+  - field drab
+  - fiery orange
+  - fiery rose
+  - finch
+  - finlandia
+  - finn
+  - fiord
+  - fire
+  - fire bush
+  - fire engine red
+  - fire truck red
+  - firebrick
+  - firefly
+  - flame
+  - flame pea
+  - flamenco
+  - flamingo
+  - flamingo pink
+  - flavescent
+  - flax
+  - flax smoke
+  - flint
+  - flirt
+  - floral white
+  - flower pink
+  - fluorescent blue
+  - fluorescent green
+  - fluorescent pink
+  - fluorescent yellow
+  - flush mahogany
+  - foam
+  - fog
+  - foggy gray
+  - fogra29 rich black
+  - fogra39 rich black
+  - folly
+  - forest green
+  - forest green (web)
+  - forget me not
+  - fountain blue
+  - frangipani
+  - french beige
+  - french bistre
+  - french blue
+  - french fuchsia
+  - french gray
+  - french lilac
+  - french lime
+  - french mauve
+  - french pass
+  - french pink
+  - french plum
+  - french puce
+  - french raspberry
+  - french rose
+  - french sky blue
+  - french violet
+  - french wine
+  - fresh air
+  - fresh eggplant
+  - friar gray
+  - fringy flower
+  - froly
+  - frost
+  - frostbite
+  - frosted mint
+  - frostee
+  - fruit salad
+  - fuchsia
+  - fuchsia (crayola)
+  - fuchsia blue
+  - fuchsia pink
+  - fuchsia purple
+  - fuchsia rose
+  - fuego
+  - fuel yellow
+  - fulvous
+  - fun blue
+  - fun green
+  - fun yellow
+  - fuscous gray
+  - fuzzy wuzzy
+  - fuzzy wuzzy brown
+  - gable green
+  - gainsboro
+  - gainsboro gray
+  - gallery
+  - galliano
+  - gamboge
+  - gamboge orange
+  - gargoyle gas
+  - geebung
+  - generic viridian
+  - genoa
+  - geraldine
+  - geyser
+  - ghost
+  - ghost white
+  - giants club
+  - giants orange
+  - gigas
+  - gimblet
+  - gin
+  - gin fizz
+  - ginger
+  - girl scout green
+  - givry
+  - glacier
+  - glade green
+  - glaucous
+  - glitter
+  - glossy grape
+  - glowing moon yellow
+  - go ben
+  - go green
+  - goblin
+  - gold
+  - gold (crayola)
+  - gold (metallic)
+  - gold (web) (golden)
+  - gold drop
+  - gold fusion
+  - gold pink
+  - gold tips
+  - golden
+  - golden bell
+  - golden brown
+  - golden dream
+  - golden fizz
+  - golden gate bridge
+  - golden glow
+  - golden poppy
+  - golden sand
+  - golden tainoi
+  - golden yellow
+  - goldenrod
+  - goldfish orange
+  - gondola
+  - gordons green
+  - gorse
+  - gossamer
+  - gossip
+  - gotham green
+  - gothic
+  - governor bay
+  - gradient
+  - grain brown
+  - grandis
+  - granite gray
+  - granite green
+  - granny apple
+  - granny smith
+  - granny smith apple
+  - grape
+  - grapefruit pink
+  - graphite
+  - graphite gray
+  - grass green
+  - gravel
+  - gray
+  - gray (web)
+  - gray (x11 gray)
+  - gray asparagus
+  - gray chateau
+  - gray nickel
+  - gray nurse
+  - gray olive
+  - gray suit
+  - green
+  - green (crayola)
+  - green (munsell)
+  - green (ncs)
+  - green (pantone)
+  - green (pigment)
+  - green (ryb)
+  - green (web)
+  - green blue
+  - green cyan
+  - green haze
+  - green house
+  - green kelp
+  - green leaf
+  - green lizard
+  - green mist
+  - green pea
+  - green screen color
+  - green sheen
+  - green smoke
+  - green spring
+  - green vogue
+  - green waterloo
+  - green white
+  - green yellow
+  - green-blue
+  - green-blue (crayola)
+  - green-cyan
+  - green-yellow
+  - green-yellow (crayola)
+  - grenadier
+  - grey
+  - grizzly
+  - grullo
+  - guardsman red
+  - gulf blue
+  - gulf stream
+  - gull gray
+  - gum leaf
+  - gumbo
+  - gun powder
+  - gun smoke gray
+  - gunmetal
+  - gunmetal gray
+  - gunsmoke
+  - gurkha
+  - hacienda
+  - hair brown
+  - hairy heath
+  - haiti
+  - halayà úbe
+  - half and half
+  - half baked
+  - half colonial white
+  - half dutch white
+  - half spanish white
+  - halloween orange
+  - hampton
+  - han blue
+  - han purple
+  - hansa yellow
+  - harlequin
+  - harlequin green
+  - harp
+  - harvard crimson
+  - harvest gold
+  - havelock blue
+  - hawaiian tan
+  - hawkes blue
+  - heart gold
+  - heat wave
+  - heath
+  - heather
+  - heather gray
+  - heathered gray
+  - heavy metal
+  - heliconia
+  - heliotrope
+  - heliotrope gray
+  - heliotrope magenta
+  - hemlock
+  - hemp
+  - hibiscus
+  - highland
+  - highlighter pink
+  - hillary
+  - himalaya
+  - hint of green
+  - hint of red
+  - hint of yellow
+  - hippie blue
+  - hippie green
+  - hippie pink
+  - hit gray
+  - hit pink
+  - hokey pokey
+  - hoki
+  - holly
+  - hollywood cerise
+  - honey flower
+  - honeydew
+  - honeysuckle
+  - honolulu blue
+  - hooker's green
+  - hookers green
+  - hopbush
+  - horizon
+  - horses
+  - horses neck
+  - hot magenta
+  - hot pink
+  - hot toddy
+  - humming bird
+  - hunter blaze orange
+  - hunter green
+  - hurricane
+  - husk
+  - ice cold
+  - ice gray
+  - iceberg
+  - icterine
+  - illuminating emerald
+  - illusion
+  - imperial
+  - imperial blue
+  - imperial red
+  - inch worm
+  - inchworm
+  - independence
+  - india green
+  - indian red
+  - indian tan
+  - indian yellow
+  - indigo
+  - indigo blue
+  - indigo dye
+  - indochine
+  - infrared
+  - international klein blue
+  - international orange
+  - international orange (aerospace)
+  - international orange (engineering)
+  - international orange (golden gate bridge)
+  - iridescent
+  - iris
+  - irish coffee
+  - irish green
+  - iroko
+  - iron
+  - ironside gray
+  - ironstone
+  - irresistible
+  - isabelline
+  - islamic green
+  - island spice
+  - italian sky blue
+  - ivory
+  - jacaranda
+  - jacarta
+  - jacko bean
+  - jacksons purple
+  - jade
+  - jade green
+  - jaffa
+  - jagged ice
+  - jagger
+  - jaguar
+  - jambalaya
+  - janna
+  - japanese carmine
+  - japanese indigo
+  - japanese laurel
+  - japanese maple
+  - japanese violet
+  - japonica
+  - jasmine
+  - jasper
+  - java
+  - jazzberry jam
+  - jelly bean
+  - jet
+  - jet stream
+  - jewel
+  - jon
+  - jonquil
+  - jordy blue
+  - judge gray
+  - jumbo
+  - june bud
+  - jungle green
+  - jungle mist
+  - juniper
+  - just right
+  - kabul
+  - kaitoke green
+  - kangaroo
+  - karaka
+  - karry
+  - kashmir blue
+  - kelly green
+  - kelp
+  - kenyan copper
+  - keppel
+  - key lime
+  - key lime pie
+  - khaki
+  - khaki (web)
+  - khaki (x11) (light khaki)
+  - kidnapper
+  - kilamanjaro
+  - killarney
+  - kimberly
+  - king blue
+  - kingfisher daisy
+  - knockout pink
+  - kobe
+  - kobi
+  - kobicha
+  - kokoda
+  - kombu green
+  - korma
+  - koromiko
+  - kournikova
+  - ksu purple
+  - ku crimson
+  - kumera
+  - la palma
+  - la rioja
+  - la salle green
+  - languid lavender
+  - lapis lazuli
+  - las palmas
+  - laser
+  - laser lemon
+  - laurel
+  - laurel green
+  - lava
+  - lavender
+  - lavender (floral)
+  - lavender (web)
+  - lavender blue
+  - lavender blush
+  - lavender gray
+  - lavender indigo
+  - lavender magenta
+  - lavender mist
+  - lavender pink
+  - lavender purple
+  - lavender rose
+  - lawn green
+  - leaf green
+  - leather
+  - leather brown
+  - legal pad yellow
+  - legendary gray
+  - lemon
+  - lemon chiffon
+  - lemon curry
+  - lemon ginger
+  - lemon glacier
+  - lemon grass
+  - lemon lime
+  - lemon meringue
+  - lemon yellow
+  - lemon yellow (crayola)
+  - lenurple
+  - liberty
+  - licorice
+  - light apricot
+  - light blue
+  - light blush
+  - light brilliant red
+  - light brown
+  - light carmine pink
+  - light cobalt blue
+  - light coral
+  - light cornflower blue
+  - light crimson
+  - light cyan
+  - light deep pink
+  - light french beige
+  - light fuchsia pink
+  - light goldenrod yellow
+  - light gray
+  - light grayish magenta
+  - light green
+  - light hot pink
+  - light khaki
+  - light magenta
+  - light medium orchid
+  - light moss green
+  - light orange
+  - light orchid
+  - light pastel purple
+  - light periwinkle
+  - light pink
+  - light purple
+  - light red
+  - light salmon
+  - light salmon pink
+  - light sea green
+  - light sky blue
+  - light slate gray
+  - light steel blue
+  - light taupe
+  - light turquoise
+  - light yellow
+  - light zerg purple
+  - lightning yellow
+  - lightsaber blue
+  - lightsaber green
+  - lightsaber red
+  - lilac
+  - lilac bush
+  - lilac luster
+  - lily
+  - lily white
+  - lima
+  - lime
+  - lime (color wheel)
+  - lime (web) (x11 green)
+  - lime green
+  - limeade
+  - limed ash
+  - limed oak
+  - limed spruce
+  - limerick
+  - lincoln green
+  - linen
+  - link water
+  - lion
+  - lip pink
+  - lipstick
+  - lisbon brown
+  - liseran purpl
+  - little boy blue
+  - liver
+  - liver (dogs)
+  - liver (organ)
+  - liver chestnut
+  - livid
+  - livid brown
+  - loafer
+  - loblolly
+  - lochinvar
+  - lochmara
+  - locust
+  - log cabin
+  - logan
+  - lola
+  - london hue
+  - lonestar
+  - lotus
+  - loulou
+  - lucky
+  - lucky point
+  - lumber
+  - lunar green
+  - lust
+  - luxor gold
+  - lynch
+  - mabel
+  - macaroni and cheese
+  - madang
+  - madder lake
+  - madison
+  - madras
+  - magenta
+  - magenta (crayola)
+  - magenta (dye)
+  - magenta (pantone)
+  - magenta (process)
+  - magenta haze
+  - magenta pink
+  - magic mint
+  - magic potion
+  - magnolia
+  - mahogany
+  - mai tai
+  - maize
+  - maize (crayola)
+  - majorelle blue
+  - makara
+  - mako
+  - malachite
+  - malibu
+  - malibu blue
+  - mallard
+  - malta
+  - mamba
+  - manatee
+  - mandalay
+  - mandarin
+  - mandy
+  - mandys pink
+  - mango
+  - mango tango
+  - manhattan
+  - mantis
+  - mantle
+  - manz
+  - mardi gras
+  - marigold
+  - marigold yellow
+  - mariner
+  - marines blue
+  - maroon
+  - maroon (crayola)
+  - maroon (web)
+  - maroon (x11)
+  - maroon oak
+  - maroon red
+  - marshland
+  - martini
+  - martinique
+  - marzipan
+  - masala
+  - matisse
+  - matrix
+  - matte gray
+  - matterhorn
+  - mauve
+  - mauve taupe
+  - mauvelous
+  - maverick
+  - maximum blue
+  - maximum blue green
+  - maximum blue purple
+  - maximum green
+  - maximum green yellow
+  - maximum purple
+  - maximum red
+  - maximum red purple
+  - maximum yellow
+  - maximum yellow red
+  - may green
+  - maya blue
+  - meat brown
+  - medium aquamarine
+  - medium blue
+  - medium brown
+  - medium candy apple red
+  - medium carmine
+  - medium champagne
+  - medium dark red
+  - medium electric blue
+  - medium jungle green
+  - medium orchid
+  - medium purple
+  - medium red violet
+  - medium ruby
+  - medium sea green
+  - medium sky blue
+  - medium slate blue
+  - medium spring bud
+  - medium spring green
+  - medium turquoise
+  - medium vermilion
+  - medium violet-red
+  - melanie
+  - melanzane
+  - mellow apricot
+  - mellow yellow
+  - melon
+  - melrose
+  - mercury
+  - merino
+  - merlin
+  - merlot
+  - metal pink
+  - metallic bronze
+  - metallic copper
+  - metallic gold
+  - metallic gray
+  - metallic seaweed
+  - metallic sunburst
+  - meteor
+  - meteorite
+  - mexican pink
+  - mexican red
+  - mid gray
+  - middle blue
+  - middle blue green
+  - middle blue purple
+  - middle green
+  - middle green yellow
+  - middle grey
+  - middle purple
+  - middle red
+  - middle red purple
+  - middle yellow
+  - middle yellow red
+  - midnight
+  - midnight blue
+  - midnight green
+  - midnight green (eagle green)
+  - midnight moss
+  - midnight purple
+  - mikado
+  - mikado yellow
+  - milan
+  - milano
+  - milano red
+  - military green
+  - milk punch
+  - millbrook
+  - millennial pink
+  - mimi pink
+  - mimosa
+  - mindaro
+  - mine shaft
+  - mineral green
+  - ming
+  - minion yellow
+  - minsk
+  - mint
+  - mint blue
+  - mint cream
+  - mint green
+  - mint julep
+  - mint tulip
+  - mirage
+  - mischka
+  - mist gray
+  - misty moss
+  - misty rose
+  - mobster
+  - moccaccino
+  - moccasin
+  - mocha
+  - mode beige
+  - mojo
+  - mona lisa
+  - monarch
+  - monarch orange
+  - mondo
+  - mongoose
+  - monsoon
+  - monte carlo
+  - monza
+  - moody blue
+  - moon glow
+  - moon mist
+  - moon raker
+  - moonstone blue
+  - mordant red
+  - morning blue
+  - morning glory
+  - morocco brown
+  - mortar
+  - mosque
+  - moss
+  - moss green
+  - mountain meadow
+  - mountain mist
+  - mountbatten pink
+  - msu green
+  - muddy waters
+  - muesli
+  - mughal green
+  - mulberry
+  - mulberry wood
+  - mule fawn
+  - mulled wine
+  - mummys tomb
+  - munsell blue
+  - munsell green
+  - munsell purple
+  - munsell red
+  - munsell yellow
+  - musket brown
+  - mustard
+  - mustard yellow
+  - my pink
+  - my sin
+  - myrtle green
+  - mystic
+  - mystic maroon
+  - nadeshiko pink
+  - nandor
+  - napa
+  - napier green
+  - naples yellow
+  - narvik
+  - natural gray
+  - navajo white
+  - navy
+  - navy blue
+  - navy blue (crayola)
+  - ncs blue
+  - ncs green
+  - ncs red
+  - nebula
+  - negroni
+  - neon blue
+  - neon carrot
+  - neon fuchsia
+  - neon green
+  - neon orange
+  - neon pink
+  - neon purple
+  - neon red
+  - neon yellow
+  - nepal
+  - neptune
+  - nero
+  - netflix red
+  - neutral gray
+  - nevada
+  - new car
+  - new orleans
+  - new york pink
+  - niagara
+  - nickel
+  - nickel gray
+  - night rider
+  - night shadz
+  - nile blue
+  - nobel
+  - nomad
+  - non photo blue
+  - non-photo blue
+  - north texas green
+  - norway
+  - nude pink
+  - nugget
+  - nutmeg
+  - nutmeg wood finish
+  - nyanza
+  - oasis
+  - oatmeal
+  - observatory
+  - ocean blue
+  - ocean boat blue
+  - ocean green
+  - ochre
+  - off green
+  - off yellow
+  - office green
+  - ogre odor
+  - oil
+  - old brick
+  - old burgundy
+  - old copper
+  - old gold
+  - old heliotrope
+  - old lace
+  - old lavender
+  - old mauve
+  - old moss green
+  - old rose
+  - old silver
+  - olive
+  - olive brown
+  - olive drab
+  - olive drab seven
+  - olive green
+  - olive haze
+  - olivetone
+  - olivine
+  - onahau
+  - onion
+  - onyx
+  - opal
+  - opera mauve
+  - opium
+  - oracle
+  - orange
+  - orange (crayola)
+  - orange (pantone)
+  - orange (web)
+  - orange peel
+  - orange red
+  - orange roughy
+  - orange soda
+  - orange white
+  - orange yellow
+  - orange-red
+  - orange-red (crayola)
+  - orange-yellow
+  - orange-yellow (crayola)
+  - orchid
+  - orchid (crayola)
+  - orchid pink
+  - orchid white
+  - oregon
+  - organ
+  - orient
+  - oriental pink
+  - orinoco
+  - orioles orange
+  - oslo gray
+  - otter brown
+  - ottoman
+  - ou crimson red
+  - outer space
+  - outer space (crayola)
+  - outrageous orange
+  - oxblood
+  - oxblood red
+  - oxford blue
+  - oxford brown
+  - oxford gray
+  - oxley
+  - oyster bay
+  - oyster pink
+  - paarl
+  - pablo
+  - pacific blue
+  - pacifika
+  - paco
+  - padua
+  - pakistan green
+  - palatinate blue
+  - palatinate purple
+  - pale aqua
+  - pale blue
+  - pale brown
+  - pale canary
+  - pale carmine
+  - pale cerulean
+  - pale chestnut
+  - pale copper
+  - pale cornflower blue
+  - pale cyan
+  - pale dogwood
+  - pale gold
+  - pale goldenrod
+  - pale green
+  - pale lavender
+  - pale leaf
+  - pale magenta
+  - pale magenta pink
+  - pale oyster
+  - pale pink
+  - pale plum
+  - pale prim
+  - pale purple (pantone)
+  - pale red violet
+  - pale robin egg blue
+  - pale rose
+  - pale silver
+  - pale sky
+  - pale slate
+  - pale spring bud
+  - pale taupe
+  - pale violet
+  - pale yellow
+  - palm green
+  - palm leaf
+  - pampas
+  - panache
+  - pancho
+  - pansy purple
+  - pantone blue
+  - pantone green
+  - pantone magenta
+  - pantone orange
+  - pantone pink
+  - pantone yellow
+  - paolo veronese green
+  - papaya whip
+  - paper bag brown
+  - paprika
+  - paradise pink
+  - paradiso
+  - parchment
+  - paris daisy
+  - paris green
+  - paris m
+  - paris white
+  - parsley
+  - passion pink
+  - pastel blue
+  - pastel brown
+  - pastel gray
+  - pastel green
+  - pastel magenta
+  - pastel orange
+  - pastel pink
+  - pastel purple
+  - pastel red
+  - pastel violet
+  - pastel yellow
+  - patina
+  - patriarch
+  - pattens blue
+  - paua
+  - pavlova
+  - payne grey
+  - payne's grey
+  - paynes grey
+  - peach
+  - peach (crayola)
+  - peach cream
+  - peach orange
+  - peach puff
+  - peach schnapps
+  - peach yellow
+  - peacock blue
+  - peanut
+  - pear
+  - pearl
+  - pearl aqua
+  - pearl bush
+  - pearl lusta
+  - pearl mystic turquoise
+  - pearl pink
+  - pearly purple
+  - peat
+  - pelorous
+  - peppermint
+  - perano
+  - perfume
+  - peridot
+  - periglacial blue
+  - periwinkle
+  - periwinkle (crayola)
+  - periwinkle gray
+  - permanent geranium lake
+  - persian blue
+  - persian green
+  - persian indigo
+  - persian orange
+  - persian pink
+  - persian plum
+  - persian red
+  - persian rose
+  - persimmon
+  - peru
+  - peru tan
+  - pesto
+  - petite orchid
+  - petrol
+  - pewter
+  - pewter blue
+  - pharlap
+  - phlox
+  - phthalo blue
+  - phthalo green
+  - picasso
+  - pickled bean
+  - pickled bluewood
+  - picotee blue
+  - picton blue
+  - pictorial carmine
+  - pig pink
+  - pigeon post
+  - piggy pink
+  - pigment blue
+  - pigment green
+  - pigment red
+  - pine cone
+  - pine glade
+  - pine green
+  - pine tree
+  - pink
+  - pink (pantone)
+  - pink flamingo
+  - pink flare
+  - pink lace
+  - pink lady
+  - pink lavender
+  - pink orange
+  - pink pearl
+  - pink raspberry
+  - pink sherbet
+  - pink swan
+  - piper
+  - pipi
+  - pippin
+  - pirate gold
+  - pistachio
+  - pixie green
+  - pixie powder
+  - pizazz
+  - pizza
+  - plantation
+  - platinum
+  - plum
+  - plum (web)
+  - plum purple
+  - plump purple
+  - pohutukawa
+  - polar
+  - police blue
+  - polished pine
+  - polo blue
+  - pomegranate
+  - pomp and power
+  - pompadour
+  - popstar
+  - porcelain
+  - porsche
+  - port gore
+  - portafino
+  - portage
+  - portica
+  - portland orange
+  - pot pourri
+  - potters clay
+  - powder ash
+  - powder blue
+  - prairie sand
+  - prelude
+  - prim
+  - primary blue
+  - primrose
+  - princess perfume
+  - princeton orange
+  - process cyan
+  - process magenta
+  - process yellow
+  - provincial pink
+  - prune
+  - prussian blue
+  - psychedelic purple
+  - puce
+  - pueblo
+  - puerto rico
+  - pullman brown
+  - pullman brown (ups brown)
+  - pullman green
+  - pumice
+  - pumpkin
+  - pumpkin skin
+  - pumpkin spice orange
+  - punch
+  - punga
+  - purple
+  - purple (munsell)
+  - purple (web)
+  - purple (x11)
+  - purple heart
+  - purple mountain majesty
+  - purple navy
+  - purple pizzazz
+  - purple plum
+  - purple taupe
+  - purpureus
+  - putty
+  - quarter pearl lusta
+  - quarter spanish white
+  - quartz
+  - queen blue
+  - queen pink
+  - quick silver
+  - quicksand
+  - quill gray
+  - quinacridone magenta
+  - quincy
+  - racing green
+  - racing red
+  - radical red
+  - raffia
+  - rainee
+  - raisin black
+  - rajah
+  - rangitoto
+  - rangoon green
+  - raspberry
+  - raspberry glace
+  - raspberry pink
+  - raspberry rose
+  - raven
+  - raw sienna
+  - raw umber
+  - razzle dazzle rose
+  - razzmatazz
+  - razzmic berry
+  - rebecca purple
+  - rebel
+  - red
+  - red (crayola)
+  - red (munsell)
+  - red (ncs)
+  - red (pantone)
+  - red (pigment)
+  - red (ryb)
+  - red beech
+  - red berry
+  - red damask
+  - red devil
+  - red orange
+  - red oxide
+  - red purple
+  - red ribbon
+  - red robin
+  - red salsa
+  - red stage
+  - red violet
+  - red-orange
+  - red-orange (color wheel)
+  - red-orange (crayola)
+  - red-purple
+  - red-violet
+  - red-violet (color wheel)
+  - red-violet (crayola)
+  - redwood
+  - reef
+  - reef gold
+  - reflex blue
+  - regal blue
+  - regalia
+  - regent gray
+  - regent st blue
+  - remy
+  - reno sand
+  - resolution blue
+  - revolver
+  - rhino
+  - rhodamine red
+  - rhythm
+  - rice cake
+  - rice flower
+  - rich black
+  - rich black (fogra29)
+  - rich black (fogra39)
+  - rich blue
+  - rich brilliant lavender
+  - rich brown
+  - rich carmine
+  - rich electric blue
+  - rich gold
+  - rich gray
+  - rich lavender
+  - rich lilac
+  - rich maroon
+  - rich red
+  - rifle green
+  - rio grande
+  - ripe lemon
+  - ripe plum
+  - riptide
+  - river bed
+  - road sign blue
+  - road sign brown
+  - road sign green
+  - road sign orange
+  - road sign yellow
+  - roast coffee
+  - rob roy
+  - robin egg blue
+  - rock
+  - rock blue
+  - rock spray
+  - rocket metallic
+  - rodeo dust
+  - rojo spanish red
+  - rolling stone
+  - roman
+  - roman coffee
+  - roman silver
+  - romance
+  - romantic
+  - ronchi
+  - roof terracotta
+  - rope
+  - rose
+  - rose bonbon
+  - rose bud
+  - rose bud cherry
+  - rose dust
+  - rose ebony
+  - rose fog
+  - rose gold
+  - rose madder
+  - rose of sharon
+  - rose pink
+  - rose pompadour
+  - rose quartz
+  - rose red
+  - rose taupe
+  - rose vale
+  - rose white
+  - rosewood
+  - rosso corsa
+  - rosy brown
+  - rosy pink
+  - rotary blue
+  - roti
+  - rouge
+  - royal air force blue
+  - royal azure
+  - royal blue
+  - royal blue (dark)
+  - royal blue (light)
+  - royal fuchsia
+  - royal heath
+  - royal purple
+  - royal yellow
+  - ruber
+  - rubine red
+  - ruby
+  - ruby red
+  - ruddy
+  - ruddy brown
+  - ruddy pink
+  - rufous
+  - rum
+  - rum swizzle
+  - russet
+  - russett
+  - russian green
+  - russian violet
+  - rust
+  - rustic red
+  - rusty nail
+  - rusty red
+  - ryb blue
+  - ryb green
+  - ryb orange
+  - ryb red
+  - ryb violet
+  - ryb yellow
+  - sacramento state green
+  - saddle
+  - saddle brown
+  - sae ece amber
+  - safety orange
+  - safety orange (blaze orange)
+  - safety yellow
+  - saffron
+  - saffron mango
+  - sage
+  - sage gray
+  - sage green
+  - sahara
+  - sahara sand
+  - sail
+  - salem
+  - salmon
+  - salmon pink
+  - salomie
+  - salt box
+  - saltpan
+  - sambuca
+  - san felix
+  - san juan
+  - san marino
+  - sand
+  - sand dune
+  - sandal
+  - sandrift
+  - sandstone
+  - sandstorm
+  - sandwisp
+  - sandy beach
+  - sandy brown
+  - sandy taupe
+  - sangria
+  - sanguine brown
+  - santa fe
+  - santas gray
+  - sap green
+  - sapling
+  - sapphire
+  - sapphire (crayola)
+  - sapphire blue
+  - saratoga
+  - sasquatch socks
+  - satin linen
+  - satin sheen gold
+  - satin sheets gold
+  - sauvignon
+  - sawgrass brown
+  - sazerac
+  - scampi
+  - scandal
+  - scarlet
+  - scarlet gum
+  - scarlet red
+  - scarlett
+  - scarpa flow
+  - schauss pink
+  - schist
+  - school bus yellow
+  - schooner
+  - science blue
+  - scooter
+  - scorpion
+  - scotch mist
+  - screamin green
+  - screamin' green
+  - sea blue
+  - sea buckthorn
+  - sea green
+  - sea green (crayola)
+  - sea mist
+  - sea nymph
+  - sea pink
+  - sea serpent
+  - seafoam green
+  - seagull
+  - seal brown
+  - seance
+  - seashell
+  - seaweed
+  - secret
+  - selago
+  - selective yellow
+  - sepia
+  - sepia black
+  - sepia brown
+  - sepia skin
+  - serenade
+  - shadow
+  - shadow blue
+  - shadow green
+  - shady lady
+  - shakespeare
+  - shalimar
+  - shampoo
+  - shamrock
+  - shamrock green
+  - shark
+  - sheen green
+  - sheffield gray
+  - sherpa blue
+  - sherwood green
+  - shilo
+  - shimmering blush
+  - shingle fawn
+  - shiny shamrock
+  - ship cove
+  - ship gray
+  - shiraz
+  - shocking
+  - shocking pink
+  - shocking pink (crayola)
+  - shrek green
+  - shuttle gray
+  - siam
+  - sidecar
+  - siena brown
+  - sienna
+  - silk
+  - silver
+  - silver (crayola)
+  - silver (metallic)
+  - silver chalice
+  - silver lake blue
+  - silver pink
+  - silver sand
+  - silver tree
+  - silvery pink
+  - sinbad
+  - sinopia
+  - siren
+  - sirocco
+  - sisal
+  - sizzling red
+  - sizzling sunrise
+  - skeptic
+  - skobeloff
+  - sky blue
+  - sky blue (crayola)
+  - sky magenta
+  - slate blue
+  - slate gray
+  - slimy green
+  - smalt
+  - smalt blue
+  - smashed pumpkin
+  - smitten
+  - smoke
+  - smokey topaz
+  - smoky
+  - smoky black
+  - smoky topaz
+  - snow
+  - snow drift
+  - snow flurry
+  - snowy mint
+  - snuff
+  - soap
+  - soapstone
+  - soft amber
+  - soft peach
+  - soft pink
+  - solid pink
+  - solitaire
+  - solitude
+  - sonic silver
+  - sorbus
+  - sorrell brown
+  - soya bean
+  - space cadet
+  - spanish bistre
+  - spanish blue
+  - spanish carmine
+  - spanish crimson
+  - spanish gray
+  - spanish green
+  - spanish orange
+  - spanish pink
+  - spanish red
+  - spanish sky blue
+  - spanish violet
+  - spanish viridian
+  - spartan crimson
+  - spearmint
+  - spectra
+  - spice
+  - spicy mix
+  - spicy mustard
+  - spicy pink
+  - spindle
+  - spiro disco ball
+  - spray
+  - spring bud
+  - spring frost
+  - spring green
+  - spring green (crayola)
+  - spring leaves
+  - spring rain
+  - spring sun
+  - spring wood
+  - sprout
+  - spun pearl
+  - squirrel
+  - st patricks blue
+  - st tropaz
+  - st. patrick's blue
+  - stack
+  - star command blue
+  - star dust
+  - stark white
+  - starship
+  - steel blue
+  - steel gray
+  - steel pink
+  - steel teal
+  - stil de grain yellow
+  - stiletto
+  - stizza
+  - stonewall
+  - storm dust
+  - storm gray
+  - stormcloud
+  - stratos
+  - straw
+  - strawberry
+  - strawberry blonde
+  - strikemaster
+  - stromboli
+  - studio
+  - submarine
+  - sugar cane
+  - sugar plum
+  - sulu
+  - summer green
+  - summer yellow
+  - sun
+  - sunburnt cyclops
+  - sundance
+  - sundown
+  - sunflower
+  - sunglo
+  - sunglow
+  - sunny
+  - sunray
+  - sunset
+  - sunset orange
+  - sunshade
+  - super pink
+  - supernova
+  - surf
+  - surf crest
+  - surfie green
+  - sushi
+  - suva gray
+  - swamp
+  - swamp green
+  - swans down
+  - sweet brown
+  - sweet corn
+  - sweet pink
+  - swirl
+  - swiss coffee
+  - sycamore
+  - syracuse orange
+  - tabasco
+  - tacao
+  - tacha
+  - tahiti gold
+  - tahuna sands
+  - tall poppy
+  - tallow
+  - tamarillo
+  - tamarind
+  - tan
+  - tan (crayola)
+  - tan hide
+  - tana
+  - tangaroa
+  - tangelo
+  - tangerine
+  - tangerine yellow
+  - tango
+  - tango pink
+  - tapa
+  - tapestry
+  - tara
+  - tarawera
+  - tart orange
+  - tasman
+  - taupe
+  - taupe brown
+  - taupe gray
+  - tawny port
+  - taxi cab yellow
+  - te papa green
+  - tea
+  - tea green
+  - tea rose
+  - teak
+  - teal
+  - teal blue
+  - teal deer
+  - teal green
+  - telemagenta
+  - templeton gray
+  - temptress
+  - tenne
+  - tennis court blue
+  - tennis court green
+  - tenné (tawny)
+  - tequila
+  - terra cotta
+  - terracotta
+  - texas
+  - texas rose
+  - thatch
+  - thatch green
+  - thistle
+  - thistle green
+  - thulian pink
+  - thunder
+  - thunderbird
+  - tia maria
+  - tiara
+  - tiber
+  - tickle me pink
+  - tidal
+  - tide
+  - tiffany blue
+  - tiger orange
+  - tigers eye
+  - timber green
+  - timberwolf
+  - timberwolf gray
+  - titan white
+  - titanium yellow
+  - toast
+  - tobacco brown
+  - toledo
+  - tolopea
+  - tom thumb
+  - tomato
+  - tonys pink
+  - toolbox
+  - topaz
+  - torea bay
+  - tortoise shell brown
+  - tory blue
+  - tosca
+  - totem pole
+  - tourmaline
+  - tower gray
+  - tractor red
+  - tradewind
+  - tranquil
+  - travertine
+  - tree poppy
+  - treehouse
+  - trendy green
+  - trendy pink
+  - trinidad
+  - trolley grey
+  - tropical blue
+  - tropical rain forest
+  - tropical rainforest
+  - tropical violet
+  - trout
+  - true blue
+  - true silver
+  - true v
+  - trypan blue
+  - tuatara
+  - tuft bush
+  - tufts blue
+  - tulip
+  - tulip tree
+  - tumbleweed
+  - tuna
+  - tundora
+  - turbo
+  - turkish rose
+  - turmeric
+  - turquoise
+  - turquoise blue
+  - turquoise green
+  - turtle green
+  - tuscan
+  - tuscan brown
+  - tuscan red
+  - tuscan tan
+  - tuscany
+  - tusk
+  - tussock
+  - tutu
+  - twilight
+  - twilight blue
+  - twilight lavender
+  - twine
+  - tyrian purple
+  - ua blue
+  - ua red
+  - ube
+  - ucla blue
+  - ucla gold
+  - ufo green
+  - ultra pink
+  - ultra red
+  - ultramarine
+  - ultramarine blue
+  - umber
+  - unbleached silk
+  - underage pink
+  - united nations blue
+  - university of california gold
+  - university of pennsylvania red
+  - university of tennessee orange
+  - unmellow yellow
+  - up forest green
+  - up maroon
+  - upsdell red
+  - uranian blue
+  - urobilin
+  - us navy blue
+  - usafa blue
+  - usc cardinal
+  - utah crimson
+  - valencia
+  - valentine pink
+  - valentino
+  - valhalla
+  - van cleef
+  - van dyke brown
+  - vanilla
+  - vanilla ice
+  - varden
+  - varsity red
+  - vegas gold
+  - venetian red
+  - venice blue
+  - venus
+  - verdigris
+  - verdun green
+  - vermilion
+  - vermillion
+  - veronica
+  - very gray
+  - very light azure
+  - very light blue
+  - very light malachite green
+  - very light tangelo
+  - very pale orange
+  - very pale yellow
+  - vesuvius
+  - vibrant pink
+  - victoria
+  - vida loca
+  - viking
+  - vin rouge
+  - viola
+  - violent violet
+  - violet
+  - violet (color wheel)
+  - violet (crayola)
+  - violet (ryb)
+  - violet (web)
+  - violet blue
+  - violet eggplant
+  - violet red
+  - violet-blue
+  - violet-blue (crayola)
+  - violet-red
+  - violet-red (perbang)
+  - viridian
+  - viridian green
+  - vis vis
+  - vista blue
+  - vista white
+  - vivid amber
+  - vivid auburn
+  - vivid burgundy
+  - vivid cerise
+  - vivid cerulean
+  - vivid crimson
+  - vivid gamboge
+  - vivid lime green
+  - vivid malachite
+  - vivid mulberry
+  - vivid orange
+  - vivid orange peel
+  - vivid orchid
+  - vivid raspberry
+  - vivid red
+  - vivid red tangelo
+  - vivid sky blue
+  - vivid tangelo
+  - vivid tangerine
+  - vivid vermilion
+  - vivid violet
+  - vivid yellow
+  - volt
+  - voodoo
+  - vulcan
+  - wafer
+  - waikawa gray
+  - waiouru
+  - walnut
+  - walnut brown
+  - warm black
+  - warm brown
+  - warm gray
+  - wasabi
+  - water leaf
+  - watercourse
+  - waterloo
+  - watermelon
+  - waterspout
+  - wattle
+  - watusi
+  - wax flower
+  - we peep
+  - web chartreuse
+  - web orange
+  - wedgewood
+  - weezy blue
+  - weldon blue
+  - well read
+  - wenge
+  - west coast
+  - west side
+  - westar
+  - wewak
+  - wheat
+  - wheatfield
+  - whiskey
+  - whiskey brown
+  - whisper
+  - white
+  - white ice
+  - white lilac
+  - white linen
+  - white pointer
+  - white rock
+  - white smoke
+  - wild blue yonder
+  - wild orchid
+  - wild rice
+  - wild sand
+  - wild strawberry
+  - wild watermelon
+  - wild willow
+  - william
+  - willow brook
+  - willow grove
+  - willpower orange
+  - windsor
+  - windsor tan
+  - wine
+  - wine berry
+  - wine dregs
+  - wine red
+  - winter hazel
+  - winter sky
+  - winter wizard
+  - wintergreen dream
+  - wisp pink
+  - wisteria
+  - wistful
+  - witch haze
+  - wood bark
+  - wood brown
+  - woodland
+  - woodrush
+  - woodsmoke
+  - woody brown
+  - x11 dark green
+  - x11 gray
+  - xanadu
+  - xanthic
+  - xanthous
+  - yale blue
+  - yankees blue
+  - yellow
+  - yellow (crayola)
+  - yellow (munsell)
+  - yellow (ncs)
+  - yellow (pantone)
+  - yellow (process)
+  - yellow (ryb)
+  - yellow green
+  - yellow metal
+  - yellow orange
+  - yellow orange (color wheel)
+  - yellow rose
+  - yellow sea
+  - yellow sunshine
+  - yellow-green
+  - yellow-green (color wheel)
+  - yellow-green (crayola)
+  - yinmn blue
+  - your pink
+  - yukon gold
+  - yuma
+  - zaffre
+  - zambezi
+  - zanah
+  - zest
+  - zeus
+  - ziggurat
+  - zinnwaldite
+  - zinnwaldite brown
+  - zircon
+  - zombie
+  - zomp
+  - zorba
+  - zuccini
+  - zumthor
+  Monochrome:
+  - white
+  - light gray
+  - ivory
+  - beige
+  - azure
+  - alice blue
+  - snow white
+  - floral white
+  - black
+  - dark gray
+  - dim gray
+  - gray
+  - dim gray
+  - slate gray
+  Orange:
+  - Aerospace orange
+  - Alloy orange
+  - Amber
+  - Apricot
+  - Atomic tangerine
+  - Brown
+  - Burnt orange
+  - Butterscotch
+  - Carrot orange
+  - Champagne
+  - Coral
+  - Dark orange
+  - Desert sand
+  - Engineering orange
+  - Flame
+  - Giants orange
+  - Gold
+  - Golden Gate Bridge
+  - Goldenrod
+  - Hunyadi yellow
+  - Light orange
+  - Mahogany
+  - Melon
+  - Orange
+  - Papaya whip
+  - Peach
+  - Persian orange
+  - Persimmon
+  - Princeton orange
+  - "Pumpkin\tSafety orange"
+  - "Saffron\tSpanish orange"
+  - Tangelo
+  - Tangerine
+  - Tawny
+  - Tiger’s Eye
+  - UT orange
+  - Xanthous
+  Palettes:
+  - black and gold
+  - black and navy blue and white
+  - black and yellow
+  - blue violet and cyan and yellow
+  - blue violet and gold and cyan
+  - blue violet and light orange
+  - blue violet and light purple
+  - blue violet and lime green
+  - cyan and blue and blue violet
+  - cyan and dark blue
+  - cyan and green and yellow
+  - cyan and purple and magenta
+  - cyan and yellow
+  - cyan and yellow and lime green
+  - cyan and yellow and magenta
+  - cyan and yellow and orange
+  - dark blue and gold
+  - dark blue and violet
+  - dark brown and orange and yellow
+  - dark gray and blue and gold
+  - dark gray and cyan and green
+  - dark gray and cyan and white
+  - dark gray and cyan and yellow
+  - dark gray and magenta
+  - dark gray and red
+  - dark gray and red and orange
+  - dark gray and yellow
+  - dark gray and yellow and cyan
+  - dark green and gray and yellow
+  - dark green and magenta
+  - dark green and navy blue and cyan
+  - dark red and yellow
+  - light blue and pink
+  - light pink and blue violet
+  - light pink and cyan
+  - light pink and navy blue
+  - light purple and cyan
+  - light red and cyan
+  - light yellow and blue
+  - light yellow and lime green
+  - navy blue and cyan and white
+  - navy blue and cyan and yellow orange
+  - navy blue and gold and white
+  - navy blue and magenta
+  - purple and cyan and green
+  - purple and yellow
+  - red and blue and yellow
+  - red and navy blue
+  - white and blue and red
+  - white and cyan and navy blue
+  - white and gray
+  - black and gray
+  - white and gray and brown
+  - white and light brown and black gray
+  - white and light yellow and lime green
+  - white and navy blue
+  - white and pink and cyan
+  - white and pink and light yellow
+  - white and pink and yellow
+  Pink:
+  - Amaranth
+  - Amaranth pink
+  - Baker-Miller pink
+  - Blush
+  - Brilliant rose
+  - Brink pink
+  - Carnation pink
+  - Cerise
+  - Champagne pink
+  - Cherry blossom pink
+  - China rose
+  - Coral
+  - Coral pink
+  - Cordovan
+  - Cyclamen
+  - Deep pink
+  - Dogwood rose
+  - Fairy Tale
+  - Folly
+  - French rose
+  - Fuchsia
+  - Fuchsia rose
+  - Heliotrope
+  - Hollywood cerise
+  - Hot magenta
+  - Hot pink
+  - Lavender blush
+  - Lavender pink
+  - "Magenta\tMexican pink"
+  - Mimi Pink
+  - Misty rose
+  - Mountbatten pink
+  - Old rose
+  - Orchid pink
+  - Pale Dogwood
+  - Peach
+  - Persian pink
+  - Persian rose
+  - Phlox
+  - Pink
+  - Pompadour
+  - Puce
+  - Raspberry
+  - Raspberry rose
+  - Razzle dazzle rose
+  - Razzmatazz
+  - Red-violet
+  - Rose
+  - Rose
+  - Rose Bonbon
+  - Rose ebony
+  - Rose pink
+  - Rose quartz
+  - Rose red
+  - Rose taupe
+  - Rose vale
+  - Rosewood
+  - Rosy brown
+  - Salmon pink
+  - Seashell
+  - Shocking pink
+  - Tea rose
+  - Telemagenta
+  - Thulian pink
+  - Tickle me pink
+  - Ultra pink
+  Purple:
+  - african violet
+  - amaranth
+  - amaranth purple
+  - amethyst
+  - baker-miller pink
+  - blue-violet
+  - burgundy
+  - byzantium
+  - caput mortuum
+  - cerise
+  - chinese
+  - chinese violet
+  - crimson
+  - dark magenta
+  - dark purple
+  - dark violet
+  - eggplant
+  - electric indigo
+  - electric purple
+  - electric violet
+  - eminence
+  - english violet
+  - fairy tale
+  - fandango
+  - finn
+  - french mauve
+  - french violet
+  - fuchsia
+  - fuchsia    grape
+  - heliotrope
+  - hot magenta
+  - indigo
+  - iris
+  - japanese violet
+  - lavender
+  - lavender blush
+  - light purple
+  - lilac
+  - magenta
+  - magenta dye
+  - magenta haze
+  - majorelle blue
+  - mardi gras
+  - mauve
+  - mauveine
+  - medium purple
+  - medium slate blue
+  - mountbatten pink
+  - mulberry
+  - murrey
+  - orchid
+  - palatinate
+  - pale purple
+  - periwinkle
+  - persian indigo
+  - phlox
+  - pink lavender
+  - plum
+  - pomp and power
+  - puce
+  - purple
+  - purple pizzazz
+  - purpureus
+  - quinacridone magenta
+  - raspberry
+  - razzle dazzle rose
+  - rebecca purple
+  - red-violet
+  - rose
+  - rose pink
+  - rose quartz
+  - royal purple
+  - russian violet
+  - shocking pink
+  - sky magenta
+  - slate blue
+  - steel pink
+  - tekhelet
+  - telemagenta
+  - thistle
+  - tropical indigo
+  - tyrian purple
+  - ultra violet
+  - veronica
+  - violet
+  - wisteria
+  Red:
+  - amaranth purple
+  - barn red
+  - bittersweet
+  - bittersweet shimmer
+  - blood red
+  - bright pink
+  - burgundy
+  - candy apple red
+  - cantaloupe melon
+  - cardinal
+  - carmine
+  - cerise
+  - chili red
+  - chocolate cosmos
+  - cinnabar
+  - claret
+  - coquelicot
+  - coral pink
+  - cordovan
+  - cornell red
+  - crimson
+  - dark red
+  - falu red
+  - fire brick
+  - fire engine red
+  - folly
+  - garnet
+  - imperial red
+  - indian red
+  - jasper
+  - light coral
+  - light red
+  - madder
+  - mahogany
+  - maroon
+  - maroon red
+  - misty rose
+  - off-red
+  - old rose
+  - orange
+  - orange red
+  - ou crimson
+  - penn red
+  - persian red
+  - pink
+  - poppy
+  - red
+  - red-brown
+  - redwood
+  - rojo
+  - rose
+  - rose ebony
+  - rose red
+  - rose taupe
+  - rose vale
+  - rosewood
+  - rosy brown
+  - rust
+  - rusty red
+  - salmon
+  - salmon pink
+  - scarlet
+  - syracuse red-orange
+  - tea rose
+  - tomato
+  - turkey red
+  - vermilion
+  - wine
+  Skin:
+  - alabaster
+  - almond
+  - amber
+  - beige
+  - black
+  - bronze
+  - brown
+  - caramel
+  - chestnut
+  - chocolate
+  - cocoa
+  - copper
+  - cream
+  - dark
+  - deep
+  - ebony
+  - espresso
+  - fair
+  - golden
+  - green
+  - grey
+  - honey
+  - ivory
+  - light
+  - light-medium
+  - mahogany
+  - medium
+  - medium-deep
+  - mocha
+  - olive
+  - pale
+  - peach
+  - pink
+  - porcelain
+  - red
+  - ruby
+  - salmon
+  - sienna
+  - tan
+  - taupe
+  - tawny
+  - vanilla
+  - walnut
+  - white
+  - wine
+  White:
+  - alabaster
+  - alice blue
+  - anti-flash white
+  - antique white
+  - azure
+  - azure white
+  - baby powder
+  - beige
+  - bone
+  - champagne
+  - cornsilk
+  - cosmic latte
+  - cream
+  - dutch white
+  - eggshell
+  - flax
+  - floral white
+  - ghost white
+  - honeydew
+  - isabelline
+  - ivory
+  - lavender blush
+  - lemon chiffon
+  - light gray
+  - linen
+  - magnolia
+  - mint cream
+  - misty rose
+  - navajo white
+  - nyanza
+  - old lace
+  - papaya whip
+  - parchment
+  - peach
+  - pearl
+  - platinum
+  - seasalt
+  - seashell
+  - snow
+  - vanilla    white
+  - white
+  - white smoke
+  Yellow:
+  - amber
+  - apricot
+  - arylide yellow
+  - aureolin
+  - beige
+  - buff
+  - canary
+  - champagne
+  - chartreuse
+  - citrine
+  - citron
+  - cosmic latte
+  - cream
+  - dark goldenrod
+  - dark yellow
+  - ecru
+  - flax
+  - gamboge
+  - gold
+  - goldenrod
+  - harvest gold
+  - icterine
+  - ivory
+  - jasmine
+  - jonquil
+  - khaki
+  - lemon chiffon
+  - lemon-lime
+  - light orange
+  - light yellow
+  - lion
+  - maize
+  - mikado yellow
+  - mindaro
+  - mustard
+  - naples yellow
+  - navajo white
+  - old gold
+  - olive
+  - orange
+  - papaya whip
+  - peach-yellow
+  - pear
+  - saffron
+  - school bus yellow
+  - selective yellow
+  - stil de grain yellow
+  - straw
+  - sunglow
+  - sunset
+  - vanilla
+  - wheat
+  - yellow

@@ -1,0 +1,2562 @@
+Props:
+  Appliances:
+  - Air Conditioner
+  - Air Purifier
+  - Blender
+  - Blow Dryer
+  - Coffee Maker
+  - Dehumidifier
+  - Dishwasher
+  - Dryer
+  - Electric Shaver
+  - Fan
+  - Food Processor
+  - Hair Dryer
+  - Hand Mixer
+  - Heater
+  - Humidifier
+  - Iron
+  - Jetson's Food-a-Rac-a-Cycle
+  - Kettle
+  - Microwave
+  - Oven
+  - Pressure Cooker
+  - Refrigerator
+  - Rice Cooker
+  - Robot Vacuum
+  - Slow Cooker
+  - Smart Blinds
+  - Smart Doorbell
+  - Smart Home Devices
+  - Smart Lights
+  - Smart Locks
+  - Smart Plugs
+  - Smart Speakers
+  - Smart Thermostats
+  - Smart TV
+  - Stand Mixer
+  - Stove
+  - The Auto-Dryer
+  - The Brain Extractor
+  - The Dehydrator
+  - The Flux Capacitor
+  - The Food Fabricator
+  - The Hygienator
+  - The Memory Eraser
+  - The Replicator
+  - The Shrink Ray
+  - The Time Turner
+  - The Transmogrifier
+  - The What-If Machine
+  - Thermostat
+  - Toaster
+  - Vacuum Cleaner
+  - Washing Machine
+  - Water Purifier
+  Artifacts:
+  - amulet
+  - amulet of kings
+  - antique
+  - apple of eden
+  - atma weapon
+  - auric amulet
+  - banesphere
+  - banknote
+  - black crystal
+  - bone
+  - book
+  - bowl
+  - bust
+  - chaos drive
+  - chaos emeralds
+  - chaos stones
+  - chaos vortex
+  - charm
+  - claw of chthon
+  - codex
+  - coin
+  - collectible
+  - crystal of the frostburn
+  - crystal skulls
+  - curio
+  - dagger
+  - dark sphere
+  - document
+  - engine
+  - eye of sauron
+  - eye of the beholder
+  - fable iii seeker's age
+  - fossil
+  - frostburn fragment
+  - globe of discord
+  - heart of the ocean
+  - heart of tiamat
+  - helm of awe
+  - infinity stones
+  - instrument
+  - jar
+  - jewelry
+  - key to time
+  - lifestone
+  - lunar harp
+  - machine
+  - manuscript
+  - map
+  - mask
+  - master sword
+  - medal
+  - megaton hammer
+  - memorabilia
+  - mjolnir
+  - mummy
+  - necronomicon
+  - one ring
+  - oracle bone
+  - orb of ooze
+  - pendant
+  - pendants of lifestone
+  - phoenix down
+  - plaque
+  - pottery
+  - power crystal
+  - relic
+  - relic of kyosho
+  - rug
+  - rune stones
+  - sanctuary guardian
+  - scepter of the shifting sands
+  - script
+  - scroll
+  - shard of arcane missiles
+  - shard of the exodar
+  - shard of the flames
+  - shard of the gods
+  - shard of the habishi
+  - shard of the mysterious island
+  - shard of the watchers
+  - shard of xol'akrad
+  - shield
+  - skeleton
+  - souvenir
+  - sphere of annihilation
+  - stamp
+  - sword
+  - talisman
+  - talismans of shintao
+  - tapestry
+  - tarot card
+  - timepiece
+  - tool
+  - totem
+  - triforce
+  - trinket
+  - trophy
+  - unified rune matrix
+  - urn
+  - vase
+  - worldstone
+  Desserts:
+  - anmitsu
+  - anpan
+  - apollo chocolate
+  - apple pie
+  - baked alaska
+  - baklava
+  - banana bread
+  - banana split
+  - baozi
+  - batter
+  - baumkuchen
+  - bavarois
+  - beignet
+  - birthday cake
+  - black forest cake
+  - blueberry tart
+  - bread
+  - brownie
+  - cake
+  - cake slice
+  - candy
+  - candy apple
+  - candy cane
+  - caramel
+  - charlotte cake
+  - checkerboard cookie
+  - cheesecake
+  - chewing gum
+  - chitose ame
+  - chocolate
+  - chocolate bar
+  - chocolate cake
+  - chocolate chip cookie
+  - chocolate cornet
+  - chocolate doughnut
+  - chocolate fondue
+  - chocolate fountain
+  - chocolate framboise
+  - chocolate marquise
+  - chocolate syrup
+  - christmas cake
+  - chupa chups
+  - churro
+  - churros
+  - cigarette candy
+  - cinnamon roll
+  - cookie
+  - coolish
+  - cotton candy
+  - country ma'am
+  - cream
+  - cream puff
+  - creme egg
+  - crepe
+  - crepes
+  - croissant
+  - crème brûlée
+  - cupcake
+  - custard
+  - dango
+  - danish pastry
+  - donut
+  - dorayaki
+  - double scoop
+  - dough
+  - doughnut
+  - eclair
+  - flan
+  - fondant au chocolat
+  - french cruller
+  - fruit salad
+  - fruit tart
+  - gelatin
+  - gingerbread cookie
+  - gingerbread house
+  - gingerbread man
+  - gumball
+  - heart-shaped chocolate
+  - hot cross bun
+  - ice cream
+  - ice cream cone
+  - ice cream float
+  - ice cream sandwich
+  - ichigo daifuku
+  - icing
+  - imagawayaki
+  - jello
+  - jelly bean
+  - kanafeh
+  - kashiwa mochi
+  - kinoko no yama
+  - kitkat
+  - konpeitou
+  - layer cake
+  - lollipop
+  - m&m's
+  - macaron
+  - madeleine
+  - marble chocolate
+  - marshmallow
+  - melon bread
+  - mille-feuille
+  - mitsumame
+  - mochi
+  - momiji manjuu
+  - mont blanc
+  - mooncake
+  - mousse
+  - muffin
+  - namagashi
+  - nerunerunerune
+  - noppo bread
+  - old-fashioned doughnut
+  - opera cake
+  - oreo
+  - parfait
+  - pastry
+  - pastry box
+  - pie
+  - pinata
+  - pocky
+  - popsicle
+  - popsicle stick
+  - pound cake
+  - profiterole
+  - pudding
+  - pudding a la mode
+  - quadruple scoop
+  - rare cheesecake
+  - red velvet cake
+  - rice pudding
+  - s'mores
+  - sakura french
+  - sakura mochi
+  - sandwich cookie
+  - shaped lollipop
+  - shaved ice
+  - single scoop
+  - slushie
+  - soft serve
+  - songpyeon
+  - sorbet
+  - sprinkles
+  - stollen
+  - strawberry parfait
+  - strawberry shortcake
+  - strawberry swiss roll
+  - strawberry tart
+  - suama
+  - sundae
+  - swirl lollipop
+  - swiss roll
+  - taiyaki
+  - takenoko no sato
+  - tanghulu
+  - tart
+  - thumbprint cookie
+  - tiramisu
+  - too many scoops
+  - tootsweets
+  - toppo
+  - trifles
+  - triple scoop
+  - tupet
+  - turnover
+  - uirou
+  - wafer
+  - wafer stick
+  - waffle cone
+  - wagashi
+  - warabimochi
+  - watermelon bar
+  - wedding cake
+  - white chocolate
+  - whoopie pie
+  - youkan
+  - yule log
+  Drinks:
+  - 7up
+  - alcohol
+  - amazake
+  - americano
+  - barley tea
+  - beer
+  - beer mug
+  - bellini
+  - black tea
+  - bloody mary
+  - blue hawaii
+  - bottle
+  - brandy
+  - bubble tea
+  - caesar (drink)
+  - cafe au lait
+  - calpis
+  - can
+  - canned coffee
+  - canned tea
+  - champagne
+  - champagne coupe
+  - champagne flute
+  - club soda
+  - coca-cola
+  - cocktail
+  - cocktail glass
+  - cocktail umbrella
+  - coffee
+  - coffee beans
+  - coffee cup
+  - coffee mug
+  - coffee pot
+  - coffee press
+  - cosmopolitan
+  - cup
+  - daiquiri
+  - dandelion coffee
+  - darjeeling tea
+  - dr pepper
+  - dr. pepper
+  - drinking glass
+  - earl grey tea
+  - fanta
+  - french 75
+  - fruit punch
+  - gatorade
+  - georgia max coffee
+  - gin
+  - gin fizz
+  - ginger ale
+  - gourd
+  - grape soda
+  - green tea
+  - guinness (beer)
+  - herbal tea
+  - hot chocolate
+  - hurricane
+  - hurricane glass
+  - iced tea
+  - jar
+  - jug
+  - juice
+  - juice box
+  - kamikaze
+  - latte art
+  - lemonade
+  - liquor
+  - long island iced tea
+  - long spout teapot
+  - mai tai
+  - manhattan
+  - margarita
+  - martini
+  - melon soda
+  - milk
+  - milk tea
+  - mojito
+  - monster
+  - mountain dew
+  - mug
+  - negroni
+  - non-alcoholic beer
+  - old fashioned
+  - orange juice
+  - orange soda
+  - pepsi
+  - pepsi ice cucumber
+  - pina colada
+  - powerade
+  - ramune
+  - red bull
+  - rob roy
+  - root beer
+  - rose hip tea
+  - rum
+  - rusty nail
+  - sakazuki
+  - sake
+  - sarsaparilla
+  - saucer
+  - sazerac
+  - shot glass
+  - side handle teapot
+  - sidecar
+  - smoothies
+  - snifter
+  - soda
+  - soda bottle
+  - soda can
+  - spear mint tea
+  - sprite
+  - starbucks
+  - tea
+  - tea set
+  - teacup
+  - teapot
+  - tequila
+  - thermos
+  - tom collins
+  - tonic water
+  - tropical drink
+  - vanilla cream soda
+  - vodka
+  - water
+  - whiskey
+  - whiskey sour
+  - white russian
+  - wine
+  - wine glass
+  - yunomi
+  Flowers:
+  - acacia
+  - achillea
+  - adam's-needle
+  - african boxwood
+  - african lily
+  - agapanthus
+  - ageratum
+  - ageratum houstonim
+  - allium
+  - alpina
+  - alstroemeria
+  - amaranthus hypochondriacus
+  - amaryllis
+  - ammi majus
+  - anconitum
+  - anemone
+  - anigozanthus
+  - annual delphinium
+  - anthurium
+  - antirrhinum majus
+  - artichoke thistle
+  - asparagus
+  - aster
+  - astilbe
+  - baby's breath
+  - bachelor's button
+  - banksia
+  - bellflower
+  - big flax
+  - bighead knapweed
+  - billy buttons
+  - bird of paradise
+  - blazing star
+  - blue lace flower
+  - boronia
+  - bouquet
+  - bouvardia
+  - boxwood african
+  - buckthorn variegated
+  - buddleia
+  - bupleurum
+  - butterfly bush
+  - butterfly orchid
+  - calla lily
+  - campanula
+  - candytuft
+  - canterbury bells
+  - carnation
+  - carthamus
+  - casa blanca
+  - caspia
+  - cattleya
+  - celosia
+  - celosia argenta
+  - centaurea cyanus
+  - chamelaucium
+  - chimney bells
+  - chrysanthemum
+  - chrysanthemum x morifolium
+  - clarkia
+  - cockscomb crested
+  - coffee bean berry
+  - common myrtle
+  - common yarrow
+  - cone flower
+  - consolida ambigua
+  - convallaria
+  - cordyline
+  - cornflower
+  - cosmos
+  - coughing flowers
+  - craspedia
+  - curly willow
+  - cymbidium
+  - cymbidium orchid
+  - daffodil
+  - dahlia
+  - daisy mums
+  - delphinium belladonna
+  - delphinium pacific giant
+  - dendrobium
+  - dendrobium orchid
+  - dianthus barbatus
+  - dianthus caryophyllus
+  - dianthus caryophyllus nana
+  - diosma
+  - erica spp
+  - eucalyptus seeded
+  - eucalyptus silver dollar
+  - eustoma grandiflorum
+  - false bird of paradise
+  - false spirea
+  - farewell-to-spring
+  - fernleaf yarrow
+  - feverfew
+  - field
+  - flamingo flower
+  - flax new zealand
+  - floral print
+  - floss flower
+  - flower (symbol)
+  - flower bed
+  - flower bracelet
+  - flower field
+  - flower in mouth
+  - flower necklace
+  - flower on head
+  - flower on liquid
+  - flower trim
+  - foxtail fern
+  - freesia
+  - freesia x hybrida
+  - fuji mums
+  - garden
+  - gardenia
+  - gardening
+  - gay feather
+  - genista
+  - gerbera
+  - gerbera ruby red
+  - ginger
+  - gladiolus
+  - gladiolus hybrid nanus
+  - goat's beard
+  - godetia
+  - golden rod
+  - guersney lily
+  - gyp
+  - gypsophila paniculata
+  - hair flower
+  - hanafuda
+  - hanging helicona
+  - hat flower
+  - head wreath
+  - heath
+  - heather
+  - helianthus annuus
+  - heliconia spp.
+  - hippeastrum
+  - holding flower
+  - hydrangea
+  - iberis amara
+  - inca lily
+  - iris
+  - japhette orchid
+  - jonquil
+  - knapweed
+  - lace fern
+  - larkspur
+  - lathyrus odoratus
+  - lavandula
+  - lavender
+  - lei
+  - liatris
+  - lilac
+  - lilly-of-the-valley
+  - lily
+  - lily casa blanca
+  - lily of the field
+  - lily of the nile
+  - lily stargazer
+  - limonium
+  - lisianthus
+  - marguerite daisy
+  - mattholia incana
+  - meadow
+  - melaleuca
+  - memosa
+  - misty blue limonium
+  - moluccella laevis
+  - monkshood
+  - montbretia
+  - monte cassino
+  - moon orchid
+  - musa
+  - myrsine
+  - myrtle
+  - myrtus
+  - nephrolepis
+  - nerine
+  - nerine lily
+  - nigella
+  - on flower
+  - ornithogalum
+  - outdoors
+  - paeonia
+  - painted tongue
+  - paper reed
+  - papyrus lion's head
+  - peony
+  - peruvian lily
+  - petals
+  - petals on liquid
+  - phalaenopsis
+  - philodendron
+  - phlox
+  - pincushion flower
+  - pink mink
+  - pitt
+  - pittosporum
+  - pixie carnation
+  - polianthes tuberosa
+  - pompon chrysanthemum
+  - poppy anemone
+  - porium
+  - pussy willow
+  - queen anne's lace
+  - ranunculus
+  - red ribbons
+  - rice flower
+  - rose
+  - rose bridal pink
+  - rose bridal white
+  - rose champagne
+  - rose diadem
+  - rose emblem
+  - rose kardinal
+  - rose lady liberty
+  - rose lavanda
+  - rose osiana
+  - rose petals
+  - rose royalty
+  - safari sunset
+  - safflower
+  - sage perennial
+  - salix
+  - salmon reagan
+  - sansevieria
+  - saponaria
+  - satin flowers
+  - saxicola
+  - scabiosa
+  - schinus
+  - sea lavender
+  - shell flowers
+  - smelling flower
+  - snake plant
+  - snapdragon
+  - solidago
+  - solidaster
+  - speedwell
+  - spider lily
+  - spider mums
+  - spray carnation
+  - sprengeri fern
+  - star of bethlehem
+  - statice
+  - stenamezon
+  - stephanotis
+  - strawberry banksia
+  - strawflower
+  - summer poinsettia
+  - summer's darling
+  - sunflower
+  - sweet pea
+  - sweet william
+  - sword fern
+  - syringa vulgaris
+  - tailflowers
+  - tassel flower
+  - thouroughwax
+  - throatwort
+  - tracelium
+  - tree fern
+  - trumpet lily
+  - tuberose
+  - tulip
+  - tulipa
+  - veronica
+  - wattle
+  - waxflower
+  - wild plantain
+  - willow curly
+  - windflower
+  - wolfsbane
+  - wreath
+  - zantedeschia
+  - zinna
+  - zinnia elegans
+  Food:
+  - abalone
+  - abiu
+  - aburaage
+  - acai
+  - acerola
+  - ackee
+  - acorn squash
+  - adzuki bean paste
+  - adzuki beans
+  - african cherry orange
+  - aged japanese kurozu
+  - akebia fruit
+  - albacore tuna
+  - alcohol
+  - ale
+  - alfalfa sprouts
+  - algae
+  - alligator apple
+  - almond
+  - almond milk
+  - almond paste
+  - almonds
+  - amazon grape
+  - ambarella
+  - american mayapple
+  - ancho chili powder
+  - anchovies
+  - anchovy
+  - anchovy paste
+  - angus beef
+  - anise
+  - appetite
+  - appetizer
+  - apple
+  - apple bunny
+  - apple core
+  - apple juice
+  - apple peel
+  - apples
+  - apricot
+  - apricots
+  - apricots, japanese
+  - arare
+  - araza
+  - arborio rice
+  - arctic char
+  - arhat
+  - artichoke
+  - artichoke, jerusalem
+  - artichokes
+  - arugula
+  - asian greens
+  - asparagus
+  - asparagus, chinese
+  - aspic
+  - ate
+  - autumn crocus
+  - avocado
+  - avocado oil
+  - avocados
+  - açaí berries
+  - açaí juice
+  - babaco
+  - baby bottle
+  - bacon
+  - bael
+  - bagel
+  - baguette
+  - bake
+  - balsamic vinegar
+  - bamboo shoots
+  - banana
+  - banana boat
+  - banana peel
+  - banana popsicle
+  - banana slice
+  - banana split
+  - bananas
+  - baozi
+  - barbadine
+  - barbados cherry
+  - barbecue
+  - barbecued meat
+  - barberry
+  - barley
+  - basil
+  - batter
+  - bayberry
+  - beach plum
+  - bean curd
+  - beancurd
+  - beans
+  - bearberry
+  - beechnut
+  - beef
+  - beer
+  - beet
+  - beets
+  - bell pepper
+  - bell peppers
+  - bento
+  - berry
+  - betel nut
+  - bignay
+  - bilberry
+  - bilimbi
+  - birthday party
+  - biscuit
+  - bitten apple
+  - bitter
+  - bitter almond oil
+  - bitter cucumber
+  - bitter gourd
+  - bitter melon
+  - black apple
+  - black beans
+  - black cherry
+  - black cumin
+  - black currants
+  - black mulberry
+  - black or purple rice
+  - black pepper
+  - black raspberry
+  - black sapote
+  - black spaghetti
+  - black tea
+  - black-eyed peas
+  - blackbeans
+  - blackberries
+  - blackberry
+  - blackcurrant
+  - bland
+  - blood orange
+  - blue tongue
+  - blueberries
+  - blueberry
+  - boil
+  - boiled egg
+  - bok choy
+  - bolwarra
+  - boned meat
+  - bottle gourd
+  - bowl
+  - boysenberries
+  - boysenberry
+  - bramble
+  - bran
+  - brazil nut
+  - brazil nuts
+  - bread
+  - bread bun
+  - bread crust
+  - bread eating race
+  - breadfruit
+  - breakfast
+  - broadleaf bramble
+  - broccoli
+  - broccoli sprouts
+  - broil
+  - broken egg
+  - brown mustard
+  - brown rice
+  - brown rice syrup
+  - brownie
+  - brunch
+  - brussels sprout
+  - brussels sprouts
+  - buckwheat
+  - buffaloberry
+  - bugles
+  - buns
+  - burdekin plum
+  - burger
+  - burmese grape
+  - burrito
+  - butter
+  - butter lettuce
+  - butternut squash
+  - cabbage
+  - cacao
+  - cacao fruit
+  - caimito
+  - cajamanga
+  - cake
+  - calabashtree
+  - calorie
+  - camucamu
+  - candy
+  - candy apple
+  - canistel
+  - canned food
+  - canola oil
+  - cantaloupe
+  - cape gooseberry
+  - capers
+  - carambola
+  - caramel
+  - carbohydrate
+  - cardon
+  - carob
+  - carrot
+  - carrots
+  - cashew
+  - cashews
+  - cassava
+  - casserole
+  - cater
+  - cauliflower
+  - caviar
+  - cayenne pepper
+  - cedar bay cherry
+  - celeriac
+  - celery
+  - celery seed
+  - cempedak
+  - century egg
+  - cereal
+  - ceylon gooseberry
+  - chamomile
+  - chard
+  - che
+  - cheddar
+  - cheese
+  - cheesecake
+  - chef
+  - chenet
+  - cherimoya
+  - cherries
+  - cherry
+  - cherry tomato
+  - chestnut
+  - chew
+  - chick peas
+  - chicken
+  - chicken leg
+  - chicken nuggets
+  - chickpeas
+  - chikuwa
+  - chili
+  - chili pepper
+  - chilli peppers
+  - chinese bayberry
+  - chinese lantern
+  - chinese mulberry
+  - chips
+  - chives
+  - chocolate
+  - chocolate banana
+  - chocolate milk
+  - chokeberry
+  - chopsticks
+  - chow
+  - chutney
+  - cilantro
+  - cinnamon
+  - citron
+  - citrus
+  - clam
+  - clams
+  - clementine
+  - cloudberry
+  - cloves
+  - cluster fig
+  - cobbler
+  - coconut
+  - coconut oil
+  - cocoplum
+  - cod
+  - coffee
+  - coleslaw
+  - collard green
+  - collard greens
+  - common apple-berry
+  - condensed milk
+  - conkerberry
+  - conveyor belt sushi
+  - cook
+  - cookie
+  - cooking oil
+  - corn
+  - corn dog
+  - corn oil
+  - cornelian cherry
+  - cornflakes
+  - cornmeal
+  - cottage cheese
+  - crab
+  - crabapple
+  - cracker
+  - crackers
+  - cranberries
+  - cranberry
+  - cream
+  - cream cheese
+  - crepe
+  - crisp
+  - croissant
+  - croquette
+  - crowberry
+  - crumbs
+  - crunch
+  - crust
+  - cucumber
+  - cucumbers
+  - cudrang
+  - cudrania
+  - cuisine
+  - cumin
+  - cup ramen
+  - cupboard
+  - cupcake
+  - cupuacu
+  - curcumin
+  - curds
+  - currant
+  - currants
+  - currents
+  - curry
+  - curry rice
+  - custard
+  - custard apple
+  - daidzein
+  - daikon
+  - dairy
+  - dal
+  - damson
+  - dandelion greens
+  - danish pastry
+  - date
+  - date palm
+  - date-plum
+  - dates
+  - davidson's plum
+  - desert fig
+  - desert lime
+  - dessert
+  - dewberry
+  - diet
+  - digest
+  - digestive system
+  - dill
+  - dim sum
+  - dine
+  - diner
+  - dinner
+  - dip
+  - dish
+  - doritos
+  - doubah
+  - dough
+  - doughnut
+  - dragon fruit
+  - dragonfruit
+  - dressing
+  - dried
+  - dried herring
+  - dried mackerel
+  - drink
+  - dry
+  - dry beans
+  - dumpling
+  - durain
+  - durian
+  - eastern may hawthorn
+  - eat
+  - edam cheese
+  - edamame
+  - egg
+  - egg laying
+  - egg yolk
+  - eggfruit
+  - eggnog
+  - eggplant
+  - eggs
+  - eggshell
+  - eggshell hat
+  - elderberry
+  - elephant apple
+  - emblic
+  - empanada
+  - emu apple
+  - endive
+  - entawak
+  - entree
+  - escargot
+  - etrog
+  - fast
+  - fava beans
+  - feast
+  - fed
+  - feed
+  - feijoa
+  - fennel
+  - fennel seed
+  - fermented bean paste
+  - fermented milk
+  - fibrous satinash
+  - fig
+  - fiji longan
+  - fillet
+  - finger lime
+  - fire
+  - fish
+  - fish and chips
+  - fish bone
+  - flan
+  - flax
+  - flaxseed
+  - flaxseed oil
+  - flour
+  - fondue
+  - food
+  - food pyramid
+  - fork
+  - freezer
+  - french fries
+  - french toast
+  - fried
+  - fried chicken
+  - fried egg
+  - fried potatoes
+  - fried rice
+  - fritter
+  - frosting
+  - fruit
+  - fruit bowl
+  - fruit cup
+  - fry
+  - galendar
+  - galia
+  - gandaria
+  - garbanzo beans
+  - garden cress
+  - garlic
+  - gastronomy
+  - gel banana
+  - gelatin
+  - genip
+  - genipap
+  - genistein
+  - ghee
+  - giant granadilla
+  - ginger
+  - gingerale
+  - gingerbread
+  - glasses
+  - golden apple
+  - gooseberry
+  - gouda cheese
+  - goumi
+  - gourds
+  - grain
+  - granola
+  - grape
+  - grape seed oil
+  - grape stomping
+  - grapefruit
+  - grapes
+  - grapple
+  - grated
+  - gravy
+  - green apple
+  - green bean
+  - green beans
+  - green onions
+  - green papaya
+  - green peas
+  - green pepper
+  - green tea
+  - greenbean
+  - greengage
+  - greens
+  - grenadilla
+  - guacamole
+  - guanabana
+  - guarana
+  - guava
+  - guavaberry
+  - gunkanmaki
+  - gyro
+  - gyuudon
+  - habanero pepper
+  - hackberry
+  - halibut
+  - ham
+  - hamburger
+  - hamburger steak
+  - hardboiled egg
+  - hardy kiwi
+  - hash
+  - hawthorn
+  - hazelnut
+  - herbs
+  - herring
+  - hijiki
+  - hog plum
+  - holding pizza
+  - holy basil
+  - honey
+  - honeycrisp apple
+  - honeydew
+  - honeydew melon
+  - honeysuckle
+  - horned melon
+  - horseradish
+  - hot
+  - hot dog
+  - hot peppers
+  - hot sauce
+  - hotdog
+  - huckleberry
+  - huito
+  - hummus
+  - hunger
+  - hungry
+  - ice
+  - ice cream
+  - ice cream cone
+  - iceberg lettuce
+  - iced tea
+  - icing
+  - ikura
+  - illawarra plum
+  - inarizushi
+  - indian almond
+  - indian fig
+  - indian jujube
+  - indian mustard
+  - indian prune
+  - indian strawberry
+  - ita palm
+  - italian (niigata)
+  - jaboticaba
+  - jack-o'-lantern
+  - jackfruit
+  - jagua
+  - jalapeno
+  - jalapeno pepper
+  - jam
+  - jamaica cherry
+  - jambul
+  - japanese bayberry
+  - japanese raisin
+  - japari bun
+  - jasmine
+  - jatoba
+  - jelly
+  - jellybeans
+  - jenipapo
+  - jiaozi
+  - jicama
+  - jimmies
+  - jirou
+  - jocote
+  - jordan almonds
+  - jug
+  - juice
+  - jujube
+  - june plum
+  - kaffir lime
+  - kahikatea
+  - kakadu lime
+  - kakadu plum
+  - kale
+  - kamaboko
+  - kandis fruit
+  - kani-san wiener
+  - karkalla
+  - katsu
+  - katsudon
+  - katsuo no tataki
+  - kebab
+  - kefir
+  - kelp
+  - keppel fruit
+  - ketchup
+  - kettle
+  - key lime
+  - kidney beans
+  - kimchi
+  - king mackerel
+  - kitchen
+  - kitsune udon
+  - kiwi
+  - kiwi slice
+  - kiwifruit
+  - knife
+  - kohlrabi
+  - konnyaku
+  - kumquat
+  - kumquats
+  - kundong
+  - kutjera
+  - lablab
+  - ladle
+  - lady apple
+  - lake trout
+  - lamb
+  - langsat
+  - lanzones
+  - lapsi
+  - lard
+  - lasagna
+  - lasagne
+  - lavender
+  - leek
+  - leeks
+  - legume
+  - legumes
+  - lemon
+  - lemon aspen
+  - lemon slice
+  - lemonade
+  - lemons
+  - lentils
+  - lettuce
+  - leucaena
+  - licorice
+  - lillipilli
+  - lilly pilly
+  - lima bean
+  - lima beans
+  - lime
+  - lime slice
+  - limes
+  - lingonberries
+  - lingonberry
+  - liquor
+  - liver
+  - loaf
+  - lobster
+  - loganberries
+  - loganberry
+  - lollipop
+  - long pepper
+  - longan
+  - loquat
+  - low-fat yogurt
+  - lox
+  - lucuma
+  - lulo
+  - lunch
+  - lunchmeat
+  - lychee
+  - mabolo
+  - macadamia
+  - macadamia nut oil
+  - macadamia nuts
+  - macaroni
+  - macaroon
+  - mackerel
+  - main course
+  - maitake mushrooms
+  - maize
+  - makizushi
+  - malay apple
+  - mamey sapote
+  - mamoncillo
+  - mandarin
+  - mandarin orange
+  - mango
+  - mangoes
+  - mangosteen
+  - manila tamarind
+  - manoao
+  - maple syrup
+  - mapo tofu
+  - marang
+  - margarine
+  - marion berry
+  - marionberrries
+  - marionberry
+  - marmalade
+  - marshmallow
+  - mashed
+  - maté
+  - mayapple
+  - mayhaw
+  - mayonnaise
+  - maypop
+  - meal
+  - meat
+  - meatball
+  - meatballs
+  - meatloaf
+  - medlar
+  - megamac
+  - melinjo
+  - melon
+  - melon bread
+  - melon pear
+  - melons
+  - melted cheese
+  - menu
+  - meringue
+  - mexican oregano
+  - midyim
+  - milk
+  - milk bottle
+  - milk carton
+  - milk churn
+  - milk mustache
+  - milkshake
+  - millet
+  - mincemeat
+  - minerals
+  - mint
+  - mint tea
+  - mints
+  - miso soup
+  - mock buckthorn
+  - mock strawberry
+  - molasses
+  - monkey apple
+  - monstera
+  - morinda
+  - mountain soursop
+  - mozzarella
+  - muffin
+  - mug
+  - mulberry
+  - munch
+  - mundu
+  - mung beans
+  - muntries
+  - mushroom
+  - mushrooms
+  - muskmelon
+  - muskmelons
+  - mussels
+  - mustard
+  - mustard green
+  - mustard greens
+  - mustard oil
+  - mutton
+  - myrtle
+  - nabe
+  - nageia
+  - nanakusa-no-sekku
+  - nance
+  - nannyberry
+  - napkin
+  - naranja
+  - naranjilla
+  - narutomaki
+  - nashi pear
+  - native cherry
+  - native currant
+  - native gooseberry
+  - nattou
+  - navy beans
+  - nectar
+  - nectarine
+  - neem
+  - nibble
+  - nigirizushi
+  - noodles
+  - nori
+  - nosh
+  - nourish
+  - nourishment
+  - nungu
+  - nut
+  - nutella
+  - nutmeg
+  - oatmeal
+  - oats
+  - octopus
+  - oden
+  - ohyo
+  - oil
+  - oil palm
+  - okonomiyaki
+  - okosama lunch
+  - okra
+  - olallieberry
+  - old world sycomore
+  - oleo
+  - olive
+  - olive oil
+  - olives
+  - omelet
+  - omnivore
+  - omurice
+  - on banana
+  - onigiri
+  - onion
+  - onion rings
+  - onions
+  - orange
+  - orange juice
+  - orange slice
+  - orangelo
+  - oranges
+  - orangette
+  - order
+  - oregano
+  - oregon grape
+  - otaheite apple
+  - oven
+  - oyster
+  - oysters
+  - pan
+  - pancake
+  - pancake stack
+  - papaya
+  - papaya seeds
+  - paprika
+  - parsley
+  - parsnip
+  - parsnips
+  - party
+  - passion fruit
+  - pasta
+  - pastry
+  - pate
+  - patty
+  - pattypan squash
+  - paw paw
+  - pawpaw
+  - pea
+  - peach
+  - peaches
+  - peanut
+  - peanut butter
+  - peanut butter and jelly
+  - peanut oil
+  - peanutbutter
+  - peanuts
+  - peapod
+  - pear
+  - pears
+  - peas
+  - pecan
+  - pecans
+  - pepper
+  - pepper shaker
+  - peppermint
+  - pepperoni
+  - pequi
+  - persimmon
+  - persipan
+  - pesto sauce
+  - pewa
+  - pickle
+  - pickled papaya
+  - pickled watermel. rind
+  - pickles
+  - picnic
+  - pie
+  - pigeon plum
+  - pigface
+  - pilaf
+  - pili nut
+  - pineapple
+  - pinto beans
+  - pistachio nuts
+  - pita bread
+  - pitaya
+  - pitcher
+  - pitomba
+  - pizza
+  - pizza box
+  - pizza delivery
+  - pizza slice
+  - plant
+  - plantago
+  - plantain
+  - plantains
+  - plate
+  - platter
+  - plum
+  - plums
+  - poached
+  - podocarpus
+  - poha
+  - pois doux
+  - pomcite
+  - pomegranate
+  - pomegranate juice
+  - pomegranates
+  - pomelo
+  - pommecythere
+  - pommerac
+  - pond apple
+  - pop
+  - popcorn
+  - popovers
+  - popsicle
+  - pork
+  - pork chops
+  - portobello mushrooms
+  - pot
+  - potato
+  - potato chips
+  - potatoes
+  - preserves
+  - pretzel
+  - prickly pear
+  - pringles
+  - protein
+  - prumnopitys
+  - prune
+  - prunes
+  - pudding
+  - pulasan
+  - pummelo
+  - pumpernickel
+  - pumpkin
+  - pumpkin seeds
+  - pumpkins
+  - punch
+  - pupunha
+  - purple apple-berry
+  - pâtés
+  - quandong
+  - quenepa
+  - quiche
+  - quince
+  - quinoa
+  - radicchio
+  - radish
+  - raisin
+  - raisins
+  - rambutan
+  - ramen
+  - rangpur
+  - rapeseed oil
+  - rapini
+  - raspberries
+  - raspberry
+  - ravioli
+  - recipe
+  - red apple
+  - red bayberry
+  - red bean paste
+  - red beans
+  - red cabbage
+  - red currants
+  - red mombin
+  - red mulberry
+  - red onions
+  - red pepper
+  - red pepper flakes
+  - red pepper paste
+  - red rice
+  - red spinach
+  - red wine vinegar
+  - redcurrant
+  - refrigerator
+  - reishi mushrooms
+  - relish
+  - restaurant
+  - rhubarb
+  - riberry
+  - ribs
+  - ribs (food)
+  - rice
+  - rice bran
+  - rice bran oil
+  - rice on face
+  - rice paddy
+  - rice porridge
+  - rice wine vinegar
+  - ridged gourd
+  - rimu
+  - risotto
+  - roast
+  - roast beef
+  - roasted almonds
+  - roasted pork
+  - roe
+  - roll
+  - rolled oats
+  - rolling pin
+  - romaine
+  - romaine lettuce
+  - rose apple
+  - rose hip
+  - rose myrtle
+  - rose-leaf bramble
+  - rosemary
+  - rowan
+  - rutabaga
+  - rutabagas
+  - rye
+  - safflower oil
+  - saffron
+  - sage
+  - sage tea
+  - sageretia
+  - saguaro
+  - salad
+  - salak
+  - salal berry
+  - salami
+  - salmon
+  - salmon, wild
+  - salmonberry
+  - salsa
+  - salt
+  - salt shaker
+  - sandpaper fig
+  - sandwich
+  - santol
+  - sapodilla
+  - sapote
+  - sardines
+  - sashimi
+  - saskatoon
+  - saskatoonberry
+  - satsuma
+  - sauce
+  - sauerkraut
+  - sausage
+  - sausages
+  - savory
+  - scallions
+  - scallops
+  - scone
+  - scrambled
+  - scrambled egg
+  - sea grape
+  - sea-buckthorn
+  - seaweed
+  - seeds
+  - senbei
+  - serrano pepper
+  - serviceberry
+  - sesame oil
+  - sesame seed
+  - sesame seeds
+  - shallots
+  - shellfish
+  - sherbet
+  - shiitake mushrooms
+  - shipova
+  - shish kebab
+  - shrimp
+  - shrimp tempura
+  - shumai
+  - siberian kiwi
+  - silkworm thorn
+  - slaw
+  - slice
+  - smoked
+  - smoked cheese
+  - smoked mackerel
+  - snails
+  - snap bean
+  - snickers chocolate bar
+  - snow berry
+  - snow peas
+  - soba
+  - soba noodles
+  - soda
+  - sole
+  - soncoya
+  - sorbet
+  - sorghum
+  - sorrel
+  - soumen
+  - soup
+  - sour
+  - sour cream
+  - soursop
+  - soy
+  - soy infant formula
+  - soy milk
+  - soy protein bars
+  - soy protein isolate
+  - soybean curd
+  - soybean oil
+  - soybeans
+  - soysauce
+  - spaghetti
+  - spaghetti and meatballs
+  - spaghetti squash
+  - spareribs
+  - spatula
+  - spearmint
+  - spices
+  - spinach
+  - split peas
+  - spoon
+  - spork
+  - spring onion
+  - sprinkles
+  - sprouts
+  - spuds
+  - squash
+  - squid
+  - star apple
+  - starfruit
+  - steak
+  - stew
+  - stinky tofu
+  - stir-fry
+  - stomach
+  - stove
+  - straw
+  - strawberries
+  - strawberry
+  - strawberry milk
+  - strawberry-guava
+  - strawberry-pear
+  - string bean
+  - string beans
+  - stringy
+  - strudel
+  - subtropical ginger
+  - succotash
+  - sugar
+  - sugar apple
+  - sugar beets
+  - sugar snap peas
+  - sukiyaki
+  - summer squash
+  - sundae
+  - sunflower
+  - sunflower oil
+  - sunflower seeds
+  - supper
+  - surinam cherry
+  - sushi
+  - sushi geta
+  - sweet
+  - sweet apple-berry
+  - sweet lemon
+  - sweet peas
+  - sweet potato
+  - sweet potatoes
+  - sweetsop
+  - swiss chard
+  - swiss cheese
+  - sycamore fig
+  - sycomore
+  - syrup
+  - tabasco sauce
+  - taco
+  - tacos
+  - tahini
+  - take-out
+  - tako-san wiener
+  - takoyaki
+  - takuan
+  - tallow
+  - tamagokake gohan
+  - tamale
+  - tamarillo
+  - tamarind
+  - tang yuan
+  - tangelo
+  - tangerine
+  - tangerines
+  - tanjong
+  - tapioca
+  - taro
+  - tarragon
+  - tart
+  - tartary buckwheat
+  - taxus baccata
+  - tea
+  - tea party
+  - teapot
+  - tempura
+  - teriyaki
+  - texas persimmon
+  - thimbleberry
+  - thyme
+  - toast
+  - toaster
+  - toffee
+  - tofu
+  - tomatillo
+  - tomato
+  - tomato paste
+  - tomatoes
+  - torte
+  - tortilla
+  - toyon
+  - tropical ginger
+  - tuber
+  - tuna
+  - turkey
+  - turkey bacon
+  - turkey leg
+  - turmeric
+  - turnip
+  - turnip greens
+  - turnips
+  - twice cooked pork
+  - udon
+  - ugli fruit
+  - ugn
+  - umaibou
+  - umeboshi
+  - unadon (food)
+  - unleavened
+  - utensils
+  - uva/grape
+  - vanilla
+  - veal
+  - vegetable
+  - velvet tamarind
+  - venison
+  - vinegar
+  - vitamins
+  - voavanga
+  - wafer
+  - waffle
+  - wakame
+  - walnut
+  - walnut oil
+  - walnuts
+  - warabi
+  - wasabi
+  - water
+  - water apple
+  - water chestnut
+  - watercress
+  - watermelon
+  - watermelon seeds
+  - wax apple
+  - wax gourd
+  - well-done meat
+  - wheat
+  - wheat bran
+  - wheat germ
+  - wheat grass
+  - whey
+  - whipped cream
+  - white aspen
+  - white beans
+  - white bread
+  - white button mush.
+  - white mulberry
+  - white pepper
+  - white sapote
+  - white tea
+  - white vinegar
+  - whole wheat bread
+  - wild ginger
+  - wild orange
+  - wild rice
+  - wine
+  - wineberry
+  - winter melon
+  - winter squash
+  - wok
+  - wolfberry
+  - wongi
+  - wood apple
+  - xigua
+  - xylocarp
+  - yakiimo
+  - yakisoba
+  - yakisobapan
+  - yakitori
+  - yakult
+  - yali pear
+  - yam
+  - yamamomo
+  - yams
+  - yangmei
+  - yeast
+  - yellow pepper
+  - yellow plum
+  - yerba maté
+  - yogurt
+  - yolk
+  - yumberry
+  - yuzu (fruit)
+  - zhe
+  - zigzag vine
+  - ziziphus
+  - zongzi
+  - zouni soup
+  - zucchini
+  Instruments:
+  - Accordion
+  - Banjo
+  - Bass Guitar
+  - Bassoon
+  - Bongos
+  - Castanets
+  - Cello
+  - Clarinet
+  - Congas
+  - Cymbals
+  - Djembe
+  - Drums
+  - Flute
+  - French Horn
+  - Guitar
+  - Harmonica
+  - Harp
+  - Mandolin
+  - Maracas
+  - Marimba
+  - Oboe
+  - Piano
+  - Saxophone
+  - Snare Drum
+  - Steel Drums
+  - Tambourine
+  - Triangle
+  - Trombone
+  - Trumpet
+  - Ukulele
+  - Vibraphone
+  - Viola
+  - Violin
+  - Xylophone
+  Sports:
+  - american football
+  - archery
+  - arm wrestling
+  - athletics
+  - auto racing
+  - badminton
+  - badminton racket
+  - ball
+  - base jumping
+  - baseball
+  - baseball bat
+  - baseball cap
+  - baseball jersey
+  - baseball uniform
+  - basketball
+  - basketball uniform
+  - beachball
+  - billiard ball
+  - billiards
+  - bowling
+  - bowling ball
+  - bowling glove
+  - bowling pin
+  - boxing
+  - canoeing
+  - cricket
+  - croquet
+  - cue stick
+  - cycling
+  - darts
+  - disc golf
+  - diving
+  - equestrian
+  - fencing
+  - field hockey
+  - fishing
+  - football
+  - golf
+  - golf ball
+  - golf club
+  - gymnastics
+  - handball
+  - hockey sweater
+  - hoop
+  - horse racing
+  - hunting
+  - ice hockey
+  - jersey
+  - jersey / uniform / sportswear
+  - judo
+  - juggling club
+  - kabaddi
+  - kemari
+  - lacrosse
+  - marathon
+  - marble
+  - modern pentathlon
+  - multi-sport
+  - parkour
+  - playing sports
+  - poker
+  - pool
+  - pool table
+  - racket
+  - rhythmic gymnastics
+  - ribbon
+  - ribbon baton
+  - rope
+  - rowing
+  - rugby
+  - rugby ball
+  - sailing
+  - sepak takraw
+  - shooting
+  - skateboarding
+  - snowboarding
+  - soccer
+  - soccer ball
+  - sportswear
+  - surfing
+  - swimming
+  - synchronized swimming
+  - table tennis
+  - table tennis paddle
+  - taekwondo
+  - tennis
+  - tennis ball
+  - tennis racket
+  - tennis uniform
+  - track and field
+  - triathlon
+  - uniform
+  - volleyball
+  - water polo
+  - weightlifting
+  - wrestling
+  Utensils:
+  - Baking sheet
+  - Blender
+  - Bowl
+  - Cake tin
+  - Can opener
+  - Casserole dish
+  - Chopsticks
+  - Colander
+  - Cutting board
+  - Dish brush
+  - Dish cloth
+  - Dish drying mat
+  - Dish rack
+  - Dish soap dispenser
+  - Dish sponge
+  - Dish towels
+  - Dutch oven
+  - Food processor
+  - Fork
+  - Frying pan
+  - Grater
+  - Grill pan
+  - Knife
+  - Ladle
+  - Loaf pan
+  - Measuring cups
+  - Measuring spoons
+  - Mixing bowls
+  - Muffin tin
+  - Pan
+  - Pastry brush
+  - Peeler
+  - Pie dish
+  - Plate
+  - Pot
+  - Pressure cooker
+  - Rice cooker
+  - Roasting pan
+  - Rolling pin
+  - Saucepan
+  - Sieve
+  - Skillet
+  - Slow cooker
+  - Spoon
+  - Steamer basket
+  - Stockpot
+  - Thermometer
+  - Timer
+  - Tongs
+  - Whisk
+  - Wok
+  Vehicles:
+  - aerial tram
+  - airplane
+  - ambulance
+  - amphibious
+  - amtrak
+  - batmobile
+  - bicycle
+  - boat
+  - bomber
+  - bullet train
+  - bus
+  - cable car
+  - car
+  - chitty chitty bang bang
+  - commuter train
+  - concrete mixer truck
+  - de lorean time machine
+  - delorean dmc-12
+  - dump truck
+  - electric train
+  - express train
+  - fighter jet
+  - fire truck
+  - flatbed truck
+  - flying saucer
+  - funicular
+  - garbage truck
+  - gondola lift
+  - haul truck
+  - helicopter
+  - high-speed rail
+  - hitchhiking ghosts' doombuggy
+  - hot air balloon
+  - hoverboard
+  - hovercraft
+  - intercity express
+  - jeep
+  - jet
+  - landspeeder
+  - light cycle
+  - light rail
+  - maglev train
+  - metro train
+  - monorail
+  - monster truck
+  - motorcycle
+  - pickup truck
+  - police car
+  - rack and pinion train
+  - regional express
+  - rocket ship
+  - semi truck
+  - shinkansen
+  - ship
+  - space shuttle
+  - spacecraft
+  - starfleet vessel
+  - steam train
+  - streetcar
+  - submarine
+  - tank
+  - tank truck
+  - tardis
+  - taxi
+  - tgv (train à grande vitesse)
+  - the autobot x-jet
+  - the batpod
+  - the batwing
+  - the black beauty
+  - the ghost
+  - the heart of gold
+  - the juggernaut
+  - the millennium falcon
+  - the tumbler
+  - tie fighter
+  - tie interceptor
+  - tractor
+  - trailer
+  - train
+  - tram
+  - truck
+  - tuk-tuk
+  - ufo
+  - uss defiant
+  - uss enterprise
+  - van
+  - warthog
+  Weapons:
+  - airsoft gun
+  - amaterasu
+  - anduril
+  - angerthas moria
+  - annihilator pistol (dead space)
+  - anointed crimson thorn
+  - arreat's law
+  - asi
+  - assault rifle
+  - atlatls
+  - atomos sword
+  - avenger sword
+  - axe
+  - azurewrath
+  - bahamut sword
+  - balder shield
+  - banded shield
+  - baranar's star
+  - baskethilt sword
+  - battle stave
+  - bb gun
+  - bfg 9000 (doom)
+  - bident
+  - blade of woe
+  - blood shield
+  - blow dart
+  - blow darts
+  - blowgun
+  - blowguns
+  - blowpipe
+  - blunderbuss
+  - bolas
+  - bolt-action rifle
+  - bolter (warhammer 40k)
+  - bomb
+  - boomerang
+  - boomerangs
+  - bouncing betty (call of duty)
+  - bow
+  - bow and arrow
+  - bows
+  - broadsword
+  - buckler shield
+  - buster sword
+  - caltrops
+  - carbine
+  - celestial silver sword
+  - cesar's memento
+  - chakrams
+  - chillrend
+  - claymore
+  - club
+  - crimson shield
+  - crossbow
+  - crossbows
+  - cutlass
+  - daedric claymore
+  - dagger
+  - dao
+  - dark repulser
+  - darkmoon shield
+  - dawnbreaker
+  - dawnbringer
+  - deatomizer mk. iii (ratchet & clank)
+  - demon slayer
+  - derringer
+  - dragon shield
+  - dragonbone sword
+  - dreadfire
+  - durandal
+  - e-11 blaster rifle (star wars)
+  - ebony blade
+  - epee
+  - epee du lion
+  - espada ropera
+  - estoc
+  - ethereal edge
+  - excalibur
+  - explosive device
+  - falchion
+  - fangs of the father
+  - firearm
+  - flail
+  - flamethrower
+  - flare gun
+  - foil
+  - force shield
+  - frostmourne
+  - gae bolg
+  - gladius
+  - goddess sword
+  - gravity gun (half-life 2)
+  - green shield
+  - grenade
+  - grenade launcher
+  - hadhafang
+  - halberd
+  - hammer
+  - harpoon gun
+  - helix pistol (destiny)
+  - hellfire
+  - hero shield
+  - hunting traps
+  - hylian shield
+  - ice blade
+  - ice shield
+  - icebinder's emblazoned frostboar
+  - immortal king's call
+  - in-geom
+  - infinity sword
+  - javelins
+  - jian
+  - jitan's kamayari
+  - katana
+  - keyblade
+  - kite shield
+  - knife
+  - kriegsmesser
+  - landmine
+  - leather shield
+  - lemat revolver (fallout)
+  - leviathan sword
+  - lightbringer
+  - longsword
+  - m41a pulse rifle (aliens)
+  - mace
+  - machete
+  - machine gun
+  - macuahuitl
+  - mage shield
+  - mameluke sword
+  - masamune
+  - masamune sword
+  - master sword
+  - mateba autorevolver (shadowrun)
+  - mehrune's razor
+  - miraak's sword
+  - mirror shield
+  - mjolnir
+  - musket
+  - n7 eagle (mass effect)
+  - natalya's reflection
+  - nerf gun
+  - nesingwary's seasoning
+  - oblivion
+  - oblivion blade
+  - obsidian greatsword
+  - paintball gun
+  - phalanx (halo)
+  - phantom sword
+  - pistol
+  - poison dart
+  - polearm
+  - portal gun (portal)
+  - power sword
+  - r.y.n.o. (ratchet & clank)
+  - ragnarok sword
+  - rapier
+  - ray gun (call of duty)
+  - razor edge
+  - red shield
+  - revolver
+  - rifle
+  - ripper (quake)
+  - rocket launcher
+  - rune shield
+  - runeblade
+  - sabre
+  - sabre-sword
+  - scaled shield
+  - scimitar
+  - scrimshaw
+  - semi-automatic rifle
+  - shadowmourne
+  - shadowstalker blade
+  - shamshir
+  - shield
+  - shotgun
+  - shuriken
+  - shurikens
+  - silver knight shield
+  - sling staffs
+  - slingshot
+  - slingshots
+  - small sword
+  - sniper rifle
+  - soul calibur
+  - soul edge
+  - spear
+  - spear of destiny
+  - spears
+  - spiker (gears of war)
+  - starfire
+  - stone of courage
+  - styx
+  - submachine gun
+  - sulfuras, hand of ragnaros
+  - sword
+  - tachi
+  - taeguk
+  - taser
+  - tenebrium weapons
+  - thas'dorah, legacy of the windrunners
+  - the balder side sword
+  - the bkgsword
+  - the butcher's sickle
+  - the calling
+  - the champions
+  - the claymore
+  - the convergence
+  - the cranium basher
+  - the dawnguard rune axe
+  - the deathly hallows
+  - the defiant
+  - the determinator
+  - the drake sword
+  - the entropy
+  - the gidbinn
+  - the grandfather
+  - the greatsword
+  - the holy grail
+  - the katana
+  - the long sword
+  - the longhammer
+  - the necronomicon
+  - the oculus
+  - the omen
+  - the pale blade
+  - the scimitar
+  - the sword in the stone
+  - the twin blades of azzinoth
+  - the uchigatana
+  - the unquenchable
+  - the zweihander
+  - thori'dal, the stars' fury
+  - throwing axes
+  - throwing hammers
+  - throwing knives
+  - thunder blade
+  - thunder shield
+  - thunderbolt of zeus
+  - thunderfury, blessed blade of the windseeker
+  - titanstrike
+  - tower shield
+  - trident of poseidon
+  - twilight sword
+  - tyrfing
+  - ulfberht
+  - ultima weapon
+  - val'anyr, hammer of ancient kings
+  - valla's bequest
+  - war hammer
+  - war scythe
+  - warglaive
+  - warlock blade
+  - water gun
+  - whip
+  - whips
+  - widowmaker (overwatch)
+  - x12 bolter (warhammer 40k)
+  - zodiac sword
+  - zweihänder

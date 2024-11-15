@@ -1,0 +1,2153 @@
+Materials:
+  Bone:
+  - Bone
+  - Bovine bone
+  - Buffalo bone
+  - Cow bone
+  - Deer antler
+  - Elephant ivory
+  - Hippopotamus ivory
+  - Horse bone
+  - Moose antler
+  - Narwhal ivory
+  - Pig bone
+  - Ram horn
+  - Sheep bone
+  - Walrus ivory
+  - Yak bone
+  Ceramic:
+  - alumina
+  - alumina-silica
+  - alumina-zirconia-silica
+  - barium titanate
+  - bioceramic
+  - biscuit
+  - bone china
+  - boron carbide
+  - carbon
+  - ceramic foam
+  - ceramic matrix composites
+  - cordierite
+  - earthenware
+  - ferrite
+  - fine bone china
+  - fired bricks
+  - glass ceramics
+  - kaolin
+  - magnesia-carbon
+  - mullite
+  - porcelain
+  - silicon
+  - silicon carbide
+  - silicon nitride
+  - steatite
+  - stoneware
+  - terra cotta
+  - titanium carbide
+  - tungsten carbide
+  - zirconia
+  Cloth:
+  - acrylic
+  - aertex
+  - airdura
+  - airguard
+  - alpaca
+  - angora
+  - argyle
+  - baize
+  - ballistic nylon
+  - bamboo
+  - ban-lon
+  - barathea
+  - barkcloth
+  - batiste
+  - bedford cord
+  - bengaline silk
+  - beta cloth
+  - bizarre silk
+  - bobbinet
+  - boiled wool
+  - bombazine
+  - brilliantine
+  - broadcloth
+  - brocade
+  - buckram
+  - bunting
+  - burlap
+  - c change
+  - calico
+  - cambric
+  - camlet
+  - canvas
+  - capilene
+  - carbon fiber
+  - cashmere
+  - cedar bark
+  - challis
+  - chambray
+  - char cloth
+  - charmeuse
+  - charvet
+  - cheesecloth
+  - chenille
+  - chiffon
+  - chino
+  - chintz
+  - chiné
+  - cloqué
+  - cloth of gold
+  - coir
+  - conductive
+  - coolmax
+  - cordura
+  - corduroy
+  - cotton
+  - coutil
+  - crape
+  - cretonne
+  - crimplene
+  - crêpe
+  - damask
+  - darlexx
+  - dazzle
+  - denim
+  - dimity
+  - donegal tweed
+  - dornix
+  - dowlas
+  - drill
+  - drugget
+  - duck
+  - e-textiles
+  - eolienne
+  - felt
+  - fishnet
+  - flannel
+  - flax
+  - fleece
+  - foulard
+  - fustian
+  - gabardine
+  - gannex
+  - gauze
+  - gazar
+  - georgette
+  - ghalamkar
+  - gingham
+  - gore-tex
+  - grenadine
+  - grenfell cloth
+  - grosgrain
+  - habutai
+  - haircloth
+  - harris tweed
+  - hemp
+  - herringbone
+  - himroo
+  - hodden
+  - houndstooth
+  - irish linen
+  - jamdani
+  - jersey
+  - jute
+  - kente cloth
+  - kerseymere
+  - kevlar
+  - khaki drill
+  - khādī
+  - lace
+  - lampas
+  - lamé
+  - lawn
+  - linen
+  - linsey-woolsey
+  - loden
+  - longcloth
+  - lumalive
+  - lyocell
+  - machine knitting
+  - mackinaw
+  - madapolam
+  - madras
+  - mesh
+  - microfiber
+  - milliskin
+  - mockado
+  - modal
+  - mohair
+  - moleskin
+  - moquette
+  - muslin
+  - nainsook
+  - nankeen
+  - needlerun net
+  - ninon
+  - nylon
+  - oilskin
+  - olefin
+  - organdy
+  - organza
+  - osnaburg
+  - ottoman
+  - oxford
+  - paduasoy
+  - paisley
+  - pashmina
+  - percale
+  - pin stripes
+  - piña
+  - plush
+  - polar fleece
+  - polyester
+  - pongee
+  - poplin
+  - rakematiz
+  - ramie
+  - rayadillo
+  - rayon
+  - rep
+  - rinzu
+  - ripstop
+  - russell cord
+  - saga nishiki
+  - samite
+  - sateen
+  - satin
+  - saye
+  - scarlet
+  - scrim
+  - sea silk
+  - seersucker
+  - serge
+  - shot silk
+  - shweshwe
+  - silk
+  - silnylon
+  - sisal
+  - songket
+  - spandex
+  - spider silk
+  - stub-tex
+  - stuff
+  - sympatex
+  - taffeta
+  - tais
+  - tartan
+  - tattersall
+  - tencel
+  - terrycloth
+  - toile
+  - tucuyo
+  - tulle
+  - tweed
+  - twill
+  - ultrasuede
+  - vegetable flannel
+  - velour
+  - velours du kasaï
+  - velvet
+  - velveteen
+  - ventile
+  - vinyl coated polyester
+  - viyella
+  - voile
+  - wadmal
+  - whipcord
+  - wigan
+  - windstopper
+  - wool
+  - zephyr
+  - zibeline
+  - zorbeez
+  Crystal:
+  - achroite
+  - actinolite
+  - adamite
+  - adularia
+  - aegerine
+  - aegirine
+  - afghanite
+  - agardite
+  - agate
+  - agrellite
+  - ajoite
+  - alabaster
+  - albite
+  - alexandrite
+  - algodonite
+  - almandine
+  - alunite
+  - amazonite
+  - amber
+  - amblygonite
+  - amethyst
+  - ametrine
+  - ammolite
+  - ammonoidea
+  - analcime
+  - anatase
+  - andalusite
+  - andesine
+  - andradite
+  - anglesite
+  - anhydrite
+  - ankerite
+  - annabergite
+  - anorthite
+  - anorthoclase
+  - anthophyllite
+  - anthracite
+  - antigorite
+  - antlerite
+  - anyolite
+  - apache tears
+  - apatite
+  - apophyllite
+  - aquamarine
+  - aragonite
+  - arfvedsonite
+  - asbestos
+  - astrophyllite
+  - atacamite
+  - augelite
+  - augite
+  - aurichalcite
+  - austinite
+  - aventurine
+  - axinite
+  - azurite
+  - azurmalachite
+  - ballas
+  - barite
+  - baryte
+  - bastnaesite
+  - bauxite
+  - bayldonite
+  - benitoite
+  - beryl
+  - beryllium
+  - beryllonite
+  - beudantite
+  - biotite
+  - bismutotantalite
+  - bixbite
+  - black diamond
+  - black opal
+  - bloodstone
+  - blue amber
+  - blue diamond
+  - blue sapphire
+  - boleite
+  - bone
+  - boracite
+  - bornite
+  - bort
+  - botallackite
+  - botryogen
+  - bowenite
+  - brazilianite
+  - breithauptite
+  - brochantite
+  - bronzite
+  - brookite
+  - brucite
+  - bubblegram
+  - bustamite
+  - bytownite
+  - cacoxenite
+  - calcareous concretions
+  - calcite
+  - caledonite
+  - californite
+  - canasite
+  - cancrinite
+  - carletonite
+  - carminite
+  - carnallite
+  - carnelian
+  - cassiterite
+  - castorite
+  - catapleiite
+  - cavansite
+  - celestine
+  - celestite
+  - celsian
+  - ceruleite
+  - cerussite
+  - ceylonite
+  - chabazite
+  - chalcedony
+  - chalcopyrite
+  - chambersite
+  - charlesite
+  - charoite
+  - chiastolite
+  - childrenite
+  - chiolite
+  - chlorastrolite
+  - chloromelanite
+  - chondrodite
+  - chrome
+  - chrome chalcedony
+  - chromite
+  - chrysoberyl
+  - chrysocolla
+  - chrysoprase
+  - chrysotile
+  - cinnabar
+  - citrine
+  - clinochlore
+  - clinohumite
+  - clinozoisite
+  - clintonite
+  - cobaltite
+  - colemanite
+  - conichalcite
+  - copal
+  - coral
+  - cordierite
+  - cornwallite
+  - corundum
+  - covellite
+  - creedite
+  - crocidolite
+  - crocoite
+  - cryolite
+  - cubic zirconia
+  - cummingtonite
+  - cuprite
+  - cymophane
+  - danburite
+  - datolite
+  - demantoid
+  - dendritic agate
+  - descloizite
+  - diaboleite
+  - diamond
+  - diaspore
+  - dickinsonite
+  - diopside
+  - dioptase
+  - dolomite
+  - dravite
+  - druzy
+  - dumortierite
+  - eilat stone
+  - ekanite
+  - elaeolite
+  - elbaite
+  - emerald
+  - enstatite
+  - eosphorite
+  - epidosite
+  - epidote
+  - erythrite
+  - esperite
+  - ettringite
+  - euclase
+  - eudialyte
+  - euxenite
+  - fayalite
+  - feldspar
+  - fergusonite
+  - ferroaxinite
+  - fire agate
+  - fire opal
+  - flint
+  - fluor-liddicoatite
+  - fluorapatite
+  - fluorapophyllite
+  - fluorite
+  - fordite
+  - forsterite
+  - friedelite
+  - fuchsite
+  - gadolinite
+  - gadolinium gallium garnet
+  - gahnite
+  - gahnospinel
+  - garnet
+  - garnierite
+  - gaspeite
+  - gaylussite
+  - gibbsite
+  - glaucophane
+  - glimmerite
+  - goethite
+  - golden beryl
+  - golden sheen sapphire
+  - goldstone
+  - goosecreekite
+  - goshenite
+  - grandidierite
+  - green sapphire
+  - grossular
+  - gypsum
+  - gyrolite
+  - hackmanite
+  - halite
+  - hambergite
+  - hanksite
+  - hardystonite
+  - hauyne
+  - hawk's eye
+  - helenite
+  - heliodor
+  - hematite
+  - hemimorphite
+  - herderite
+  - herkimer quartz
+  - hessonite
+  - hexagonite
+  - hibonite
+  - hiddenite
+  - hodgkinsonite
+  - holtite
+  - howlite
+  - huebnerite
+  - humite
+  - hureaulite
+  - hurlbutite
+  - hydrogrossular
+  - hyperitdiabas
+  - hypersthene
+  - iddingsite
+  - idocrase
+  - ilmenite
+  - inderite
+  - indicolite
+  - iolite
+  - iris agate
+  - ivory
+  - jacinth
+  - jade
+  - jadeite
+  - jarosite
+  - jasper
+  - jeremejevite
+  - jet
+  - kainite
+  - kaolinite
+  - kidney ore
+  - kimberlite
+  - kornerupine
+  - kunzite
+  - kurnakovite
+  - kutnohorite
+  - kyanite
+  - kämmererite
+  - labradorite
+  - lammerite
+  - lamproite
+  - langbeinite
+  - langite
+  - lapis lazuli
+  - larimar
+  - lawsonite
+  - lazulite
+  - lazurite
+  - leadhillite
+  - lechatelierite
+  - legrandite
+  - lepidolite
+  - leucite
+  - leucophanite
+  - libyan desert glass
+  - linarite
+  - lizardite
+  - llanite
+  - londonite
+  - ludlamite
+  - ludwigite
+  - magnesioaxinite
+  - magnesite
+  - malachite
+  - malaia garnet
+  - manganaxinite
+  - manganoan calcite
+  - marcasite
+  - marialite
+  - maw sit sit
+  - maxixe
+  - meionite
+  - melanite
+  - melanterite
+  - meliphanite
+  - mellite
+  - mendipite
+  - mesolite
+  - metal-coated crystals
+  - microcline
+  - microlite
+  - milarite
+  - milky quartz
+  - millerite
+  - mimetite
+  - moissanite
+  - moldavite
+  - monazite
+  - mookaite
+  - moonstone
+  - mordenite
+  - morganite
+  - moss agate
+  - moss opal
+  - mottramite
+  - muscovite
+  - musgravite
+  - nacre
+  - nambulite
+  - narsarsukite
+  - natrolite
+  - natrophilite
+  - nepheline
+  - nephrite
+  - neptunite
+  - nickeline
+  - nimite
+  - normandite
+  - nosean
+  - nuummite
+  - obsidian
+  - olenite
+  - oligoclase
+  - olivenite
+  - olivine
+  - olivinite
+  - onyx
+  - opal
+  - operculum
+  - oregon sunstone
+  - orthoclase
+  - padparadscha
+  - painite
+  - pallasite
+  - palygorskite
+  - pantellerite
+  - papagoite
+  - paraiba
+  - pargasite
+  - parisite
+  - pearl
+  - pectolite
+  - pentlandite
+  - periclase
+  - peridot
+  - peridotite
+  - peristerite
+  - perthite
+  - petalite
+  - petoskey stone
+  - petrified wood
+  - pezzottaite
+  - pharmacosiderite
+  - phenakite
+  - phlogopite
+  - phosgenite
+  - phosphophyllite
+  - phosphosiderite
+  - piemontite
+  - pietersite
+  - pimelite
+  - pink diamond
+  - pink sapphire
+  - plagioclase
+  - plancheite
+  - plumbogummite
+  - pollucite
+  - polyhalite
+  - posnjakite
+  - poudretteite
+  - powellite
+  - prasiolite
+  - prehnite
+  - prismatine
+  - prosopite
+  - proustite
+  - psilomelane
+  - pumpellyite
+  - purpurite
+  - pyralspite
+  - pyrargyrite
+  - pyrite
+  - pyromorphite
+  - pyrope
+  - pyrophyllite
+  - pyroxmangite
+  - pyrrhotite
+  - quartz
+  - quartzite
+  - radiolarite
+  - rainbow
+  - rainbow lattice sunstone
+  - raspite
+  - realgar
+  - red beryl
+  - red diamond
+  - red garnet
+  - red spinel
+  - rhodizite
+  - rhodochrosite
+  - rhodolite
+  - rhodonite
+  - richterite
+  - riebeckite
+  - rock crystal
+  - rosasite
+  - rose quartz
+  - rossmanite
+  - rubellite
+  - ruby
+  - rutile
+  - samarskite
+  - sanidine
+  - sapphire
+  - sapphirine
+  - sarcolite
+  - sard
+  - sardonyx
+  - scapolite
+  - scheelite
+  - schizolite
+  - schorlomite
+  - scolecite
+  - scorodite
+  - seashell
+  - selenite
+  - sellaite
+  - senarmontite
+  - sepiolite
+  - seraphinite
+  - serendibite
+  - serpentine
+  - serpentite
+  - shattuckite
+  - shigaite
+  - shocked quartz
+  - shortite
+  - shungite
+  - siderite
+  - siilinjärvi carbonatite
+  - sillimanite
+  - simpsonite
+  - sinhalite
+  - smaltite
+  - smithsonite
+  - smoky quartz
+  - soapstone
+  - sodalite
+  - sogdianite
+  - sperrylite
+  - spessartine
+  - spessartite
+  - sphalerite
+  - sphene
+  - spherocobaltite
+  - spinel
+  - spinels
+  - spodumene
+  - spurrite
+  - staurolite
+  - steatite
+  - stellerite
+  - stibiotantalite
+  - stichtite
+  - stilbite
+  - stishovite
+  - stolzite
+  - strengite
+  - strontianite
+  - strontium titanate
+  - sugilite
+  - sulfur
+  - sunstone
+  - susannite
+  - sylvite
+  - synthetic alexandrite
+  - synthetic beryl
+  - synthetic corundum
+  - synthetic cubic zirconia
+  - synthetic diamond
+  - synthetic moissanite
+  - synthetic opal
+  - synthetic quartz
+  - synthetic spinel
+  - synthetic turquoise
+  - sérandite
+  - taaffeite
+  - tactite
+  - talc
+  - tantalite
+  - tanzanite
+  - tektites
+  - tephroite
+  - terbium gallium garnet
+  - thaumasite
+  - thomsonite
+  - thulite
+  - tiger's eye
+  - tiger's-eye
+  - tigers eye
+  - tinaksite
+  - tinzenite
+  - titanite
+  - topaz
+  - topazolite
+  - tourmaline
+  - trapiche emerald
+  - tremolite
+  - trinitite
+  - triphane
+  - triphylite
+  - triplite
+  - tsavorite
+  - tschermakite
+  - tugtupite
+  - turquoise
+  - tusionite
+  - tyrolite
+  - ugrandite
+  - ulexite
+  - umbalite
+  - unakite
+  - ussingite
+  - uvarovite
+  - vanadinite
+  - variscite
+  - vauxite
+  - vermiculite
+  - vesuvianite
+  - villiaumite
+  - vishnevite
+  - vivianite
+  - vlasovite
+  - väyrynenite
+  - wakefieldite
+  - wardite
+  - wavellite
+  - weloganite
+  - wernerite
+  - whewellite
+  - wilkeite
+  - willemite
+  - witherite
+  - wolfenite
+  - wollastonite
+  - wulfenite
+  - wurtzite
+  - xenotime
+  - xonotlite
+  - yellow diamond
+  - yellow sapphire
+  - yttrium aluminium garnet
+  - yttrium iron garnet
+  - yugawaralite
+  - zektzerite
+  - zeolite
+  - zeolites
+  - zincite
+  - zinnwaldite
+  - zircon
+  - zoisite
+  - zultanite
+  - zunyite
+  Fantasy:
+  - Aether crystals
+  - Ambrosia
+  - Angelic essence
+  - Dark crystal
+  - Demon blood
+  - Dragon scales
+  - Dwarven metal
+  - Elfstone
+  - Goblin steel
+  - Griffin's feather
+  - Mermaid scales
+  - Mermaid tear
+  - Minotaur's fur
+  - Minotaur's hide
+  - Moonstone
+  - Phoenix feathers
+  - Phoenix's ash
+  - Shadow essence
+  - Star metal
+  - Unicorn horn
+  - Wraith bone
+  Fictional:
+  - Adamantium
+  - Aether
+  - Arcane
+  - Aurora
+  - Cavorite
+  - Celerium
+  - Chrono
+  - Cosmic
+  - Dark Matter
+  - Deltron
+  - Dilithium
+  - Durasteel
+  - Eldrid
+  - Element 121
+  - Element X
+  - Element Zero
+  - Elemental
+  - Elerium
+  - Empowered
+  - Enchanted
+  - Energon
+  - Eru-silk
+  - Ezium
+  - Force Energy
+  - Galactic
+  - Galvorn
+  - Heartstone
+  - Illuminated
+  - Kallium
+  - Krynn
+  - Kryptonite
+  - Lunaris
+  - Mandalorian Beskar Steel
+  - Mystic
+  - Mystical
+  - Mythril
+  - Naqahdah
+  - Nebula
+  - Nirax
+  - Nth Metal
+  - Orichalcum
+  - Phlebotinum
+  - Plasma
+  - Prometheum
+  - Quintessence
+  - Radiant
+  - Ravium
+  - Red matter
+  - Schwartzschild radius crystals
+  - Shadowcloth
+  - Shimmering
+  - Solaris
+  - Spectral energy
+  - Stardust
+  - Terran
+  - Thrakium
+  - Unbreakable Glass
+  - Unobtanium
+  - Vibranium
+  - Xehon
+  - Zeronite
+  - Zeronium
+  Fossil:
+  - Amber
+  - Ammonites
+  - Brachiopod Shells
+  - Coprolites
+  - Dinosaur bones
+  - Fossil
+  - Fossil shells
+  - Fossilized Coral
+  - Fossilized insects
+  - Fossilized plants
+  - Gastropod Shells
+  - Mosasaur bones
+  - Petrified wood
+  - Shark teeth
+  - Trilobites
+  Fur:
+  - Chinchilla fur
+  - Duck feathers
+  - Ermine fur
+  - Fox fur
+  - Goose feathers
+  - Mink fur
+  - Ostrich feathers
+  - Peacock feathers
+  - Pheasant feathers
+  - Rabbit fur
+  - Raccoon fur
+  - Sable fur
+  - Squirrel fur
+  - Turkey feathers
+  Glass:
+  - Aluminosilicate glass
+  - Borosilicate glass
+  - colored glass
+  - Flint glass
+  - Fused silica glass
+  - Glass
+  - Glass block
+  - Laminated glass
+  - Lead glass
+  - Soda-lime glass
+  - Stained glass
+  - Tempered glass
+  - Textured glass
+  Leather:
+  - Aniline leather
+  - Bonded leather
+  - Chrome-tanned leather
+  - Corrected grain leather
+  - Faux leather
+  - Genuine leather
+  - Leather
+  - Nubuck leather
+  - Patent leather
+  - Rawhide leather
+  - Split grain leather
+  - Suede leather
+  - Synthetic leather
+  - Top grain leather
+  - Vegetable-tanned leather
+  Metal:
+  - 6al–4v
+  - aa-8000
+  - actinium
+  - al ga
+  - al-6xn
+  - alloy 20
+  - alnico
+  - alumel
+  - aluminium
+  - aluminium bronze
+  - aluminium–scandium
+  - aluminum
+  - al–li
+  - amalgam
+  - americium
+  - argentium sterling silver
+  - arsenic
+  - arsenical bronze
+  - arsenical copper
+  - ashtadhatu
+  - babbitt
+  - barium
+  - bell metal
+  - berkelium
+  - beryllium
+  - beryllium copper
+  - beta c
+  - billon
+  - birmabright
+  - bismanol
+  - bismuth
+  - bohrium
+  - brass
+  - brightray
+  - britannia silver
+  - britannium
+  - bronze
+  - bulat steel
+  - cadmium
+  - calamine brass
+  - calcium
+  - californium
+  - cast iron
+  - celestrium
+  - cerium
+  - cerrosafe
+  - cesium
+  - chinese silver
+  - chromel
+  - chromium
+  - chromium hydride
+  - chromoly
+  - cobalt
+  - coin silver
+  - colored gold
+  - constantan
+  - copper
+  - copper hydride
+  - copper–tungsten
+  - corinthian bronze
+  - crown gold
+  - crucible steel
+  - cuag
+  - cunife
+  - cupronickel
+  - curium
+  - cymbal alloys
+  - damascus steel
+  - darmstadtium
+  - devarda's alloy
+  - doré bullion
+  - dubnium
+  - ducol
+  - duralumin
+  - dutch metal
+  - dymalloy
+  - dysprosium
+  - einsteinium
+  - electro-slag remelting
+  - electroplated
+  - electrum
+  - elektron
+  - elgiloy
+  - elinvar
+  - erbium
+  - europium
+  - fermium
+  - fernico
+  - ferroalloys
+  - ferroboron
+  - ferrocerium
+  - ferrochrome
+  - ferromagnesium
+  - ferromanganese
+  - ferromolybdenum
+  - ferronickel
+  - ferrophosphorus
+  - ferrosilicon
+  - ferrotitanium
+  - ferrouranium
+  - ferrovanadium
+  - field's metal
+  - florentine bronze
+  - francium
+  - gadolinium
+  - galfenol
+  - galinstan
+  - gallium
+  - german silver
+  - gilding metal
+  - glucydur
+  - gold
+  - golden
+  - goloid
+  - guanín
+  - gum metal
+  - gunmetal
+  - hadfield steel
+  - hafnium
+  - hassium
+  - hastelloy
+  - hepatizon
+  - hiduminium
+  - high-speed steel
+  - holmium
+  - hsla steel
+  - hydronalium
+  - inconel
+  - indium
+  - invar
+  - iridescent
+  - iridium
+  - iron
+  - iron hydride
+  - italma
+  - kanthal
+  - kli
+  - kovar
+  - lanthanum
+  - lawrencium
+  - lead
+  - lithium
+  - lockalloy
+  - lutetium
+  - magnalium
+  - magnesium
+  - magnox
+  - manganese
+  - manganin
+  - maraging steel
+  - marine grade stainless
+  - martensitic stainless steel
+  - megallium
+  - meitnerium
+  - melchior
+  - mendelevium
+  - mercury
+  - metal
+  - metallic
+  - mischmetal
+  - molybdenum
+  - molybdochalkos
+  - monel metal
+  - mu-metal
+  - muntz metal
+  - mushet steel
+  - nak
+  - neodymium
+  - neptunium
+  - ni-ti-al
+  - nichrome
+  - nickel
+  - nickel hydride
+  - nickel silver
+  - nickel-carbon
+  - nicrosil
+  - nimonic
+  - niobium
+  - nisil
+  - nitinol
+  - nobelium
+  - nordic gold
+  - ormolu
+  - osmium
+  - palladium
+  - permalloy
+  - pewter
+  - phosphor bronze
+  - pig iron
+  - pinchbeck
+  - platinum
+  - platinum sterling
+  - plutonium
+  - plutonium–gallium
+  - polonium
+  - potassium
+  - praseodymium
+  - prince's metal
+  - promethium
+  - protactinium
+  - pseudo palladium
+  - queen's metal
+  - radium
+  - rare earths
+  - reynolds 531
+  - rhenium
+  - rhodite
+  - rhodium
+  - roentgenium
+  - rose gold
+  - rose metal
+  - rubidium
+  - ruthenium
+  - rutherfordium
+  - samarium
+  - sanicro 28
+  - scandium
+  - scandium hydride
+  - seaborgium
+  - shakudo
+  - shibuichi
+  - silicon bronze
+  - silicon steel
+  - silver
+  - silver steel
+  - sodium
+  - solder
+  - speculum metal
+  - spiegeleisen
+  - spring steel
+  - staballoy
+  - stainless steel
+  - steel
+  - stellite
+  - sterling silver
+  - strontium
+  - supermalloy
+  - surgical stainless steel
+  - talonite
+  - tantalum
+  - technetium
+  - terbium
+  - terfenol-d
+  - terne
+  - thallium
+  - thorium
+  - thulium
+  - tibetan silver
+  - tin
+  - titanium
+  - titanium gold
+  - titanium hydride
+  - titanium nitride
+  - tombac
+  - tool steel
+  - tumbaga
+  - tungsten
+  - type metal
+  - ultimet
+  - ununbium
+  - ununhexium
+  - ununpentium
+  - ununquadium
+  - ununtrium
+  - uranium
+  - uranium hydride
+  - vanadium
+  - vitallium
+  - weathering steel
+  - white bronze
+  - white gold
+  - white metal
+  - wood's metal
+  - wootz steel
+  - y alloy
+  - ytterbium
+  - yttrium
+  - zamak
+  - zeron 100
+  - zinc
+  - zirconium
+  Mineral:
+  - Apatite
+  - Asbestos
+  - Azurite
+  - Barite
+  - Bauxite
+  - Bentonite
+  - Calcite
+  - Carbonates
+  - Chlorite
+  - Dolomite
+  - Feldspar
+  - Fluorite
+  - Galena
+  - Graphite
+  - Hematite
+  - Kaolinite
+  - Limonite
+  - Magnesite
+  - Magnetite
+  - Malachite
+  - Mica
+  - Muscovite
+  - Quartz
+  - Serpentine
+  - Silicates
+  - Sphalerite
+  - Sulfates
+  - Talc
+  Misc:
+  - acrylic glass
+  - acrylic paint
+  - adhesives
+  - aggregates
+  - alloys
+  - aluminum frames
+  - architectural glass
+  - asphalt
+  - ball clay
+  - bamboo
+  - bentonite clay
+  - bitumen
+  - black clay
+  - bond paper
+  - botticino marble
+  - brass
+  - brick
+  - bricks
+  - bronze
+  - burnt clay bricks
+  - bursa beige marble
+  - butyl rubber
+  - calacatta marble
+  - carbon fiber
+  - carbonless paper
+  - cardstock
+  - carpet material
+  - carrara marble
+  - cellulose insulation
+  - cement
+  - cement board
+  - ceramic
+  - ceramic tiles
+  - ceramics
+  - chemicals
+  - clay
+  - coated paper
+  - composite materials
+  - compressed earth
+  - concrete
+  - concrete bricks
+  - construction paper
+  - copper
+  - copper pipes
+  - cork
+  - cotton
+  - craft paper
+  - crema marfil marble
+  - crepe paper
+  - decorative paper
+  - drywall
+  - earthenware clay
+  - emperador marble
+  - enamel paint
+  - engineered bamboo
+  - engineered stone
+  - engineered wood
+  - engineering bricks
+  - envelope paper
+  - epdm rubber
+  - epoxy
+  - fabric
+  - fiber cement
+  - fiberboard
+  - fiberglass
+  - fibers
+  - filter paper
+  - fire clay
+  - firebricks
+  - flax
+  - foam
+  - foam board
+  - fuller's earth clay
+  - galvanized steel
+  - glass
+  - glass blocks
+  - glass tile
+  - glues
+  - granite
+  - gravel
+  - green clay
+  - gypsum
+  - gypsum concrete
+  - hair
+  - handmade paper
+  - hardwood
+  - illite clay
+  - insulation
+  - jute
+  - kaolin clay
+  - kapok
+  - kraft paper
+  - lacquer
+  - laminate
+  - laminated glass
+  - laminated veneer lumber
+  - latex paint
+  - leather
+  - limestone
+  - linoleum
+  - logs
+  - marble
+  - metal foams
+  - metals
+  - mineral wool insulation
+  - minerals
+  - montmorillonite clay
+  - mortar
+  - mud & clay
+  - natural fibers
+  - natural rubber
+  - natural textiles
+  - neoprene rubber
+  - newsprint
+  - nitrile rubber
+  - offset paper
+  - oriented strand board (osb)
+  - paint
+  - palm fibers
+  - paper
+  - photographic paper
+  - plaster
+  - plastic
+  - plastic laminate
+  - plywood
+  - polycarbonate
+  - polyurethane
+  - porcelain
+  - porcelain clay
+  - porcelain tile
+  - pressure treated wood
+  - primers
+  - pvc
+  - quartz
+  - rare-earths
+  - recycled paper
+  - red clay
+  - reinforced concrete
+  - resin
+  - rigid foam insulation
+  - roofing tiles
+  - rosso verona marble
+  - rubber
+  - sand
+  - sandstone
+  - sealants
+  - semiconductor
+  - shellac
+  - shoji
+  - silicone
+  - silicone rubber
+  - silicone sealants
+  - slate
+  - soft rush
+  - softwood
+  - spray foam
+  - stainless steel
+  - statuario marble
+  - steel
+  - steel beams
+  - steel connections
+  - stone
+  - stoneware clay
+  - straw
+  - stucco
+  - styrene-butadiene rubber (sbr)
+  - synthetic rubber
+  - synthetic stone
+  - synthetic textiles
+  - tatami mats
+  - tempered glass
+  - terracotta clay
+  - terrazzo
+  - terrazzo tile
+  - thassos marble
+  - timber
+  - tissue paper
+  - titanium
+  - travertine marble
+  - upcycled materials
+  - varnish
+  - wallpaper
+  - watercolor paper
+  - white clay
+  - wire mesh
+  - wood
+  - wood veneer
+  - wrapping paper
+  - writing paper
+  - yellow clay
+  Nano:
+  - Nanocoated material
+  - Nanocomposite
+  - Nanofiber
+  - Nanofilm
+  - Nanogel
+  - Nanoparticle
+  - Nanoplastic
+  - Nanoporous material
+  - Nanotube
+  - Nanowire
+  Plastic:
+  - Acetal (POM)
+  - Acrylonitrile-butadiene-styrene (ABS)
+  - High density polyethylene (HDPE)
+  - Low density polyethylene (LDPE)
+  - Nylon
+  - PETG (Glycol-modified PET)
+  - Plastic
+  - Polycarbonate (PC)
+  - Polyetherimide (PEI)
+  - Polyethersulfone (PES)
+  - Polyethylene (PE)
+  - Polyethylene furanoate (PEF)
+  - Polyethylene terephthalate (PET)
+  - Polyimide (PI)
+  - Polyphenylene oxide (PPO)
+  - Polyphenylene sulfide (PPS)
+  - Polypropylene (PP)
+  - Polystyrene (PS)
+  - Polyvinyl chloride (PVC)
+  - PVC
+  - Thermoplastic elastomers (TPE)
+  - TPU (Thermoplastic polyurethane)
+  Resin:
+  - Acrylic resin
+  - Bakelite
+  - Celluloid
+  - Copal
+  - Fossil resin
+  - Jet
+  - Lucite
+  - Polyester resin
+  - Polymer resin
+  - Resin
+  - Rubber
+  - Tree resin
+  Rock:
+  - a-type granite
+  - aberdeen granite
+  - ancaster stone
+  - andesite
+  - anorthosite
+  - arkose
+  - ash flow tuff
+  - b-type granite
+  - banktop
+  - barnack rag
+  - basalt
+  - basaltic andesite
+  - bearl
+  - beer stone
+  - bioclastic limestone
+  - blaxter
+  - blueschist
+  - breccia
+  - brownstone
+  - burdur beige marble
+  - caen stone
+  - calcarenite
+  - carbonatite
+  - catcastle
+  - chalk
+  - charnockite
+  - clay shale
+  - claystone
+  - clipsham stone
+  - clunch
+  - comblanchien
+  - conglomerate
+  - coquina
+  - corallian limestone
+  - corncockle
+  - cotswold stone
+  - czaple
+  - côte d'or
+  - dacite
+  - diabase
+  - diorite
+  - dolomite
+  - dunhouse blue
+  - dunhouse buff
+  - dunite
+  - dębnik
+  - eclogite
+  - elazig cherry marble
+  - emprador
+  - feldspathic sandstone
+  - flaggy limestone
+  - flint
+  - forest marble
+  - frosterley marble
+  - gabbro
+  - gneiss
+  - granite
+  - granodiorite
+  - greenschist
+  - greywacke
+  - hall dale
+  - haslingden flag
+  - heavitree stone
+  - hornfels
+  - i-type granite
+  - jerusalem stone
+  - ketton stone
+  - kielce
+  - kimberlite
+  - kośmin
+  - lamprophyre
+  - larvikite
+  - lava
+  - leucogranite
+  - limestone
+  - locharbriggs
+  - magnesian limestone
+  - marble
+  - marl
+  - marlstone
+  - marmara
+  - micrite
+  - migmatite
+  - monzogranite
+  - monzonite
+  - mud shale
+  - mudstone
+  - mugla white
+  - nasławice
+  - noche travertine
+  - norite
+  - obsidian
+  - obsidianite
+  - onyx
+  - oolite
+  - oolitic limestone
+  - peloidal limestone
+  - peperino
+  - peridotite
+  - phonolite
+  - pierre d'euville
+  - pierre de jaumont
+  - pietra serena
+  - porphyritic andesite
+  - porphyritic basalt
+  - porphyritic dacite
+  - porphyritic rhyolite
+  - porphyritic trachyte
+  - portland admiralty roach
+  - portland bowers basebed
+  - portland bowers lynham whitbed
+  - portland bowers saunders whitbed
+  - portland grove whitbed
+  - portland hard blue
+  - portland independent basebed
+  - portland independent bottom whitbed
+  - portland independent top whitbed
+  - portland new independent whitbed
+  - portland stone
+  - portoro buono
+  - przedborowa
+  - pumice
+  - purbeck marble
+  - pyroclastic rock
+  - quartz diorite
+  - quartz monzonite
+  - quartz sandstone
+  - quartzite
+  - radków
+  - rhyodacite
+  - rhyolite
+  - rudstone
+  - s-type granite
+  - sand shale
+  - sandstone
+  - schist
+  - scoria
+  - serpentinite
+  - shale
+  - siltstone
+  - silty shale
+  - skała
+  - skiddaw slate
+  - slate
+  - steatite
+  - stromatolites
+  - strzegom
+  - strzelin
+  - syenite
+  - syenogranite
+  - szczytna
+  - tephrite
+  - tezontle
+  - tonalite
+  - trachyandesite
+  - trachyte
+  - travertine
+  - tufa
+  - tuff
+  - tuffeau stone
+  - verde antico
+  - vesicular andesite
+  - vesicular basalt
+  - vesicular dacite
+  - vesicular rhyolite
+  - vesicular trachyte
+  - volcanic breccia
+  - volcanic glass
+  - welded tuff
+  - welsh slate
+  - yorkstone
+  Sci-Fi:
+  - Adamantine
+  - Antimatter
+  - Asgardian Metal
+  - Cybernetic fluids
+  - Dilithium
+  - Duranium
+  - Hyperspace fuels
+  - Isodoped Element
+  - Nanobots
+  - Neuro-active compounds
+  - Neuro-regenerative compounds
+  - Neuro-repair compounds
+  - Neuroenhancers
+  - Neuroinhibitors
+  - Neurostimulants
+  - Neurotoxins
+  - Neutronium
+  - Quantum entanglement fluids
+  - Tritanium
+  - Unobtanium
+  - Unstable isotopes
+  - Warp fuels
+  - Zeronite
+  Synthetic:
+  - aluminum alloy
+  - carbon fiber
+  - epoxy resin
+  - fiberglass
+  - nylon
+  - Plastic
+  - polyester
+  - Polymer
+  - polystyrene
+  - polyurethane
+  - silicone
+  - Synthetic adhesive
+  - Synthetic celluloid
+  - Synthetic ceramic
+  - Synthetic composite
+  - Synthetic diamond
+  - Synthetic fiber
+  - Synthetic foam
+  - Synthetic leather
+  - Synthetic metal
+  - Synthetic resin
+  - Synthetic rubber
+  - Synthetic stone
+  Wood:
+  - abachi
+  - abaci
+  - acacia
+  - african blackwood
+  - african ebony
+  - african mahogany
+  - african padauk
+  - afzelia
+  - agba
+  - alder
+  - alerce
+  - alpine ash
+  - american basswood
+  - american beech
+  - american birch
+  - american chestnut
+  - american elm
+  - american hophornbeam
+  - american hornbeam
+  - american mahogany
+  - american muskwood
+  - american red alder
+  - american sycamore
+  - american whitewood
+  - andaman marblewood
+  - apple
+  - araucaria
+  - arizona cypress
+  - ash
+  - ash wood
+  - aspen
+  - astronium
+  - atlantic white cedar
+  - australian blackwood
+  - australian oak
+  - australian red cedar
+  - ayan
+  - balau
+  - bald cypress
+  - balsa
+  - balsa wood
+  - balsam fir
+  - balsam poplar
+  - bamboo
+  - bamboo wood
+  - banglay
+  - basswood
+  - bead-tree
+  - beech
+  - bigleaf mahogany
+  - bigtooth aspen
+  - birch
+  - birch wood
+  - black alder
+  - black ash
+  - black birch
+  - black cherry
+  - black ironwood
+  - black locust
+  - black maple
+  - black poplar
+  - black spruce
+  - black tupelo
+  - black willow
+  - blackbean
+  - blackbutt
+  - bloodwood
+  - blue ash
+  - blue gum
+  - borneo ironwood
+  - bossé
+  - boxelder
+  - boxwood
+  - brazilian ironwood
+  - brazilian pine
+  - brazilian walnut
+  - brazilwood
+  - brown mallet
+  - buckeye
+  - bur oak
+  - butternut
+  - california bay laurel
+  - camphor tree
+  - canyon live oak
+  - cape chestnut
+  - carapa
+  - catalina ironwood
+  - catalpa
+  - cedar
+  - cedar wood
+  - celery-top pine
+  - ceylon ebony
+  - ceylon ironwood
+  - ceylon satinwood
+  - chamaecyparis
+  - cherry
+  - cherry wood
+  - chestnut
+  - chestnut oak
+  - chinese mahogany
+  - chinkapin oak
+  - coachwood
+  - coast douglas-fir
+  - coast redwood
+  - cocobolo
+  - common ash
+  - common walnut
+  - corkwood
+  - cottonwood
+  - cricket-bat willow
+  - cucumbertree
+  - cumaru
+  - cupressus
+  - cypress
+  - dark bosse
+  - dark red meranti
+  - desert ironwood
+  - diesel tree
+  - dogwood
+  - douglas fir
+  - douglas-fir
+  - downy birch
+  - eastern black oak
+  - eastern black walnut
+  - eastern cottonwood
+  - eastern hemlock
+  - eastern red cedar
+  - eastern white pine
+  - ebony
+  - ebène marbre
+  - elm
+  - elm wood
+  - engineered wood
+  - english elm
+  - english oak
+  - eucalyptus
+  - european aspen
+  - european birch
+  - european black pine
+  - european crabapple
+  - european larch
+  - european oak
+  - european pear
+  - european yew
+  - exotic wood
+  - fir
+  - fir wood
+  - flooded gum
+  - flowering dogwood
+  - genuine mahogany
+  - giant ironwood
+  - gonçalo alves
+  - gray birch
+  - green ash
+  - greenheart
+  - grenadilla
+  - grey ironbark
+  - guaiacwood
+  - guanandi
+  - gum
+  - gumbo limbo
+  - hackberry
+  - hardwood
+  - hemlock
+  - hickory
+  - hinoki cypress
+  - holywood
+  - honey locust
+  - hoop pine
+  - hornbeam
+  - horse-chestnut
+  - huon pine
+  - hybrid black poplar
+  - indian mahogany
+  - indian sandalwood
+  - indonesian mahogany
+  - ipe
+  - ipe wood
+  - ipê
+  - iroko
+  - ironwood
+  - jacarandá de brasil
+  - jacarandá-boca-de-sapo
+  - jack pine
+  - japanese larch
+  - japanese nutmeg-yew
+  - jarrah
+  - jatobá
+  - juniper
+  - karri
+  - kauri
+  - kingwood
+  - kosipo
+  - kwila
+  - lacewood
+  - larch
+  - laurel oak
+  - lawson's cypress
+  - lebombo ironwood
+  - light bosse
+  - light red meranti
+  - lignum vitae
+  - limba
+  - lime wood
+  - linden
+  - loblolly pine
+  - lodgepole pine
+  - london plane
+  - longleaf pine
+  - lyptus
+  - mahogany
+  - mahogany wood
+  - maple
+  - maple wood
+  - marblewood
+  - marri
+  - mediterranean cypress
+  - medium-density fiberboard
+  - meranti
+  - merbau
+  - monkey puzzle tree
+  - monterey pine
+  - mopane
+  - mountain ash
+  - mountain hemlock
+  - mountain mahogany
+  - mugga
+  - noble fir
+  - nootka cypress
+  - northern red oak
+  - northern silky oak
+  - northern white cedar
+  - norway spruce
+  - nuttall's oak
+  - oak
+  - oak wood
+  - ohio buckeye
+  - okoumé
+  - olive
+  - olive wood
+  - oregon ash
+  - oregon pine
+  - overcup oak
+  - pacific coast mahogany
+  - pacific dogwood
+  - pacific silver fir
+  - palmwood
+  - panga-panga
+  - paper birch
+  - paraná pine
+  - particle board
+  - pear
+  - pear tree
+  - pecan
+  - persian ironwood
+  - philippine mahogany
+  - pignut hickory
+  - pine
+  - pine wood
+  - pink ivory
+  - pitch pine
+  - plane tree
+  - plywood
+  - ponderosa pine
+  - poplar
+  - post oak
+  - prunus
+  - pumpkin ash
+  - purpleheart
+  - quaking aspen
+  - queensland kauri
+  - queensland maple
+  - queensland walnut
+  - radiata pine
+  - ramin
+  - reclaimed wood
+  - red alder
+  - red cedar
+  - red cherry
+  - red mahogany
+  - red maple
+  - red oak
+  - red pine
+  - red spruce
+  - redheart
+  - redwood
+  - rimu
+  - river red gum
+  - robinia pseudoacacia
+  - rock elm
+  - rocky mountain douglas-fir
+  - rosewood
+  - rubberwood
+  - sal
+  - sandalwood
+  - sapele
+  - sassafras
+  - satiné
+  - scots pine
+  - sequoia
+  - shagbark hickory
+  - shellbark hickory
+  - sheoak
+  - shortleaf pine
+  - silky oak
+  - silver birch
+  - silver fir
+  - silver maple
+  - silver wattle
+  - sipo
+  - sitka spruce
+  - slippery elm
+  - softwood
+  - sourwood
+  - southern live oak
+  - southern red oak
+  - southern sassafras
+  - southern yellow pine
+  - spanish cedar
+  - spanish elm
+  - spanish-cedar
+  - spruce
+  - spruce wood
+  - sugar maple
+  - sugar pine
+  - sugi
+  - swamp chestnut oak
+  - swamp cottonwood
+  - swamp mahogany
+  - swamp white oak
+  - sweet birch
+  - sweetgum
+  - sycamore maple
+  - sydney blue gum
+  - takian
+  - tallowwood
+  - tamarack
+  - tamboti
+  - taxodium
+  - teak
+  - teak wood
+  - thailand rosewood
+  - tiama
+  - tulip tree
+  - tulipwood
+  - tupelo
+  - turpentine
+  - walnut
+  - walnut wood
+  - wandoo
+  - water oak
+  - weeping willow
+  - wenge
+  - wenge wood
+  - west indies mahogany
+  - western hemlock
+  - western larch
+  - western red cedar
+  - western white pine
+  - white ash
+  - white basswood
+  - white elm
+  - white mahogany
+  - white oak
+  - white pine
+  - white spruce
+  - white willow
+  - wicker
+  - wild apple
+  - wild cherry
+  - wild oak
+  - wild pear
+  - willow
+  - willow oak
+  - wood
+  - wych elm
+  - yellow birch
+  - yellow buckeye
+  - yellow cedar
+  - yellow lapacho
+  - yew
+  - york gum
+  - zebrawood
+  - zingana

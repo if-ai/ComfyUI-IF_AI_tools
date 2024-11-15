@@ -1,0 +1,1413 @@
+States:
+  Age:
+  - adolescent
+  - adult
+  - ancient
+  - baby
+  - baby boomer
+  - centenarian
+  - child
+  - cub
+  - elder
+  - elderly
+  - infant
+  - middle-aged
+  - neonate
+  - old
+  - older
+  - oldest
+  - senior
+  - supercentenarian
+  - teenage
+  - teenager
+  - toddler
+  - tween
+  - young
+  - younger
+  - youngest
+  - young-adult
+  Clothing-Removal:
+  - skimpy
+  - topless
+  - bottomless
+  - ineffective clothing
+  - fully clothed
+  - partially clothed
+  - unconvincing armor
+  - exposure
+  - nude
+  - mostly nude
+  - ineffective clothing
+  - casual exposure
+  - casual nudity
+  - social nudity
+  - clothing aside
+  - clothes down
+  - open clothes
+  - revealing clothes
+  - see-through
+  - cleavage
+  - cleavage cutout
+  - sideboob
+  - underboob
+  - underboob cutout
+  - undressing
+  - unzipping
+  - Crotchless
+  - crotchless panties
+  - crotchless pants
+  - crotchless pantyhose
+  - Ass Cutout
+  - naked apron
+  - naked cape
+  - naked capelet
+  - naked cloak
+  - naked coat
+  - naked hoodie
+  - naked jacket
+  - naked overalls
+  - naked ribbon
+  - naked robe
+  - naked scarf
+  - naked sheet
+  - naked shirt
+  - naked suspenders
+  - naked tabard
+  - underwear only
+  Emoji:
+  - ☹️
+  - ❤️💕
+  - ❤️😘
+  - 🌃🌌
+  - 🌃💡
+  - 🌅🌃
+  - 🌅🌄
+  - 🌅🌞
+  - 🌉🌃
+  - 🌊🌴
+  - 🌳🌲
+  - 🌷🌹
+  - 🌸🌼
+  - 🌺🌻
+  - 🌻🌼
+  - 🍕🍔
+  - 🍻🍺
+  - 🎁🎂
+  - 🎁🎉
+  - 🎂🎈
+  - 🎄🎅🏼
+  - 🎉🎊
+  - 🏔️🌄
+  - 🏙️🌃
+  - 🏙️🗺️
+  - 🏞️🌅
+  - 🏠🛋️
+  - 🏰💒
+  - 🐶🐕
+  - 👀😮
+  - 👌🏼💯
+  - 👍🏼✌🏼
+  - 👍🏼😂
+  - 👯‍♀️💃
+  - 👻💀
+  - 💔❤️
+  - 💕❤️
+  - 💩💩
+  - 📍🌃
+  - 📸🌃
+  - 🔥😎
+  - 🗺️💤
+  - 🗺️💭
+  - 😀
+  - 😁😄
+  - 😂
+  - 😂😆
+  - 😃😄
+  - 😃😆
+  - 😅😂
+  - 😇
+  - 😈👿
+  - 😊
+  - 😊😉
+  - 😌😔
+  - 😍
+  - 😍❤️
+  - 😎
+  - 😎🔥
+  - 😏
+  - 😒
+  - 😒😓
+  - 😒😔
+  - 😔
+  - 😔😕
+  - 😕
+  - 😖
+  - 😖😞
+  - 😘
+  - 😘😍
+  - 😘😗
+  - 😛
+  - 😛😜
+  - 😜
+  - 😜😝
+  - 😝
+  - 😝😠
+  - 😞
+  - 😟
+  - 😢
+  - 😢😥
+  - 😢😭
+  - 😤
+  - 😨
+  - 😩
+  - 😩😫
+  - 😪
+  - 😫
+  - 😭
+  - 😭😢
+  - 😮😯
+  - 😰😱
+  - 😱😨
+  - 😲😳
+  - 😴
+  - 😴😪
+  - 😵
+  - 😷
+  - 😷🤧
+  - 😺😸
+  - 🙁
+  - 🙃
+  - 🙄
+  - 🙌🏼✊🏼
+  - 🙌🏼✌🏼
+  - 🚗💨
+  - 🚶‍♀️💃
+  - 🤑
+  - 🤒
+  - 🤓
+  - 🤔
+  - 🤔💡
+  - 🤔💭
+  - 🤕
+  - 🤖
+  - 🤗
+  - 🤗💁‍♀️
+  - 🤗😌
+  - 🤠
+  - 🤡
+  - 🤢
+  - 🤥
+  - 🤧
+  - 🤨
+  - 🤩
+  - 🤩🔥
+  - 🤪
+  - 🤪😜
+  - 🤫
+  - 🤭
+  - 🤮
+  - 🤯
+  - 🤷‍♀️🤷‍♂️
+  - 🥰
+  - 🥱
+  - 🥳
+  - 🥴
+  - 🥺
+  Gender-All:
+  - girl
+  - boy
+  - female
+  - male
+  - agender
+  - androgyne
+  - androgynous
+  - bigender
+  - cis
+  - cisgender
+  - cis female
+  - cis male
+  - cis man
+  - cis woman
+  - cisgender female
+  - cisgender male
+  - cisgender man
+  - cisgender woman
+  - female to male
+  - ftm
+  - gender fluid
+  - gender nonconforming
+  - gender questioning
+  - gender variant
+  - genderqueer
+  - intersex
+  - male to female
+  - mtf
+  - neither
+  - neutrois
+  - non-binary
+  - other
+  - pangender
+  - trans
+  - trans female
+  - trans male
+  - trans man
+  - trans person
+  - trans woman
+  - transfeminine
+  - transgender
+  - transgender female
+  - transgender male
+  - transgender man
+  - transgender person
+  - transgender woman
+  - transmasculine
+  - transsexual
+  - transsexual female
+  - transsexual male
+  - transsexual man
+  - transsexual person
+  - transsexual woman
+  - two-spirit
+  Gender:
+  - male
+  - female
+  - intersex
+  - trans
+  - trans woman
+  - trans man
+  - nonbinary
+  - herm
+  - gynomorph
+  Looking:
+  - head down
+  - head turn
+  - head up
+  - leaning forward
+  - looking aside
+  - looking at another
+  - looking at genitalia
+  - looking at hand
+  - looking at self
+  - looking at viewer
+  - looking away
+  - looking back
+  - looking back at viewer
+  - looking back to viewer
+  - looking down
+  - looking down at viewer
+  - looking forward
+  - looking outside
+  - looking sideways
+  - looking through
+  - looking through legs
+  - looking to the side
+  - looking up
+  Nationality-Race:
+  - abkhaz
+  - acehnese
+  - adyghe
+  - afghan
+  - african
+  - afro-asian
+  - afro-brazilians
+  - afro-caribbean
+  - afro-caribbean-indian
+  - afro-colombians
+  - afro-latino
+  - afro-peruvians
+  - albanian
+  - algerian
+  - altai
+  - ambonese
+  - american
+  - amhara
+  - andorran
+  - angolan
+  - anguillan
+  - arab
+  - arab-american
+  - argentine
+  - armenian
+  - ashanti
+  - ashkenazi
+  - asháninka
+  - asian
+  - australian
+  - australian aboriginal
+  - austrian
+  - aymara
+  - azerbaijani
+  - bahamian
+  - bahraini
+  - balkar
+  - baloch
+  - bangladeshi
+  - barbadian
+  - barbuda
+  - bashkir
+  - batak
+  - belarusian
+  - belgian
+  - belizean
+  - bengali
+  - beninese
+  - berber
+  - bermudian
+  - bhutanese
+  - bolivian
+  - botswanan
+  - brazilian
+  - british
+  - british virgin islander
+  - bruneian
+  - bugis
+  - bulgarian
+  - burkinan
+  - burmese
+  - burundian
+  - buryat
+  - caicos islander
+  - cambodian
+  - cameroonian
+  - canadian
+  - cape verdean
+  - caucasian
+  - cayman islander
+  - central african
+  - central-american
+  - chadian
+  - cham
+  - chechen
+  - chilean
+  - chinese
+  - chinese malay
+  - chukchi
+  - chuvash
+  - circassian
+  - citizen of antigua
+  - citizen of bosnia
+  - citizen of guinea-bissau
+  - citizen of kiribati
+  - citizen of seychelles
+  - citizen of the dominican republic
+  - citizen of vanuatu
+  - colombian
+  - comoran
+  - congolese (congo)
+  - congolese (drc)
+  - cook islander
+  - costa rican
+  - crimean tatar
+  - croatian
+  - cuban
+  - cymraes
+  - cymro
+  - cypriot
+  - czech
+  - dagestani
+  - danish
+  - djiboutian
+  - dominican
+  - dungan
+  - dutch
+  - east asian
+  - east timorese
+  - ecuadorean
+  - egyptian
+  - emirati
+  - enets
+  - english
+  - equatorial guinean
+  - eritrean
+  - estonian
+  - ethiopian
+  - euro-african
+  - euro-asian
+  - evenki
+  - faroese
+  - fijian
+  - filipino
+  - finnish
+  - french
+  - fula
+  - gabonese
+  - gagauz
+  - gambian
+  - georgian
+  - german
+  - germanic
+  - ghanaian
+  - gibraltarian
+  - greek
+  - greenlandic
+  - grenadian
+  - guamanian
+  - guarani
+  - guatemalan
+  - guinean
+  - guyanese
+  - haitian
+  - han chinese
+  - hausa
+  - hazara
+  - herzegovina
+  - hispanic-asian
+  - hispanic/latino
+  - hmong
+  - honduran
+  - hong konger
+  - hungarian
+  - iban (dayak)
+  - icelandic
+  - igbo
+  - indian
+  - indo-canadian
+  - indonesian
+  - ingush
+  - inuit
+  - iranian
+  - iraqi
+  - irish
+  - israeli
+  - italian
+  - itelmen
+  - ivorian
+  - jamaican
+  - japanese
+  - japanese-brazilian
+  - javanese
+  - jordanian
+  - kabardian
+  - kadazan-dusun
+  - kalmyk
+  - karachay
+  - karakalpak
+  - karelian
+  - kazakh
+  - kazakh-uzbek
+  - kenyan
+  - khakas
+  - khanty
+  - khmer
+  - khoisan
+  - kittitian
+  - komi
+  - komi-permyak
+  - komi-zyryan
+  - korean
+  - koryak
+  - kosovan
+  - kurdish
+  - kuwaiti
+  - kyrgyz
+  - lao
+  - latvian
+  - lebanese
+  - lebanese-argentinians
+  - liberian
+  - libyan
+  - liechtenstein citizen
+  - lithuanian
+  - luxembourger
+  - maasai
+  - macanese
+  - macedonian
+  - malagasy
+  - malawian
+  - malay
+  - malaysian
+  - maldivian
+  - malian
+  - malinke
+  - maltese
+  - mandinka
+  - mansi
+  - maori
+  - mapuche
+  - mari
+  - marshallese
+  - martiniquais
+  - mauritanian
+  - mauritian
+  - melanesian
+  - mestizo
+  - mexican
+  - micronesian
+  - middle eastern
+  - minangkabau
+  - moldovan
+  - moluccan
+  - monegasque
+  - mongolian
+  - montenegrin
+  - montserratian
+  - mordvin
+  - moroccan
+  - mosotho
+  - mozambican
+  - namibian
+  - nanai
+  - native american
+  - native american-latino
+  - native hawaiian-filipino
+  - nauruan
+  - nenets
+  - nepalese
+  - new zealander
+  - nganasan
+  - nicaraguan
+  - nigerian
+  - nigerien
+  - niuean
+  - nogai
+  - nordic
+  - north korean
+  - northern irish
+  - norwegian
+  - omani
+  - oromo
+  - ortuguese
+  - ossetian
+  - pacific islander
+  - pakistani
+  - palauan
+  - palestinian
+  - pamiri
+  - panamanian
+  - papua new guinean
+  - papuan new guinean
+  - paraguayan
+  - pashtun
+  - persian
+  - peruvian
+  - pitcairn islander
+  - polish
+  - polynesian
+  - prydeinig
+  - puerto rican
+  - punjabi
+  - qatari
+  - quechua
+  - romani
+  - romanian
+  - russian
+  - rwandan
+  - sakha
+  - sakhalin ainu
+  - salvadorean
+  - sami
+  - sammarinese
+  - samoan
+  - sao tomean
+  - saudi arabian
+  - scottish
+  - selkup
+  - senegalese
+  - sephardic
+  - serbian
+  - shona
+  - sierra leonean
+  - singaporean
+  - sinhalese
+  - slavic
+  - slovak
+  - slovenian
+  - solomon islander
+  - somali
+  - south african
+  - south asian
+  - south korean
+  - south sudanese
+  - southeast asian
+  - spanish
+  - sri lankan
+  - st helenian
+  - st lucian
+  - stateless
+  - sudanese
+  - surinamese
+  - swahili
+  - swazi
+  - swedish
+  - swiss
+  - syrian
+  - taiwanese
+  - tajik
+  - tajikistani
+  - tamil
+  - tanzanian
+  - tatar
+  - thai
+  - tibetan
+  - tigrinya
+  - timorese
+  - tofalar
+  - togolese
+  - tongan
+  - toraja
+  - torres strait islander
+  - trinidadian
+  - tristanian
+  - tuareg
+  - tunisian
+  - turkic
+  - turkish
+  - turkmen
+  - turks
+  - tuvaluan
+  - tuvan
+  - tuvinian
+  - udmurt
+  - ugandan
+  - ukrainian
+  - uruguayan
+  - uyghur
+  - uzbek
+  - vatican citizen
+  - venezuelan
+  - vietnamese
+  - vincentian
+  - wallisian
+  - wayuu
+  - welsh
+  - wolof
+  - xhosa
+  - yanomami
+  - yemeni
+  - yoruba
+  - zambian
+  - zimbabwean
+  - zulu
+  Size:
+  - big
+  - dainty
+  - enormous
+  - gargantuan
+  - giant
+  - giga
+  - gigantic
+  - huge
+  - itty bitty
+  - large
+  - little
+  - macro
+  - massive
+  - micro
+  - miniscule
+  - minuscule
+  - nano
+  - small
+  - teeny
+  - terra macro
+  - tiny
+  - wee
+  Emotions:
+    Anger:
+    - aggravation
+    - agitation
+    - angriness
+    - animosity
+    - animus
+    - annoyance
+    - annoyed
+    - antagonism
+    - bile
+    - bitterness
+    - crazy
+    - crossness
+    - defensiveness
+    - discontent
+    - disdain
+    - disgust
+    - displeasure
+    - enragement
+    - evil
+    - exasperation
+    - flustered
+    - frustration
+    - fury
+    - grouchy
+    - grudge
+    - hatred
+    - hostility
+    - hot-headedness
+    - impatience
+    - incensement
+    - indignation
+    - infuriation
+    - irate
+    - ire
+    - irritation
+    - jealousy
+    - mad
+    - outrage
+    - pain
+    - peeved
+    - pissed off
+    - provocation
+    - rage
+    - rankling
+    - resentment
+    - scorn
+    - scornfulness
+    - serious
+    - storminess
+    - temper
+    - testiness
+    - turmoil
+    - umbrage
+    - vengeance
+    - wince
+    - wrath
+    - wrathfulness
+    Happy:
+    - :)
+    - :9
+    - :d
+    - :p
+    - ;d
+    - ;p
+    - ;q
+    - =v=
+    - afterglow
+    - amusement
+    - anticipation
+    - awe
+    - bliss
+    - buoyancy
+    - cheerfulness
+    - contentment
+    - crazy smile
+    - delight
+    - determined
+    - doyagao
+    - ecstasy
+    - elation
+    - enthusiasm
+    - euphoria
+    - excitement
+    - exhilaration
+    - exuberance
+    - fascination
+    - forced smile
+    - gaiety
+    - gladness
+    - glee
+    - gratitude
+    - grin
+    - happiness
+    - happy
+    - hilarity
+    - hopefulness
+    - joviality
+    - joy
+    - jubilation
+    - laughter
+    - light smile
+    - lightheartedness
+    - mirth
+    - o3o
+    - one eye closed
+    - open mouth
+    - optimism
+    - parted lips
+    - playfulness
+    - pleasure
+    - radiance
+    - rapture
+    - rejoicing
+    - satisfaction
+    - serenity
+    - smile
+    - smiley face
+    - smirk
+    - smug
+    - stifled laugh
+    - thrill
+    - upliftment
+    - wonder
+    - x3
+    - xd
+    - zeal
+    - zest
+    - zestfulness
+    - ^:^
+    - ^o^
+    - ^q^
+    Lust:
+    - allurement
+    - amorous yearning
+    - animalistic desire
+    - appetite
+    - arousal
+    - attraction
+    - burning desire
+    - carnal impulse
+    - coveting
+    - craving
+    - craving touch
+    - desire
+    - desirousness
+    - eager anticipation
+    - erotic attraction
+    - erotic fantasy
+    - erotic fervor
+    - erotic hunger
+    - erotic thoughts
+    - fire
+    - flirtation
+    - heat
+    - hunger
+    - impulse
+    - infatuation
+    - intense attraction
+    - intense longing
+    - lasciviousness
+    - libido
+    - longing
+    - luring
+    - lustfulness
+    - lusting after
+    - need
+    - obsession
+    - passion
+    - physical yearning
+    - raw attraction
+    - seduction
+    - seductive smile
+    - sensual ache
+    - sensuality
+    - sexual appetite
+    - sexual longing
+    - sexual tension
+    - temptation
+    - throes of passion
+    - uninhibited desire
+    - wantonness
+    - yearning
+    - yearning for intimacy
+    Misc-Emotions:
+    - (-3-)
+    - + +
+    - + -
+    - . .
+    - 0 0
+    - '3:'
+    - :(
+    - :)
+    - :/
+    - :3
+    - :c
+    - :d
+    - :i
+    - :o
+    - :p
+    - :q
+    - :s
+    - :t
+    - :x
+    - :|
+    - ;)
+    - ;3
+    - ;d
+    - ;o
+    - ;p
+    - ;q
+    - = =
+    - =v=
+    - =^=
+    - '@ @'
+    - adoring
+    - afraid
+    - afterglow
+    - aggressive
+    - ahegao
+    - amused
+    - amusement
+    - anger
+    - anger vein
+    - angry
+    - annoyed
+    - anxious
+    - apathetic
+    - appalled
+    - appeasing
+    - appreciative
+    - apprehensive
+    - aroused
+    - ashamed
+    - astonished
+    - awe
+    - awesome face
+    - awestruck
+    - bad
+    - baffled
+    - bashful
+    - beaming
+    - bewildered
+    - biting lip
+    - bitter
+    - blissful
+    - blowjob face
+    - blush
+    - blush stickers
+    - boisterous
+    - bored
+    - boredom
+    - 'c:'
+    - captivated
+    - celebrating
+    - celebratory
+    - cheerful
+    - chipper
+    - clenched jaw
+    - clenched teeth
+    - closed eyes
+    - closed mouth
+    - cold
+    - color drain
+    - comfortable
+    - concerned
+    - confident
+    - confused
+    - confusion
+    - contemplative
+    - contempt
+    - content
+    - coy
+    - crazy
+    - crazy smile
+    - cry
+    - crying
+    - curiosity
+    - curious
+    - 'd:'
+    - deceptive
+    - defensive
+    - dejected
+    - delight
+    - delighted
+    - delirious
+    - delusional
+    - depressed
+    - derisive
+    - despair
+    - desperate
+    - despondent
+    - determined
+    - devastated
+    - disappointed
+    - disbelief
+    - disbelieving
+    - disdain
+    - disgruntled
+    - disgust
+    - disgusted
+    - disheartened
+    - dismayed
+    - displeased
+    - distracted
+    - doyagao
+    - drained
+    - drawing
+    - dreamy
+    - droll
+    - drunk
+    - eager
+    - ecstatic
+    - elated
+    - embarrassed
+    - embarrassment
+    - emotionless
+    - encouraged
+    - engrossed
+    - enraged
+    - enraptured
+    - enthralled
+    - envious
+    - envy
+    - euphoric
+    - evil
+    - evil grin
+    - evil smile
+    - evil smirk
+    - excited
+    - excitement
+    - exhausted
+    - expressionless
+    - extraordinary
+    - face of the people who sank all their money into the fx
+    - facepalm
+    - fascinated
+    - fear
+    - fearful
+    - fingersmile
+    - flirting
+    - flirty
+    - flustered
+    - foodgasm
+    - forced smile
+    - frightened
+    - frown
+    - frowning
+    - frustrated
+    - fucked silly
+    - fulfilled
+    - full-face blush
+    - fuming
+    - furious
+    - furled brow
+    - furrowed brow
+    - giddy
+    - giggling
+    - glaring
+    - glasgow smile
+    - gleeful
+    - gloating
+    - gloom (expression)
+    - gloomy
+    - glowering
+    - glowing
+    - gobsmacked
+    - goofy
+    - grateful
+    - greedy
+    - grieving
+    - grimace
+    - grin
+    - grinning
+    - grossed out
+    - guilt
+    - guilty
+    - happiness
+    - happy
+    - heart-shaped eyes
+    - heartbroken
+    - henohenomoheji
+    - hesitant
+    - hopeful
+    - hopeless
+    - horrified
+    - hot
+    - huffy
+    - hungry
+    - hurt
+    - impassioned
+    - imperious
+    - impressed
+    - in heat
+    - in love
+    - incredulous
+    - indifferent
+    - indignant
+    - infuriated
+    - inquisitive
+    - insane
+    - insulted
+    - intense
+    - interest
+    - interested
+    - intrigued
+    - irritated
+    - jealous
+    - jealousy
+    - jovial
+    - joyful
+    - joyous
+    - jubilant
+    - kubrick stare
+    - laugh
+    - laughing
+    - lazy
+    - light smile
+    - loathing
+    - lonely
+    - lost
+    - loving
+    - lustful
+    - mad
+    - magnificent
+    - manic
+    - melancholic
+    - miserable
+    - mocking
+    - motivated
+    - murderous
+    - naughty face
+    - naughty_face
+    - nauseated
+    - nervous
+    - neutral
+    - nonowa
+    - nose blush
+    - nosebleed
+    - o o
+    - o3o
+    - offended
+    - one eye closed
+    - one eye closed (winking)
+    - open mouth
+    - open-mouthed
+    - optimistic
+    - outstanding
+    - overjoyed
+    - overwhelmed
+    - pain
+    - pained
+    - panicked
+    - panicking
+    - parted lips
+    - pensive
+    - perplexed
+    - phenomenal
+    - playful
+    - pleading
+    - pleased
+    - portrait
+    - pout
+    - pouting
+    - praying
+    - pride
+    - profile
+    - proud
+    - puzzled
+    - quizzical expression
+    - radiant
+    - raised cheekbones
+    - raised chin
+    - raised eyebrow
+    - raised eyebrows
+    - raised nostrils
+    - raised one eyebrow
+    - rape face
+    - ravenous
+    - reassured
+    - reflective
+    - regretful
+    - relaxed
+    - relief
+    - relieved
+    - repulsed
+    - resentful
+    - restless
+    - rolling eyes
+    - rushed
+    - sad
+    - sad smile
+    - sadness
+    - salivating
+    - sanguine
+    - sarcasm
+    - sarcastic
+    - satisfaction
+    - satisfied
+    - scared
+    - scornful
+    - scowl
+    - screaming
+    - secretive
+    - seductive smile
+    - seething
+    - serene
+    - serious
+    - shame
+    - shock
+    - shocked
+    - shy
+    - sick
+    - side-eye
+    - sigh
+    - silly
+    - sincere
+    - skeptical
+    - skepticism
+    - sleepy
+    - slightly open mouth
+    - smile
+    - smiley face
+    - smiling
+    - smirk
+    - smirking
+    - smug
+    - sneer
+    - sneering
+    - sobbing
+    - solid circle eyes
+    - sorry
+    - splendid
+    - squinting
+    - startled
+    - starving
+    - stellar
+    - stifled laugh
+    - stoic
+    - stubborn
+    - stunned
+    - stupid
+    - sulking
+    - superb
+    - surprise
+    - surprised
+    - suspicious
+    - sympathetic
+    - taunting
+    - tearful
+    - tears
+    - teasing
+    - terrified
+    - thinking
+    - thirsty
+    - thoughtful
+    - thrilled
+    - tickled
+    - tight-lipped
+    - timid
+    - tired
+    - tongue out
+    - torogao
+    - trembling
+    - triumphant
+    - troll face
+    - troll_face
+    - turn pale
+    - uncertain
+    - uncomfortable
+    - upset
+    - uso da
+    - uwu
+    - v-shaped eyebrows
+    - vengeful
+    - victorious
+    - wary
+    - wavy mouth
+    - weeping
+    - whimsical
+    - wide-eyed
+    - wince
+    - winking
+    - withdrawn
+    - witty
+    - worried
+    - worry
+    - x3
+    - xd
+    - xd [ xd ]
+    - \(^o^)/
+    - ^ ^
+    - ^o^
+    - ^q^
+    - ^^^
+    - ^_^
+    - '| |'
+    Sadness:
+    - abandonment
+    - agony
+    - alienation
+    - anguish
+    - apathy
+    - bitterness
+    - defeat
+    - dejection
+    - depressed
+    - desolation
+    - despair
+    - despondency
+    - disappointed
+    - disappointment
+    - disconsolation
+    - discontent
+    - disheartenment
+    - dismay
+    - emptiness
+    - forlornness
+    - frown
+    - frustration
+    - gloom
+    - grief
+    - guilt
+    - heartache
+    - hopelessness
+    - hurt
+    - isolation
+    - lament
+    - lethargy
+    - loneliness
+    - lonely
+    - longing
+    - melancholia
+    - melancholy
+    - misery
+    - mourning
+    - nervous
+    - nostalgia
+    - panicking
+    - pessimism
+    - pout
+    - regret
+    - rejection
+    - resentment
+    - resignation
+    - sad
+    - scared
+    - sensitive
+    - sorrow
+    - suffering
+    - sullenness
+    - tearfulness
+    - unhappiness
+    - upset
+    - vulnerability
+    - withdrawal
+    - woe
+    - worried
+    Surprise:
+    - aghast
+    - amazement
+    - astonished gasp
+    - astonishing revelation
+    - astonishment
+    - awe
+    - bafflement
+    - bewilderment
+    - disbelief
+    - disconcerted
+    - dismay
+    - dumbfounded
+    - eye-opening
+    - flabbergasted
+    - flummoxed
+    - flustered
+    - gobsmacked
+    - incredulity
+    - jarring surprise
+    - jaw-dropping
+    - jolt of surprise
+    - jolted
+    - knocked for a loop
+    - marvel
+    - nonplussed
+    - overwhelmed
+    - perplexed
+    - pleasant shock
+    - shock
+    - shocked and awed
+    - shocking revelation
+    - speechlessness
+    - staggered
+    - startled
+    - startling realization
+    - stunned
+    - stupefaction
+    - surprise attack
+    - taken aback
+    - taken off guard
+    - thunderstruck
+    - unanticipated
+    - unexpected discovery
+    - unexpected outcome
+    - unexpected turn
+    - unexpected twist
+    - unexpectedness
+    - unforeseen
+    - unforeseen event
+    - wonder
