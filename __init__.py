@@ -17,7 +17,7 @@ from .IFTextTyperNode import IFTextTyper
 from .IFVisualizeGraphNode import IFVisualizeGraphNode
 from .IFStepCounterNode import IFCounter
 from .IFJoinTextNode import IFJoinText
-from .IFLoadImagesNode import IFLoadImagess
+from .IFLoadImagesNodeS import IFLoadImagess
 from .send_request import *
 
 # Try to import omost from the current directory
