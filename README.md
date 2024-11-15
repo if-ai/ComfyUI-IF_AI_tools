@@ -5,7 +5,9 @@
 ComfyUI-IF_AI_tools is a set of custom nodes to Run Local and API LLMs and LMMs, Features OCR-RAG (Bialdy), nanoGraphRAG, Supervision Object Detection, supports Ollama, LlamaCPP LMstudio, Koboldcpp, TextGen, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI and create your own charcters assistants (SystemPrompts) with custom presets and muchmore
 
 ################# ATENTION ####################
+
    COPY THE IF_AI FOLDER TO YOUR USER FOLDER
+   
 ###############################################
 # Prerequisite Installation (Poppler)
 
