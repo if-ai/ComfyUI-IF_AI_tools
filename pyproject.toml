@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-if_ai_tools"
 description = "Run Local and API LLMs, Features OCR-RAG (Bialdy), nanoGraphRAG, Supervision Object Detection, Conditioning manipulation via Omost, supports Ollama, LlamaCPP LMstudio, Koboldcpp, TextGen, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI and create your own charcters assistants (SystemPrompts) with custom presets and muchmore"
-version = "1.0.4"
+version = "1.0.5"
 license = { file = "LICENSE.txt" } 
 dependencies = ["anthropic",
 "groq",
