@@ -170,7 +170,7 @@ app.registerExtension({
             const backupBtn = this.addWidget("button", "backup_input", "Backup Input 💾", 
                 async () => {
                     try {
-                        const response = await api.fetchApi("/if_ai/backup_input", {
+                        const response = await api.fetchApi("/ifai/backup_input", {
                             method: "POST"
                         });
                         
@@ -192,7 +192,7 @@ app.registerExtension({
             const restoreBtn = this.addWidget("button", "restore_input", "Restore Input ♻️", 
                 async () => {
                     try {
-                        const response = await api.fetchApi("/if_ai/restore_input", {
+                        const response = await api.fetchApi("/ifai/restore_input", {
                             method: "POST"
                         });
                         
@@ -245,7 +245,7 @@ app.registerExtension({
                         load_limit: parseInt(this.widgets.find(w => w.name === "load_limit")?.value || "1000")
                     };
             
-                    const response = await api.fetchApi("/if_ai/refresh_previews", {
+                    const response = await api.fetchApi("/ifai/refresh_previews", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(options)
@@ -342,7 +342,7 @@ app.registerExtension({
         nodeType.prototype.backupInputFolder = async function() {
             try {
                 this.showLoader();
-                const response = await fetch("/if_ai/backup_input", {
+                const response = await fetch("/ifai/backup_input", {
                     method: "POST"
                 });
                 
@@ -365,7 +365,7 @@ app.registerExtension({
         nodeType.prototype.restoreInputFolder = async function() {
             try {
                 this.showLoader();
-                const response = await fetch("/if_ai/restore_input", {
+                const response = await fetch("/ifai/restore_input", {
                     method: "POST"
                 });
                 
@@ -400,7 +400,7 @@ app.registerExtension({
 
                 this.showLoader();
 
-                const response = await fetch("/if_ai/refresh_previews", {
+                const response = await fetch("/ifai/refresh_previews", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
