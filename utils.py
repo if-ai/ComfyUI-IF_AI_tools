@@ -791,11 +791,13 @@ def get_models(engine, base_ip, port, api_key):
             "claude-3-5-sonnet-20240620",
             "claude-3-sonnet-20240229",
             "claude-3-haiku-20240307",
-            "claude-3-5-haiku-latest"
+            "claude-3-5-haiku-latest",
+            "claude-3-5-haiku-20241022",
         ]
 
     elif engine == "gemini":
         return [
+            "gemini-exp-1114",
             "gemini-1.5-pro-002",
             "gemini-1.5-flash-002",
             "gemini-1.5-flash-8b-exp-0924",
