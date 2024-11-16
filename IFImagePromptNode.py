@@ -73,7 +73,7 @@ class IFImagePrompt:
         self.strategies = "normal"
         # Initialize paths and load presets
         self.base_path = folder_paths.base_path
-        self.presets_dir = os.path.join(folder_paths.user_directory, "IF_AI", "presets")
+        self.presets_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI-IF_AI_tools", "IF_AI", "presets")
 
         # Load preset configurations
         self.profiles = self.load_presets(os.path.join(self.presets_dir, "profiles.json"))

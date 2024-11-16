@@ -41,7 +41,7 @@ class IFSaveText:
         return (question_input, response_input, negative_input, turn)
 
     def save_text_to_file(self, turn_data, file_format, save_mode):
-        save_text_dir = os.path.join(folder_paths.user_directory, "IF_AI", "saved_outputs")
+        save_text_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI-IF_AI_tools", "IF_AI", "saved_outputs")
         os.makedirs(save_text_dir, exist_ok=True)
         file_path = os.path.join(save_text_dir, f"output.{file_format}")
 

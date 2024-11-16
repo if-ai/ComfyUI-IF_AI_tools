@@ -367,8 +367,8 @@ class IFChatPrompt:
         self.random = False
 
         self.comfy_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        self.rag_dir = os.path.join(folder_paths.user_directory, "IF_AI", "rag")
-        self.presets_dir = os.path.join(folder_paths.user_directory, "IF_AI", "presets")
+        self.rag_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI-IF_AI_tools", "IF_AI", "rag")
+        self.presets_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI-IF_AI_tools", "IF_AI", "presets")
         
         self.stop_file = os.path.join(self.presets_dir, "stop_strings.json")
         self.assistants_file = os.path.join(self.presets_dir, "assistants.json")
