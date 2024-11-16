@@ -377,16 +377,17 @@ class ImageManager:
             return sorted(files)
 
 class IFLoadImagess:
+    _color_channels = ["alpha", "red", "green", "blue"]
+    
     def __init__(self):
-        self.path_cache = {}  # Cache for path mapping
+        self.path_cache = {}
         
     @classmethod
     def INPUT_TYPES(s):
         input_dir = folder_paths.get_input_directory()
-        # Count available thumbnails
         available_images = len([f for f in os.listdir(input_dir) 
                             if f.startswith(ImageManager.THUMBNAIL_PREFIX)])
-        available_images = max(1, available_images)  # Ensure at least 1
+        available_images = max(1, available_images)
         
         files = [f for f in os.listdir(input_dir) 
                 if f.startswith(ImageManager.THUMBNAIL_PREFIX)]
@@ -396,7 +397,7 @@ class IFLoadImagess:
                 "image": (sorted(files), {"image_upload": True}),
                 "input_path": ("STRING", {"default": ""}),
                 "start_index": ("INT", {"default": 0, "min": 0, "max": 9999}),
-                "stop_index": ("INT", {"default": 10, "min": 1, "max": 9999}),  # Changed to stop_index
+                "stop_index": ("INT", {"default": 10, "min": 1, "max": 9999}),
                 "load_limit": (["10", "100", "1000", "10000", "100000"], {"default": "1000"}),
                 "image_selected": ("BOOLEAN", {"default": False}),
                 "available_image_count": ("INT", {
@@ -408,19 +409,20 @@ class IFLoadImagess:
                 "include_subfolders": ("BOOLEAN", {"default": True}),
                 "sort_method": (["alphabetical", "numerical", "date_created", "date_modified"],),
                 "filter_type": (["none", "png", "jpg", "jpeg", "webp", "gif", "bmp"],),
+                "channel": (s._color_channels, {"default": "alpha"}),
             }
         }
 
     RETURN_TYPES = ("IMAGE", "MASK", "STRING", "STRING", "STRING", "INT")
     RETURN_NAMES = ("images", "masks", "image_paths", "filenames", "count_str", "count_int")
-    OUTPUT_IS_LIST = (True, True, True, True, True, True)
+    OUTPUT_IS_LIST = (True, True, True, True, True, True)  # Keep as list outputs
     FUNCTION = "load_images"
     CATEGORY = "ImpactFrames💥🎞️"
 
     @classmethod
     def IS_CHANGED(cls, image, input_path="", start_index=0, stop_index=0, max_images=1,
                 include_subfolders=True, sort_method="numerical", image_selected=False, 
-                filter_type="none", image_name="", unique_id=None, load_limit="1000", available_image_count=0):
+                filter_type="none", image_name="", unique_id=None, load_limit="1000", available_image_count=0, channel="alpha"  ):
         """
         Properly handle all input parameters and return NaN to force updates
         This matches the input parameters from INPUT_TYPES
@@ -444,13 +446,13 @@ class IFLoadImagess:
     def load_images(self, image="", input_path="", start_index=0, stop_index=10,
                load_limit="1000", image_selected=False, available_image_count=0, 
                include_subfolders=True, sort_method="numerical", 
-               filter_type="none", image_name="", unique_id=None):
+               filter_type="none", channel="alpha"):
         try:
             # Process input path
             abs_path = os.path.abspath(input_path if os.path.isabs(input_path) 
                                     else os.path.join(folder_paths.get_input_directory(), input_path))
                     
-            # Get all valid images first
+            # Get all valid images
             all_files = ImageManager.get_image_files(abs_path, include_subfolders, filter_type)
             if not all_files:
                 logger.warning(f"No valid images found in {abs_path}")
@@ -478,16 +480,10 @@ class IFLoadImagess:
                 start_index = image_order[image]
                 num_images = 1
 
-            # Create path mapping
-            self.path_cache = {
-                thumb: orig for thumb, orig in zip(all_thumbnails, all_files[start_index:start_index + num_images])
-            }
-            
             # Process selected range
             selected_files = all_files[start_index:start_index + num_images]
-            selected_thumbnails = all_thumbnails[:num_images]  
-                
-            # Process selected files
+            
+            # Lists to store outputs
             images = []
             masks = []
             paths = []
@@ -495,32 +491,41 @@ class IFLoadImagess:
             count_strs = []
             count_ints = []
 
-            for idx, (file_path, thumb_name) in enumerate(zip(selected_files, selected_thumbnails)):
+            for idx, file_path in enumerate(selected_files):
                 try:
-                    with Image.open(file_path) as img:
-                        img = ImageOps.exif_transpose(img)
+                    img = Image.open(file_path)
+                    img = ImageOps.exif_transpose(img)
+                    
+                    if img.mode == 'I':
+                        img = img.point(lambda i: i * (1 / 255))
+                    image = img.convert('RGB')
+                    
+                    # Convert to numpy array and normalize
+                    image_array = np.array(image).astype(np.float32) / 255.0
+                    # Correct order: [1, H, W, 3]
+                    image_tensor = torch.from_numpy(image_array).unsqueeze(0)
+                    images.append(image_tensor)
+                    
+                    # Handle mask based on selected channel
+                    if img.mode not in ('RGB', 'L'):
+                        img = img.convert('RGBA')
                         
-                        if img.mode == 'I':
-                            img = img.point(lambda i: i * (1 / 255))
-                        image = img.convert('RGB')
-                        
-                        image_array = np.array(image).astype(np.float32) / 255.0
-                        image_tensor = torch.from_numpy(image_array)[None,]
-                        
-                        if 'A' in img.getbands():
-                            mask = np.array(img.getchannel('A')).astype(np.float32) / 255.0
-                            mask = 1. - torch.from_numpy(mask)
-                        else:
-                            mask = torch.zeros((image_array.shape[0], image_array.shape[1]), 
-                                        dtype=torch.float32, device="cpu")
-                        
-                        images.append(image_tensor)
-                        masks.append(mask.unsqueeze(0))
-                        paths.append(file_path)
-                        filenames.append(os.path.basename(file_path))
-                        count_str = f"{start_index + idx + 1}/{total_files}"  # Update count to show global position
-                        count_strs.append(count_str)
-                        count_ints.append(start_index + idx + 1)
+                    c = channel[0].upper()
+                    if c in img.getbands():
+                        mask = np.array(img.getchannel(c)).astype(np.float32) / 255.0
+                        mask = torch.from_numpy(mask)
+                        if c == 'A':
+                            mask = 1. - mask
+                    else:
+                        mask = torch.zeros((image_array.shape[0], image_array.shape[1]), 
+                                       dtype=torch.float32, device="cpu")
+                    
+                    masks.append(mask.unsqueeze(0))  # Add batch dimension to mask [1, H, W]
+                    
+                    paths.append(file_path)
+                    filenames.append(os.path.basename(file_path))
+                    count_strs.append(f"{start_index + idx + 1}/{total_files}")
+                    count_ints.append(start_index + idx + 1)
 
                 except Exception as e:
                     logger.error(f"Error processing image {file_path}: {e}")
@@ -530,21 +535,7 @@ class IFLoadImagess:
                 img_tensor, mask = self.load_placeholder()
                 return ([img_tensor], [mask], [""], [""], ["0/0"], [0])
 
-            ui_data = {
-                "images": all_thumbnails,
-                "current_thumbnails": selected_thumbnails,
-                "total_images": total_files,
-                "path_mapping": self.path_cache,
-                "available_image_count": total_files,
-                "image_order": image_order,
-                "start_index": start_index,
-                "stop_index": start_index + num_images
-            }
-            
-            return {
-                "ui": {"values": ui_data},
-                "result": (images, masks, paths, filenames, count_strs, count_ints)
-            }
+            return (images, masks, paths, filenames, count_strs, count_ints)
 
         except Exception as e:
             logger.error(f"Error in load_images: {e}", exc_info=True)
@@ -555,9 +546,9 @@ class IFLoadImagess:
         """Creates and returns a placeholder image tensor and mask"""
         img = Image.new('RGB', (512, 512), color=(73, 109, 137))
         image_array = np.array(img).astype(np.float32) / 255.0
-        image_tensor = torch.from_numpy(image_array)[None,]
+        image_tensor = torch.from_numpy(image_array).unsqueeze(0)  # [1, H, W, 3]
         mask = torch.zeros((1, image_array.shape[0], image_array.shape[1]), 
-                       dtype=torch.float32, device="cpu")
+                       dtype=torch.float32, device="cpu")  # [1, H, W]
         return image_tensor, mask
 
     def process_single_image(self, image_path: str):
