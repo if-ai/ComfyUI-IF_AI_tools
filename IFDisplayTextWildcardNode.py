@@ -104,10 +104,10 @@ class IFDisplayTextWildcard:
             if os.path.isfile(file_path):
                 read_wildcard_file(file_path)
 
-        print("Loaded Wildcards:")
+        #print("Loaded Wildcards:")
         for key, values in wildcard_dict.items():
-            print(f"{key}: {values}")
-        return wildcard_dict
+            #print(f"{key}: {values}")
+            return wildcard_dict
 
     def flatten_wildcard_dict(self, data, parent_key, wildcard_dict):
         """Flatten nested dictionaries into wildcard_dict with composite keys and aggregate top-level values."""
@@ -331,9 +331,9 @@ class IFDisplayTextWildcard:
             # Parse dynamic variables if provided
             dynamic_vars = {}
             if dynamic_prompt:
-                print(f"Processing dynamic prompt: {dynamic_prompt}")
+                #print(f"Processing dynamic prompt: {dynamic_prompt}")
                 dynamic_vars = self.parse_dynamic_variables(dynamic_prompt)
-                print(f"Parsed dynamic variables: {dynamic_vars}")
+                #print(f"Parsed dynamic variables: {dynamic_vars}")
 
             # Process text
             output_prompts = []
@@ -354,7 +354,7 @@ class IFDisplayTextWildcard:
             print("==================")
             print(f"Mode: {'Wildcard' if wildcard_mode else 'Normal'}")
             print(f"Counter: {self._execution_count}")
-            print(f"Dynamic vars: {dynamic_vars}")
+            #print(f"Dynamic vars: {dynamic_vars}")
             print(f"Variants generated: {count}")
             for i, p in enumerate(output_prompts):
                 print(f"[{i+1}/{count}] {p}")
