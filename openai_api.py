@@ -208,10 +208,25 @@ async def generate_image(
 
     async with aiohttp.ClientSession() as session:
         async with session.post(api_url, headers=headers, json=payload) as response:
-            response.raise_for_status()
+            if response.status != 200:
+                error_text = await response.text()
+                logger.error(f"OpenAI generate_image error {response.status}: {error_text}")
+                response.raise_for_status()
             data = await response.json()
-            images = [item["b64_json"] for item in data.get("data", [])]
-            return images
+            
+            # Handle different response structures
+            if "data" in data and isinstance(data["data"], list):
+                images = []
+                for item in data["data"]:
+                    if "b64_json" in item:
+                        images.append(item["b64_json"])
+                    elif "url" in item:
+                        # If response_format was changed or API returned URLs
+                        images.append(item["url"])
+                return images
+            else:
+                logger.error("Unexpected response format in generate_image")
+                raise ValueError("Unexpected response format")
 
 async def edit_image(
     image_base64: str,

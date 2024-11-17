@@ -25,80 +25,7 @@ from typing import Union, List, Tuple
 
 logger = logging.getLogger(__name__)
 
-def format_images_for_provider(images: Union[torch.Tensor, List[torch.Tensor]], provider: str) -> Union[List[str], List[Dict]]:
-    """
-    Format images according to each provider's requirements.
-    
-    Args:
-        images: Tensor or list of tensors in [B,C,H,W] format
-        provider: LLM provider name
-    
-    Returns:
-        Formatted images ready for API consumption
-    """
-    try:
-        # First ensure images are base64 encoded
-        base64_images = convert_images_for_api(images, target_format='base64')
-        
-        if not base64_images:
-            return None
-
-        if provider == "ollama":
-            # Ollama expects raw base64 strings in "images" field
-            return base64_images
-            
-        elif provider == "anthropic":
-            # Anthropic expects format with media_type
-            return [{
-                "type": "image",
-                "source": {
-                    "type": "base64",
-                    "media_type": "image/jpeg", 
-                    "data": img
-                }
-            } for img in base64_images]
-            
-        elif provider in ["openai", "kobold", "lmstudio", "textgen", "llamacpp", "groq"]:
-            # These providers expect OpenAI-compatible format
-            return [{
-                "type": "image_url",
-                "image_url": {
-                    "url": f"data:image/jpeg;base64,{img}"
-                }
-            } for img in base64_images]
-
-        elif provider == "mistral":
-            # Mistral expects similar format to OpenAI
-            return [{
-                "type": "image_url",
-                "image_url": {
-                    "url": f"data:image/jpeg;base64,{img}"
-                }
-            } for img in base64_images]
-        
-        elif provider == "gemini":
-            # Gemini expects specific MIME type format
-            return [{
-                "type": "image",
-                "data": {
-                    "mime_type": "image/jpeg",
-                    "data": img
-                }
-            } for img in base64_images]
-            
-        elif provider == "transformers":
-            # Transformers expects PIL images
-            return convert_images_for_api(images, target_format='pil')
-        
-        else:
-            # Default to base64 strings for unknown providers
-            logger.warning(f"Unknown provider {provider}, returning raw base64")
-            return base64_images
-
-    except Exception as e:
-        logger.error(f"Error formatting images for {provider}: {str(e)}")
-        return None
-    
+   
 def convert_images_for_api(images, target_format='tensor'):
     """
     Convert images to the specified format for API consumption.
@@ -133,7 +60,7 @@ def convert_images_for_api(images, target_format='tensor'):
             return pil_images
         elif target_format == 'tensor':
             tensors = [pil_to_tensor(img) for img in pil_images]
-            return torch.stack(tensors).permute(0, 3, 1, 2)  # Maintain ComfyUI format
+            return torch.stack(tensors).permute(0, 2, 3, 1)  # Convert to ComfyUI format (B,H,W,C)
             
     # Handle PIL input
     if isinstance(images, (list, tuple)) and all(isinstance(x, Image.Image) for x in images):
@@ -143,7 +70,7 @@ def convert_images_for_api(images, target_format='tensor'):
             return [pil_image_to_base64(img) for img in images]
         elif target_format == 'tensor':
             tensors = [pil_to_tensor(img) for img in images]
-            return torch.stack(tensors).permute(0, 3, 1, 2)  # Maintain ComfyUI format
+            return torch.stack(tensors).permute(0, 2, 3, 1)  # Maintain ComfyUI format
     
     raise ValueError(f"Unsupported image format or target format: {target_format}")
 
@@ -212,46 +139,98 @@ def load_placeholder_image(placeholder_image_path):
 
         return (output_image, output_mask)
 
-def process_images_for_comfy(images, placeholder_image_path=None):
+def process_images_for_comfy(images, placeholder_image_path=None, response_key='data', field_name='b64_json', field2_name=""):
     """Process images for ComfyUI, ensuring consistent sizes."""
     def _process_single_image(image):
         try:
             if image is None:
                 return load_placeholder_image(placeholder_image_path)
 
-            # Convert to PIL Image first
-            if isinstance(image, torch.Tensor):
-                if image.dim() == 4:
-                    image = image.squeeze(0)
-                image = TF.to_pil_image(image)
-            elif isinstance(image, np.ndarray):
-                image = Image.fromarray((image * 255).astype(np.uint8))
-            elif isinstance(image, str):
-                if image.startswith(('data:image', 'http:', 'https:')):
-                    if 'base64,' in image:
-                        base64_data = image.split('base64,')[1]
-                        image_data = base64.b64decode(base64_data)
-                        image = Image.open(BytesIO(image_data))
-                    else:
-                        response = requests.get(image)
-                        image = Image.open(BytesIO(response.content))
-                else:
-                    image = Image.open(image)
+            # Handle JSON/API response
+            if isinstance(image, dict):
+                try:
+                    # Only attempt to extract from response if response_key is provided
+                    if response_key and response_key in image:
+                        items = image[response_key]
+                        if isinstance(items, list):
+                            for item in items:
+                                # Only attempt to get field_name if it's provided
+                                if field2_name and field_name:
+                                    image_data = item.get(field2_name, {}).get(field_name)
+                                elif field_name:
+                                    image_data = item.get(field_name)
+                                else:
+                                    continue
+                                
+                                if image_data:
+                                    # Convert the first valid image found
+                                    if isinstance(image_data, str):
+                                        if image_data.startswith(('data:image', 'http:', 'https:')):
+                                            image = image_data  # Will be handled by URL processing below
+                                        else:
+                                            # Handle base64 directly
+                                            image_data = base64.b64decode(image_data)
+                                            image = Image.open(BytesIO(image_data))
+                                            break
+                    
+                    if isinstance(image, dict):
+                        logger.warning(f"No valid image found in response under key '{response_key}'")
+                        return load_placeholder_image(placeholder_image_path)
+                except Exception as e:
+                    logger.error(f"Error processing API response: {str(e)}")
+                    return load_placeholder_image(placeholder_image_path)
 
-            # Ensure RGB mode
+            # Convert various input types to PIL Image
+            if isinstance(image, torch.Tensor):
+                # Ensure tensor is in correct format [B,H,W,C] or [H,W,C]
+                if image.dim() == 4:
+                    if image.shape[-1] != 3:  # Wrong channel dimension
+                        image = image.squeeze(1)  # Remove channel dim if [B,1,H,W]
+                        if image.shape[-1] != 3:  # Still wrong shape
+                            image = image.permute(0, 2, 3, 1)  # [B,C,H,W] -> [B,H,W,C]
+                    image = image.squeeze(0)  # Remove batch dim
+                elif image.dim() == 3 and image.shape[0] == 3:
+                    image = image.permute(1, 2, 0)  # [C,H,W] -> [H,W,C]
+                
+                # Convert to numpy and scale to 0-255 range
+                image = (image.cpu().numpy() * 255).clip(0, 255).astype(np.uint8)
+                image = Image.fromarray(image)
+                
+            elif isinstance(image, np.ndarray):
+                # Handle numpy arrays
+                if image.dtype != np.uint8:
+                    image = (image * 255).clip(0, 255).astype(np.uint8)
+                if image.shape[-1] != 3 and image.shape[0] == 3:
+                    image = np.transpose(image, (1, 2, 0))
+                image = Image.fromarray(image)
+                
+            elif isinstance(image, str):
+                if image.startswith('data:image'):
+                    base64_data = image.split('base64,')[1]
+                    image_data = base64.b64decode(base64_data)
+                    image = Image.open(BytesIO(image_data)).convert('RGB')
+                elif image.startswith(('http:', 'https:')):
+                    response = requests.get(image)
+                    image = Image.open(BytesIO(response.content)).convert('RGB')
+                else:
+                    image = Image.open(image).convert('RGB')
+
+            # Ensure we have a PIL Image at this point
             if not isinstance(image, Image.Image):
                 raise ValueError(f"Failed to convert to PIL Image: {type(image)}")
-            
-            if image.mode != 'RGB':
-                image = image.convert('RGB')
 
-            # Convert to tensor
+            # Convert PIL to tensor in ComfyUI format
             img_array = np.array(image).astype(np.float32) / 255.0
-            img_tensor = torch.from_numpy(img_array).permute(2, 0, 1).unsqueeze(0)
+            img_tensor = torch.from_numpy(img_array)
+            
+            # Ensure NHWC format
+            if img_tensor.dim() == 3:  # [H,W,C]
+                img_tensor = img_tensor.unsqueeze(0)  # Add batch dim: [1,H,W,C]
             
             # Create mask
-            mask_tensor = torch.ones((1, img_tensor.shape[2], img_tensor.shape[3]), dtype=torch.float32)
-            
+            mask_tensor = torch.ones((1, img_tensor.shape[1], img_tensor.shape[2]), 
+                                   dtype=torch.float32)
+
             return img_tensor, mask_tensor
 
         except Exception as e:
@@ -259,35 +238,54 @@ def process_images_for_comfy(images, placeholder_image_path=None):
             return load_placeholder_image(placeholder_image_path)
 
     try:
-        if not isinstance(images, (list, tuple)):
-            return _process_single_image(images)
+        # Handle API responses
+        if isinstance(images, dict) and response_key in images:
+            # Process each item in API response
+            all_tensors = []
+            all_masks = []
+            
+            items = images[response_key]
+            if isinstance(items, list):
+                for item in items:
+                    try:
+                        img_tensor, mask_tensor = _process_single_image({response_key: [item]})
+                        all_tensors.append(img_tensor)
+                        all_masks.append(mask_tensor)
+                    except Exception as e:
+                        logger.error(f"Error processing response item: {str(e)}")
+                        continue
+                
+                if all_tensors:
+                    return torch.cat(all_tensors, dim=0), torch.cat(all_masks, dim=0)
+            
+            # If no valid images processed, return placeholder
+            return load_placeholder_image(placeholder_image_path)
 
-        # Process all images
-        processed = [_process_single_image(img) for img in images]
-        if not processed:
-            return _process_single_image(None)
+        # Handle list/batch of images
+        if isinstance(images, (list, tuple)):
+            all_tensors = []
+            all_masks = []
+            
+            for img in images:
+                try:
+                    img_tensor, mask_tensor = _process_single_image(img)
+                    all_tensors.append(img_tensor)
+                    all_masks.append(mask_tensor)
+                except Exception as e:
+                    logger.error(f"Error processing batch image: {str(e)}")
+                    continue
+            
+            if all_tensors:
+                return torch.cat(all_tensors, dim=0), torch.cat(all_masks, dim=0)
+            
+            return load_placeholder_image(placeholder_image_path)
 
-        # Get target size from first image
-        target_h, target_w = processed[0][0].shape[2:]
-        
-        # Resize all images to match first image
-        resized = []
-        for img_tensor, mask_tensor in processed:
-            if img_tensor.shape[2:] != (target_h, target_w):
-                img_tensor = F.interpolate(img_tensor, size=(target_h, target_w), mode='bilinear', align_corners=False)
-                mask_tensor = F.interpolate(mask_tensor.unsqueeze(1), size=(target_h, target_w), mode='nearest').squeeze(1)
-            resized.append((img_tensor, mask_tensor))
-
-        # Combine all images and masks
-        image_tensor = torch.cat([img for img, _ in resized], dim=0)
-        mask_tensor = torch.cat([mask for _, mask in resized], dim=0)
-        
-        return image_tensor, mask_tensor
+        # Handle single image
+        return _process_single_image(images)
 
     except Exception as e:
         logger.error(f"Error in process_images_for_comfy: {str(e)}")
         return _process_single_image(None)
-
 def process_mask(retrieved_mask, image_tensor):
     """
     Process the retrieved_mask to ensure it's in the correct format.

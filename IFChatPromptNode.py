@@ -777,7 +777,9 @@ class IFChatPrompt:
                     else:
                         image_tensor, default_mask_tensor = process_images_for_comfy(
                             retrieved_image, 
-                            self.placeholder_image_path
+                            self.placeholder_image_path,
+                            response_key=None,
+                            field_name=None
                         )
                         mask_tensor = default_mask_tensor
 

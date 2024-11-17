@@ -18,8 +18,10 @@ from .utils import (
     process_mask,
     clean_text,
     load_placeholder_image,
-    validate_models,
+    validate_models
 )
+import base64
+import numpy as np
 
 # Add ComfyUI directory to path
 comfy_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -72,7 +74,7 @@ class IFImagePrompt:
     def __init__(self):
         self.strategies = "normal"
         # Initialize paths and load presets
-        self.base_path = folder_paths.base_path
+        # self.base_path = folder_paths.base_path
         self.presets_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI-IF_AI_tools", "IF_AI", "presets")
 
         # Load preset configurations
@@ -400,82 +402,199 @@ class IFImagePrompt:
                     messages.append({"role": "user", "content": user_prompt})
                     messages.append({"role": "assistant", "content": cleaned_response})
 
+
+                # **Add logging to verify tensor shape**
+                logger.debug(f"Retrieved_Image tensor shape: {images_tensor.shape}")
+
                 return {
                     "Question": user_prompt,
                     "Response": cleaned_response,
                     "Negative": neg_content,
                     "Tool_Output": tool_output,
-                    "Retrieved_Image": None,
+                    "Retrieved_Image": images_tensor,  # [B, H, W, C]
                     "Mask": None
                 }
+
             elif strategy in ["create", "edit", "variations"]:
-                resulting_images = await send_request(
-                    llm_provider=llm_provider,
-                    base_ip=base_ip,
-                    port=port,
-                    images=images,
-                    llm_model=llm_model,
-                    system_message=system_prompt,
-                    user_message=user_prompt,
-                    messages=messages,
-                    seed=seed,
-                    temperature=temperature,
-                    max_tokens=max_tokens,
-                    random=random,
-                    top_k=top_k,
-                    top_p=top_p,
-                    repeat_penalty=repeat_penalty,
-                    stop=stop,
-                    keep_alive=keep_alive,
-                    llm_api_key=llm_api_key,
-                    tools=None,
-                    tool_choice=None,
-                    precision=precision, 
-                    attention=attention,
-                    aspect_ratio=aspect_ratio,
-                    strategy=strategy,
-                    batch_count=batch_count,
-                    mask=mask,
-                )
-                if isinstance(resulting_images, dict) and "images" in resulting_images:
-                    generated_images = resulting_images["images"]
-                    generated_masks = None
-                else:
-                    generated_images = None
-                    generated_masks = None
+                try:
+                    # Initialize variables
+                    api_responses = []
+                    all_base64_images = []
 
-                try: 
-                    if generated_images is not None:
-                        if isinstance(generated_images, torch.Tensor):
-                            # Ensure correct format (B, C, H, W)
-                            image_tensor = generated_images.unsqueeze(0) if generated_images.dim() == 3 else generated_images
-
-                            # Create matching batch masks
-                            batch_size = image_tensor.shape[0]
-                            height = image_tensor.shape[2]
-                            width = image_tensor.shape[3]
-
-                            # Create default masks
-                            mask_tensor = torch.ones((batch_size, 1, height, width), 
-                                                dtype=torch.float32,
-                                                device=image_tensor.device)
-
-                            if generated_masks is not None:
-                                mask_tensor = process_mask(generated_masks, image_tensor)
-                        else:
-                            image_tensor, mask_tensor = process_images_for_comfy(generated_images, self.placeholder_image_path)
-                            mask_tensor = process_mask(generated_masks, image_tensor) if generated_masks is not None else mask_tensor
-                    else:
-                        # No retrieved image - use original or placeholder
-                        if images is not None and len(images) > 0:
-                            image_tensor = images[0] if isinstance(images[0], torch.Tensor) else process_images_for_comfy(images, self.placeholder_image_path)[0]
-                            mask_tensor = torch.ones_like(image_tensor[:1]) # Create mask with same spatial dimensions
-                        else:
+                    if strategy == "create":
+                        # Create strategy - no input images needed
+                        try:
+                            api_response = await send_request(
+                                llm_provider=llm_provider,
+                                base_ip=base_ip,
+                                port=port,
+                                images=None,  # No input images needed for create
+                                llm_model=llm_model,
+                                system_message=system_message_str,
+                                user_message=user_prompt,
+                                messages=messages,
+                                seed=seed,
+                                temperature=temperature,
+                                max_tokens=max_tokens,
+                                random=random,
+                                top_k=top_k,
+                                top_p=top_p,
+                                repeat_penalty=repeat_penalty,
+                                stop=stop,
+                                keep_alive=keep_alive,
+                                llm_api_key=llm_api_key,
+                                precision=precision,
+                                attention=attention,
+                                aspect_ratio=aspect_ratio,
+                                strategy=strategy,
+                                batch_count=batch_count,
+                                mask=None
+                            )
+                            api_responses.append(api_response)
+                        except Exception as e:
+                            logger.error(f"Error in create strategy: {str(e)}")
                             image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
+                            return {
+                                "Question": user_prompt,
+                                "Response": f"Error in create strategy: {str(e)}",
+                                "Negative": neg_content,
+                                "Tool_Output": None,
+                                "Retrieved_Image": image_tensor,
+                                "Mask": mask_tensor
+                            }
 
-                    return {
+                    else:  # edit or variations
+                        try:
+                            # Prepare input images
+                            input_images = []
+                            if isinstance(images, torch.Tensor):
+                                if images.dim() == 4:  # Batch of images
+                                    input_images = [images[i] for i in range(images.shape[0])]
+                                else:  # Single image
+                                    input_images = [images]
+                            elif isinstance(images, (list, tuple)):
+                                input_images = images
+                            else:
+                                input_images = [images]
+
+                            # Prepare masks
+                            input_masks = []
+                            if mask is not None:
+                                if isinstance(mask, torch.Tensor):
+                                    if mask.dim() == 4:  # Batch of masks
+                                        input_masks = [mask[i] for i in range(mask.shape[0])]
+                                    else:  # Single mask
+                                        input_masks = [mask]
+                                elif isinstance(mask, (list, tuple)):
+                                    input_masks = mask
+                                else:
+                                    input_masks = [mask]
+                            else:
+                                input_masks = [None] * len(input_images)
+
+                            # Process each image-mask pair
+                            for img, msk in zip(input_images, input_masks):
+                                try:
+                                    api_response = await send_request(
+                                        llm_provider=llm_provider,
+                                        base_ip=base_ip,
+                                        port=port,
+                                        images=img,
+                                        llm_model=llm_model,
+                                        system_message=system_message_str,
+                                        user_message=user_prompt,
+                                        messages=messages,
+                                        seed=seed,
+                                        temperature=temperature,
+                                        max_tokens=max_tokens,
+                                        random=random,
+                                        top_k=top_k,
+                                        top_p=top_p,
+                                        repeat_penalty=repeat_penalty,
+                                        stop=stop,
+                                        keep_alive=keep_alive,
+                                        llm_api_key=llm_api_key,
+                                        precision=precision,
+                                        attention=attention,
+                                        aspect_ratio=aspect_ratio,
+                                        strategy=strategy,
+                                        batch_count=batch_count,
+                                        mask=msk
+                                    )
+                                    api_responses.append(api_response)
+                                except Exception as e:
+                                    logger.error(f"Error processing image-mask pair: {str(e)}")
+                                    continue
+
+                        except Exception as e:
+                            logger.error(f"Error in {strategy} strategy: {str(e)}")
+                            image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
+                            return {
+                                "Question": user_prompt,
+                                "Response": f"Error in {strategy} strategy: {str(e)}",
+                                "Negative": neg_content,
+                                "Tool_Output": None,
+                                "Retrieved_Image": image_tensor,
+                                "Mask": mask_tensor
+                            }
+
+                    # Extract and combine base64 images from all responses
+                    for response in api_responses:
+                        if isinstance(response, dict) and "images" in response:
+                            base64_images = response.get("images", [])
+                            if isinstance(base64_images, list):
+                                all_base64_images.extend(base64_images)
+                            else:
+                                all_base64_images.append(base64_images)
+
+                    # Process the images if we have any
+                    if all_base64_images:
+                        try:
+                            # Prepare data for processing
+                            image_data = {
+                                "data": [{"b64_json": img} for img in all_base64_images]
+                            }
+
+                            # Process images
+                            images_tensor, mask_tensor = process_images_for_comfy(
+                                image_data,
+                                placeholder_image_path=self.placeholder_image_path,
+                                response_key="data",
+                                field_name="b64_json"
+                            )
+
+                            # After processing, ensure images_tensor is correctly shaped
+                            # No permutation needed if process_images_for_comfy returns [B, H, W, C]
+                            # Add logging to verify tensor shape
+                            logger.debug(f"Retrieved_Image tensor shape: {images_tensor.shape}")
+
+                            return {
+                                "Question": user_prompt,
+                                "Response": f"{strategy.capitalize()} image{'s' if len(all_base64_images) > 1 else ''} successfully generated.",
+                                "Negative": neg_content,
+                                "Tool_Output": all_base64_images,  # Keep original base64 for further use
+                                "Retrieved_Image": images_tensor,
+                                "Mask": mask_tensor
+                            }
+
+                        except Exception as e:
+                            logger.error(f"Error processing generated images: {str(e)}")
+                            image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
+                            return {
+                                "Question": user_prompt,
+                                "Response": f"Error processing generated images: {str(e)}",
+                                "Negative": neg_content,
+                                "Tool_Output": all_base64_images,  # Keep original base64 even if processing failed
+                                "Retrieved_Image": image_tensor,
+                                "Mask": mask_tensor
+                            }
+
+                    else:
+                        # No images were generated
+                        image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
+                        return {
                             "Question": user_prompt,
-                            "Response": f"{strategy} image has been successfully generated.",
+                            "Response": f"No images were generated in {strategy} strategy",
                             "Negative": neg_content,
                             "Tool_Output": None,
                             "Retrieved_Image": image_tensor,
@@ -483,25 +602,27 @@ class IFImagePrompt:
                         }
 
                 except Exception as e:
-                    print(f"Error in process_image: {str(e)}")
+                    # Catch-all error handler
+                    logger.error(f"Unexpected error in {strategy} strategy: {str(e)}")
                     image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
                     return {
                         "Question": user_prompt,
-                        "Response": f"Error: {str(e)}",
-                        "Negative": "",
+                        "Response": f"Unexpected error in {strategy} strategy: {str(e)}",
+                        "Negative": neg_content,
                         "Tool_Output": None,
                         "Retrieved_Image": image_tensor,
                         "Mask": mask_tensor
                     }
+                
             elif strategy == "normal":
                 try:
                     formatted_responses = []
                     final_prompts = []
                     final_negative_prompts = []
-                    
+
                     # Handle images as they come from ComfyUI - no extra processing needed
                     current_images = images if images is not None else None
-                    
+
                     # If mask provided, ensure it matches image dimensions
                     if mask is not None:
                         mask_tensor = process_mask(mask, current_images)
@@ -546,11 +667,11 @@ class IFImagePrompt:
 
                             if not response:
                                 raise ValueError("No response received from LLM API")
-                            
-                            # Clean and process response 
+
+                            # Clean and process response
                             cleaned_response = clean_text(response)
                             final_prompts.append(cleaned_response)
-                            
+
                             # Handle negative prompts
                             if neg_prompt == "AI_Fill":
                                 negative_prompt = await self.generate_negative_prompts(
@@ -573,29 +694,33 @@ class IFImagePrompt:
                                 final_negative_prompts.append(negative_prompt[0] if negative_prompt else neg_content)
                             else:
                                 final_negative_prompts.append(neg_content)
-                                
+
                             formatted_responses.append(cleaned_response)
-                            
+
                         except Exception as e:
                             logger.error(f"Error in batch {batch_idx}: {str(e)}")
                             formatted_responses.append(f"Error in batch {batch_idx}: {str(e)}")
                             final_negative_prompts.append(f"Error generating negative prompt for batch {batch_idx}")
-                    
+
                     # Combine all responses
                     formatted_response = "\n".join(final_prompts)
                     neg_content = "\n".join(final_negative_prompts)
-                    
+
                     # Update message history if needed
                     if keep_alive and formatted_response:
                         messages.append({"role": "user", "content": user_prompt})
                         messages.append({"role": "assistant", "content": formatted_response})
+
+                    # After processing, ensure images_tensor is correctly shaped
+                    # No permutation needed if process_images_for_comfy returns [B, H, W, C]
+                    logger.debug(f"Retrieved_Image tensor shape: {current_images.shape}")
 
                     return {
                         "Question": user_prompt,
                         "Response": formatted_response,
                         "Negative": neg_content,
                         "Tool_Output": None,
-                        "Retrieved_Image": current_images,  # Return original images
+                        "Retrieved_Image": current_images,  # [B, H, W, C]
                         "Mask": mask_tensor
                     }
 
@@ -622,7 +747,7 @@ class IFImagePrompt:
                         "Retrieved_Image": current_images,
                         "Mask": current_mask 
                     }
-                    
+
         except Exception as e:
             logger.error(f"Error in process_image: {str(e)}")
             return {
@@ -640,6 +765,7 @@ class IFImagePrompt:
                     if images is not None and len(images) > 0
                     else load_placeholder_image(self.placeholder_image_path)[1]
                 ),
+                "omni": []  # Empty omni on general error
             }
 
     def process_image_wrapper(self, **kwargs):
@@ -668,7 +794,7 @@ class IFImagePrompt:
             prompt = result.get("Response", "")  # This is the formatted prompt
             response = result.get("Question", "")  # Original question/prompt
             negative = result.get("Negative", "")
-            omni = result.get("Tool_Output")
+            omni = result.get("omni")  # Retrieve omni data
             retrieved_image = result.get("Retrieved_Image")
             mask = result.get("Mask")
 
@@ -678,18 +804,16 @@ class IFImagePrompt:
 
             # Ensure mask has correct format
             if mask is None:
-                mask = torch.ones((retrieved_image.shape[0], 1, retrieved_image.shape[2], retrieved_image.shape[3]), 
-                                dtype=torch.float32,
-                                device=retrieved_image.device)
+                mask = torch.ones((retrieved_image.shape[0], 1, retrieved_image.shape[2], retrieved_image.shape[3]), dtype=torch.float32, device=retrieved_image.device)
 
             # Return tuple matching RETURN_TYPES order: ("STRING", "STRING", "STRING", "OMNI", "IMAGE", "MASK")
             return (
-                response,  # First STRING (question/prompt)
-                prompt,    # Second STRING (generated response)
-                negative,  # Third STRING (negative prompt)
-                omni,      # OMNI
-                retrieved_image,  # IMAGE
-                mask       # MASK
+                response,          # First STRING (question/prompt)
+                prompt,            # Second STRING (generated response)
+                negative,          # Third STRING (negative prompt)
+                omni,              # OMNI (Base64 images)
+                retrieved_image,   # IMAGE
+                mask               # MASK
             )
 
         except Exception as e:
@@ -698,11 +822,11 @@ class IFImagePrompt:
             image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
             return (
                 kwargs.get("user_prompt", ""),  # Original prompt
-                f"Error: {str(e)}",            # Error message as response
-                "",                            # Empty negative prompt
-                None,                          # No OMNI data
-                image_tensor,                  # Placeholder image
-                mask_tensor                    # Default mask
+                f"Error: {str(e)}",             # Error message as response
+                "",                             # Empty negative prompt
+                None,                           # No OMNI data
+                image_tensor,                   # Placeholder image
+                mask_tensor                     # Default mask
             )
 
 # Node registration

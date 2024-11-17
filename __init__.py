@@ -25,8 +25,7 @@ from .send_request import *
 current_dir = os.path.dirname(os.path.abspath(__file__))
 if current_dir not in sys.path:
     sys.path.insert(0, current_dir)
-#print(f"Current directory: {current_dir}")
-#print(f"Files in current directory: {os.listdir(current_dir)}")
+
 try:
     from .omost import omost_function
     print("Successfully imported omost_function from omost.py in the current directory")

@@ -20,7 +20,7 @@ from .mistral_api import send_mistral_request
 from .vllm_api import send_vllm_request
 from .gemini_api import send_gemini_request
 from .transformers_api import TransformersModelManager  # Import the manager
-from .utils import format_images_for_provider, convert_images_for_api, format_response
+from .utils import  convert_images_for_api, format_response
 # Set up logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)    
@@ -101,8 +101,6 @@ async def send_request(
         Union[str, Dict[str, Any]]: Unified response format.
     """
     try:
-        #formatted_images = format_images_for_provider(images, llm_provider) if images is not None else None
-        #formatted_mask = format_images_for_provider(mask, llm_provider) if mask is not None else None
         # Define aspect ratio to size mapping
         aspect_ratio_mapping = {
             "1:1": "1024x1024",
@@ -141,7 +139,7 @@ async def send_request(
         else:
             # For other providers, convert to base64 only if images exist
             formatted_images = convert_images_for_api(images, target_format='base64') if images is not None and len(images) > 0 else None
-            formatted_mask = convert_images_for_api(mask, target_format='base64') if mask is not None and len(mask) > 0 else None
+            #formatted_masks = convert_images_for_api(mask, target_format='base64') if mask is not None and len(mask) > 0 else None
             
             api_functions = {
                 "groq": send_groq_request,
@@ -233,39 +231,60 @@ async def send_request(
                     }      
                 elif llm_provider == "openai":
                     if llm_model.startswith("dall-e"):
-                        if strategy == "create":
-                            # Generate image
-                            generated_images = await generate_image(
-                                prompt=user_message,
-                                model=llm_model,
-                                n=batch_count,
-                                size=size,
-                                api_key=llm_api_key
-                            )
-                            return {"images": generated_images}
-                        elif strategy == "edit":
+                        try:
+                            # Handle image formatting for edit/variations
+                            formatted_image = None
+                            formatted_mask = None
+                            
+                            if images is not None and (strategy == "edit" or strategy == "variations"):
+                                # Convert to base64 and take first image only
+                                formatted_images = convert_images_for_api(images[0:1], target_format='base64')
+                                if formatted_images:
+                                    formatted_image = formatted_images[0]
 
-                            # Edit image
-                            edited_images = await edit_image(
-                                image_base64=formatted_images[0],
-                                mask_base64=formatted_mask,
-                                prompt=user_message,
-                                model=llm_model,
-                                n=batch_count,
-                                size=size,
-                                api_key=llm_api_key
-                            )
-                            return {"images": edited_images}
-                        elif strategy == "variations":
-                            # Generate variations
-                            variations_images = await generate_image_variations(
-                                image_base64=formatted_images[0],
-                                model=llm_model,
-                                n=batch_count,
-                                size=size,
-                                api_key=llm_api_key
-                            )
-                            return {"images": variations_images}
+                            # Handle mask for edit strategy
+                            if strategy == "edit" and mask is not None:
+                                formatted_masks = convert_images_for_api(mask[0:1], target_format='base64')
+                                if formatted_masks:
+                                    formatted_mask = formatted_masks[0]
+
+                            # Make appropriate API call based on strategy
+                            if strategy == "create":
+                                response = await generate_image(
+                                    prompt=user_message,
+                                    model=llm_model,
+                                    n=batch_count,
+                                    size=size,
+                                    api_key=llm_api_key
+                                )
+                            elif strategy == "edit":
+                                response = await edit_image(
+                                    image_base64=formatted_image,
+                                    mask_base64=formatted_mask,
+                                    prompt=user_message,
+                                    model=llm_model,
+                                    n=batch_count,
+                                    size=size,
+                                    api_key=llm_api_key
+                                )
+                            elif strategy == "variations":
+                                response = await generate_image_variations(
+                                    image_base64=formatted_image,
+                                    model=llm_model,
+                                    n=batch_count,
+                                    size=size,
+                                    api_key=llm_api_key
+                                )
+                            else:
+                                raise ValueError(f"Invalid strategy: {strategy}")
+
+                            # Return the response directly - it will be a list of base64 strings
+                            return {"images": response}
+                                
+                        except Exception as e:
+                            error_msg = f"Error in DALL·E {strategy}: {str(e)}"
+                            logger.error(error_msg)
+                            return {"error": error_msg}
                     else:
                         api_url = f"https://api.openai.com/v1/chat/completions"
                         kwargs = {
