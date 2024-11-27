@@ -6,7 +6,9 @@ ComfyUI-IF_AI_tools is a set of custom nodes to Run Local and API LLMs and LMMs,
 
 ################# ATENTION ####################
 
-   *COPY THE IF_AI FOLDER TO YOUR USER FOLDER*
+   * I am Moving the prompt generation to this Repo so I can focus on chat stuff for this one
+    https://github.com/if-ai/ComfyUI-IF_AI_PromptImaGen/tree/main
+    You will need to uninstall or disable this repo to use the PromptImaGen *
    
 ###############################################
 # Prerequisite Installation (Poppler)
