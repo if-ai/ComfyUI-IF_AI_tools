@@ -3,6 +3,7 @@ import os
 import sys
 import json
 import torch
+import codecs
 import asyncio
 import requests
 from PIL import Image
@@ -165,12 +166,43 @@ class IFPrompt2Prompt:
         return get_models(engine, base_ip, port, api_key)
 
     def load_presets(self, file_path: str) -> Dict[str, Any]:
-        try:
-            with open(file_path, 'r') as f:
-                return json.load(f)
-        except Exception as e:
-            print(f"Error loading presets from {file_path}: {e}")
-            return {}
+        """
+        Load JSON presets with support for multiple encodings.
+        
+        Args:
+            file_path (str): Path to the JSON preset file
+            
+        Returns:
+            Dict[str, Any]: Loaded JSON data or empty dict if loading fails
+        """
+        # List of encodings to try
+        encodings = ['utf-8', 'utf-8-sig', 'latin1', 'cp1252', 'gbk']
+        
+        for encoding in encodings:
+            try:
+                with codecs.open(file_path, 'r', encoding=encoding) as f:
+                    data = json.load(f)
+                    
+                    # If successful, write back with UTF-8 encoding to prevent future issues
+                    try:
+                        with codecs.open(file_path, 'w', encoding='utf-8') as out_f:
+                            json.dump(data, out_f, ensure_ascii=False, indent=2)
+                    except Exception as write_err:
+                        print(f"Warning: Could not write back UTF-8 encoded file: {write_err}")
+                        
+                    return data
+                    
+            except UnicodeDecodeError:
+                continue
+            except json.JSONDecodeError as e:
+                print(f"JSON parsing error with {encoding} encoding: {str(e)}")
+                continue
+            except Exception as e:
+                print(f"Error loading presets from {file_path} with {encoding} encoding: {e}")
+                continue
+                
+        print(f"Error: Failed to load {file_path} with any supported encoding")
+        return {}
 
     def validate_outputs(self, outputs):
         """Helper to validate output types match expectations"""
@@ -706,6 +738,116 @@ class IFPrompt2Prompt:
                 mask_tensor                    # Default mask
             )
 
+    '''def process_image_wrapper(self, **kwargs):
+        """Main entry point maintaining sequential outputs"""
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+
+        try:
+            # Extract parameters
+            auto_mix = kwargs.pop('auto_mix', False)
+            auto_combo = kwargs.pop('auto_combo', False)
+            strategy = kwargs.get('strategy', 'normal')
+            images = kwargs.pop('images', None)
+            mask = kwargs.pop('mask', None)
+
+            if images is None:
+                raise ValueError("Input images are required")
+
+            # Process based on mode
+            if auto_mix and strategy in ['normal', 'create', 'omost']:
+                result = loop.run_until_complete(
+                    self.process_auto_mix(input_images=images, **kwargs)
+                )
+                if isinstance(result, dict):
+                    results = [result]
+                else:
+                    results = result if result else []
+            elif auto_combo and strategy in ['normal', 'create', 'omost']:
+                result = loop.run_until_complete(
+                    self.process_auto_combo(input_images=images, **kwargs)
+                )
+                if isinstance(result, dict):
+                    results = [result]
+                else:
+                    results = result if result else []
+            else:
+                # Single execution mode
+                result = loop.run_until_complete(
+                    self.process_image(**{**kwargs, 'images': images, 'mask': mask})
+                )
+                results = [result] if result else []
+
+            if not results:
+                # Return empty/placeholder outputs with default mask
+                if images is not None:
+                    default_mask = torch.ones((1, 1, images.shape[2], images.shape[3]), 
+                                            dtype=torch.float32, 
+                                            device=images.device)
+                    return ("", "", "", None, images, default_mask)
+                else:
+                    placeholder_img, placeholder_mask = load_placeholder_image(self.placeholder_image_path)
+                    return ("", "", "", None, placeholder_img, placeholder_mask)
+
+            # Prepare sequential outputs
+            try:
+                questions = []
+                responses = []
+                negatives = []
+                images_list = []
+                masks_list = []
+                tool_outputs = []
+
+                for r in results:
+                    if isinstance(r, dict):
+                        questions.append(r.get("Question", ""))
+                        responses.append(r.get("Response", ""))
+                        negatives.append(r.get("Negative", ""))
+                        if r.get("Retrieved_Image") is not None:
+                            images_list.append(r["Retrieved_Image"])
+                        if r.get("Mask") is not None:
+                            masks_list.append(r["Mask"])
+                        tool_outputs.append(r.get("Tool_Output"))
+
+                # Handle images and masks
+                output_images = torch.cat(images_list, dim=0) if images_list else images
+                output_masks = torch.cat(masks_list, dim=0) if masks_list else torch.ones_like(output_images[:, :1])
+
+                # Return tuple matching RETURN_TYPES
+                return (
+                    "\n".join(filter(None, questions)),
+                    "\n".join(filter(None, responses)),
+                    "\n".join(filter(None, negatives)),
+                    tool_outputs[0] if tool_outputs else None,
+                    output_images,
+                    output_masks
+                )
+
+            except Exception as e:
+                logger.error(f"Error processing results: {str(e)}")
+                if images is not None:
+                    default_mask = torch.ones((1, 1, images.shape[2], images.shape[3]), 
+                                            dtype=torch.float32, 
+                                            device=images.device)
+                    return ("", f"Error processing results: {str(e)}", "", None, images, default_mask)
+                else:
+                    placeholder_img, placeholder_mask = load_placeholder_image(self.placeholder_image_path)
+                    return ("", f"Error processing results: {str(e)}", "", None, placeholder_img, placeholder_mask)
+
+        except Exception as e:
+            logger.error(f"Error in process_image_wrapper: {str(e)}")
+            if images is not None:
+                default_mask = torch.ones((1, 1, images.shape[2], images.shape[3]), 
+                                        dtype=torch.float32, 
+                                        device=images.device)
+                return ("", f"Error: {str(e)}", "", None, images, default_mask)
+            else:
+                placeholder_img, placeholder_mask = load_placeholder_image(self.placeholder_image_path)
+                return ("", f"Error: {str(e)}", "", None, placeholder_img, placeholder_mask)'''
+    
 
 NODE_CLASS_MAPPINGS = {"IF_PromptMkr": IFPrompt2Prompt}
 NODE_DISPLAY_NAME_MAPPINGS = {"IF_PromptMkr": "IF Prompt to Prompt💬"}

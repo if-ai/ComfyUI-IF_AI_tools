@@ -18,10 +18,14 @@ from .utils import (
     process_mask,
     clean_text,
     load_placeholder_image,
-    validate_models
+    validate_models,
+    save_combo_settings,
+    load_combo_settings,                            
+    create_settings_from_ui_IFImagePromptNode
 )
 import base64
 import numpy as np
+import codecs
 
 # Add ComfyUI directory to path
 comfy_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -67,6 +71,33 @@ try:
     async def add_routes_endpoint(request):
         return web.json_response({"status": "success"})
 
+    @PromptServer.instance.routes.post("/IF_ImagePrompt/save_combo_settings")
+    async def save_combo_settings_endpoint(request):
+        try:
+            data = await request.json()
+            
+            # Convert UI settings to proper format
+            settings = create_settings_from_ui_IFImagePromptNode(data)
+            
+            # Get node instance
+            node = IFImagePrompt()
+            
+            # Save settings
+            saved_settings = save_combo_settings(settings, node.combo_presets_dir)
+            
+            return web.json_response({
+                "status": "success",
+                "message": "Combo settings saved successfully",
+                "settings": saved_settings
+            })
+            
+        except Exception as e:
+            logger.error(f"Error saving combo settings: {str(e)}")
+            return web.json_response({
+                "status": "error", 
+                "message": str(e)
+            }, status=500)
+
 except AttributeError:
     print("PromptServer.instance not available. Skipping route decoration for IF_ImagePrompt.")
 
@@ -76,7 +107,7 @@ class IFImagePrompt:
         # Initialize paths and load presets
         # self.base_path = folder_paths.base_path
         self.presets_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI-IF_AI_tools", "IF_AI", "presets")
-
+        self.combo_presets_dir = os.path.join(folder_paths.base_path, "custom_nodes", "ComfyUI-IF_AI_tools", "IF_AI", "presets", "AutoCombo")
         # Load preset configurations
         self.profiles = self.load_presets(os.path.join(self.presets_dir, "profiles.json"))
         self.neg_prompts = self.load_presets(os.path.join(self.presets_dir, "neg_prompts.json"))
@@ -91,7 +122,7 @@ class IFImagePrompt:
 
         self.base_ip = "localhost"
         self.port = "11434"
-        self.engine = "xai"
+        self.engine = "ollama"
         self.selected_model = ""
         self.profile = "IF_PromptMKR_IMG"
         self.messages = []
@@ -148,6 +179,8 @@ class IFImagePrompt:
                 "clear_history": ("BOOLEAN", {"default": False, "label_on": "Clear History", "label_off": "Keep History", "tooltip": "Determines whether to clear the history between calls."}),
                 "history_steps": ("INT", {"default": 10, "tooltip": "Number of steps to keep in history."}),
                 "aspect_ratio": (["1:1", "16:9", "4:5", "3:4", "5:4", "9:16"], {"default": "1:1", "tooltip": "Aspect ratio for the generated images."}),
+                "auto": ("BOOLEAN", {"default": False, "label_on": "Auto Is Enabled", "label_off": "Auto is Disabled", "tooltip": "If true, it generates auto promts based on the listed images click the save combomix settings to set the auto prompt generation file"}),
+                "auto_mode": ("BOOLEAN", {"default": False, "label_on": "Auto Mix", "label_off": "Auto Combo", "tooltip": "If true, it generates a prompt for each image with Combo mode and Mix mode combined a maximum of 4 images in the list then moves to the next 4 and use it to run a job as many times as your batch count is set. the settings are taken from the yaml file"}),
                 "batch_count": ("INT", {"default": 4, "tooltip": "Number of images to generate. only for create, edit and variations strategies."}),
                 "external_api_key": ("STRING", {"default": "", "tooltip": "If this is not empty, it will be used instead of the API key from the .env file. Make sure it is empty to use the .env file."}),
                 "precision": (["fp16", "fp32", "bf16"], {"tooltip": "Select preccision on Transformer models."}),
@@ -162,92 +195,6 @@ class IFImagePrompt:
     FUNCTION = "process_image_wrapper"
     OUTPUT_NODE = True
     CATEGORY = "ImpactFrames💥🎞️"
-
-    def get_models(self, engine, base_ip, port, api_key=None):
-        return get_models(engine, base_ip, port, api_key)
-
-    def load_presets(self, file_path: str) -> Dict[str, Any]:
-        try:
-            with open(file_path, 'r') as f:
-                return json.load(f)
-        except Exception as e:
-            print(f"Error loading presets from {file_path}: {e}")
-            return {}
-
-    def validate_outputs(self, outputs):
-        """Helper to validate output types match expectations"""
-        if len(outputs) != len(self.RETURN_TYPES):
-            raise ValueError(
-                f"Expected {len(self.RETURN_TYPES)} outputs, got {len(outputs)}"
-            )
-
-        for i, (output, expected_type) in enumerate(zip(outputs, self.RETURN_TYPES)):
-            if output is None and expected_type in ["IMAGE", "MASK"]:
-                raise ValueError(
-                    f"Output {i} ({self.RETURN_NAMES[i]}) cannot be None for type {expected_type}"
-                )
-
-    async def generate_negative_prompts(
-        self,
-        prompt: str,
-        llm_provider: str,
-        llm_model: str,
-        base_ip: str,
-        port: str,
-        config: dict,
-        messages: list = None
-    ) -> List[str]:
-        """
-        Generate negative prompts for the given input prompt.
-        
-        Args:
-            prompt: Input prompt text
-            llm_provider: LLM provider name
-            llm_model: Model name
-            base_ip: API base IP
-            port: API port
-            config: Dict containing generation parameters like seed, temperature etc
-            messages: Optional message history
-            
-        Returns:
-            List of generated negative prompts
-        """
-        try:
-            if not prompt:
-                return []
-
-            # Get system message for negative prompts
-            neg_system_message = self.profiles.get("IF_NegativePromptEngineer", "")
-
-            # Generate negative prompts
-            neg_response = await send_request(
-                llm_provider=llm_provider,
-                base_ip=base_ip,
-                port=port,
-                images=None,
-                llm_model=llm_model,
-                system_message=neg_system_message,
-                user_message=f"Generate negative prompts for:\n{prompt}",
-                messages=messages or [],
-                **config
-            )
-
-            if not neg_response:
-                return []
-
-            # Split into lines and clean up
-            neg_lines = [line.strip() for line in neg_response.split('\n') if line.strip()]
-
-            # Match number of prompts
-            num_prompts = len(prompt.split('\n'))
-            if len(neg_lines) < num_prompts:
-                neg_lines.extend([neg_lines[-1] if neg_lines else ""] * (num_prompts - len(neg_lines)))
-
-            return neg_lines[:num_prompts]
-
-        except Exception as e:
-            logger.error(f"Error generating negative prompts: {str(e)}")
-            return ["Error generating negative prompt"] * num_prompts
 
     @classmethod
     def IS_CHANGED(cls, **kwargs):
@@ -285,6 +232,8 @@ class IFImagePrompt:
         aspect_ratio: str = "1:1",
         mask: Optional[torch.Tensor] = None,
         batch_count: int = 4,
+        auto: bool = False,
+        auto_mode: bool = False,
         **kwargs
     ) -> Union[str, Dict[str, Any]]:
         try:
@@ -336,417 +285,151 @@ class IFImagePrompt:
 
             # Prepare system prompt
             if prime_directives is not None:
-                system_message_str = prime_directives
+                system_message = prime_directives
             else:
-                system_message_str= json.dumps(profile_content)
+                system_message= json.dumps(profile_content)
 
-            if strategy == "omost":
-                system_prompt = self.profiles.get("IF_Omost")
-                messages = []
-                # Generate the text using LLM
-                llm_response = await send_request(
-                    llm_provider=llm_provider,
-                    base_ip=base_ip,
-                    port=port,
-                    images=images,
-                    llm_model=llm_model,
-                    system_message=system_prompt,
-                    user_message=user_prompt,
-                    messages=messages,
-                    seed=seed,
-                    temperature=temperature,
-                    max_tokens=max_tokens,
-                    random=random,
-                    top_k=top_k,
-                    top_p=top_p,
-                    repeat_penalty=repeat_penalty,
-                    stop=stop,
-                    keep_alive=keep_alive,
-                    llm_api_key=llm_api_key,
-                    tools=None,
-                    tool_choice=None,
-                    precision=precision, 
-                    attention=attention,
-                    aspect_ratio=aspect_ratio,
-                    strategy="omost",
-                    batch_count=batch_count,
-                    mask=mask,
-                    )
+            omni = Omni
+            strategy_name = strategy
 
-                # Pass the generated_text to omost_function
-                tool_args = {
-                    "name": "omost_tool",
-                    "description": "Analyzes images composition and generates a Canvas representation.",
-                    "system_prompt": system_prompt,
-                    "input": user_prompt,
-                    "llm_response": llm_response,
-                    "function_call": None,
-                    "omni_input": Omni
-                }
+            kwargs = {
+                'batch_count': batch_count,
+                'llm_provider': llm_provider,
+                'base_ip': base_ip,
+                'port': port,
+                'llm_model': llm_model,
+                'system_message': system_message,
+                'seed': seed,
+                'temperature': temperature,
+                'max_tokens': max_tokens,
+                'random': random,
+                'top_k': top_k,
+                'top_p': top_p,
+                'repeat_penalty': repeat_penalty,
+                'stop': stop,
+                'keep_alive': keep_alive,
+                'llm_api_key': llm_api_key,
+                'precision': precision,
+                'attention': attention,
+                'aspect_ratio': aspect_ratio,
+                'neg_prompt': neg_prompt,
+                'neg_content': neg_content,
+                'formatted_response': formatted_response,
+                'generated_images': generated_images,
+                'generated_masks': generated_masks,
+                'tool_output': tool_output,
+            }
 
-                tool_result = await omost_function(tool_args)
+            # Prepare images and mask
+            if images is not None:  
+                current_images = images
+            else:
+                current_images = load_placeholder_image(self.placeholder_image_path)[0]
+            if mask is not None:
+                current_mask = mask
+            else:
+                current_mask = load_placeholder_image(self.placeholder_image_path)[1]
 
-                # Process the tool output
-                if "error" in tool_result:
-                    llm_response = f"Error: {tool_result['error']}"
-                    tool_output = None
-                else:
-                    tool_output = tool_result.get("canvas_conditioning", "")
-                    llm_response = f"{tool_output}"
-                    cleaned_response = clean_text(llm_response)
-
-                neg_content = self.neg_prompts.get(neg_prompt, "").strip() if neg_prompt else ""
-
-                # Update message history if keeping alive
-                if keep_alive and cleaned_response:
-                    messages.append({"role": "user", "content": user_prompt})
-                    messages.append({"role": "assistant", "content": cleaned_response})
-
-
-                # **Add logging to verify tensor shape**
-                logger.debug(f"Retrieved_Image tensor shape: {images_tensor.shape}")
-
-                return {
-                    "Question": user_prompt,
-                    "Response": cleaned_response,
-                    "Negative": neg_content,
-                    "Tool_Output": tool_output,
-                    "Retrieved_Image": images_tensor,  # [B, H, W, C]
-                    "Mask": None
-                }
-
-            elif strategy in ["create", "edit", "variations"]:
-                try:
-                    # Initialize variables
-                    api_responses = []
-                    all_base64_images = []
-
-                    if strategy == "create":
-                        # Create strategy - no input images needed
+            if auto:
+                if auto_mode:
+                    if strategy in ['normal', 'create', 'omost']:
                         try:
-                            api_response = await send_request(
-                                llm_provider=llm_provider,
-                                base_ip=base_ip,
-                                port=port,
-                                images=None,  # No input images needed for create
-                                llm_model=llm_model,
-                                system_message=system_message_str,
-                                user_message=user_prompt,
-                                messages=messages,
-                                seed=seed,
-                                temperature=temperature,
-                                max_tokens=max_tokens,
-                                random=random,
-                                top_k=top_k,
-                                top_p=top_p,
-                                repeat_penalty=repeat_penalty,
-                                stop=stop,
-                                keep_alive=keep_alive,
-                                llm_api_key=llm_api_key,
-                                precision=precision,
-                                attention=attention,
-                                aspect_ratio=aspect_ratio,
-                                strategy=strategy,
-                                batch_count=batch_count,
-                                mask=None
-                            )
-                            api_responses.append(api_response)
-                        except Exception as e:
-                            logger.error(f"Error in create strategy: {str(e)}")
-                            image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
-                            return {
-                                "Question": user_prompt,
-                                "Response": f"Error in create strategy: {str(e)}",
-                                "Negative": neg_content,
-                                "Tool_Output": None,
-                                "Retrieved_Image": image_tensor,
-                                "Mask": mask_tensor
-                            }
+                            batch_size = 4
+                            results = []
+                            total_images = len(images)
 
-                    else:  # edit or variations
-                        try:
-                            # Prepare input images
-                            input_images = []
-                            if isinstance(images, torch.Tensor):
-                                if images.dim() == 4:  # Batch of images
-                                    input_images = [images[i] for i in range(images.shape[0])]
-                                else:  # Single image
-                                    input_images = [images]
-                            elif isinstance(images, (list, tuple)):
-                                input_images = images
-                            else:
-                                input_images = [images]
+                            for start_idx in range(0, total_images, batch_size):
+                                batch_images = images[start_idx:start_idx + batch_size]
 
-                            # Prepare masks
-                            input_masks = []
-                            if mask is not None:
-                                if isinstance(mask, torch.Tensor):
-                                    if mask.dim() == 4:  # Batch of masks
-                                        input_masks = [mask[i] for i in range(mask.shape[0])]
-                                    else:  # Single mask
-                                        input_masks = [mask]
-                                elif isinstance(mask, (list, tuple)):
-                                    input_masks = mask
-                                else:
-                                    input_masks = [mask]
-                            else:
-                                input_masks = [None] * len(input_images)
+                                # Generate combo prompt for the current batch
+                                combo_prompt = await self.generate_combo_prompts(
+                                    images=batch_images, 
+                                    settings_dict=None,
+                                    batch_count=kwargs.get('batch_count', 1)
+                                )
 
-                            # Process each image-mask pair
-                            for img, msk in zip(input_images, input_masks):
-                                try:
-                                    api_response = await send_request(
-                                        llm_provider=llm_provider,
-                                        base_ip=base_ip,
-                                        port=port,
-                                        images=img,
-                                        llm_model=llm_model,
-                                        system_message=system_message_str,
-                                        user_message=user_prompt,
-                                        messages=messages,
-                                        seed=seed,
-                                        temperature=temperature,
-                                        max_tokens=max_tokens,
-                                        random=random,
-                                        top_k=top_k,
-                                        top_p=top_p,
-                                        repeat_penalty=repeat_penalty,
-                                        stop=stop,
-                                        keep_alive=keep_alive,
-                                        llm_api_key=llm_api_key,
-                                        precision=precision,
-                                        attention=attention,
-                                        aspect_ratio=aspect_ratio,
-                                        strategy=strategy,
-                                        batch_count=batch_count,
-                                        mask=msk
-                                    )
-                                    api_responses.append(api_response)
-                                except Exception as e:
-                                    logger.error(f"Error processing image-mask pair: {str(e)}")
+                                if not combo_prompt:
+                                    logger.warning(f"No combo prompt generated for batch starting at index {start_idx}.")
                                     continue
 
+                                # Update user_prompt with combo_prompt
+                                user_prompt = combo_prompt
+
+                                if strategy_name == "normal":
+                                    return await self.execute_normal_strategy(
+                                        user_prompt=user_prompt,
+                                        current_images=current_images,
+                                        current_mask=current_mask,
+                                        messages=messages,
+                                        embellish_content=embellish_content,
+                                        style_content=style_content,
+                                        **kwargs
+                                    )
+                                elif strategy_name == "create":
+                                    return await self.execute_create_strategy(
+                                        user_prompt, current_mask, **kwargs)
+                                elif strategy_name == "omost":
+                                    return await self.execute_omost_strategy(
+                                        user_prompt, current_images, current_mask, omni, embellish_content, style_content, **kwargs)
+                                else:
+                                    raise ValueError(f"Unsupported strategy: {strategy_name}")
+
+                            return results if results else self.create_error_response("No results from auto_mix.", "")
+
                         except Exception as e:
-                            logger.error(f"Error in {strategy} strategy: {str(e)}")
-                            image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
-                            return {
-                                "Question": user_prompt,
-                                "Response": f"Error in {strategy} strategy: {str(e)}",
-                                "Negative": neg_content,
-                                "Tool_Output": None,
-                                "Retrieved_Image": image_tensor,
-                                "Mask": mask_tensor
-                            }
-
-                    # Extract and combine base64 images from all responses
-                    for response in api_responses:
-                        if isinstance(response, dict) and "images" in response:
-                            base64_images = response.get("images", [])
-                            if isinstance(base64_images, list):
-                                all_base64_images.extend(base64_images)
-                            else:
-                                all_base64_images.append(base64_images)
-
-                    # Process the images if we have any
-                    if all_base64_images:
+                            logger.error(f"Error in process_auto_mix: {str(e)}")
+                            return self.create_error_response(str(e), "")
+                else:
+                    if strategy in ['normal', 'create', 'omost']:
                         try:
-                            # Prepare data for processing
-                            image_data = {
-                                "data": [{"b64_json": img} for img in all_base64_images]
-                            }
+                            results = []
+                            total_images = len(images)
 
-                            # Process images
-                            images_tensor, mask_tensor = process_images_for_comfy(
-                                image_data,
-                                placeholder_image_path=self.placeholder_image_path,
-                                response_key="data",
-                                field_name="b64_json"
-                            )
+                            for idx, image in enumerate(images):
+                                # Generate combo prompt for the current image
+                                combo_prompt = await self.generate_combo_prompts(images=[image], **kwargs)
+                                user_prompt = combo_prompt
 
-                            # After processing, ensure images_tensor is correctly shaped
-                            # No permutation needed if process_images_for_comfy returns [B, H, W, C]
-                            # Add logging to verify tensor shape
-                            logger.debug(f"Retrieved_Image tensor shape: {images_tensor.shape}")
+                                if not combo_prompt:
+                                    logger.warning(f"No combo prompt generated for image at index {idx}.")
+                                    continue
 
-                            return {
-                                "Question": user_prompt,
-                                "Response": f"{strategy.capitalize()} image{'s' if len(all_base64_images) > 1 else ''} successfully generated.",
-                                "Negative": neg_content,
-                                "Tool_Output": all_base64_images,  # Keep original base64 for further use
-                                "Retrieved_Image": images_tensor,
-                                "Mask": mask_tensor
-                            }
+                                if strategy_name == "normal":
+                                    return await self.execute_normal_strategy(
+                                        user_prompt, current_images, current_mask, messages, embellish_content, style_content, **kwargs)
+                                elif strategy_name == "create":
+                                    return await self.execute_create_strategy(
+                                        user_prompt, current_mask, **kwargs)
+                                elif strategy_name == "omost":
+                                    return await self.execute_omost_strategy(
+                                        user_prompt, current_images, current_mask, omni, embellish_content, style_content, **kwargs)
+                                else:
+                                    raise ValueError(f"Unsupported strategy: {strategy_name}")
 
-                        except Exception as e:
-                            logger.error(f"Error processing generated images: {str(e)}")
-                            image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
-                            return {
-                                "Question": user_prompt,
-                                "Response": f"Error processing generated images: {str(e)}",
-                                "Negative": neg_content,
-                                "Tool_Output": all_base64_images,  # Keep original base64 even if processing failed
-                                "Retrieved_Image": image_tensor,
-                                "Mask": mask_tensor
-                            }
-
-                    else:
-                        # No images were generated
-                        image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
-                        return {
-                            "Question": user_prompt,
-                            "Response": f"No images were generated in {strategy} strategy",
-                            "Negative": neg_content,
-                            "Tool_Output": None,
-                            "Retrieved_Image": image_tensor,
-                            "Mask": mask_tensor
-                        }
-
-                except Exception as e:
-                    # Catch-all error handler
-                    logger.error(f"Unexpected error in {strategy} strategy: {str(e)}")
-                    image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
-                    return {
-                        "Question": user_prompt,
-                        "Response": f"Unexpected error in {strategy} strategy: {str(e)}",
-                        "Negative": neg_content,
-                        "Tool_Output": None,
-                        "Retrieved_Image": image_tensor,
-                        "Mask": mask_tensor
-                    }
-                
-            elif strategy == "normal":
-                try:
-                    formatted_responses = []
-                    final_prompts = []
-                    final_negative_prompts = []
-
-                    # Handle images as they come from ComfyUI - no extra processing needed
-                    current_images = images if images is not None else None
-
-                    # If mask provided, ensure it matches image dimensions
-                    if mask is not None:
-                        mask_tensor = process_mask(mask, current_images)
-                    else:
-                        # Create default mask if needed
-                        if current_images is not None:
-                            mask_tensor = torch.ones((current_images.shape[0], 1, current_images.shape[2], current_images.shape[3]), 
-                                                dtype=torch.float32,
-                                                device=current_images.device)
-                        else:
-                            _, mask_tensor = load_placeholder_image(self.placeholder_image_path)
-
-                    # Iterate over batches
-                    for batch_idx in range(batch_count):
-                        try:
-                            response = await send_request(
-                                llm_provider=llm_provider,
-                                base_ip=base_ip,
-                                port=port,
-                                images=current_images,  # Pass images directly
-                                llm_model=llm_model,
-                                system_message=system_message_str,
-                                user_message=user_prompt,
-                                messages=messages,
-                                seed=seed + batch_idx if seed != 0 else seed,
-                                temperature=temperature,
-                                max_tokens=max_tokens,
-                                random=random,
-                                top_k=top_k,
-                                top_p=top_p,
-                                repeat_penalty=repeat_penalty,
-                                stop=stop,
-                                keep_alive=keep_alive,
-                                llm_api_key=llm_api_key,
-                                precision=precision,
-                                attention=attention,
-                                aspect_ratio=aspect_ratio,
-                                strategy="normal",
-                                batch_count=1,
-                                mask=mask_tensor,
-                            )
-
-                            if not response:
-                                raise ValueError("No response received from LLM API")
-
-                            # Clean and process response
-                            cleaned_response = clean_text(response)
-                            final_prompts.append(cleaned_response)
-
-                            # Handle negative prompts
-                            if neg_prompt == "AI_Fill":
-                                negative_prompt = await self.generate_negative_prompts(
-                                    prompt=cleaned_response,
-                                    llm_provider=llm_provider,
-                                    llm_model=llm_model,
-                                    base_ip=base_ip,
-                                    port=port,
-                                    config={
-                                        "seed": seed + batch_idx if seed != 0 else seed,
-                                        "temperature": temperature,
-                                        "max_tokens": max_tokens,
-                                        "random": random,
-                                        "top_k": top_k,
-                                        "top_p": top_p,
-                                        "repeat_penalty": repeat_penalty
-                                    },
-                                    messages=messages
-                                )
-                                final_negative_prompts.append(negative_prompt[0] if negative_prompt else neg_content)
-                            else:
-                                final_negative_prompts.append(neg_content)
-
-                            formatted_responses.append(cleaned_response)
+                            return results if results else self.create_error_response("No results from auto_combo.", "")
 
                         except Exception as e:
-                            logger.error(f"Error in batch {batch_idx}: {str(e)}")
-                            formatted_responses.append(f"Error in batch {batch_idx}: {str(e)}")
-                            final_negative_prompts.append(f"Error generating negative prompt for batch {batch_idx}")
-
-                    # Combine all responses
-                    formatted_response = "\n".join(final_prompts)
-                    neg_content = "\n".join(final_negative_prompts)
-
-                    # Update message history if needed
-                    if keep_alive and formatted_response:
-                        messages.append({"role": "user", "content": user_prompt})
-                        messages.append({"role": "assistant", "content": formatted_response})
-
-                    # After processing, ensure images_tensor is correctly shaped
-                    # No permutation needed if process_images_for_comfy returns [B, H, W, C]
-                    logger.debug(f"Retrieved_Image tensor shape: {current_images.shape}")
-
-                    return {
-                        "Question": user_prompt,
-                        "Response": formatted_response,
-                        "Negative": neg_content,
-                        "Tool_Output": None,
-                        "Retrieved_Image": current_images,  # [B, H, W, C]
-                        "Mask": mask_tensor
-                    }
-
-                except Exception as e:
-                    logger.error(f"Error in normal strategy: {str(e)}")
-                    # Return original images or placeholder on error
-                    if images is not None:
-                        current_images = images  # Use original images
-                        if mask is not None:
-                            current_mask = mask
-                        else:
-                            # Create default mask matching image dimensions
-                            current_mask = torch.ones((current_images.shape[0], 1, current_images.shape[2], current_images.shape[3]), 
-                                                    dtype=torch.float32,
-                                                    device=current_images.device)
-                    else:
-                        current_images, current_mask = load_placeholder_image(self.placeholder_image_path)
-
-                    return {
-                        "Question": user_prompt,
-                        "Response": f"Error in processing: {str(e)}",
-                        "Negative": "",
-                        "Tool_Output": None,
-                        "Retrieved_Image": current_images,
-                        "Mask": current_mask 
-                    }
+                            logger.error(f"Error in process_auto_combo: {str(e)}")
+                            return self.create_error_response(str(e), "")        
+            else: 
+                # Execute strategy-specific logic
+                if strategy_name == "normal":
+                    return await self.execute_normal_strategy(
+                        user_prompt, current_images, current_mask, messages, embellish_content, style_content, **kwargs)
+                elif strategy_name == "create":
+                    return await self.execute_create_strategy(
+                        user_prompt, current_mask, **kwargs)
+                elif strategy_name == "omost":
+                    return await self.execute_omost_strategy(
+                        user_prompt, current_images, current_mask, omni, embellish_content, style_content, **kwargs)
+                elif strategy_name == "variations":
+                    return await self.execute_variations_strategy(
+                        user_prompt, current_images, **kwargs)
+                elif strategy_name == "edit":
+                    return await self.execute_edit_strategy(
+                        user_prompt, current_images, current_mask, **kwargs)
+                else:
+                    raise ValueError(f"Unsupported strategy: {strategy_name}")
 
         except Exception as e:
             logger.error(f"Error in process_image: {str(e)}")
@@ -765,8 +448,683 @@ class IFImagePrompt:
                     if images is not None and len(images) > 0
                     else load_placeholder_image(self.placeholder_image_path)[1]
                 ),
-                "omni": []  # Empty omni on general error
             }
+
+    async def execute_normal_strategy(self, user_prompt, current_images, current_mask, 
+                            messages, embellish_content, style_content, **kwargs):
+        """Execute normal strategy with proper message handling"""
+        try:
+            batch_count = kwargs.get('batch_count', 1)
+            formatted_responses = []
+            final_prompts = []
+            final_negative_prompts = []
+
+            for batch_idx in range(batch_count):
+                try:
+                    response = await send_request(
+                        llm_provider=kwargs.get('llm_provider'),
+                        base_ip=kwargs.get('base_ip'),
+                        port=kwargs.get('port'),
+                        images=current_images,
+                        llm_model=kwargs.get('llm_model'),
+                        system_message=kwargs.get('system_message'),
+                        user_message=user_prompt,
+                        messages=messages,  # Use the directly passed messages parameter
+                        seed=kwargs.get('seed', 0) + batch_idx if kwargs.get('seed', 0) != 0 else kwargs.get('seed', 0),
+                        temperature=kwargs.get('temperature'),
+                        max_tokens=kwargs.get('max_tokens'),
+                        random=kwargs.get('random'),
+                        top_k=kwargs.get('top_k'),
+                        top_p=kwargs.get('top_p'),
+                        repeat_penalty=kwargs.get('repeat_penalty'),
+                        stop=kwargs.get('stop'),
+                        keep_alive=kwargs.get('keep_alive'),
+                        llm_api_key=kwargs.get('llm_api_key'),
+                        precision=kwargs.get('precision'),
+                        attention=kwargs.get('attention'),
+                        aspect_ratio=kwargs.get('aspect_ratio'),
+                        strategy="normal",
+                        batch_count=1,
+                        mask=current_mask
+                    )
+
+                    if not response:
+                        raise ValueError("No response received from LLM API")
+
+                    # Process response
+                    cleaned_response = clean_text(response)
+                    final_prompt = f"{embellish_content} {cleaned_response} {style_content}".strip()
+                    final_prompts.append(final_prompt)
+
+                    neg_system_message = self.profiles.get("IF_NegativePromptEngineer", "")
+
+                    if kwargs.get('neg_prompt') == "AI_Fill":
+                        # Get the system message content and ensure it's a string
+                        neg_system_message = self.profiles.get("IF_NegativePromptEngineer", "")
+                        if isinstance(neg_system_message, dict):
+                            # If it's a dictionary, convert to JSON string
+                            neg_system_message = json.dumps(neg_system_message)
+                        
+                        neg_prompt = await send_request(
+                            llm_provider=kwargs.get('llm_provider'),
+                            base_ip=kwargs.get('base_ip'),
+                            port=kwargs.get('port'),
+                            images=None,
+                            llm_model=kwargs.get('llm_model'),
+                            system_message=neg_system_message,  # Now properly formatted as string
+                            user_message=f"Generate negative prompts for:\n{cleaned_response}",
+                            messages=[],  # Fresh context for negative generation
+                            seed=kwargs.get('seed', 0) + batch_idx if kwargs.get('seed', 0) != 0 else kwargs.get('seed', 0),
+                            temperature=kwargs.get('temperature'),
+                            max_tokens=kwargs.get('max_tokens'),
+                            random=kwargs.get('random'),
+                            top_k=kwargs.get('top_k'),
+                            top_p=kwargs.get('top_p'),
+                            repeat_penalty=kwargs.get('repeat_penalty'),
+                            stop=kwargs.get('stop'),
+                            keep_alive=kwargs.get('keep_alive'),
+                            llm_api_key=kwargs.get('llm_api_key'),  
+                        )
+                        final_negative_prompt = neg_prompt
+                        final_negative_prompts.append(final_negative_prompt)
+
+                    else:
+                        final_negative_prompt = kwargs.get('neg_content', '')
+                        final_negative_prompts.append(final_negative_prompt)
+
+                    return {
+                        "Question": user_prompt,
+                        "Response": final_prompt,
+                        "Negative": final_negative_prompt,
+                        "Tool_Output": None,
+                        "Retrieved_Image": current_images,
+                        "Mask": current_mask
+                    }
+
+                except Exception as e:
+                    logger.error(f"Error in batch {batch_idx}: {str(e)}")
+                    formatted_responses.append(f"Error in batch {batch_idx}: {str(e)}")
+                    final_negative_prompts.append(f"Error generating negative prompt for batch {batch_idx}")
+
+            # Combine all responses
+            formatted_response = "\n".join(final_prompts)
+            formatted_negative = "\n".join(final_negative_prompts)
+
+            # Update message history if needed
+            if kwargs.get('keep_alive') and formatted_response:
+                messages.append({"role": "user", "content": user_prompt})
+                messages.append({"role": "assistant", "content": formatted_response})
+
+            return {
+                "Question": user_prompt,
+                "Response": formatted_response,
+                "Negative": formatted_negative,
+                "Tool_Output": None,
+                "Retrieved_Image": current_images,
+                "Mask": current_mask
+            }
+
+        except Exception as e:
+            logger.error(f"Error in normal strategy: {str(e)}")
+            # Return original images or placeholder on error
+            if current_images is not None:
+                current_images = images  # Use original images
+                if current_mask is not None:
+                    current_mask = mask
+                else:
+                    # Create default mask matching image dimensions
+                    mask = torch.ones((current_images.shape[0], 1, current_images.shape[2], current_images.shape[3]), 
+                                                    dtype=torch.float32,
+                                                    device=current_images.device)
+            else:
+                images, mask = load_placeholder_image(self.placeholder_image_path)
+
+            return {
+                        "Question": user_prompt,
+                        "Response": f"Error in processing: {str(e)}",
+                        "Negative": "",
+                        "Tool_Output": None,
+                        "Retrieved_Image": images,
+                        "Mask": mask 
+                    }
+
+    async def execute_omost_strategy(self, user_prompt, current_images, current_mask,
+                             omni, embellish_content="", style_content="", **kwargs):
+        """Execute OMOST strategy maintaining separate canvas conditionings for batch processing"""
+        try:
+            batch_count = kwargs.get('batch_count', 1)
+            messages = []
+            system_prompt = self.profiles.get("IF_Omost")
+            final_prompts = []
+            final_negative_prompts = []
+
+            # Track results separately
+            results = []
+
+            # Process each batch
+            for batch_idx in range(batch_count):
+                try:
+                    # Get LLM response
+                    llm_response = await send_request(
+                        llm_provider=kwargs.get('llm_provider'),
+                        base_ip=kwargs.get('base_ip'),
+                        port=kwargs.get('port'),
+                        images=current_images,
+                        llm_model=kwargs.get('llm_model'),
+                        system_message=system_prompt,
+                        user_message=user_prompt,
+                        messages=messages,
+                        seed=kwargs.get('seed', 0) + batch_idx if kwargs.get('seed', 0) != 0 else kwargs.get('seed', 0),
+                        temperature=kwargs.get('temperature', 0.7),
+                        max_tokens=kwargs.get('max_tokens', 2048),
+                        random=kwargs.get('random', False),
+                        top_k=kwargs.get('top_k', 40),
+                        top_p=kwargs.get('top_p', 0.9),
+                        repeat_penalty=kwargs.get('repeat_penalty', 1.1),
+                        stop=kwargs.get('stop', None),
+                        keep_alive=kwargs.get('keep_alive', False),
+                        llm_api_key=kwargs.get('llm_api_key'),
+                        precision=kwargs.get('precision', 'fp16'),
+                        attention=kwargs.get('attention', 'sdpa'),
+                        aspect_ratio=kwargs.get('aspect_ratio', '1:1'),
+                        strategy="omost",
+                        batch_count=1,
+                        mask=current_mask
+                    )
+
+                    if not llm_response:
+                        continue
+
+                    # Process LLM response with OMOST tool
+                    tool_result = await omost_function({
+                        "name": "omost_tool", 
+                        "description": "Analyzes images composition and generates a Canvas representation.",
+                        "system_prompt": system_prompt,
+                        "input": user_prompt,
+                        "llm_response": llm_response,
+                        "function_call": None,
+                        "omni_input": omni
+                    })
+
+                    cleaned_response = clean_text(llm_response)
+                    final_prompt = f"{embellish_content} {cleaned_response} {style_content}".strip()
+                    final_prompts.append(final_prompt)
+
+                    if isinstance(tool_result, dict):
+                        if "error" in tool_result:
+                            logger.warning(f"OMOST tool warning: {tool_result['error']}")
+                            continue
+
+                        # Extract canvas conditioning
+                        canvas_cond = tool_result.get("canvas_conditioning")
+                        if canvas_cond is not None:
+                            # Store individual result
+                            results.append({
+                                "response": final_prompt,
+                                "canvas_cond": canvas_cond,
+                                "tool_output": tool_result
+                            })
+
+                    neg_system_message = self.profiles.get("IF_NegativePromptEngineer", "")
+
+                    if kwargs.get('neg_prompt') == "AI_Fill":
+                        neg_prompt = await send_request(
+                            llm_provider=kwargs.get('llm_provider'),
+                            base_ip=kwargs.get('base_ip'),
+                            port=kwargs.get('port'),
+                            images=None,
+                            llm_model=kwargs.get('llm_model'),
+                            system_message=neg_system_message,
+                            user_message=f"Generate negative prompts for:\n{cleaned_response}",
+                            messages=[],  # Fresh context for negative generation
+                            seed=kwargs.get('seed', 0) + batch_idx if kwargs.get('seed', 0) != 0 else kwargs.get('seed', 0),
+                            temperature=kwargs.get('temperature'),
+                            max_tokens=kwargs.get('max_tokens'),
+                            random=kwargs.get('random'),
+                            top_k=kwargs.get('top_k'),
+                            top_p=kwargs.get('top_p'),
+                            repeat_penalty=kwargs.get('repeat_penalty'),
+                            stop=kwargs.get('stop'),
+                            keep_alive=kwargs.get('keep_alive'),
+                            llm_api_key=kwargs.get('llm_api_key'),  
+                        )
+                        final_negative_prompt = neg_prompt
+                        final_negative_prompts.append(final_negative_prompt)
+
+                    else:
+                        final_negative_prompt = kwargs.get('neg_content', '')
+                        final_negative_prompts.append(final_negative_prompt)
+
+                    return {
+                        "Question": user_prompt,
+                        "Response": final_prompt,
+                        "Negative": final_negative_prompt,
+                        "Tool_Output": canvas_cond,
+                        "Retrieved_Image": current_images,
+                        "Mask": current_mask
+                    }
+
+                except Exception as batch_error:
+                    logger.error(f"Error in OMOST batch {batch_idx}: {str(batch_error)}")
+                    continue
+
+            # Handle results
+            if not results:
+                return self.create_error_response("No valid results generated", user_prompt)
+
+            # Prepare outputs maintaining separation
+            responses = [r["response"] for r in results]
+            canvas_conds = [r["canvas_cond"] for r in results]
+            tool_outputs = [r["tool_output"] for r in results]
+            final_negative_prompts = [r["negative"] for r in results]
+            # Format responses for display
+            formatted_response = "\n".join(responses)
+
+            # Generate negative prompt if needed
+            formatted_negative_prompt = "\n".join(final_negative_prompts)
+            # Package canvas conditionings as list for Display Omni node
+            packaged_canvas_conds = {
+                "conditionings": canvas_conds,
+                "batch_responses": responses,
+                "tool_outputs": tool_outputs
+            }
+
+            formatted_canvas_cond = "\n".join(canvas_conds)
+
+            # Update history if needed
+            if kwargs.get('keep_alive'):
+                messages.extend([
+                    {"role": "user", "content": user_prompt},
+                    {"role": "assistant", "content": formatted_response}
+                ])
+
+            return (
+                user_prompt,                # question
+                formatted_response,         # response 
+                formatted_negative_prompt,  # negative
+                formatted_canvas_cond,      # omni (list of canvas conditionings)
+                current_images,            # images
+                current_mask               # mask
+            )
+
+        except Exception as e:
+            logger.error(f"Error in OMOST strategy: {str(e)}")
+            return self.create_error_response(str(e), user_prompt)
+
+    async def execute_create_strategy(self, user_prompt, current_mask, **kwargs):
+        try:
+            # Create strategy - no input images needed
+            messages = []
+            api_response = await send_request(
+                llm_provider=kwargs.get('llm_provider'),
+                base_ip=kwargs.get('base_ip'),
+                port=kwargs.get('port'),
+                images=None,  # No input images needed for create
+                llm_model=kwargs.get('llm_model'),
+                system_message=kwargs.get('system_message'),
+                user_message=user_prompt,
+                messages=messages,
+                seed=kwargs.get('seed', 0),
+                temperature=kwargs.get('temperature'),
+                max_tokens=kwargs.get('max_tokens'),
+                random=kwargs.get('random'),
+                top_k=kwargs.get('top_k'),
+                top_p=kwargs.get('top_p'),
+                repeat_penalty=kwargs.get('repeat_penalty'),
+                stop=kwargs.get('stop'),
+                keep_alive=kwargs.get('keep_alive'),
+                llm_api_key=kwargs.get('llm_api_key'),
+                precision=kwargs.get('precision'),
+                attention=kwargs.get('attention'),
+                aspect_ratio=kwargs.get('aspect_ratio'),
+                strategy="create",
+                batch_count=kwargs.get('batch_count', 1),
+                mask=current_mask
+            )
+
+            # Extract base64 images from response
+            all_base64_images = []
+            if isinstance(api_response, dict) and "images" in api_response:
+                base64_images = api_response.get("images", [])
+                all_base64_images.extend(base64_images if isinstance(base64_images, list) else [base64_images])
+
+            # Process the images if we have any
+            if all_base64_images:
+                # Prepare data for processing
+                image_data = {
+                    "data": [{"b64_json": img} for img in all_base64_images]
+                }
+
+                # Process images
+                images_tensor, mask_tensor = process_images_for_comfy(
+                    image_data,
+                    placeholder_image_path=self.placeholder_image_path,
+                    response_key="data",
+                    field_name="b64_json"
+                )
+
+                logger.debug(f"Retrieved_Image tensor shape: {images_tensor.shape}")
+
+                return {
+                    "Question": user_prompt,
+                    "Response": f"Create image{'s' if len(all_base64_images) > 1 else ''} successfully generated.",
+                    "Negative": kwargs.get('neg_content', ''),
+                    "Tool_Output": all_base64_images,
+                    "Retrieved_Image": images_tensor,
+                    "Mask": mask_tensor
+                }
+            else:
+                # No images were generated
+                image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
+                return {
+                    "Question": user_prompt,
+                    "Response": "No images were generated in create strategy",
+                    "Negative": kwargs.get('neg_content', ''),
+                    "Tool_Output": None,
+                    "Retrieved_Image": image_tensor,
+                    "Mask": mask_tensor
+                }
+
+        except Exception as e:
+            logger.error(f"Error in create strategy: {str(e)}")
+            image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
+            return {
+                "Question": user_prompt,
+                "Response": f"Error in create strategy: {str(e)}",
+                "Negative": kwargs.get('neg_content', ''),
+                "Tool_Output": None,
+                "Retrieved_Image": image_tensor,
+                "Mask": mask_tensor
+            }
+
+    async def execute_variations_strategy(self, user_prompt, images, **kwargs):
+        """Core implementation of variations strategy"""
+        try:
+            batch_count = kwargs.get('batch_count', 1)
+            messages = []
+            api_responses = []
+
+            # Prepare input images
+            input_images = self.prepare_batch_images(images)
+
+            # Process each input image
+            for img in input_images:
+                try:
+                    # Send request for variations
+                    api_response = await send_request(
+                        images=img,
+                        user_message=user_prompt,
+                        messages=messages,
+                        strategy="variations",
+                        batch_count=batch_count,
+                        mask=None,  # Variations don't use masks
+                        **kwargs
+                    )
+                    if api_response:
+                        api_responses.append(api_response)
+                except Exception as e:
+                    logger.error(f"Error processing image variation: {str(e)}")
+                    continue
+
+            # Extract and process base64 images from responses
+            all_base64_images = []
+            for response in api_responses:
+                if isinstance(response, dict) and "images" in response:
+                    base64_images = response.get("images", [])
+                    if isinstance(base64_images, list):
+                        all_base64_images.extend(base64_images)
+                    else:
+                        all_base64_images.append(base64_images)
+
+            # Process the generated images
+            if all_base64_images:
+                # Prepare data for processing
+                image_data = {
+                    "data": [{"b64_json": img} for img in all_base64_images]
+                }
+
+                # Convert to tensors
+                images_tensor, mask_tensor = process_images_for_comfy(
+                    image_data,
+                    placeholder_image_path=self.placeholder_image_path,
+                    response_key="data",
+                    field_name="b64_json"
+                )
+
+                logger.debug(f"Variations image tensor shape: {images_tensor.shape}")
+
+                return self.create_strategy_response(
+                    user_prompt=user_prompt,
+                    response_text=f"Generated {len(all_base64_images)} variations successfully.",
+                    images_tensor=images_tensor,
+                    mask_tensor=mask_tensor,
+                    neg_content=kwargs.get('neg_content', ''),
+                    tool_output=all_base64_images
+                )
+            else:
+                # No variations were generated
+                image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
+                return self.create_strategy_response(
+                    user_prompt=user_prompt,
+                    response_text="No variations were generated",
+                    images_tensor=image_tensor,
+                    mask_tensor=mask_tensor,
+                    neg_content=kwargs.get('neg_content', '')
+                )
+
+        except Exception as e:
+            logger.error(f"Error in variations strategy: {str(e)}")
+            image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
+            return self.create_strategy_response(
+                user_prompt=user_prompt,
+                response_text=f"Error in variations strategy: {str(e)}",
+                images_tensor=image_tensor,
+                mask_tensor=mask_tensor,
+                neg_content=kwargs.get('neg_content', '')
+            )
+
+    async def execute_edit_strategy(self, user_prompt, images, mask, **kwargs):
+        """Core implementation of edit strategy"""
+        try:
+            batch_count = kwargs.get('batch_count', 1)
+            messages = []
+            api_responses = []
+
+            # Prepare input images and masks
+            input_images = self.prepare_batch_images(images)
+            input_masks = self.prepare_batch_images(mask) if mask is not None else [None] * len(input_images)
+
+            # Process each image-mask pair
+            for img, msk in zip(input_images, input_masks):
+                try:
+                    # Send request for edit
+                    api_response = await send_request(
+                        images=img,
+                        user_message=user_prompt,
+                        messages=messages,
+                        strategy="edit",
+                        batch_count=batch_count,
+                        mask=msk,
+                        **kwargs
+                    )
+                    if api_response:
+                        api_responses.append(api_response)
+                except Exception as e:
+                    logger.error(f"Error processing image-mask pair: {str(e)}")
+                    continue
+
+            # Extract and process base64 images from responses
+            all_base64_images = []
+            for response in api_responses:
+                if isinstance(response, dict) and "images" in response:
+                    base64_images = response.get("images", [])
+                    if isinstance(base64_images, list):
+                        all_base64_images.extend(base64_images)
+                    else:
+                        all_base64_images.append(base64_images)
+
+            # Process the edited images
+            if all_base64_images:
+                # Prepare data for processing
+                image_data = {
+                    "data": [{"b64_json": img} for img in all_base64_images]
+                }
+
+                # Convert to tensors
+                images_tensor, mask_tensor = process_images_for_comfy(
+                    image_data,
+                    placeholder_image_path=self.placeholder_image_path,
+                    response_key="data",
+                    field_name="b64_json"
+                )
+
+                logger.debug(f"Edited image tensor shape: {images_tensor.shape}")
+
+                return self.create_strategy_response(
+                    user_prompt=user_prompt,
+                    response_text=f"Successfully edited {len(all_base64_images)} images.",
+                    images_tensor=images_tensor,
+                    mask_tensor=mask_tensor,
+                    neg_content=kwargs.get('neg_content', ''),
+                    tool_output=all_base64_images
+                )
+            else:
+                # No edits were generated
+                image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
+                return self.create_strategy_response(
+                    user_prompt=user_prompt,
+                    response_text="No edited images were generated",
+                    images_tensor=image_tensor,
+                    mask_tensor=mask_tensor,
+                    neg_content=kwargs.get('neg_content', '')
+                )
+
+        except Exception as e:
+            logger.error(f"Error in edit strategy: {str(e)}")
+            image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
+            return self.create_strategy_response(
+                user_prompt=user_prompt,
+                response_text=f"Error in edit strategy: {str(e)}",
+                images_tensor=image_tensor,
+                mask_tensor=mask_tensor,
+                neg_content=kwargs.get('neg_content', '')
+            )
+
+    def prepare_batch_images(self, images):
+        """Convert images to list of batches"""
+        if isinstance(images, torch.Tensor):
+            if images.dim() == 4:
+                return [images[i] for i in range(images.shape[0])]
+            return [images]
+        return images if isinstance(images, list) else [images]
+
+    def get_models(self, engine, base_ip, port, api_key=None):
+        return get_models(engine, base_ip, port, api_key)
+
+    def load_presets(self, file_path: str) -> Dict[str, Any]:
+        """
+        Load JSON presets with support for multiple encodings.
+        
+        Args:
+            file_path (str): Path to the JSON preset file
+            
+        Returns:
+            Dict[str, Any]: Loaded JSON data or empty dict if loading fails
+        """
+        # List of encodings to try
+        encodings = ['utf-8', 'utf-8-sig', 'latin1', 'cp1252', 'gbk']
+        
+        for encoding in encodings:
+            try:
+                with codecs.open(file_path, 'r', encoding=encoding) as f:
+                    data = json.load(f)
+                    
+                    # If successful, write back with UTF-8 encoding to prevent future issues
+                    try:
+                        with codecs.open(file_path, 'w', encoding='utf-8') as out_f:
+                            json.dump(data, out_f, ensure_ascii=False, indent=2)
+                    except Exception as write_err:
+                        print(f"Warning: Could not write back UTF-8 encoded file: {write_err}")
+                        
+                    return data
+                    
+            except UnicodeDecodeError:
+                continue
+            except json.JSONDecodeError as e:
+                print(f"JSON parsing error with {encoding} encoding: {str(e)}")
+                continue
+            except Exception as e:
+                print(f"Error loading presets from {file_path} with {encoding} encoding: {e}")
+                continue
+                
+        print(f"Error: Failed to load {file_path} with any supported encoding")
+        return {}
+
+    def validate_outputs(self, outputs):
+        """Helper to validate output types match expectations"""
+        if len(outputs) != len(self.RETURN_TYPES):
+            raise ValueError(
+                f"Expected {len(self.RETURN_TYPES)} outputs, got {len(outputs)}"
+            )
+
+        for i, (output, expected_type) in enumerate(zip(outputs, self.RETURN_TYPES)):
+            if output is None and expected_type in ["IMAGE", "MASK"]:
+                raise ValueError(
+                    f"Output {i} ({self.RETURN_NAMES[i]}) cannot be None for type {expected_type}"
+                )
+
+    async def generate_combo_prompts(self, images, settings_dict=None, **kwargs):
+        """Generate combo prompts using saved or provided settings."""
+        try:
+            # If no settings provided, load from file
+            if settings_dict is None:
+                settings_dict = load_combo_settings(self.combo_presets_dir)
+
+            if not settings_dict:
+                raise ValueError("No combo settings available")
+
+            # Extract API key
+            llm_provider = settings_dict.get('llm_provider', '')
+            if settings_dict.get('external_api_key'):
+                llm_api_key = settings_dict['external_api_key']
+            else:
+                llm_api_key = get_api_key(f"{llm_provider.upper()}_API_KEY", llm_provider)
+
+            # Send request using settings
+            response = await send_request(
+                llm_provider=llm_provider,
+                base_ip=settings_dict.get('base_ip', 'localhost'),
+                port=settings_dict.get('port', '11434'),
+                images=images,
+                llm_model=settings_dict.get('llm_model', ''),
+                system_message=settings_dict.get('prime_directives', ''),
+                user_message=settings_dict.get('user_prompt', ''),
+                messages=[],  # Empty list for fresh context
+                seed=settings_dict.get('seed', 0),
+                temperature=settings_dict.get('temperature', 0.7),
+                max_tokens=settings_dict.get('max_tokens', 2048),
+                random=settings_dict.get('random', False),
+                top_k=settings_dict.get('top_k', 40),
+                top_p=settings_dict.get('top_p', 0.9),
+                repeat_penalty=settings_dict.get('repeat_penalty', 1.1),
+                stop=settings_dict.get('stop_string'),
+                keep_alive=settings_dict.get('keep_alive', False),
+                llm_api_key=llm_api_key,
+                precision=settings_dict.get('precision', 'fp16'),
+                attention=settings_dict.get('attention', 'sdpa'),
+                aspect_ratio=settings_dict.get('aspect_ratio', '1:1'),
+                strategy="normal",
+                mask=None,
+                batch_count=kwargs.get('batch_count', 1)
+            )
+
+            if isinstance(response, dict):
+                return response.get('response', '')
+            return response
+
+        except Exception as e:
+            logger.error(f"Error generating combo prompts: {str(e)}")
+            return ""
 
     def process_image_wrapper(self, **kwargs):
         """Wrapper to handle async execution of process_image"""
@@ -794,7 +1152,7 @@ class IFImagePrompt:
             prompt = result.get("Response", "")  # This is the formatted prompt
             response = result.get("Question", "")  # Original question/prompt
             negative = result.get("Negative", "")
-            omni = result.get("omni")  # Retrieve omni data
+            omni = result.get("Tool_Output")
             retrieved_image = result.get("Retrieved_Image")
             mask = result.get("Mask")
 
@@ -804,16 +1162,18 @@ class IFImagePrompt:
 
             # Ensure mask has correct format
             if mask is None:
-                mask = torch.ones((retrieved_image.shape[0], 1, retrieved_image.shape[2], retrieved_image.shape[3]), dtype=torch.float32, device=retrieved_image.device)
+                mask = torch.ones((retrieved_image.shape[0], 1, retrieved_image.shape[2], retrieved_image.shape[3]), 
+                                dtype=torch.float32,
+                                device=retrieved_image.device)
 
             # Return tuple matching RETURN_TYPES order: ("STRING", "STRING", "STRING", "OMNI", "IMAGE", "MASK")
             return (
-                response,          # First STRING (question/prompt)
-                prompt,            # Second STRING (generated response)
-                negative,          # Third STRING (negative prompt)
-                omni,              # OMNI (Base64 images)
-                retrieved_image,   # IMAGE
-                mask               # MASK
+                response,  # First STRING (question/prompt)
+                prompt,    # Second STRING (generated response)
+                negative,  # Third STRING (negative prompt)
+                omni,      # OMNI
+                retrieved_image,  # IMAGE
+                mask       # MASK
             )
 
         except Exception as e:
@@ -822,14 +1182,101 @@ class IFImagePrompt:
             image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
             return (
                 kwargs.get("user_prompt", ""),  # Original prompt
-                f"Error: {str(e)}",             # Error message as response
-                "",                             # Empty negative prompt
-                None,                           # No OMNI data
-                image_tensor,                   # Placeholder image
-                mask_tensor                     # Default mask
+                f"Error: {str(e)}",            # Error message as response
+                "",                            # Empty negative prompt
+                None,                          # No OMNI data
+                image_tensor,                  # Placeholder image
+                mask_tensor                    # Default mask
             )
 
-# Node registration
+    def create_error_response(self, error_message, prompt=""):
+        """Create standardized error response"""
+        try:
+            image_tensor, mask_tensor = load_placeholder_image(self.placeholder_image_path)
+            return {
+                "Question": prompt,
+                "Response": f"Error: {error_message}",
+                "Negative": "",
+                "Tool_Output": None,
+                "Retrieved_Image": image_tensor,
+                "Mask": mask_tensor
+            }
+        except Exception as e:
+            logger.error(f"Error creating error response: {str(e)}")
+            # Fallback error response without images
+            return {
+                "Question": prompt,
+                "Response": f"Critical Error: {error_message}",
+                "Negative": "",
+                "Tool_Output": None,
+                "Retrieved_Image": None,
+                "Mask": None
+            }
+
+    async def generate_negative_prompts(
+        self,
+        prompt: str,
+        llm_provider: str,
+        llm_model: str,
+        base_ip: str,
+        port: str,
+        config: dict,
+        messages: list = None
+    ) -> List[str]:
+        """
+        Generate negative prompts for the given input prompt.
+        
+        Args:
+            prompt: Input prompt text
+            llm_provider: LLM provider name
+            llm_model: Model name
+            base_ip: API base IP
+            port: API port
+            config: Dict containing generation parameters like seed, temperature etc
+            messages: Optional message history
+            
+        Returns:
+            List of generated negative prompts
+        """
+        try:
+            if not prompt:
+                return []
+
+            # Get system message for negative prompts and ensure it's a string
+            neg_system_message = self.profiles.get("IF_NegativePromptEngineer", "")
+            if isinstance(neg_system_message, dict):
+                neg_system_message = json.dumps(neg_system_message)
+
+            # Generate negative prompts
+            neg_response = await send_request(
+                llm_provider=llm_provider,
+                base_ip=base_ip,
+                port=port,
+                images=None,
+                llm_model=llm_model,
+                system_message=neg_system_message,  # Now properly formatted as string
+                user_message=f"Generate negative prompts for:\n{prompt}",
+                messages=messages or [],
+                **config
+            )
+
+            if not neg_response:
+                return []
+
+            # Split into lines and clean up
+            neg_lines = [line.strip() for line in neg_response.split('\n') if line.strip()]
+
+            # Match number of prompts
+            num_prompts = len(prompt.split('\n'))
+            if len(neg_lines) < num_prompts:
+                neg_lines.extend([neg_lines[-1] if neg_lines else ""] * (num_prompts - len(neg_lines)))
+
+            return neg_lines[:num_prompts]
+
+        except Exception as e:
+            logger.error(f"Error generating negative prompts: {str(e)}")
+            return ["Error generating negative prompt"] * num_prompts
+
 NODE_CLASS_MAPPINGS = {
     "IF_ImagePrompt": IFImagePrompt
 }

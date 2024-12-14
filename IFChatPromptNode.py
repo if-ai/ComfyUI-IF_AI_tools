@@ -20,6 +20,7 @@ from .send_request import send_request
 #from .transformers_api import TransformersModelManager 
 import tempfile
 import threading
+import codecs
 from aiohttp import web
 from .graphRAG_module import GraphRAGapp
 from .colpaliRAG_module import colpaliRAGapp
@@ -419,10 +420,44 @@ class IFChatPrompt:
             os.makedirs(os.path.dirname(self.placeholder_image_path), exist_ok=True)
             placeholder.save(self.placeholder_image_path)
 
-    def load_presets(self, file_path):
-        with open(file_path, 'r') as f:
-            presets = json.load(f)
-        return presets
+    def load_presets(self, file_path: str) -> Dict[str, Any]:
+        """
+        Load JSON presets with support for multiple encodings.
+        
+        Args:
+            file_path (str): Path to the JSON preset file
+            
+        Returns:
+            Dict[str, Any]: Loaded JSON data or empty dict if loading fails
+        """
+        # List of encodings to try
+        encodings = ['utf-8', 'utf-8-sig', 'latin1', 'cp1252', 'gbk']
+        
+        for encoding in encodings:
+            try:
+                with codecs.open(file_path, 'r', encoding=encoding) as f:
+                    data = json.load(f)
+                    
+                    # If successful, write back with UTF-8 encoding to prevent future issues
+                    try:
+                        with codecs.open(file_path, 'w', encoding='utf-8') as out_f:
+                            json.dump(data, out_f, ensure_ascii=False, indent=2)
+                    except Exception as write_err:
+                        print(f"Warning: Could not write back UTF-8 encoded file: {write_err}")
+                        
+                    return data
+                    
+            except UnicodeDecodeError:
+                continue
+            except json.JSONDecodeError as e:
+                print(f"JSON parsing error with {encoding} encoding: {str(e)}")
+                continue
+            except Exception as e:
+                print(f"Error loading presets from {file_path} with {encoding} encoding: {e}")
+                continue
+                
+        print(f"Error: Failed to load {file_path} with any supported encoding")
+        return {}
 
     def load_agent_tools(self):
         os.makedirs(self.agents_dir, exist_ok=True)
