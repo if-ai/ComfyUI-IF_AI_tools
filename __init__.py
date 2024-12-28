@@ -17,7 +17,7 @@ from .IFTextTyperNode import IFTextTyper
 from .IFVisualizeGraphNode import IFVisualizeGraphNode
 from .IFStepCounterNode import IFCounter
 from .IFJoinTextNode import IFJoinText
-from .IFLoadImagesNodeS import IFLoadImagess
+from .IFtoolsLoadImagesNodeS import IFtoolsLoadImagesS
 from .send_request import *
 
 # Try to import omost from the current directory
@@ -64,7 +64,7 @@ NODE_CLASS_MAPPINGS = {
     "IF_VisualizeGraph": IFVisualizeGraphNode,
     "IF_StepCounter": IFCounter,
     "IF_JoinText": IFJoinText,
-    "IF_LoadImagesS": IFLoadImagess,
+    "IF_tools_LoadImagesS": IFtoolsLoadImagesS,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -77,9 +77,9 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "IF_DisplayOmni": "IF Display Omni🔍",
     "IF_TextTyper": "IF Text Typer✍️",
     "IF_VisualizeGraph": "IF Visualize Graph🕸️",
-    "IF_StepCounter": "IF Step Counter 🔢",
-    "IF_JoinText": "IF Join Text 📝",
-    "IF_LoadImagesS": "IF Load Images S 🖼️"
+    "IF_StepCounter": "IF Step Counter🔢",
+    "IF_JoinText": "IF Join Text📝",
+    "IF_tools_LoadImagesS": "IF tools Load Images S🖼️"
 }
 
 WEB_DIRECTORY = "./web"

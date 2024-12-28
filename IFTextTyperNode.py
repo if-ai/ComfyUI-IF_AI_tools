@@ -10,7 +10,7 @@ class IFTextTyper:
     RETURN_TYPES = ("STRING",)
     FUNCTION = "output_text"
     OUTPUT_NODE = True
-    CATEGORY = "ImpactFrames💥🎞️"
+    CATEGORY = "ImpactFrames💥🎞️/IF_tools"
 
     def output_text(self, text):
         return (text,)

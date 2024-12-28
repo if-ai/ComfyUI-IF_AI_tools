@@ -1146,6 +1146,6 @@ class IFChatPrompt:
     )
     FUNCTION = "process_chat_wrapper"
     OUTPUT_NODE = True
-    CATEGORY = "ImpactFrames💥🎞️"
+    CATEGORY = "ImpactFrames💥🎞️/IF_tools"
     DESCRIPTION = "ComfyUI, Support API and Local LLM providers and RAG capabilities. Processes text prompts, handles image inputs, and integrates with different language models and indexing strategies."
 

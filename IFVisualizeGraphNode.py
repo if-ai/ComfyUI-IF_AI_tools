@@ -16,7 +16,7 @@ class IFVisualizeGraphNode:
 
     RETURN_TYPES = ()
     FUNCTION = "visualize_graph"
-    CATEGORY = "ImpactFrames💥🎞️"
+    CATEGORY = "ImpactFrames💥🎞️/IF_tools"
     OUTPUT_NODE = True
 
     def visualize_graph(self, graph_data, layout="spring"):

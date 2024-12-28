@@ -1,6 +1,12 @@
 //IFChatPromptNode.js
 console.log("IFChatPromptNode extension loading...");
 
+// Add LiteGraph initialization
+let LiteGraph = window.LiteGraph;
+if (!LiteGraph && window.LGraphCanvas) {
+    LiteGraph = window.LGraphCanvas.LiteGraph;
+}
+
 // Add the global error handler
 window.addEventListener('error', function(event) {
     console.error('Uncaught error:', event.error);
@@ -11,6 +17,18 @@ const { app } = window.comfyAPI.app;
 
 let addRAGWidget;
 
+// Add this function after the initial LiteGraph initialization
+const ensureLiteGraph = () => {
+    if (!LiteGraph) {
+        LiteGraph = window.LiteGraph || (window.LGraphCanvas && window.LGraphCanvas.LiteGraph);
+        if (!LiteGraph) {
+            console.warn("LiteGraph not available");
+            return false;
+        }
+    }
+    return true;
+};
+
 app.registerExtension({
     name: "Comfy.IFChatPromptNode",
 
@@ -20,6 +38,15 @@ app.registerExtension({
 
     async setup() {
         try {
+            // Ensure LiteGraph is available
+            if (!ensureLiteGraph()) {
+                console.warn("Setup delayed: waiting for LiteGraph");
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                if (!ensureLiteGraph()) {
+                    console.error("LiteGraph not available after waiting");
+                }
+            }
+
             // Wait for UI and API to be ready
             let attempts = 0;
             const maxAttempts = 10;
@@ -94,8 +121,15 @@ app.registerExtension({
                     originalOnNodeCreated.apply(this, arguments);
                 }
 
-                LiteGraph = app.graph.constructor;
+                // Update LiteGraph reference
+                if (!LiteGraph) {
+                    LiteGraph = window.LiteGraph || (window.LGraphCanvas && window.LGraphCanvas.LiteGraph);
+                }
+                
                 const self = this;
+
+                // Add delay helper function
+                const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
                 // Define addRAGWidget 
                 addRAGWidget = (type, name, options = {}) => {
@@ -287,10 +321,8 @@ app.registerExtension({
                                 if (!Array.isArray(models) || models.length === 0) {
                                     // Wait for 2 seconds before falling back to hardcoded models
                                     await delay(2000);
-                                    models = await response.json();
-                                    if (!Array.isArray(models) || models.length === 0) {
-                                        models = fallbackModels[llmProvider] || ["No models available"];
-                                    }
+                                    // Use fallback models instead of trying to read response again
+                                    models = fallbackModels[llmProvider] || ["No models available"];
                                 }
                             } else {
                                 console.error("Failed to fetch LLM models:", await response.text());
@@ -355,10 +387,7 @@ app.registerExtension({
                                 if (!Array.isArray(models) || models.length === 0) {
                                     // Wait for 2 seconds before falling back to hardcoded models
                                     await delay(2000);
-                                    models = await response.json();
-                                    if (!Array.isArray(models) || models.length === 0) {
-                                        models = fallbackEmbeddingModels[embeddingProvider] || fallbackEmbeddingModels.default;
-                                    }
+                                    models = fallbackEmbeddingModels[embeddingProvider] || fallbackEmbeddingModels.default;
                                 }
                             } else {
                                 console.error("Failed to fetch Embedding models:", await response.text());

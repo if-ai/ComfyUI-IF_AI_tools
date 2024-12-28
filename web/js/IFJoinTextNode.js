@@ -2,7 +2,7 @@ import { app } from "/scripts/app.js";
 import { ComfyWidgets } from "/scripts/widgets.js";
 
 app.registerExtension({
-    name: "Comfy.IF_JoinTextNode",
+    name: "Comfy.IFJoinTextNode",
     async beforeRegisterNodeDef(nodeType, nodeData, app) {
         if (nodeData.name === "IF_JoinText") {
             // Add output labels and tooltips

@@ -5,7 +5,6 @@ app.registerExtension({
     name: "Comfy.IFImagePromptNode",
     
     async setup() {
-        // Wait for UI and API to be ready
         let attempts = 0;
         const maxAttempts = 10;
         const waitTime = 1000;
@@ -20,13 +19,43 @@ app.registerExtension({
     async beforeRegisterNodeDef(nodeType, nodeData, app) {
         if (nodeData.name === "IF_ImagePrompt") {
             const originalNodeCreated = nodeType.prototype.onNodeCreated;
+            
+            // Single onNodeCreated implementation that combines all functionality
             nodeType.prototype.onNodeCreated = function() {
+                // Call original if it exists
                 if (originalNodeCreated) {
                     originalNodeCreated.apply(this, arguments);
                 }
 
                 const self = this;
 
+                // Add settings button
+                const saveComboSettings = this.addWidget("button", "Store Auto Prompt", null, () => {
+                    const settings = this.getNodeComboSettings();
+                    
+                    fetch("/IF_ImagePrompt/save_combo_settings", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(settings)
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.status === "success") {
+                            alert("Combo settings saved successfully!");
+                        } else {
+                            alert("Error saving settings: " + result.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error saving combo settings:", error);
+                        alert("Error saving settings: " + error.message);
+                    });
+                });
+                
+                // Configure button styling
+                saveComboSettings.serialize = false;
+                
+                // Add LLM model update functionality
                 const updateLLMModels = async () => {
                     const llmProviderWidget = this.widgets.find((w) => w.name === "llm_provider");
                     const baseIpWidget = this.widgets.find((w) => w.name === "base_ip");
@@ -35,20 +64,15 @@ app.registerExtension({
                     const externalApiKeyWidget = this.widgets.find((w) => w.name === "external_api_key");
 
                     if (llmProviderWidget && baseIpWidget && portWidget && llmModelWidget) {
-                        const llmProvider = llmProviderWidget.value;
-                        const baseIp = baseIpWidget.value;
-                        const port = portWidget.value;
-                        const externalApiKey = externalApiKeyWidget ? externalApiKeyWidget.value : "";
-
                         try {
                             const response = await fetch("/IF_ImagePrompt/get_llm_models", {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify({
-                                    llm_provider: llmProvider,
-                                    base_ip: baseIp,
-                                    port: port,
-                                    external_api_key: externalApiKey
+                                    llm_provider: llmProviderWidget.value,
+                                    base_ip: baseIpWidget.value,
+                                    port: portWidget.value,
+                                    external_api_key: externalApiKeyWidget?.value || ""
                                 })
                             });
 
@@ -59,31 +83,60 @@ app.registerExtension({
                             const models = await response.json();
                             console.log("Fetched models:", models);
 
-                            if (!Array.isArray(models) || models.length === 0) {
+                            if (Array.isArray(models) && models.length > 0) {
+                                llmModelWidget.options.values = models;
+                                llmModelWidget.value = models[0];
+                                this.setDirtyCanvas(true, true);
+                            } else {
                                 throw new Error("No models available");
                             }
-
-                            llmModelWidget.options.values = models;
-                            llmModelWidget.value = models[0];
-                            
-                            // Force widget update
-                            this.setDirtyCanvas(true, true);
-
                         } catch (error) {
                             console.error("Error updating models:", error);
                             
-                            // Fallback models based on provider
+                            // Fallback models
                             const fallbackModels = {
                                 openai: ["gpt-4-vision-preview", "gpt-4-1106-vision-preview"],
                                 anthropic: ["claude-3-opus-20240229", "claude-3-sonnet-20240229"],
                                 ollama: ["llava", "llava-v1.5-7b", "bakllava"]
                             };
 
-                            const models = fallbackModels[llmProvider] || ["No models available"];
+                            const models = fallbackModels[llmProviderWidget.value] || ["No models available"];
                             llmModelWidget.options.values = models;
                             llmModelWidget.value = models[0];
                         }
                     }
+                };
+
+                // Node settings collection
+                this.getNodeComboSettings = function() {
+                    const getWidgetValue = (name) => {
+                        const widget = this.widgets.find(w => w.name === name);
+                        return widget ? widget.value : undefined;
+                    };
+
+                    return {
+                        llm_provider: getWidgetValue('llm_provider'),
+                        llm_model: getWidgetValue('llm_model'),
+                        base_ip: getWidgetValue('base_ip'),
+                        port: getWidgetValue('port'),
+                        user_prompt: getWidgetValue('user_prompt'),
+                        prime_directives: getWidgetValue('prime_directives'),
+                        temperature: getWidgetValue('temperature'),
+                        max_tokens: getWidgetValue('max_tokens'),
+                        stop_string: getWidgetValue('stop_string'),
+                        keep_alive: getWidgetValue('keep_alive'),
+                        top_k: getWidgetValue('top_k'),
+                        top_p: getWidgetValue('top_p'),
+                        repeat_penalty: getWidgetValue('repeat_penalty'),
+                        seed: getWidgetValue('seed'),
+                        external_api_key: getWidgetValue('external_api_key'),
+                        random: getWidgetValue('random'),
+                        precision: getWidgetValue('precision'),
+                        attention: getWidgetValue('attention'),
+                        aspect_ratio: getWidgetValue('aspect_ratio'),
+                        batch_count: getWidgetValue('batch_count'),
+                        strategy: getWidgetValue('strategy')
+                    };
                 };
 
                 // Set up widget callbacks
@@ -92,78 +145,10 @@ app.registerExtension({
                         w.callback = updateLLMModels;
                     }
                 });
-                
-                // Add custom contextMenu options
-                const getExtraMenuOptions = this.getExtraMenuOptions;
-                this.getExtraMenuOptions = function() {
-                    const options = [];  // Initialize empty array even if original returns nothing
-                    
-                    // Call original if it exists
-                    if (getExtraMenuOptions) {
-                        const originalOptions = getExtraMenuOptions.apply(this, arguments);
-                        if (Array.isArray(originalOptions)) {
-                            options.push(...originalOptions);
-                        }
-                    }
-                    
-                    // Add our custom options
-                    options.push(
-                        {
-                            content: "🔄 Refresh Models",
-                            callback: () => {
-                                updateLLMModels();
-                            }
-                        },
-                        null // divider
-                    );
-
-                    // Add copy options only if those widgets exist
-                    const systemPromptWidget = this.widgets.find(w => w.name === "system_prompt");
-                    if (systemPromptWidget) {
-                        options.push({
-                            content: "📋 Copy System Prompt",
-                            callback: () => {
-                                navigator.clipboard.writeText(systemPromptWidget.value);
-                            }
-                        });
-                    }
-
-                    const userPromptWidget = this.widgets.find(w => w.name === "user_prompt");
-                    if (userPromptWidget) {
-                        options.push(
-                            null, // divider
-                            {
-                                content: "📋 Copy User Prompt",
-                                callback: () => {
-                                    navigator.clipboard.writeText(userPromptWidget.value);
-                                }
-                            }
-                        );
-                    }
-                    
-                    return options;
-                };
 
                 // Initial model update
                 updateLLMModels();
             };
-
-            // Add routes to the server
-            try {
-                const addImagePromptMkrRoutes = async () => {
-                    const response = await fetch("/IF_ImagePrompt/add_routes", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({})
-                    });
-                    if (!response.ok) {
-                        console.warn("Failed to add ImagePromptMkr routes");
-                    }
-                };
-                addImagePromptMkrRoutes();
-            } catch (error) {
-                console.warn("Error adding ImagePromptMkr routes:", error);
-            }
 
             // Add node preview handling
             const onDrawForeground = nodeType.prototype.onDrawForeground;
@@ -171,8 +156,6 @@ app.registerExtension({
                 if (onDrawForeground) {
                     onDrawForeground.apply(this, arguments);
                 }
-                
-                // Draw preview of the last generated prompt if available
                 if (this.generated_prompt) {
                     const margin = 10;
                     const textX = this.pos[0] + margin;
@@ -187,7 +170,7 @@ app.registerExtension({
                 }
             };
 
-            // Helper method for text wrapping
+            // Add helper methods
             nodeType.prototype.wrapText = function(ctx, text, x, y, maxWidth, lineHeight) {
                 const words = text.split(' ');
                 let line = '';
@@ -209,14 +192,12 @@ app.registerExtension({
                 ctx.fillText(line, x, posY);
             };
 
-            // Handle node execution
+            // Handle execution results
             const onExecuted = nodeType.prototype.onExecuted;
             nodeType.prototype.onExecuted = function(message) {
                 if (onExecuted) {
                     onExecuted.apply(this, arguments);
                 }
-
-                // Store generated prompt for preview
                 if (message?.generated_prompt) {
                     this.generated_prompt = message.generated_prompt;
                     this.setDirtyCanvas(true, true);

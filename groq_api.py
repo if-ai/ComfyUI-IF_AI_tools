@@ -93,17 +93,18 @@ async def send_groq_request(
 
 def prepare_groq_messages(
     base64_images: List[str],
-    system_message: str,
-    user_message: str,
-    messages: List[Dict[str, Any]]
+    system_message: str = "",
+    user_message: str = "",
+    messages: List[Dict[str, Any]] = []
 ) -> List[Dict[str, Any]]:
     """
     Prepares the messages in the required format for Groq API.
 
     Args:
         base64_images (List[str]): List of images encoded in base64.
-        user_message (str): User message for the LLM.
-        messages (List[Dict[str, Any]]): Conversation messages.
+        system_message (str, optional): System message for the LLM. Defaults to "".
+        user_message (str, optional): User message for the LLM. Defaults to "".
+        messages (List[Dict[str, Any]], optional): Conversation messages. Defaults to [].
 
     Returns:
         List[Dict[str, Any]]: Formatted messages for Groq API.
@@ -111,10 +112,8 @@ def prepare_groq_messages(
     groq_messages = []
     
     # Omit system messages when images are being sent
-    if not base64_images:
-        system_message = system_message  # Example system message
-        if system_message:
-            groq_messages.append({"role": "system", "content": system_message})
+    if not base64_images and system_message:
+        groq_messages.append({"role": "system", "content": system_message})
     
     for message in messages:
         role = message.get("role")
@@ -143,7 +142,8 @@ def prepare_groq_messages(
         for idx, base64_image in enumerate(base64_images):
             logger.debug(f"Image {idx+1} Base64 Length: {len(base64_image)}")
     else:
-        groq_messages.append({"role": "user", "content": user_message})
+        if user_message:
+            groq_messages.append({"role": "user", "content": user_message})
     
     return groq_messages
 

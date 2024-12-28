@@ -1,3 +1,4 @@
+# utils.py
 import os
 import io
 import re
@@ -17,15 +18,162 @@ from dotenv import load_dotenv
 from PIL import Image, ImageOps, ImageSequence
 from typing import Tuple, Optional, Dict, Union, List, Any
 import node_helpers
-import torch.nn.functional as F
 from torchvision.transforms import functional as TF
+import folder_paths
 
 
 from typing import Union, List, Tuple
 
 logger = logging.getLogger(__name__)
 
-   
+def resize_image_max_side(img, max_size):
+    """Resize image so its longest side is max_size while maintaining aspect ratio"""
+    ratio = max_size / max(img.size)
+    if ratio < 1:  # Only resize if image is larger than max_size
+        new_size = tuple(int(dim * ratio) for dim in img.size)
+        return img.resize(new_size, Image.LANCZOS)
+    return img
+
+def prepare_batch_images(images):
+    """
+    Convert images to list of batches.
+    Handles tensor, list, and single image inputs while preserving dimensions.
+    
+    Args:
+        images: torch.Tensor or list of tensors
+        
+    Returns:
+        List of image tensors
+    """
+    try:
+        if images is None:
+            return []
+            
+        if isinstance(images, torch.Tensor):
+            # Handle 4D tensor [B,H,W,C] - split into list of [H,W,C]
+            if images.dim() == 4:
+                return [images[i] for i in range(images.shape[0])]
+            # Handle 3D tensor [H,W,C] - wrap in list
+            elif images.dim() == 3:
+                return [images]
+            else:
+                raise ValueError(f"Invalid tensor dimensions: {images.dim()}")
+                
+        # Handle list input - validate each element
+        if isinstance(images, list):
+            for i, img in enumerate(images):
+                if not isinstance(img, torch.Tensor):
+                    raise ValueError(f"Image {i} is not a tensor")
+            return images
+            
+        # Handle single image
+        return [images]
+        
+    except Exception as e:
+        logger.error(f"Error in prepare_batch_images: {str(e)}")
+        return []
+
+def process_auto_mode_images(images, mask=None, batch_size=4):
+    """
+    Process images and masks for auto mode with proper mask dimensionality handling.
+    
+    Args:
+        images: Input images tensor [B,H,W,C] or list of tensors
+        mask: Mask tensor [B,H,W] or [B,1,H,W] or list of tensors
+        batch_size: Maximum size of each batch (default 4)
+        
+    Returns:
+        Tuple of (image_batches, mask_batches) where each is a list of tensors
+    """
+    try:
+        # Convert images to list format
+        if isinstance(images, torch.Tensor):
+            if images.dim() == 4:  # [B,H,W,C]
+                images = [images[i] for i in range(images.shape[0])]
+            elif images.dim() == 3:  # [H,W,C]
+                images = [images]
+            else:
+                raise ValueError(f"Invalid image tensor dimensions: {images.dim()}")
+        
+        # Split images into batches
+        image_batches = []
+        current_batch = []
+        
+        for img in images:
+            if len(current_batch) == batch_size:
+                image_batches.append(torch.stack(current_batch))
+                current_batch = []
+            current_batch.append(img)
+            
+        if current_batch:  # Don't forget the last batch
+            image_batches.append(torch.stack(current_batch))
+
+        # Process masks
+        mask_batches = []
+        
+        if mask is not None:
+            # Standardize mask format
+            if isinstance(mask, torch.Tensor):
+                # Handle different mask dimensions
+                if mask.dim() == 2:  # [H,W]
+                    mask = mask.unsqueeze(0)  # -> [1,H,W]
+                elif mask.dim() == 3:  # [B,H,W] or [1,H,W]
+                    if mask.shape[0] != len(images):
+                        # Broadcast mask to match batch size
+                        mask = mask.repeat(len(images), 1, 1)
+                elif mask.dim() == 4:  # [B,1,H,W] or similar
+                    mask = mask.squeeze(1)  # Remove channel dim -> [B,H,W]
+                
+                # Split mask into batches matching image batches
+                start_idx = 0
+                for img_batch in image_batches:
+                    batch_size = img_batch.size(0)
+                    mask_batch = mask[start_idx:start_idx + batch_size]
+                    
+                    mask_batches.append(mask_batch)
+                    start_idx += batch_size
+            else:
+                # Handle list of masks
+                mask_list = mask if isinstance(mask, list) else [mask] * len(images)
+                start_idx = 0
+                for img_batch in image_batches:
+                    batch_size = img_batch.size(0)
+                    mask_slice = mask_list[start_idx:start_idx + batch_size]
+                    
+                    # Convert and stack masks
+                    mask_tensors = []
+                    for m in mask_slice:
+                        if isinstance(m, torch.Tensor):
+                            if m.dim() == 2:
+                                m = m.unsqueeze(0)  # Add batch dim
+                            m = m.unsqueeze(-1)  # Add channel dim at end
+                        else:
+                            # Convert non-tensor masks
+                            m = torch.tensor(m, dtype=torch.float32)
+                            if m.dim() == 2:
+                                m = m.unsqueeze(0).unsqueeze(-1)
+                            elif m.dim() == 3:
+                                m = m.unsqueeze(-1)
+                        mask_tensors.append(m)
+                    
+                    mask_batch = torch.stack(mask_tensors)
+                    mask_batches.append(mask_batch)
+                    start_idx += batch_size
+        else:
+            # Create default masks matching image batches
+            for img_batch in image_batches:
+                mask_batch = torch.ones((img_batch.size(0), img_batch.size(1), 
+                                       img_batch.size(2)),  # Removed extra dimension
+                                  dtype=torch.float32,
+                                  device=img_batch.device)
+                mask_batches.append(mask_batch)
+
+        return image_batches, mask_batches
+
+    except Exception as e:
+        logger.error(f"Error in process_auto_mode_images: {str(e)}")
+        raise
+
 def convert_images_for_api(images, target_format='tensor'):
     """
     Convert images to the specified format for API consumption.
@@ -33,27 +181,52 @@ def convert_images_for_api(images, target_format='tensor'):
     """
     if images is None:
         return None
-        
-    # Handle tensor input with ComfyUI compatibility
+
+    # Handle single tensor input with ComfyUI compatibility
     if isinstance(images, torch.Tensor):
         if images.dim() == 3:  # Single image
             images = images.unsqueeze(0)
         # Permute tensor to ComfyUI format (B, H, W, C) -> (B, C, H, W)
         images = images.permute(0, 3, 1, 2)
-        
+
         if target_format == 'tensor':
             return images
         elif target_format == 'base64':
             return [tensor_to_base64(img) for img in images]
         elif target_format == 'pil':
             return [TF.to_pil_image(img) for img in images]
-            
+        else:
+            raise ValueError(f"Unsupported target format for tensor: {target_format}")
+
+    # Handle list of tensors input
+    elif isinstance(images, list) and all(isinstance(x, torch.Tensor) for x in images):
+        # Filter out tensors with unsupported channel counts
+        supported_images = []
+        for idx, img in enumerate(images):
+            if img.shape[0] in [1, 3]:
+                supported_images.append(img)
+            elif img.shape[0] > 3:
+                logger.warning(f"Skipping tensor at index {idx} with {img.shape[0]} channels.")
+            else:
+                logger.warning(f"Skipping tensor at index {idx} with unsupported number of channels: {img.shape[0]}")
+        if not supported_images:
+            raise ValueError("No supported image tensors found in the input list.")
+
+        if target_format == 'tensor':
+            return torch.stack(supported_images).permute(0, 3, 1, 2)  # Ensure correct format
+        elif target_format == 'base64':
+            return [tensor_to_base64(img) for img in supported_images]
+        elif target_format == 'pil':
+            return [TF.to_pil_image(img) for img in supported_images]
+        else:
+            raise ValueError(f"Unsupported target format for list of tensors: {target_format}")
+
     # Handle base64 input
-    if isinstance(images, str) or (isinstance(images, list) and all(isinstance(x, str) for x in images)):
+    elif isinstance(images, str) or (isinstance(images, list) and all(isinstance(x, str) for x in images)):
         base64_list = [images] if isinstance(images, str) else images
         if target_format == 'base64':
             return base64_list
-        
+
         # Convert base64 to PIL first
         pil_images = [base64_to_pil(b64) for b64 in base64_list]
         if target_format == 'pil':
@@ -61,9 +234,11 @@ def convert_images_for_api(images, target_format='tensor'):
         elif target_format == 'tensor':
             tensors = [pil_to_tensor(img) for img in pil_images]
             return torch.stack(tensors).permute(0, 2, 3, 1)  # Convert to ComfyUI format (B,H,W,C)
-            
-    # Handle PIL input
-    if isinstance(images, (list, tuple)) and all(isinstance(x, Image.Image) for x in images):
+        else:
+            raise ValueError(f"Unsupported target format for base64 input: {target_format}")
+
+    # Handle list of PIL images input
+    elif isinstance(images, (list, tuple)) and all(isinstance(x, Image.Image) for x in images):
         if target_format == 'pil':
             return images
         elif target_format == 'base64':
@@ -71,8 +246,24 @@ def convert_images_for_api(images, target_format='tensor'):
         elif target_format == 'tensor':
             tensors = [pil_to_tensor(img) for img in images]
             return torch.stack(tensors).permute(0, 2, 3, 1)  # Maintain ComfyUI format
-    
-    raise ValueError(f"Unsupported image format or target format: {target_format}")
+        else:
+            raise ValueError(f"Unsupported target format for PIL input: {target_format}")
+
+    # If none of the above conditions are met, attempt to convert using the default method
+    # Ensure that images can be saved (i.e., are PIL Images)
+    else:
+        try:
+            encoded_images = []
+            for img in images:
+                if not isinstance(img, Image.Image):
+                    raise ValueError(f"Expected PIL.Image, got {type(img)}")
+                buffered = BytesIO()
+                img.save(buffered, format="PNG")  # Adjust format if needed
+                img_str = base64.b64encode(buffered.getvalue()).decode('utf-8')
+                encoded_images.append(img_str)
+            return encoded_images
+        except Exception as e:
+            raise ValueError(f"Unsupported image format or target format: {target_format}. Error: {str(e)}") from e
 
 def convert_single_image(image, target_format):
     """Helper function to convert a single image"""
@@ -286,6 +477,7 @@ def process_images_for_comfy(images, placeholder_image_path=None, response_key='
     except Exception as e:
         logger.error(f"Error in process_images_for_comfy: {str(e)}")
         return _process_single_image(None)
+
 def process_mask(retrieved_mask, image_tensor):
     """
     Process the retrieved_mask to ensure it's in the correct format.
@@ -444,27 +636,39 @@ def tensor_to_base64(tensor: torch.Tensor) -> str:
     try:
         # Ensure the tensor is in [0, 1] range
         tensor = torch.clamp(tensor, 0, 1)
-        
-        # If tensor has a channel dimension, ensure it's last
-        if tensor.dim() == 4:
-            tensor = tensor.squeeze(0)
+
+        # Handle different tensor dimensions
         if tensor.dim() == 3:
-            image = tensor.permute(1, 2, 0).cpu().numpy()  # [C, H, W] -> [H, W, C]
+            # [C, H, W]
+            if tensor.shape[0] == 1:
+                # Grayscale image, convert to RGB by repeating channels
+                image = tensor.squeeze(0).permute(1, 2, 0).cpu().numpy()  # [H, W, C]
+                image = np.repeat(image, 3, axis=2)
+            elif tensor.shape[0] == 3:
+                # RGB image
+                image = tensor.permute(1, 2, 0).cpu().numpy()
+            else:
+                # Handle tensors with more than 3 channels: select the first 3 channels
+                logger.warning(f"Unsupported number of channels: {tensor.shape[0]}. Selecting first 3 channels.")
+                if tensor.shape[0] >= 3:
+                    image = tensor[:3, :, :].permute(1, 2, 0).cpu().numpy()
+                else:
+                    raise ValueError(f"Unsupported number of channels: {tensor.shape[0]}")
         elif tensor.dim() == 2:
-            # For masks with shape [H, W], add a dummy channel
-            image = tensor.unsqueeze(-1).cpu().numpy()      # [H, W] -> [H, W, 1]
+            # [H, W] Grayscale image
+            image = tensor.unsqueeze(-1).cpu().numpy()
+            image = np.repeat(image, 3, axis=2)
         else:
             raise ValueError(f"Unsupported tensor shape for conversion: {tensor.shape}")
 
-        # Handle single-channel images by converting them to RGB
-        if image.shape[2] == 1:
-            image = np.repeat(image, 3, axis=2)  # [H, W, 1] -> [H, W, 3]
-
         # Convert to uint8
         image = (image * 255).astype(np.uint8)
-        
+
+        # Create PIL Image
         pil_image = Image.fromarray(image)
-        buffered = io.BytesIO()
+
+        # Save image to buffer
+        buffered = BytesIO()
         pil_image.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
         return img_str
@@ -472,9 +676,19 @@ def tensor_to_base64(tensor: torch.Tensor) -> str:
         logger.error(f"Error converting tensor to base64: {str(e)}", exc_info=True)
         raise
 
+def tensor_to_pil(tensor):
+   
+    tensor = tensor.cpu()  
+    tensor = tensor.squeeze(0) if tensor.dim() == 4 else tensor
+    tensor = tensor.permute(1, 2, 0) if tensor.shape[0] in [1, 3] else tensor
+    tensor = tensor.numpy()
+    tensor = np.clip(tensor * 255, 0, 255).astype(np.uint8) 
+    return Image.fromarray(tensor)
+
 def pil_to_tensor(pil_image):
-    """Convert PIL image to tensor in ComfyUI format"""
-    return torch.from_numpy(np.array(pil_image)).float() / 255.0
+    # Convert PIL image to tensor
+    tensor = torch.from_numpy(np.array(pil_image)).float() / 255.0
+    return tensor.permute(2, 0, 1) if tensor.dim() == 3 else tensor.unsqueeze(0)
 
 def base64_to_pil(base64_str):
     """Convert base64 string to PIL Image"""
@@ -795,6 +1009,7 @@ def get_models(engine, base_ip, port, api_key):
 
     elif engine == "gemini":
         return [
+            "gemini-exp-1121",
             "gemini-exp-1114",
             "gemini-1.5-pro-002",
             "gemini-1.5-flash-002",
@@ -815,21 +1030,9 @@ def get_models(engine, base_ip, port, api_key):
 
     elif engine == "transformers":
         return [            
-            "impactframes/Llama-3.2-11B-Vision-bnb-4bit",
-            "impactframes/pixtral-12b-4bit",
-            "impactframes/molmo-7B-D-bnb-4bit",
-            "impactframes/molmo-7B-O-bnb-4bit",
-            "impactframes/Qwen2-VL-7B-Captioner",
-            "impactframes/colqwen2-v0.1",
-            "impactframes/colpali-v1.2",
-            "impactframes/Florence-2-DocVQA",
-            "vidore/colpali",
             "Qwen/Qwen2-7B-Instruct",
             "Qwen/Qwen2-VL-2B-Instruct",
-            "microsoft/Florence-2-base",
-            "microsoft/Florence-2-base-ft",
-            "microsoft/Florence-2-large",
-            "microsoft/Florence-2-large-ft",
+            "Qwen/Qwen2-VL-7B-Instruct"
         ]
 
     else:
@@ -881,14 +1084,101 @@ def dump_yaml(data, file_path):
         yaml.dump(data, yaml_file, Dumper=EnhancedYAMLDumper, default_flow_style=False, 
                   sort_keys=False, allow_unicode=True, width=1000, indent=2)
 
-# Example usage
-# sample_data = {
-#     "key1": "Single line value",
-#     "key2": "Multi-line\nvalue\nhere",
-#     "key3": np.int64(42),
-#     "key4": np.array([1, 2, 3])
-# }
-# dump_yaml(sample_data, "output.yaml")
+
+def save_combo_settings(settings_dict, combo_presets_dir):
+    """Save combo settings to the AutoCombo directory."""
+    try:
+        os.makedirs(combo_presets_dir, exist_ok=True)
+        settings_path = os.path.join(combo_presets_dir, 'combo_settings.yaml')
+        
+        with open(settings_path, 'w') as f:
+            yaml.safe_dump(settings_dict, f)
+        logger.info(f"Saved combo settings to {settings_path}")
+        return settings_dict
+    except Exception as e:
+        logger.error(f"Error saving combo settings: {str(e)}")
+        return None
+
+def load_combo_settings(combo_presets_dir):
+    """Load combo settings from the AutoCombo directory."""
+    try:
+        settings_path = os.path.join(combo_presets_dir, 'combo_settings.yaml')
+        
+        if os.path.exists(settings_path):
+            with open(settings_path, 'r') as f:
+                settings = yaml.safe_load(f)
+                logger.info(f"Loaded combo settings from {settings_path}")
+                return settings
+        else:
+            logger.warning(f"Combo settings file not found at {settings_path}")
+            return {}
+    except Exception as e:
+        logger.error(f"Error loading combo settings: {str(e)}")
+        return {}
+
+def create_settings_from_ui(ui_settings):
+    """
+    Create settings.yaml from UI settings with proper type conversion.
+    Handles UI values that may be boolean or string.
+    """
+    import json
+
+    def convert_to_bool(value):
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, str):
+            return value.lower() == 'true'
+        return bool(value)
+
+    # Load profiles
+    profiles_path = os.path.join(
+        folder_paths.base_path,
+        "custom_nodes",
+        "ComfyUI-IF_AI_TOOLS",
+        "IF_AI",
+        "presets",
+        "profiles.json"
+    )
+    
+    with open(profiles_path, 'r') as f:
+        profiles = json.load(f)
+
+    profile_name = ui_settings.get('profile', 'IF_PromptMKR')
+    profile_content = profiles.get(profile_name, {}).get('instruction', '')
+
+    # If 'prime_directives' is empty, use the profile content
+    prime_directives = ui_settings.get('prime_directives')
+    if not prime_directives or prime_directives in (None, '', 'None'):
+        prime_directives = profile_content
+
+    settings = {
+        'base_ip': str(ui_settings.get('base_ip', 'localhost')),
+        'port': str(ui_settings.get('port', '11434')),
+        'user_prompt': str(ui_settings.get('user_prompt', 'Who helped Safiro infiltrate the Zaltar Organisation?')),
+        'llm_provider': str(ui_settings.get('llm_provider', 'ollama')),
+        'llm_model': str(ui_settings.get('llm_model', 'llama3.1:latest')),
+        'prime_directives': prime_directives,
+        'temperature': float(ui_settings.get('temperature', 0.7)),
+        'max_tokens': int(ui_settings.get('max_tokens', 2048)),
+        'stop_string': None if ui_settings.get('stop_string') in (None, 'None') else str(ui_settings.get('stop_string')),
+        'keep_alive': convert_to_bool(ui_settings.get('keep_alive', False)),
+        'clear_history': convert_to_bool(ui_settings.get('clear_history', False)),
+        'history_steps': int(ui_settings.get('history_steps', 10)),
+        'top_k': int(ui_settings.get('top_k', 40)),
+        'top_p': float(ui_settings.get('top_p', 0.9)),
+        'repeat_penalty': float(ui_settings.get('repeat_penalty', 1.2)),
+        'seed': None if ui_settings.get('seed') in (None, 'None') else int(ui_settings.get('seed')),
+        'external_api_key': str(ui_settings.get('external_api_key', '')),
+        'random': convert_to_bool(ui_settings.get('random', False)),
+        'aspect_ratio': str(ui_settings.get('aspect_ratio', '16:9')),
+        'auto_combo': convert_to_bool(ui_settings.get('auto_combo', False)),
+        'precision': str(ui_settings.get('precision', 'fp16')),
+        'attention': str(ui_settings.get('attention', 'sdpa')),
+        'batch_count': int(ui_settings.get('batch_count', 4)),
+        'strategy': str(ui_settings.get('strategy', 'normal')),
+        'profile': profile_name  # Include profile name
+    }
+    return settings
 
 def format_response(self, response):
         """

@@ -18,7 +18,7 @@ import torch
 import logging
 import os
 import re
-import folder_paths
+from folder_paths import models_dir
 from unittest.mock import patch
 from transformers.dynamic_module_utils import get_imports
 import json
@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 
 class TransformersModelManager:
     def __init__(self):
-        self.models_dir = os.path.join(folder_paths.models_dir, "LLM")
+        self.models_dir = models_dir
         self.models = {}
         self.processors = {}
         self.loaded_models = {} 
@@ -52,7 +52,7 @@ class TransformersModelManager:
         from huggingface_hub import snapshot_download
 
         model_dir = model_name.rsplit('/', 1)[-1]
-        model_path = os.path.join(self.models_dir, model_dir)
+        model_path = os.path.join(self.models_dir, "LLM", model_dir)
         if not os.path.exists(model_path):
             logger.info(f"Downloading model '{model_name}' to: {model_path}")
             try:

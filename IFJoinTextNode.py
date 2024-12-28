@@ -39,7 +39,7 @@ class IFJoinText:
     
     RETURN_TYPES = ("STRING",)
     FUNCTION = "join_text"
-    CATEGORY = "ImpactFrames💥🎞️"
+    CATEGORY = "ImpactFrames💥🎞️/IF_tools"
     
     def join_text(self, separator=" ", text1="", text2="", text3="", text4=""):
         # Collect all non-empty text inputs
@@ -61,5 +61,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "IF_JoinText": "IF Join Text 📝"
+    "IF_JoinText": "IF Join Text📝"
 }

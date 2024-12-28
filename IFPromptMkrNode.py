@@ -160,7 +160,7 @@ class IFPrompt2Prompt:
 
     FUNCTION = "process_image_wrapper"
     OUTPUT_NODE = True
-    CATEGORY = "ImpactFrames💥🎞️"
+    CATEGORY = "ImpactFrames💥🎞️/IF_tools"
 
     def get_models(self, engine, base_ip, port, api_key=None):
         return get_models(engine, base_ip, port, api_key)

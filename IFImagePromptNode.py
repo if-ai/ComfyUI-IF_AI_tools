@@ -21,7 +21,7 @@ from .utils import (
     validate_models,
     save_combo_settings,
     load_combo_settings,                            
-    create_settings_from_ui_IFImagePromptNode
+    create_settings_from_ui
 )
 import base64
 import numpy as np
@@ -77,7 +77,7 @@ try:
             data = await request.json()
             
             # Convert UI settings to proper format
-            settings = create_settings_from_ui_IFImagePromptNode(data)
+            settings = create_settings_from_ui(data)
             
             # Get node instance
             node = IFImagePrompt()
@@ -194,7 +194,7 @@ class IFImagePrompt:
 
     FUNCTION = "process_image_wrapper"
     OUTPUT_NODE = True
-    CATEGORY = "ImpactFrames💥🎞️"
+    CATEGORY = "ImpactFrames💥🎞️/IF_tools"
 
     @classmethod
     def IS_CHANGED(cls, **kwargs):

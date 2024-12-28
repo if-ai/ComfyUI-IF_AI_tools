@@ -29,7 +29,7 @@ class IFCounter:
     RETURN_NAMES = ("number", "float", "int", "string")
     FUNCTION = "increment_number"
     
-    CATEGORY = "ImpactFrames💥🎞️"
+    CATEGORY = "ImpactFrames💥🎞️/IF_tools"
     
     def increment_number(self, number_type, mode, start, stop, step, unique_id, reset_bool=0):
         # Initialize counter
@@ -67,4 +67,4 @@ class IFCounter:
         return (result, float(counter), int(counter), string_result)
 
 NODE_CLASS_MAPPINGS = {"IF_StepCounter": IFCounter}
-NODE_DISPLAY_NAME_MAPPINGS = {"IF_StepCounter": "IF Step Counter 🔢"}
+NODE_DISPLAY_NAME_MAPPINGS = {"IF_StepCounter": "IF Step Counter🔢"}

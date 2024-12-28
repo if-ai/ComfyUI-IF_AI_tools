@@ -29,7 +29,7 @@ class IFSaveText:
     RETURN_NAMES = ("Question", "Response", "Negative", "Turn",)
     FUNCTION = "process_text"
     OUTPUT_NODE = True
-    CATEGORY = "ImpactFrames💥🎞️"
+    CATEGORY = "ImpactFrames💥🎞️/IF_tools"
 
     def process_text(self, question_input, negative_input, response_input, save_file=False, file_format="txt", save_mode="create"):
         turn_id = str(uuid.uuid4()) 
@@ -78,5 +78,5 @@ class IFSaveText:
         turn = f"ID: {turn_id}\nQuestion: {question_input}\nResponse: {response_input}\nNegative: {negative_input}"
         return {"ui": {"string": [turn]}, "result": (turn,)}"""
 
-NODE_CLASS_MAPPINGS = {"IF_saveText": IFSaveText}
-NODE_DISPLAY_NAME_MAPPINGS = {"IF_saveText": "IF Save Text📝"}
+NODE_CLASS_MAPPINGS = {"IF_SaveText": IFSaveText}
+NODE_DISPLAY_NAME_MAPPINGS = {"IF_SaveText": "IF Save Text📝"}

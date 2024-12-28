@@ -30,7 +30,7 @@ class IFDisplayText:
     OUTPUT_IS_LIST = (False, True, False, False)
     FUNCTION = "display_text"
     OUTPUT_NODE = True
-    CATEGORY = "ImpactFrames💥🎞️"
+    CATEGORY = "ImpactFrames💥🎞️/IF_tools"
     
     def display_text(self, text: Optional[str], select):
         if text is None:

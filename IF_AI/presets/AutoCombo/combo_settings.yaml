@@ -1,0 +1,27 @@
+aspect_ratio: '1:1'
+attention: sdpa
+auto_combo: false
+base_ip: localhost
+batch_count: 2
+clear_history: false
+external_api_key: ''
+history_steps: 10
+keep_alive: false
+llm_model: gpt-4o-mini
+llm_provider: openai
+max_tokens: 2112
+port: '11434'
+precision: fp16
+prime_directives: Analyze images and generate single-line prompts focusing on the
+  most visually striking elements. Weight elements by visual impact and arrange in
+  descending order of importance.
+profile: IF_AutoCombo
+random: false
+repeat_penalty: 1.2
+seed: 171
+stop_string: null
+strategy: normal
+temperature: 0.7
+top_k: 40
+top_p: 0.9
+user_prompt: ''

@@ -69,7 +69,7 @@ class IFDisplayTextWildcard:
     OUTPUT_IS_LIST = (False, True, False, False)
     FUNCTION = "display_text"
     OUTPUT_NODE = True
-    CATEGORY = "ImpactFrames💥🎞️"
+    CATEGORY = "ImpactFrames💥🎞️/IF_tools"
 
     def load_wildcards(self):
         """Load wildcards from YAML/JSON files in the specified directory"""
