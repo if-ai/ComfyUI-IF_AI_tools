@@ -24,7 +24,6 @@ dependencies = ["anthropic",
 "fastparquet",
 "pydantic",
 "rich",
-"supervision",
 "nano-graphrag",
 "qwen-vl-utils"
 ]
@@ -37,3 +36,4 @@ Repository = "https://github.com/if-ai/ComfyUI-IF_AI_tools"
 PublisherId = "impactframes"
 DisplayName = "IF_AI_tools"
 Icon = "https://impactframes.ai/System/Icons/48x48/if.png"
+
