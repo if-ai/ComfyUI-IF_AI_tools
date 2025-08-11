@@ -19,9 +19,9 @@ networkx
 fastparquet
 pydantic
 rich
-supervision
 nano-graphrag
 qwen-vl-utils
+
 
 
 
