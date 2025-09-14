@@ -1,12 +1,19 @@
+This Repo is now Archived. 
+I am focusing my efforts on this new, similar repo.
+https://github.com/comfy-deploy/comfyui-llm-toolkit
+
+Sorry for the inconvenience, and thank you for the support you gave to my nodes.
+
+
 [![ComfyUI-IF_AI_tools](https://img.youtube.com/vi/QAnapTWnawU/0.jpg)](https://youtu.be/QAnapTWnawU?si=Uomv_NXT2n2Mg9rG)
 
 # ComfyUI-IF_AI_tools
 
-ComfyUI-IF_AI_tools is a set of custom nodes to Run Local and API LLMs and LMMs, Features OCR-RAG (Bialdy), nanoGraphRAG, Supervision Object Detection, supports Ollama, LlamaCPP LMstudio, Koboldcpp, TextGen, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI and create your own charcters assistants (SystemPrompts) with custom presets and muchmore
+ComfyUI-IF_AI_tools is a set of custom nodes to Run Local and API LLMs and LMMs, features OCR-RAG (Bialdy), nanoGraphRAG, Supervision Object Detection, supports Ollama, LlamaCPP LMstudio, Koboldcpp, TextGen, Transformers or via APIs Anthropic, Groq, OpenAI, Google Gemini, Mistral, xAI and create your own charcters assistants (SystemPrompts) with custom presets and much more
 
 ################# ATENTION ####################
 
-   ** I am Moving the prompt generation to this new node PromptImaGen
+   ** I am moving the prompt generation to this new node PromptImaGen
     https://github.com/if-ai/ComfyUI-IF_AI_PromptImaGen/tree/main
     You will need to uninstall or disable this repo to use the PromptImaGen **
    
@@ -151,6 +158,7 @@ If you find this tool useful, please consider supporting my work by:
 Thank You!
 
 <img src="https://count.getloli.com/get/@IFAItools_comfy?theme=moebooru" alt=":IFAItools_comfy" />
+
 
 
 
