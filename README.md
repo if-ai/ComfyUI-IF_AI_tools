@@ -1,4 +1,4 @@
-##This Repo is now Archived.## 
+# This Repo is now Archived. 
 Thank you for the support you gave to my nodes.
 A similar repo with many of the same functionalities can be found here
 https://github.com/comfy-deploy/comfyui-llm-toolkit
@@ -156,6 +156,7 @@ If you find this tool useful, please consider supporting my work by:
 Thank You!
 
 <img src="https://count.getloli.com/get/@IFAItools_comfy?theme=moebooru" alt=":IFAItools_comfy" />
+
 
 
 
